@@ -5,222 +5,322 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <meta name="author" content="Murtaza Mustafa">
-<title>APAG Procurement Showcase</title>
+<title>Supplier Quote Evaluation · APAG</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
-<style>body{margin:0}</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Manrope:wght@400;500;600;700&display=swap">
 <style>
-/* Layout: a single calm column; the quote table is the hero, ranked results sit directly under it like an approval note. */
+/* Layout: a formal evaluation document — masthead band, summary tiles, ledger-style quote table, notes, results, signatory panel, footer bar */
 :root{
-  --bg:#f5f7f4; --surface:#ffffff; --sunk:#eceff0;
-  --fg:#18231d; --muted:#5b6a61; --line:#d9e0db;
-  --accent:#1f5c3d; --accent-soft:#e2eee6; --oil:#b8860b; --oil-soft:#f6ecd2;
-  --good:#1f7a4a; --warn:#a15c00;
-  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
-  --body:"Public Sans", "Segoe UI", system-ui, sans-serif;
-  --mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  --primary:#123a2b; --primary-2:#0c2a1f; --on-primary:#f3efe2;
+  --gold:#b8995a; --gold-soft:#e9dfc6; --gold-ink:#7d6532;
+  --paper:#f6f5f0; --sheet:#fffdf8; --ink:#16231d; --muted:#5f6b63; --line:#e1ddd0; --zebra:#f8f6ef;
+  --good:#2f6b4a;
+  --display:"Cormorant Garamond","Georgia","Times New Roman",serif;
+  --sans:"Manrope","Segoe UI",system-ui,sans-serif;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#101613; --surface:#18201b; --sunk:#1f2923;
-  --fg:#e7eee9; --muted:#9aaba1; --line:#2c3831;
-  --accent:#6fc79a; --accent-soft:#1d3428; --oil:#e2b549; --oil-soft:#3a3018;
-  --good:#6fc79a; --warn:#e2a24f; color-scheme:dark}}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --primary:#0d2a1f; --primary-2:#081d15; --on-primary:#efe9d8;
+  --gold:#cfb377; --gold-soft:#3a3221; --gold-ink:#dcc48e;
+  --paper:#0f1512; --sheet:#151d19; --ink:#e8ebe6; --muted:#9aa69f; --line:#28332d; --zebra:#19221d;
+  --good:#7fc39c; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#101613; --surface:#18201b; --sunk:#1f2923;
-  --fg:#e7eee9; --muted:#9aaba1; --line:#2c3831;
-  --accent:#6fc79a; --accent-soft:#1d3428; --oil:#e2b549; --oil-soft:#3a3018;
-  --good:#6fc79a; --warn:#e2a24f; color-scheme:dark}
+  --primary:#0d2a1f; --primary-2:#081d15; --on-primary:#efe9d8;
+  --gold:#cfb377; --gold-soft:#3a3221; --gold-ink:#dcc48e;
+  --paper:#0f1512; --sheet:#151d19; --ink:#e8ebe6; --muted:#9aa69f; --line:#28332d; --zebra:#19221d;
+  --good:#7fc39c; color-scheme:dark}
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--fg);font:400 15px/1.6 var(--body)}
-.wrap{max-width:980px;margin:0 auto;padding-block:40px 56px;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));display:grid;gap:48px}
-.eyebrow{font:500 12px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-h1,h2{font-family:var(--display);font-weight:700;text-wrap:balance;margin:0;letter-spacing:-.01em}
-h1{font-size:clamp(28px,5vw,42px);line-height:1.1}
-h2{font-size:22px;line-height:1.25}
-p{margin:0}
-header{display:grid;gap:14px}
-header .by{color:var(--muted)}
-header .by b{color:var(--fg);font-weight:600}
-.lede{max-width:62ch;color:var(--muted)}
-.lede strong{color:var(--fg);font-weight:600}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 15px/1.6 var(--sans);font-feature-settings:"tnum" 1}
+a{color:inherit}
+.doc{max-width:1040px;margin:0 auto;background:var(--sheet);box-shadow:0 1px 0 var(--line),0 30px 60px -40px rgba(10,30,20,.35);position:relative;overflow:hidden}
+.pad{padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+@media(min-width:760px){.pad{padding-left:56px;padding-right:56px}}
+.label{font:600 10.5px/1.3 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.serif{font-family:var(--display)}
 
-.tool{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;display:grid;gap:24px}
-.toolhead{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;align-items:end}
-.toolhead > div{min-width:0}
-.sample{font:500 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;background:var(--oil-soft);color:var(--fg);padding:7px 10px;border-radius:99px;white-space:nowrap}
-.item{font-size:14px;color:var(--muted)}
-.tablewrap{overflow-x:auto;margin-inline:-4px}
-table{border-collapse:collapse;width:100%;min-width:620px;font-variant-numeric:tabular-nums}
-th,td{padding:8px 6px;text-align:left;vertical-align:middle}
-thead th{font:500 11px/1.3 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line)}
-tbody th{font-weight:600;font-size:14px;white-space:nowrap}
-tbody th small{display:block;font-weight:400;color:var(--muted);font-size:12px}
-tbody tr+tr{border-top:1px solid var(--line)}
-input[type=number]{width:100%;min-width:72px;font:400 14px var(--mono);color:var(--fg);background:var(--sunk);border:1px solid transparent;border-radius:8px;padding:8px 9px}
-input[type=number]:focus{outline:none;border-color:var(--accent);background:var(--surface)}
-.settings{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px 24px;padding-top:4px}
-.set label{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);gap:8px}
-.set label output{font:500 13px var(--mono);color:var(--fg)}
-input[type=range]{width:100%;accent-color:var(--accent)}
-.set input[type=number]{margin-top:6px}
+/* masthead */
+.mast{position:relative;background:var(--primary);color:var(--on-primary);padding-block:34px 30px;overflow:hidden}
+.mast .guilloche{position:absolute;inset:0;width:100%;height:100%;opacity:.16;pointer-events:none}
+.mast-in{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:24px;align-items:center}
+.seal{width:84px;height:84px;flex:none}
+.title-block{min-width:0}
+.title-block h1{margin:0;font:600 clamp(28px,4.2vw,42px)/1.05 var(--display);letter-spacing:.01em;text-wrap:balance}
+.title-block p{margin:6px 0 0;font:500 11px/1.5 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+.title-block p span{display:inline-block;width:28px;height:1px;background:var(--gold);vertical-align:middle;margin-right:10px}
+.meta{display:grid;grid-template-columns:auto auto;gap:5px 16px;font-size:13px;align-items:baseline}
+.meta dt{font:600 9.5px/1.4 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.meta dd{margin:0;font-weight:600;text-align:right}
+.mast-rule{height:6px;background:linear-gradient(var(--gold),var(--gold)) top/100% 1px no-repeat,linear-gradient(var(--gold),var(--gold)) bottom/100% 2px no-repeat;opacity:.9}
+@media(max-width:760px){.mast-in{grid-template-columns:auto minmax(0,1fr)}.meta{grid-column:1/-1;grid-template-columns:auto 1fr;padding-top:14px;border-top:1px solid rgba(255,255,255,.15)}.meta dd{text-align:left}.seal{width:64px;height:64px}}
 
-.results{display:grid;gap:10px}
-.row{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:4px 14px;align-items:center;padding:14px 16px;border-radius:10px;background:var(--sunk);transition:background .3s}
-.row.top{background:var(--accent-soft)}
-.rank{font:700 20px var(--display);color:var(--muted)}
-.row.top .rank{color:var(--accent)}
-.name{font-weight:600}
-.meta{font-size:13px;color:var(--muted)}
-.score{font:500 22px var(--mono);text-align:right}
-.score small{display:block;font-size:11px;color:var(--muted);letter-spacing:.04em}
-.bar{grid-column:2/4;height:6px;background:var(--line);border-radius:6px;overflow:hidden}
-.bar i{display:block;height:100%;background:var(--accent);border-radius:6px;transition:width .5s cubic-bezier(.2,.7,.2,1)}
-.row:not(.top) .bar i{background:var(--muted);opacity:.55}
-.note{border-left:3px solid var(--oil);padding:12px 16px;background:var(--oil-soft);border-radius:0 10px 10px 0;font-size:14px}
-.note b{font-weight:600}
-.fine{font-size:12px;color:var(--muted)}
+/* body */
+.watermark{position:absolute;left:50%;top:420px;transform:translateX(-50%);width:min(560px,90%);opacity:.045;pointer-events:none;color:var(--primary)}
+:root[data-theme="dark"] .watermark{opacity:.06;color:var(--gold)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .watermark{opacity:.06;color:var(--gold)}}
+main{position:relative;display:grid;grid-template-columns:minmax(0,1fr);gap:44px;padding-block:40px 48px}
+main>*{min-width:0}
+.prepared{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:end;border-bottom:1px solid var(--line);padding-bottom:18px}
+.prepared .who{font:600 30px/1.1 var(--display);margin-top:4px}
+.prepared .item{text-align:right;font-size:14px}
+.prepared .item b{font-weight:600}
+.lede{max-width:66ch;color:var(--muted);margin:0}
+.lede strong{color:var(--ink);font-weight:600}
 
-.use ul{margin:16px 0 0;padding:0;list-style:none;display:grid;gap:14px;max-width:70ch}
-.use li{padding-left:22px;position:relative}
-.use li::before{content:"";position:absolute;left:0;top:.65em;width:10px;height:2px;background:var(--accent)}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.tile{border:1px solid var(--line);border-top:2px solid var(--gold);padding:14px 16px 16px;background:var(--sheet);display:grid;gap:8px;align-content:start;min-width:0}
+.tile .fig{font:600 26px/1.1 var(--display);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.tile .sub{font-size:12px;color:var(--muted)}
+.tile.key{background:var(--primary);border-color:var(--primary);border-top-color:var(--gold);color:var(--on-primary)}
+.tile.key .label{color:var(--gold)}
+.tile.key .fig{color:var(--gold);font-size:30px}
+.tile.key .sub{color:color-mix(in srgb,var(--on-primary) 72%,transparent)}
+@media(max-width:820px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:420px){.tiles{grid-template-columns:1fr}}
 
-.wins{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:16px}
-.win{border-top:2px solid var(--fg);padding-top:14px;display:grid;gap:6px;align-content:start}
-.win .big{font:700 30px/1.1 var(--display);color:var(--accent)}
-.win p{font-size:14px;color:var(--muted)}
-.win a{color:var(--accent);font-size:13px}
+.section-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:14px}
+h2{margin:0;font:600 26px/1.15 var(--display)}
+.chip{font:600 10px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--gold-ink);background:var(--gold-soft);padding:7px 10px}
 
-.contact{display:grid;gap:16px}
-.cards{display:flex;flex-wrap:wrap;gap:10px}
-.c{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;min-width:0;max-width:100%}
-.c span{font:400 14px var(--mono);user-select:all;overflow-wrap:anywhere}
-.c a{color:var(--accent);font:400 14px var(--mono);overflow-wrap:anywhere}
-button{font:500 12px var(--body);color:var(--accent);background:transparent;border:1px solid var(--line);border-radius:6px;padding:4px 8px;cursor:pointer}
-button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-footer{font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px}
-@media (max-width:520px){.tool{padding:18px}.score{font-size:18px}}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.ledger-wrap{overflow-x:auto;border:1px solid var(--line)}
+table{border-collapse:collapse;width:100%;min-width:720px;font-variant-numeric:tabular-nums}
+thead th{background:var(--primary);color:var(--on-primary);font:600 10px/1.3 var(--sans);letter-spacing:.16em;text-transform:uppercase;padding:12px 12px 10px;text-align:right;vertical-align:bottom}
+thead th:first-child{text-align:left}
+thead th small{display:block;font:500 10px/1.3 var(--sans);letter-spacing:.04em;text-transform:none;color:var(--gold);margin-top:3px}
+tbody td,tbody th{padding:12px;border-bottom:1px solid var(--line);text-align:right}
+tbody tr:nth-child(even){background:var(--zebra)}
+tbody th{text-align:left;font-weight:600;min-width:150px}
+tbody th small{display:block;font-weight:400;font-size:12px;color:var(--muted)}
+tbody tr.best th{box-shadow:inset 3px 0 0 var(--gold)}
+input[type=number]{width:100%;min-width:84px;max-width:120px;text-align:right;font:600 14px var(--sans);font-variant-numeric:tabular-nums;color:var(--ink);background:transparent;border:0;border-bottom:1px dashed color-mix(in srgb,var(--muted) 55%,transparent);padding:4px 2px;border-radius:0}
+input[type=number]:focus{outline:none;border-bottom:1px solid var(--gold);background:var(--gold-soft)}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+input[type=number]{-moz-appearance:textfield}
+td.calc{font-weight:600;white-space:nowrap}
+tfoot td,tfoot th{padding:14px 12px;border-top:2px solid var(--ink);text-align:right;font-weight:700}
+tfoot th{text-align:left;font:600 10.5px/1.3 var(--sans);letter-spacing:.18em;text-transform:uppercase}
+tfoot .rec{font:600 18px var(--display);color:var(--good)}
+.legend{margin:10px 0 0;font:italic 500 15px/1.5 var(--display);color:var(--muted)}
+
+.controls{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px 22px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
+.ctl{display:grid;gap:8px;min-width:0}
+.ctl .top{display:flex;justify-content:space-between;gap:8px}
+.ctl output{font:600 13px var(--sans);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--primary)}
+@media(max-width:820px){.controls{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.verdict{margin-top:22px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:start;border:1px solid var(--line);border-left:3px solid var(--gold);padding:16px 18px;background:var(--zebra)}
+.verdict .mark{font:600 34px/1 var(--display);color:var(--gold)}
+.verdict p{margin:0}
+
+.two{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:40px}
+@media(max-width:820px){.two{grid-template-columns:1fr}}
+@media(max-width:420px){.res{grid-template-columns:1fr;gap:6px}}
+ol.use{margin:0;padding:0;list-style:none;display:grid;gap:16px;counter-reset:u}
+ol.use li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:6px;counter-increment:u}
+ol.use li::before{content:counter(u,upper-roman);font:600 18px/1.4 var(--display);color:var(--gold-ink)}
+.results{display:grid;gap:0}
+.res{display:grid;grid-template-columns:150px minmax(0,1fr);gap:14px;padding:14px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.res:first-child{border-top:1px solid var(--line)}
+.res .fig{font:600 28px/1.05 var(--display);color:var(--primary);white-space:nowrap}
+:root[data-theme="dark"] .res .fig{color:var(--gold)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .res .fig{color:var(--gold)}}
+.res p{margin:0;font-size:14px;color:var(--muted)}
+.res a{color:var(--gold-ink);font-weight:600;font-size:13px}
+
+.sign{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:28px;padding-top:28px;border-top:1px solid var(--line)}
+.sign .name{font:600 30px/1.1 var(--display);margin:6px 0 2px}
+.sign .cred{font-size:13px;color:var(--muted)}
+.sign .stamp{display:grid;justify-items:center;gap:8px}
+.sign .line{width:200px;border-top:1px solid var(--ink)}
+.sign .seal{width:96px;height:96px;color:var(--primary)}
+:root[data-theme="dark"] .sign .seal{color:var(--gold)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .sign .seal{color:var(--gold)}}
+
+footer{background:var(--primary-2);color:var(--on-primary);padding-block:18px}
+.foot{display:flex;flex-wrap:wrap;gap:12px 26px;align-items:center;justify-content:center;font-size:13px}
+.foot span,.foot a{display:inline-flex;align-items:center;gap:8px;text-decoration:none;overflow-wrap:anywhere}
+.foot svg{width:15px;height:15px;color:var(--gold);flex:none}
+.foot a:hover{color:var(--gold)}
+.note{background:var(--primary-2);color:color-mix(in srgb,var(--on-primary) 60%,transparent);font-size:11.5px;text-align:center;padding-block:0 18px}
+.note a{color:var(--gold)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+@media (prefers-reduced-motion:no-preference){.tile .fig,.rec,td.calc{transition:color .3s}}
 </style>
 </head>
-<body><div class="wrap">
-  <header>
-    <p class="eyebrow">Prepared for APAG · Procurement Executive</p>
-    <h1>Three quotes, one defensible PO</h1>
-    <p class="by">by <b>Murtaza Mustafa</b></p>
-    <p class="lede">A quote comparison I would run before asking for purchase order approval on a technical item. It turns three supplier quotes into <strong>landed cost</strong>, adjusts for <strong>credit terms</strong>, and ranks them on a weighted score you can change.</p>
-  </header>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="seal" viewBox="0 0 120 120">
+      <path id="ring" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0" fill="none"/>
+      <circle cx="60" cy="60" r="57" fill="none" stroke="currentColor" stroke-width="1.4"/>
+      <circle cx="60" cy="60" r="53" fill="none" stroke="currentColor" stroke-width=".6"/>
+      <circle cx="60" cy="60" r="35" fill="none" stroke="currentColor" stroke-width="1"/>
+      <circle cx="60" cy="60" r="32" fill="none" stroke="currentColor" stroke-width=".5" stroke-dasharray="1.5 2.2"/>
+      <text font-family="Manrope, sans-serif" font-size="7.4" font-weight="700" letter-spacing="3.1" fill="currentColor"><textPath href="#ring" startOffset="2%">MURTAZA MUSTAFA · KARACHI · PROCUREMENT · OPERATIONS ·</textPath></text>
+      <text x="60" y="68.5" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="25" font-weight="700" fill="currentColor" letter-spacing="1">MM</text>
+    </symbol>
+  </defs>
+</svg>
 
-  <section class="tool" aria-labelledby="tool-h">
-    <div class="toolhead">
-      <div>
-        <h2 id="tool-h">Supplier quote comparison</h2>
-        <p class="item">Item: replacement gear pump for a filling line · quantity <span id="qtyLabel">2</span></p>
+<div class="doc">
+  <header class="mast pad">
+    <svg class="guilloche" viewBox="0 0 1040 200" preserveAspectRatio="none" aria-hidden="true" id="guil"></svg>
+    <div class="mast-in">
+      <svg class="seal" style="color:var(--gold)" role="img" aria-label="MM monogram"><use href="#seal"/></svg>
+      <div class="title-block">
+        <h1>Supplier Quote Evaluation</h1>
+        <p><span></span>Landed cost · credit terms · weighted award</p>
       </div>
-      <span class="sample">Sample data for illustration</span>
+      <dl class="meta">
+        <dt>Prepared for</dt><dd>APAG</dd>
+        <dt>Role</dt><dd>Procurement Executive</dd>
+        <dt>Reference</dt><dd>MM-APAG-2026-01</dd>
+        <dt>Date</dt><dd>15 Oct 2026</dd>
+      </dl>
     </div>
+  </header>
+  <div class="mast-rule" aria-hidden="true"></div>
 
-    <div class="tablewrap">
-      <table>
-        <thead><tr>
-          <th scope="col">Supplier</th><th scope="col">Unit price (PKR)</th><th scope="col">Freight + duty (PKR)</th><th scope="col">Lead time (days)</th><th scope="col">Credit (days)</th><th scope="col">Warranty (months)</th>
-        </tr></thead>
-        <tbody id="quotes"></tbody>
-      </table>
+  <svg class="watermark" viewBox="0 0 120 120" aria-hidden="true"><use href="#seal"/></svg>
+
+  <main class="pad">
+    <section class="prepared">
+      <div>
+        <div class="label">Evaluation for purchase order approval</div>
+        <div class="who">Replacement gear pump, filling line</div>
+      </div>
+      <div class="item"><div class="label">Quantity</div><b><span id="qtyLabel">2</span> units · 3 quotes received</b></div>
+    </section>
+
+    <p class="lede">Before a PO for a technical item goes for approval, I put every quote on the same basis: <strong>landed cost</strong> including freight and duty, adjusted for the <strong>value of credit terms</strong>, then scored on cost, lead time, terms and warranty. Change any figure or weight and the award updates.</p>
+
+    <section class="tiles" aria-live="polite">
+      <div class="tile key"><div class="label">Recommended supplier</div><div class="fig" id="tRec">—</div><div class="sub" id="tRecSub">—</div></div>
+      <div class="tile"><div class="label">Effective cost · award</div><div class="fig" id="tCost">—</div><div class="sub">after credit-term value</div></div>
+      <div class="tile"><div class="label">Lead time · award</div><div class="fig" id="tLead">—</div><div class="sub">days to site</div></div>
+      <div class="tile"><div class="label">Premium vs lowest cost</div><div class="fig" id="tPrem">—</div><div class="sub" id="tPremSub">—</div></div>
+    </section>
+
+    <section>
+      <div class="section-head"><h2>Quote comparison</h2><span class="chip">Sample data for illustration</span></div>
+      <div class="ledger-wrap">
+        <table>
+          <thead><tr>
+            <th scope="col">Supplier</th>
+            <th scope="col">Unit price<small>PKR</small></th>
+            <th scope="col">Freight + duty<small>PKR, total</small></th>
+            <th scope="col">Lead time<small>days</small></th>
+            <th scope="col">Credit<small>days</small></th>
+            <th scope="col">Warranty<small>months</small></th>
+            <th scope="col">Landed<small>PKR</small></th>
+            <th scope="col">Effective<small>PKR</small></th>
+            <th scope="col">Score<small>of 100</small></th>
+          </tr></thead>
+          <tbody id="rows"></tbody>
+          <tfoot><tr><th colspan="6">Award recommendation</th><td colspan="3" class="rec" id="footRec">—</td></tr></tfoot>
+        </table>
+      </div>
+      <p class="legend">Landed = unit price × quantity + freight and duty. Effective = landed − landed × cost of capital × credit days ÷ 365. Each factor is scored against the best quote, then weighted.</p>
+
+      <div class="controls">
+        <div class="ctl"><div class="top"><label class="label" for="qty">Quantity</label><output id="qtyOut"></output></div><input type="range" id="qty" min="1" max="10" step="1" value="2"></div>
+        <div class="ctl"><div class="top"><label class="label" for="rate">Cost of capital</label><output id="rateOut"></output></div><input type="range" id="rate" min="0" max="30" step="1" value="18"></div>
+        <div class="ctl"><div class="top"><label class="label" for="wCost">Weight · cost</label><output id="wCostOut"></output></div><input type="range" id="wCost" min="0" max="100" step="5" value="50"></div>
+        <div class="ctl"><div class="top"><label class="label" for="wLead">Weight · lead</label><output id="wLeadOut"></output></div><input type="range" id="wLead" min="0" max="100" step="5" value="30"></div>
+        <div class="ctl"><div class="top"><label class="label" for="wTerms">Weight · terms + warranty</label><output id="wTermsOut"></output></div><input type="range" id="wTerms" min="0" max="100" step="5" value="20"></div>
+      </div>
+
+      <div class="verdict"><div class="mark" aria-hidden="true">§</div><p id="verdict"></p></div>
+    </section>
+
+    <section class="two">
+      <div>
+        <h2 style="margin-bottom:16px">How I'd use this in the role</h2>
+        <ol class="use">
+          <li><span>Attach this sheet to every PO request for technical and indirect materials, so the approval carries its own cost-benefit case. I compared sawmill offers from Finland and Sweden the same way, where freight, duty and payment terms changed the real price.</span></li>
+          <li><span>Carry the awarded supplier's credit days straight into the supplier payment report. At Huzaifa Enterprises I built the system that tracks sawmill payments and reports DSO and the cash conversion cycle each month.</span></li>
+          <li><span>Use the score history to justify developing a new supplier when an incumbent keeps losing on lead time or price. I onboarded 2 new suppliers on that basis.</span></li>
+        </ol>
+      </div>
+      <div>
+        <h2 style="margin-bottom:16px">Relevant results</h2>
+        <div class="results">
+          <div class="res"><div class="fig">~$15K</div><p>Untracked receivables recovered through the business management system I built for a timber importer; it also saves 20+ hours a week. <a href="https://importdeskpro.vercel.app/" target="_blank" rel="noopener">View demo</a></p></div>
+          <div class="res"><div class="fig">2</div><p>New sawmill suppliers onboarded for softwood imports from Finland and Sweden, with import documentation and customs clearance.</p></div>
+          <div class="res"><div class="fig">1 hr → 5 min</div><p>Client onboarding time after 15+ automation workflows built for 5 US clinics.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sign">
+      <div>
+        <div class="label">Prepared by</div>
+        <div class="name">Murtaza Mustafa</div>
+        <div class="cred">BA (Hons) Business Management · Karachi</div>
+      </div>
+      <div class="stamp">
+        <svg class="seal" role="img" aria-label="MM seal"><use href="#seal"/></svg>
+        <div class="line"></div>
+        <div class="label">Signature</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pad">
+    <div class="foot">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Karachi, Pakistan</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 6 6L15 14l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg>+92 318 1253085</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="m3.5 6 8.5 7 8.5-7"/></svg>murtazamustafaa02@gmail.com</span>
+      <a href="https://www.linkedin.com/in/murtaza-mustafa2911/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"/></svg>LinkedIn</a>
+      <a href="/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>More about me</a>
     </div>
-
-    <div class="settings">
-      <div class="set"><label for="qty">Quantity</label><input type="number" id="qty" value="2" min="1" step="1"></div>
-      <div class="set"><label for="rate">Cost of capital (% a year) <output id="rateOut"></output></label><input type="range" id="rate" min="0" max="30" step="1" value="18"></div>
-      <div class="set"><label for="wCost">Weight · cost <output id="wCostOut"></output></label><input type="range" id="wCost" min="0" max="100" step="5" value="50"></div>
-      <div class="set"><label for="wLead">Weight · lead time <output id="wLeadOut"></output></label><input type="range" id="wLead" min="0" max="100" step="5" value="30"></div>
-      <div class="set"><label for="wTerms">Weight · credit terms <output id="wTermsOut"></output></label><input type="range" id="wTerms" min="0" max="100" step="5" value="10"></div>
-      <div class="set"><label for="wWar">Weight · warranty <output id="wWarOut"></output></label><input type="range" id="wWar" min="0" max="100" step="5" value="10"></div>
-    </div>
-
-    <div class="results" id="results" aria-live="polite"></div>
-    <p class="note" id="note"></p>
-    <p class="fine">Effective cost = landed cost − value of paying later (landed cost × cost of capital × credit days ÷ 365). Each factor is scored against the best quote, then weighted. Weights are normalised to 100%.</p>
-  </section>
-
-  <section class="use">
-    <h2>How I'd use this in the role</h2>
-    <ul>
-      <li>Before raising a PO for technical or indirect materials, compare at least three quotes on landed cost, lead time and terms, so the approval request carries its own cost-benefit case. I did the same when buying softwood from sawmills in Finland and Sweden, where freight, duty and payment terms changed the real price.</li>
-      <li>Feed the chosen supplier's credit days straight into the supplier payment report. At Huzaifa Enterprises I built an app that tracks sawmill payments, ledgers and invoices, and reports DSO and cash conversion cycle every month.</li>
-      <li>Use the score history to make the case for developing a new supplier when an incumbent keeps losing on lead time or price. I onboarded 2 new suppliers this way.</li>
-    </ul>
-  </section>
-
-  <section>
-    <h2>Relevant results</h2>
-    <div class="wins">
-      <div class="win"><span class="big">~$15K</span><p>Untracked receivables recovered by the business management app I built for a timber importer. It also saves 20+ hours a week.</p><a href="https://importdeskpro.vercel.app/" target="_blank" rel="noopener">See the app demo</a></div>
-      <div class="win"><span class="big">2</span><p>New suppliers onboarded for softwood imports from Finland and Sweden, including import documentation and customs clearance.</p></div>
-      <div class="win"><span class="big">1 hr → 5 min</span><p>Client onboarding time after I built 15+ automation workflows (GoHighLevel, n8n, Make, Zapier) for 5 US clinics.</p></div>
-    </div>
-  </section>
-
-  <section class="contact">
-    <h2>Contact</h2>
-    <div class="cards">
-      <div class="c"><span id="em">murtazamustafaa02@gmail.com</span><button type="button" data-copy="em">Copy</button></div>
-      <div class="c"><span id="ph">+92 318 1253085</span><button type="button" data-copy="ph">Copy</button></div>
-      <div class="c"><a href="https://www.linkedin.com/in/murtaza-mustafa2911/" target="_blank" rel="noopener">linkedin.com/in/murtaza-mustafa2911</a></div>
-    </div>
-    <p class="fine">BA (Hons) Business Management, Buckinghamshire New University, UK (2026) · Based in Karachi</p>
-  </section>
-
-  <footer>Independent work sample by Murtaza Mustafa. Not affiliated with or endorsed by Agro Processors &amp; Atmospheric Gases Ltd (APAG). All figures in the tool are sample data for illustration.</footer>
+  </footer>
+  <div class="note pad">Independent work sample by Murtaza Mustafa. Not affiliated with or endorsed by Agro Processors &amp; Atmospheric Gases Ltd (APAG). All figures in the tool are sample data for illustration.</div>
 </div>
 
 <script>
-const suppliers=[
-  {id:"a",name:"Supplier A",sub:"Local stockist, Karachi",price:485000,freight:8000,lead:5,credit:0,war:6},
-  {id:"b",name:"Supplier B",sub:"Authorised distributor",price:430000,freight:22000,lead:14,credit:30,war:12},
-  {id:"c",name:"Supplier C",sub:"OEM direct import",price:360000,freight:118000,lead:45,credit:60,war:18}
-];
-const fields=["price","freight","lead","credit","war"];
-const tb=document.getElementById("quotes");
-tb.innerHTML=suppliers.map(s=>`<tr><th scope="row">${s.name}<small>${s.sub}</small></th>${fields.map(f=>`<td><input type="number" id="${s.id}-${f}" aria-label="${s.name} ${f}" value="${s[f]}" min="0"></td>`).join("")}</tr>`).join("");
-const $=id=>document.getElementById(id);
-const fmt=n=>"PKR "+Math.round(n).toLocaleString("en-US");
-function calc(){
-  const qty=Math.max(1,+$("qty").value||1); $("qtyLabel").textContent=qty;
-  const rate=+$("rate").value/100; $("rateOut").textContent=$("rate").value+"%";
-  const w={cost:+$("wCost").value,lead:+$("wLead").value,terms:+$("wTerms").value,war:+$("wWar").value};
-  const wsum=Object.values(w).reduce((a,b)=>a+b,0)||1;
-  ["Cost","Lead","Terms","War"].forEach(k=>{$("w"+k+"Out").textContent=Math.round(w[k==="Cost"?"cost":k==="Lead"?"lead":k==="Terms"?"terms":"war"]/wsum*100)+"%"});
-  const rows=suppliers.map(s=>{
-    const v={};fields.forEach(f=>v[f]=Math.max(0,+$(s.id+"-"+f).value||0));
-    const landed=v.price*qty+v.freight;
-    const eff=landed-landed*rate*v.credit/365;
-    return {...s,...v,landed,eff};
-  });
-  const minEff=Math.min(...rows.map(r=>r.eff)), minLead=Math.min(...rows.map(r=>r.lead)),
-        maxCredit=Math.max(...rows.map(r=>r.credit)), maxWar=Math.max(...rows.map(r=>r.war));
-  rows.forEach(r=>{
-    const sc=r.eff>0?minEff/r.eff:1, sl=r.lead>0?Math.max(minLead,1)/Math.max(r.lead,1):1,
-          st=maxCredit>0?r.credit/maxCredit:1, sw=maxWar>0?r.war/maxWar:1;
-    r.score=100*(w.cost*sc+w.lead*sl+w.terms*st+w.war*sw)/wsum;
-  });
-  rows.sort((a,b)=>b.score-a.score);
-  $("results").innerHTML=rows.map((r,i)=>`<div class="row${i===0?" top":""}"><span class="rank">${i+1}</span><div><div class="name">${r.name} <span class="meta">· ${r.sub}</span></div><div class="meta">Landed ${fmt(r.landed)} · effective ${fmt(r.eff)} · ${r.lead} days</div></div><div class="score">${r.score.toFixed(0)}<small>SCORE</small></div><div class="bar"><i style="width:${r.score.toFixed(1)}%"></i></div></div>`).join("");
-  const top=rows[0], cheapest=[...rows].sort((a,b)=>a.eff-b.eff)[0];
-  let msg;
-  if(top.id===cheapest.id){msg=`<b>Recommend ${top.name}.</b> Lowest effective cost at ${fmt(top.eff)}, delivered in ${top.lead} days.`}
-  else{const pct=((top.eff-cheapest.eff)/cheapest.eff*100).toFixed(1), days=cheapest.lead-top.lead;
-    msg=`<b>Recommend ${top.name}.</b> It costs ${pct}% more than ${cheapest.name} (${fmt(top.eff-cheapest.eff)}) but arrives ${days>0?days+" days sooner":"on comparable timing"}${top.war>cheapest.war?" with a longer warranty":""}. Raise the cost weight if the line can wait.`}
-  $("note").innerHTML=msg;
-}
-document.addEventListener("input",e=>{if(e.target.matches("input"))calc()});
-document.querySelectorAll("[data-copy]").forEach(b=>b.addEventListener("click",()=>{
-  const el=$(b.dataset.copy), t=el.textContent;
-  const done=()=>{b.textContent="Copied";setTimeout(()=>b.textContent="Copy",1500)};
-  try{navigator.clipboard.writeText(t).then(done,()=>sel(el))}catch(e){sel(el)}
-}));
-function sel(el){const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r)}
-calc();
+(function(){
+  // guilloche pattern
+  const g=document.getElementById("guil");let paths="";
+  for(let k=0;k<14;k++){let d="";for(let x=0;x<=1040;x+=8){const y=100+Math.sin(x/62+k*.45)*(38+k*3)+Math.sin(x/23+k)*6;d+=(x?"L":"M")+x+","+y.toFixed(1);}paths+=`<path d="${d}" fill="none" stroke="#cfb377" stroke-width=".6"/>`;}
+  g.innerHTML=paths;
+
+  const S=[
+    {id:"a",name:"Supplier A",sub:"Local stockist, Karachi",price:485000,freight:8000,lead:5,credit:0,war:6},
+    {id:"b",name:"Supplier B",sub:"Authorised distributor",price:430000,freight:22000,lead:14,credit:30,war:12},
+    {id:"c",name:"Supplier C",sub:"OEM direct import",price:360000,freight:118000,lead:45,credit:60,war:18}
+  ];
+  const F=["price","freight","lead","credit","war"];
+  const $=id=>document.getElementById(id);
+  const pkr=n=>"PKR "+Math.round(n).toLocaleString("en-US");
+  const num=n=>Math.round(n).toLocaleString("en-US");
+  $("rows").innerHTML=S.map(s=>`<tr id="r-${s.id}"><th scope="row">${s.name}<small>${s.sub}</small></th>${F.map(f=>`<td><input type="number" id="${s.id}-${f}" min="0" value="${s[f]}" aria-label="${s.name} ${f}"></td>`).join("")}<td class="calc" id="${s.id}-landed"></td><td class="calc" id="${s.id}-eff"></td><td class="calc" id="${s.id}-score"></td></tr>`).join("");
+
+  function calc(){
+    const qty=+$("qty").value; $("qtyOut").textContent=qty; $("qtyLabel").textContent=qty;
+    const rate=+$("rate").value/100; $("rateOut").textContent=$("rate").value+"% p.a.";
+    const w={c:+$("wCost").value,l:+$("wLead").value,t:+$("wTerms").value};
+    const ws=(w.c+w.l+w.t)||1;
+    $("wCostOut").textContent=Math.round(w.c/ws*100)+"%";$("wLeadOut").textContent=Math.round(w.l/ws*100)+"%";$("wTermsOut").textContent=Math.round(w.t/ws*100)+"%";
+    const R=S.map(s=>{const v={};F.forEach(f=>v[f]=Math.max(0,+$(s.id+"-"+f).value||0));const landed=v.price*qty+v.freight;const eff=landed-landed*rate*v.credit/365;return{...s,...v,landed,eff}});
+    const minE=Math.min(...R.map(r=>r.eff)),minL=Math.max(1,Math.min(...R.map(r=>r.lead))),maxC=Math.max(...R.map(r=>r.credit)),maxW=Math.max(...R.map(r=>r.war));
+    R.forEach(r=>{const sc=r.eff>0?minE/r.eff:1,sl=minL/Math.max(1,r.lead),st=((maxC?r.credit/maxC:1)+(maxW?r.war/maxW:1))/2;r.score=100*(w.c*sc+w.l*sl+w.t*st)/ws});
+    const top=[...R].sort((a,b)=>b.score-a.score)[0],cheap=[...R].sort((a,b)=>a.eff-b.eff)[0];
+    R.forEach(r=>{$(r.id+"-landed").textContent=num(r.landed);$(r.id+"-eff").textContent=num(r.eff);$(r.id+"-score").textContent=r.score.toFixed(0);$("r-"+r.id).classList.toggle("best",r.id===top.id)});
+    $("tRec").textContent=top.name;$("tRecSub").textContent=top.sub+" · score "+top.score.toFixed(0);
+    $("tCost").textContent=pkr(top.eff);$("tLead").textContent=top.lead;
+    const prem=top.eff-cheap.eff;
+    $("tPrem").textContent=prem>0?"+"+((prem/cheap.eff)*100).toFixed(1)+"%":"0.0%";
+    $("tPremSub").textContent=prem>0?pkr(prem)+" over "+cheap.name:"award is the lowest cost";
+    $("footRec").textContent=top.name+" · "+pkr(top.eff);
+    let v;
+    if(top.id===cheap.id){v=`<b>Award to ${top.name}.</b> It has the lowest effective cost at ${pkr(top.eff)} and delivers in ${top.lead} days, so no trade-off needs approval.`}
+    else{const days=cheap.lead-top.lead;v=`<b>Award to ${top.name}.</b> It costs ${pkr(prem)} more than ${cheap.name} on an effective basis, but arrives ${days>0?days+" days sooner":"on similar timing"}${top.war<cheap.war?"":" with equal or better warranty"}. If the line can run on the old pump until ${cheap.name} delivers, raise the cost weight and award the lower bid.`}
+    $("verdict").innerHTML=v;
+  }
+  document.addEventListener("input",e=>{if(e.target.matches("input"))calc()});
+  calc();
+})();
 </script>
 </body>
 </html>
