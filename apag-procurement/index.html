@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Manrope:wght@400;500;600;700&display=swap">
 <style>
-/* Layout: a formal evaluation document — masthead band, summary tiles, ledger-style quote table, notes, results, signatory panel, footer bar */
+/* Layout: a formal evaluation document, masthead band, summary tiles, ledger-style quote table, notes, results, signatory panel, footer bar */
 :root{
   --primary:#123a2b; --primary-2:#0c2a1f; --on-primary:#f3efe2;
   --gold:#b8995a; --gold-soft:#e9dfc6; --gold-ink:#7d6532;
@@ -195,10 +195,10 @@ footer{background:var(--primary-2);color:var(--on-primary);padding-block:18px}
     <p class="lede">Before a PO for a technical item goes for approval, I put every quote on the same basis: <strong>landed cost</strong> including freight and duty, adjusted for the <strong>value of credit terms</strong>, then scored on cost, lead time, terms and warranty. Change any figure or weight and the award updates.</p>
 
     <section class="tiles" aria-live="polite">
-      <div class="tile key"><div class="label">Recommended supplier</div><div class="fig" id="tRec">—</div><div class="sub" id="tRecSub">—</div></div>
-      <div class="tile"><div class="label">Effective cost · award</div><div class="fig" id="tCost">—</div><div class="sub">after credit-term value</div></div>
-      <div class="tile"><div class="label">Lead time · award</div><div class="fig" id="tLead">—</div><div class="sub">days to site</div></div>
-      <div class="tile"><div class="label">Premium vs lowest cost</div><div class="fig" id="tPrem">—</div><div class="sub" id="tPremSub">—</div></div>
+      <div class="tile key"><div class="label">Recommended supplier</div><div class="fig" id="tRec">&nbsp;</div><div class="sub" id="tRecSub">&nbsp;</div></div>
+      <div class="tile"><div class="label">Effective cost · award</div><div class="fig" id="tCost">&nbsp;</div><div class="sub">after credit-term value</div></div>
+      <div class="tile"><div class="label">Lead time · award</div><div class="fig" id="tLead">&nbsp;</div><div class="sub">days to site</div></div>
+      <div class="tile"><div class="label">Premium vs lowest cost</div><div class="fig" id="tPrem">&nbsp;</div><div class="sub" id="tPremSub">&nbsp;</div></div>
     </section>
 
     <section>
@@ -217,7 +217,7 @@ footer{background:var(--primary-2);color:var(--on-primary);padding-block:18px}
             <th scope="col">Score<small>of 100</small></th>
           </tr></thead>
           <tbody id="rows"></tbody>
-          <tfoot><tr><th colspan="6">Award recommendation</th><td colspan="3" class="rec" id="footRec">—</td></tr></tfoot>
+          <tfoot><tr><th colspan="6">Award recommendation</th><td colspan="3" class="rec" id="footRec">&nbsp;</td></tr></tfoot>
         </table>
       </div>
       <p class="legend">Landed = unit price × quantity + freight and duty. Effective = landed − landed × cost of capital × credit days ÷ 365. Each factor is scored against the best quote, then weighted.</p>
