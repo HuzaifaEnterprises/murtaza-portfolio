@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="author" content="Murtaza Mustafa">
+<title>APAG Procurement Showcase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>body{margin:0}</style>
+<style>
+/* Layout: a single calm column; the quote table is the hero, ranked results sit directly under it like an approval note. */
+:root{
+  --bg:#f5f7f4; --surface:#ffffff; --sunk:#eceff0;
+  --fg:#18231d; --muted:#5b6a61; --line:#d9e0db;
+  --accent:#1f5c3d; --accent-soft:#e2eee6; --oil:#b8860b; --oil-soft:#f6ecd2;
+  --good:#1f7a4a; --warn:#a15c00;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"Public Sans", "Segoe UI", system-ui, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#101613; --surface:#18201b; --sunk:#1f2923;
+  --fg:#e7eee9; --muted:#9aaba1; --line:#2c3831;
+  --accent:#6fc79a; --accent-soft:#1d3428; --oil:#e2b549; --oil-soft:#3a3018;
+  --good:#6fc79a; --warn:#e2a24f; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#101613; --surface:#18201b; --sunk:#1f2923;
+  --fg:#e7eee9; --muted:#9aaba1; --line:#2c3831;
+  --accent:#6fc79a; --accent-soft:#1d3428; --oil:#e2b549; --oil-soft:#3a3018;
+  --good:#6fc79a; --warn:#e2a24f; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:400 15px/1.6 var(--body)}
+.wrap{max-width:980px;margin:0 auto;padding-block:40px 56px;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));display:grid;gap:48px}
+.eyebrow{font:500 12px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1,h2{font-family:var(--display);font-weight:700;text-wrap:balance;margin:0;letter-spacing:-.01em}
+h1{font-size:clamp(28px,5vw,42px);line-height:1.1}
+h2{font-size:22px;line-height:1.25}
+p{margin:0}
+header{display:grid;gap:14px}
+header .by{color:var(--muted)}
+header .by b{color:var(--fg);font-weight:600}
+.lede{max-width:62ch;color:var(--muted)}
+.lede strong{color:var(--fg);font-weight:600}
+
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;display:grid;gap:24px}
+.toolhead{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;align-items:end}
+.toolhead > div{min-width:0}
+.sample{font:500 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;background:var(--oil-soft);color:var(--fg);padding:7px 10px;border-radius:99px;white-space:nowrap}
+.item{font-size:14px;color:var(--muted)}
+.tablewrap{overflow-x:auto;margin-inline:-4px}
+table{border-collapse:collapse;width:100%;min-width:620px;font-variant-numeric:tabular-nums}
+th,td{padding:8px 6px;text-align:left;vertical-align:middle}
+thead th{font:500 11px/1.3 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line)}
+tbody th{font-weight:600;font-size:14px;white-space:nowrap}
+tbody th small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+tbody tr+tr{border-top:1px solid var(--line)}
+input[type=number]{width:100%;min-width:72px;font:400 14px var(--mono);color:var(--fg);background:var(--sunk);border:1px solid transparent;border-radius:8px;padding:8px 9px}
+input[type=number]:focus{outline:none;border-color:var(--accent);background:var(--surface)}
+.settings{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px 24px;padding-top:4px}
+.set label{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);gap:8px}
+.set label output{font:500 13px var(--mono);color:var(--fg)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.set input[type=number]{margin-top:6px}
+
+.results{display:grid;gap:10px}
+.row{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:4px 14px;align-items:center;padding:14px 16px;border-radius:10px;background:var(--sunk);transition:background .3s}
+.row.top{background:var(--accent-soft)}
+.rank{font:700 20px var(--display);color:var(--muted)}
+.row.top .rank{color:var(--accent)}
+.name{font-weight:600}
+.meta{font-size:13px;color:var(--muted)}
+.score{font:500 22px var(--mono);text-align:right}
+.score small{display:block;font-size:11px;color:var(--muted);letter-spacing:.04em}
+.bar{grid-column:2/4;height:6px;background:var(--line);border-radius:6px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:6px;transition:width .5s cubic-bezier(.2,.7,.2,1)}
+.row:not(.top) .bar i{background:var(--muted);opacity:.55}
+.note{border-left:3px solid var(--oil);padding:12px 16px;background:var(--oil-soft);border-radius:0 10px 10px 0;font-size:14px}
+.note b{font-weight:600}
+.fine{font-size:12px;color:var(--muted)}
+
+.use ul{margin:16px 0 0;padding:0;list-style:none;display:grid;gap:14px;max-width:70ch}
+.use li{padding-left:22px;position:relative}
+.use li::before{content:"";position:absolute;left:0;top:.65em;width:10px;height:2px;background:var(--accent)}
+
+.wins{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:16px}
+.win{border-top:2px solid var(--fg);padding-top:14px;display:grid;gap:6px;align-content:start}
+.win .big{font:700 30px/1.1 var(--display);color:var(--accent)}
+.win p{font-size:14px;color:var(--muted)}
+.win a{color:var(--accent);font-size:13px}
+
+.contact{display:grid;gap:16px}
+.cards{display:flex;flex-wrap:wrap;gap:10px}
+.c{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;min-width:0;max-width:100%}
+.c span{font:400 14px var(--mono);user-select:all;overflow-wrap:anywhere}
+.c a{color:var(--accent);font:400 14px var(--mono);overflow-wrap:anywhere}
+button{font:500 12px var(--body);color:var(--accent);background:transparent;border:1px solid var(--line);border-radius:6px;padding:4px 8px;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+footer{font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px}
+@media (max-width:520px){.tool{padding:18px}.score{font-size:18px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body><div class="wrap">
+  <header>
+    <p class="eyebrow">Prepared for APAG · Procurement Executive</p>
+    <h1>Three quotes, one defensible PO</h1>
+    <p class="by">by <b>Murtaza Mustafa</b></p>
+    <p class="lede">A quote comparison I would run before asking for purchase order approval on a technical item. It turns three supplier quotes into <strong>landed cost</strong>, adjusts for <strong>credit terms</strong>, and ranks them on a weighted score you can change.</p>
+  </header>
+
+  <section class="tool" aria-labelledby="tool-h">
+    <div class="toolhead">
+      <div>
+        <h2 id="tool-h">Supplier quote comparison</h2>
+        <p class="item">Item: replacement gear pump for a filling line · quantity <span id="qtyLabel">2</span></p>
+      </div>
+      <span class="sample">Sample data for illustration</span>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr>
+          <th scope="col">Supplier</th><th scope="col">Unit price (PKR)</th><th scope="col">Freight + duty (PKR)</th><th scope="col">Lead time (days)</th><th scope="col">Credit (days)</th><th scope="col">Warranty (months)</th>
+        </tr></thead>
+        <tbody id="quotes"></tbody>
+      </table>
+    </div>
+
+    <div class="settings">
+      <div class="set"><label for="qty">Quantity</label><input type="number" id="qty" value="2" min="1" step="1"></div>
+      <div class="set"><label for="rate">Cost of capital (% a year) <output id="rateOut"></output></label><input type="range" id="rate" min="0" max="30" step="1" value="18"></div>
+      <div class="set"><label for="wCost">Weight · cost <output id="wCostOut"></output></label><input type="range" id="wCost" min="0" max="100" step="5" value="50"></div>
+      <div class="set"><label for="wLead">Weight · lead time <output id="wLeadOut"></output></label><input type="range" id="wLead" min="0" max="100" step="5" value="30"></div>
+      <div class="set"><label for="wTerms">Weight · credit terms <output id="wTermsOut"></output></label><input type="range" id="wTerms" min="0" max="100" step="5" value="10"></div>
+      <div class="set"><label for="wWar">Weight · warranty <output id="wWarOut"></output></label><input type="range" id="wWar" min="0" max="100" step="5" value="10"></div>
+    </div>
+
+    <div class="results" id="results" aria-live="polite"></div>
+    <p class="note" id="note"></p>
+    <p class="fine">Effective cost = landed cost − value of paying later (landed cost × cost of capital × credit days ÷ 365). Each factor is scored against the best quote, then weighted. Weights are normalised to 100%.</p>
+  </section>
+
+  <section class="use">
+    <h2>How I'd use this in the role</h2>
+    <ul>
+      <li>Before raising a PO for technical or indirect materials, compare at least three quotes on landed cost, lead time and terms, so the approval request carries its own cost-benefit case. I did the same when buying softwood from sawmills in Finland and Sweden, where freight, duty and payment terms changed the real price.</li>
+      <li>Feed the chosen supplier's credit days straight into the supplier payment report. At Huzaifa Enterprises I built an app that tracks sawmill payments, ledgers and invoices, and reports DSO and cash conversion cycle every month.</li>
+      <li>Use the score history to make the case for developing a new supplier when an incumbent keeps losing on lead time or price. I onboarded 2 new suppliers this way.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Relevant results</h2>
+    <div class="wins">
+      <div class="win"><span class="big">~$15K</span><p>Untracked receivables recovered by the business management app I built for a timber importer. It also saves 20+ hours a week.</p><a href="https://importdeskpro.vercel.app/" target="_blank" rel="noopener">See the app demo</a></div>
+      <div class="win"><span class="big">2</span><p>New suppliers onboarded for softwood imports from Finland and Sweden, including import documentation and customs clearance.</p></div>
+      <div class="win"><span class="big">1 hr → 5 min</span><p>Client onboarding time after I built 15+ automation workflows (GoHighLevel, n8n, Make, Zapier) for 5 US clinics.</p></div>
+    </div>
+  </section>
+
+  <section class="contact">
+    <h2>Contact</h2>
+    <div class="cards">
+      <div class="c"><span id="em">murtazamustafaa02@gmail.com</span><button type="button" data-copy="em">Copy</button></div>
+      <div class="c"><span id="ph">+92 318 1253085</span><button type="button" data-copy="ph">Copy</button></div>
+      <div class="c"><a href="https://www.linkedin.com/in/murtaza-mustafa2911/" target="_blank" rel="noopener">linkedin.com/in/murtaza-mustafa2911</a></div>
+    </div>
+    <p class="fine">BA (Hons) Business Management, Buckinghamshire New University, UK (2026) · Based in Karachi</p>
+  </section>
+
+  <footer>Independent work sample by Murtaza Mustafa. Not affiliated with or endorsed by Agro Processors &amp; Atmospheric Gases Ltd (APAG). All figures in the tool are sample data for illustration.</footer>
+</div>
+
+<script>
+const suppliers=[
+  {id:"a",name:"Supplier A",sub:"Local stockist, Karachi",price:485000,freight:8000,lead:5,credit:0,war:6},
+  {id:"b",name:"Supplier B",sub:"Authorised distributor",price:430000,freight:22000,lead:14,credit:30,war:12},
+  {id:"c",name:"Supplier C",sub:"OEM direct import",price:360000,freight:118000,lead:45,credit:60,war:18}
+];
+const fields=["price","freight","lead","credit","war"];
+const tb=document.getElementById("quotes");
+tb.innerHTML=suppliers.map(s=>`<tr><th scope="row">${s.name}<small>${s.sub}</small></th>${fields.map(f=>`<td><input type="number" id="${s.id}-${f}" aria-label="${s.name} ${f}" value="${s[f]}" min="0"></td>`).join("")}</tr>`).join("");
+const $=id=>document.getElementById(id);
+const fmt=n=>"PKR "+Math.round(n).toLocaleString("en-US");
+function calc(){
+  const qty=Math.max(1,+$("qty").value||1); $("qtyLabel").textContent=qty;
+  const rate=+$("rate").value/100; $("rateOut").textContent=$("rate").value+"%";
+  const w={cost:+$("wCost").value,lead:+$("wLead").value,terms:+$("wTerms").value,war:+$("wWar").value};
+  const wsum=Object.values(w).reduce((a,b)=>a+b,0)||1;
+  ["Cost","Lead","Terms","War"].forEach(k=>{$("w"+k+"Out").textContent=Math.round(w[k==="Cost"?"cost":k==="Lead"?"lead":k==="Terms"?"terms":"war"]/wsum*100)+"%"});
+  const rows=suppliers.map(s=>{
+    const v={};fields.forEach(f=>v[f]=Math.max(0,+$(s.id+"-"+f).value||0));
+    const landed=v.price*qty+v.freight;
+    const eff=landed-landed*rate*v.credit/365;
+    return {...s,...v,landed,eff};
+  });
+  const minEff=Math.min(...rows.map(r=>r.eff)), minLead=Math.min(...rows.map(r=>r.lead)),
+        maxCredit=Math.max(...rows.map(r=>r.credit)), maxWar=Math.max(...rows.map(r=>r.war));
+  rows.forEach(r=>{
+    const sc=r.eff>0?minEff/r.eff:1, sl=r.lead>0?Math.max(minLead,1)/Math.max(r.lead,1):1,
+          st=maxCredit>0?r.credit/maxCredit:1, sw=maxWar>0?r.war/maxWar:1;
+    r.score=100*(w.cost*sc+w.lead*sl+w.terms*st+w.war*sw)/wsum;
+  });
+  rows.sort((a,b)=>b.score-a.score);
+  $("results").innerHTML=rows.map((r,i)=>`<div class="row${i===0?" top":""}"><span class="rank">${i+1}</span><div><div class="name">${r.name} <span class="meta">· ${r.sub}</span></div><div class="meta">Landed ${fmt(r.landed)} · effective ${fmt(r.eff)} · ${r.lead} days</div></div><div class="score">${r.score.toFixed(0)}<small>SCORE</small></div><div class="bar"><i style="width:${r.score.toFixed(1)}%"></i></div></div>`).join("");
+  const top=rows[0], cheapest=[...rows].sort((a,b)=>a.eff-b.eff)[0];
+  let msg;
+  if(top.id===cheapest.id){msg=`<b>Recommend ${top.name}.</b> Lowest effective cost at ${fmt(top.eff)}, delivered in ${top.lead} days.`}
+  else{const pct=((top.eff-cheapest.eff)/cheapest.eff*100).toFixed(1), days=cheapest.lead-top.lead;
+    msg=`<b>Recommend ${top.name}.</b> It costs ${pct}% more than ${cheapest.name} (${fmt(top.eff-cheapest.eff)}) but arrives ${days>0?days+" days sooner":"on comparable timing"}${top.war>cheapest.war?" with a longer warranty":""}. Raise the cost weight if the line can wait.`}
+  $("note").innerHTML=msg;
+}
+document.addEventListener("input",e=>{if(e.target.matches("input"))calc()});
+document.querySelectorAll("[data-copy]").forEach(b=>b.addEventListener("click",()=>{
+  const el=$(b.dataset.copy), t=el.textContent;
+  const done=()=>{b.textContent="Copied";setTimeout(()=>b.textContent="Copy",1500)};
+  try{navigator.clipboard.writeText(t).then(done,()=>sel(el))}catch(e){sel(el)}
+}));
+function sel(el){const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r)}
+calc();
+</script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Murtaza Mustafa — Business Management graduate in Karachi working across procurement, operations, e-commerce and business automation.">
+<meta name="author" content="Murtaza Mustafa">
+<title>Murtaza Mustafa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column — introduction, four results, one piece of work, experience timeline, contact */
+:root{
+  --bg:#f4f6f8; --surface:#ffffff; --fg:#14202b; --muted:#566573; --line:#d8dee5;
+  --accent:#0f5e9c; --accent-soft:#e3eef7;
+  --display:"Schibsted Grotesk","Segoe UI",system-ui,sans-serif;
+  --body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f151b; --surface:#161e26; --fg:#e6ebf0; --muted:#9aa8b5; --line:#26313c;
+  --accent:#6fb3ea; --accent-soft:#1a2c3c; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f151b; --surface:#161e26; --fg:#e6ebf0; --muted:#9aa8b5; --line:#26313c;
+  --accent:#6fb3ea; --accent-soft:#1a2c3c; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 17px/1.6 var(--body)}
+.wrap{max-width:860px;margin:0 auto;padding-block:56px 64px;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px));display:grid;gap:64px}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-.015em}
+h1{font-size:clamp(34px,6vw,52px);line-height:1.05}
+h2{font-size:14px;font-family:var(--mono);font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:18px}
+p{margin:0}
+.intro{display:grid;gap:18px}
+.role{font:500 15px var(--mono);color:var(--accent)}
+.lede{max-width:60ch;color:var(--muted);font-size:19px}
+.lede strong{color:var(--fg);font-weight:600}
+.links{display:flex;flex-wrap:wrap;gap:10px}
+a{color:var(--accent)}
+.pill{font:500 14px var(--mono);text-decoration:none;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 14px}
+.pill:hover{border-color:var(--accent)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:24px 28px}
+.stat{border-top:2px solid var(--fg);padding-top:12px;display:grid;gap:4px}
+.stat b{font:700 30px/1.1 var(--display);color:var(--accent);font-variant-numeric:tabular-nums}
+.stat span{font-size:15px;color:var(--muted)}
+.work{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:26px;display:grid;gap:12px}
+.work h3{font-size:24px}
+.work p{color:var(--muted);max-width:62ch}
+.tags{display:flex;flex-wrap:wrap;gap:8px;font:400 13px var(--mono);color:var(--muted)}
+.tags span{background:var(--accent-soft);color:var(--fg);border-radius:6px;padding:3px 8px}
+.timeline{display:grid;gap:22px}
+.job{display:grid;grid-template-columns:150px minmax(0,1fr);gap:4px 24px}
+.job .when{font:400 13px/1.9 var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.job h3{font-size:18px;font-weight:700}
+.job p{color:var(--muted);font-size:16px}
+.contact{display:grid;gap:14px}
+.contact .row{display:flex;flex-wrap:wrap;gap:10px}
+.copy{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;max-width:100%}
+.copy span{font:400 15px var(--mono);overflow-wrap:anywhere;user-select:all}
+button{font:500 13px var(--body);color:var(--accent);background:transparent;border:1px solid var(--line);border-radius:6px;padding:4px 9px;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+footer{font-size:14px;color:var(--muted);border-top:1px solid var(--line);padding-top:18px}
+@media (max-width:560px){.job{grid-template-columns:1fr}.work{padding:20px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="intro">
+    <p class="role">Operations · Procurement · E-commerce · Automation</p>
+    <h1>Murtaza Mustafa</h1>
+    <p class="lede">Business Management graduate based in Karachi. I manage <strong>procurement and operations</strong> for a timber importer, have grown <strong>e-commerce brands</strong> on TikTok Shop, and build the <strong>systems and automations</strong> that make a business run on accurate numbers.</p>
+    <div class="links">
+      <a class="pill" href="https://www.linkedin.com/in/murtaza-mustafa2911/" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="pill" href="https://importdeskpro.vercel.app/" target="_blank" rel="noopener">Import Desk demo</a>
+      <a class="pill" href="#contact">Contact</a>
+    </div>
+  </header>
+
+  <section>
+    <h2>Results</h2>
+    <div class="stats">
+      <div class="stat"><b>~$15K</b><span>untracked receivables recovered for a timber importer</span></div>
+      <div class="stat"><b>20+ hrs</b><span>saved every week by replacing manual invoicing</span></div>
+      <div class="stat"><b>10x</b><span>TikTok Shop revenue growth for a Malaysian brand in 6 months</span></div>
+      <div class="stat"><b>1 hr → 5 min</b><span>client onboarding time after 15+ automation workflows</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Selected work</h2>
+    <article class="work">
+      <h3>Import Desk</h3>
+      <p>A business management system for a softwood timber importer: invoicing, payment receipts, customer ledgers, sawmill payments and shipping documents in one place. It also reports monthly profitability, the cash conversion cycle and average customer payment days, figures the business had no view of before.</p>
+      <div class="tags"><span>Operations</span><span>Finance reporting</span><span>Receivables</span><span>Procurement</span></div>
+      <p><a href="https://importdeskpro.vercel.app/" target="_blank" rel="noopener">Open the demo (sample data)</a></p>
+    </article>
+  </section>
+
+  <section>
+    <h2>Experience</h2>
+    <div class="timeline">
+      <div class="job"><span class="when">Jul 2026 – now</span><div><h3>Procurement &amp; Operations · Huzaifa Enterprises</h3><p>Softwood procurement from sawmills in Finland and Sweden, supplier onboarding, import documentation and customs clearance.</p></div></div>
+      <div class="job"><span class="when">May – Jul 2026</span><div><h3>AI Automation Specialist · Contract</h3><p>15+ GoHighLevel, n8n, Make and Zapier workflows for 5 US clinics: booking, reminders, follow-ups and review requests.</p></div></div>
+      <div class="job"><span class="when">Dec 2025 – now</span><div><h3>Account Manager · Alzo Home, Malaysia</h3><p>Monthly P&amp;L, COGS reporting and pricing; influencer livestream deals that lifted sales 20–30%.</p></div></div>
+      <div class="job"><span class="when">2023 – 2024</span><div><h3>Business Manager · Masaki, Malaysia</h3><p>Scaled TikTok Shop revenue from RM 50K to RM 500K in 6 months with a network of 20,000+ affiliate creators.</p></div></div>
+      <div class="job"><span class="when">2026</span><div><h3>BA (Hons) Business Management</h3><p>Buckinghamshire New University, UK.</p></div></div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <h2>Contact</h2>
+    <div class="row">
+      <div class="copy"><span id="em">murtazamustafaa02@gmail.com</span><button type="button" data-copy="em">Copy</button></div>
+      <div class="copy"><span id="ph">+92 318 1253085</span><button type="button" data-copy="ph">Copy</button></div>
+    </div>
+  </section>
+
+  <footer>© 2026 Murtaza Mustafa · Karachi, Pakistan</footer>
+</div>
+<script>
+document.querySelectorAll("[data-copy]").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById(b.dataset.copy);
+  const sel=()=>{const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r)};
+  try{navigator.clipboard.writeText(el.textContent).then(()=>{b.textContent="Copied";setTimeout(()=>b.textContent="Copy",1500)},sel)}catch(e){sel()}
+}));
+</script>
+</body>
+</html>
