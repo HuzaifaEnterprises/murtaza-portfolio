@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mystic Moon Wellness - Spiritual Coaching & Online Courses</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --midnight: #0f1523;
+  --navy: #1a1a2e;
+  --deep-blue: #16213e;
+  --indigo: #0f3460;
+  --gold: #e8d5b7;
+  --soft-gold: #d4b896;
+  --cream: #faf6f0;
+  --muted: #8a8a9e;
+  --silver: #c8c8d8;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Jost', sans-serif;
+  background: var(--cream);
+  color: #3a3a4a;
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+/* Nav */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(15,21,35,0.95);
+  backdrop-filter: blur(10px);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.nav-brand {
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--gold);
+  font-size: 1.15rem;
+  letter-spacing: 1px;
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--silver);
+  text-decoration: none;
+  font-size: 0.78rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 400;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover { color: var(--gold); }
+
+/* Hero */
+.hero {
+  background: linear-gradient(160deg, var(--midnight) 0%, var(--navy) 40%, var(--deep-blue) 70%, var(--indigo) 100%);
+  color: var(--gold);
+  padding: 160px 24px 120px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: radial-gradient(circle at 60% 40%, rgba(232,213,183,0.04) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero-moon {
+  width: 100px; height: 100px;
+  border: 2px solid rgba(232,213,183,0.25);
+  border-radius: 50%;
+  margin: 0 auto 32px;
+  position: relative;
+}
+
+.hero-moon::after {
+  content: '';
+  position: absolute;
+  top: 10px; right: 10px;
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  background: var(--midnight);
+}
+
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 400;
+  line-height: 1.15;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 1rem;
+  color: var(--silver);
+  max-width: 480px;
+  margin: 0 auto 40px;
+}
+
+.btn-gold {
+  display: inline-block;
+  padding: 14px 40px;
+  border: 1.5px solid var(--gold);
+  color: var(--gold);
+  text-decoration: none;
+  font-size: 0.78rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 400;
+  transition: all 0.3s;
+}
+
+.btn-gold:hover {
+  background: var(--gold);
+  color: var(--midnight);
+}
+
+/* Sections */
+section { padding: 80px 24px; }
+.container { max-width: 960px; margin: 0 auto; }
+
+.sec-label {
+  font-size: 0.68rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--soft-gold);
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.sec-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-weight: 400;
+  margin-bottom: 16px;
+  line-height: 1.25;
+}
+
+/* About */
+.about { background: var(--cream); }
+
+.about-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  margin-top: 32px;
+}
+
+.about-text p {
+  font-size: 0.92rem;
+  color: #5a5a6a;
+  margin-bottom: 16px;
+}
+
+.about-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.stat-card {
+  background: white;
+  padding: 24px;
+  border: 1px solid rgba(26,26,46,0.06);
+  text-align: center;
+}
+
+.stat-card .num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  color: var(--indigo);
+  font-weight: 500;
+}
+
+.stat-card .label {
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 4px;
+}
+
+/* Services */
+.services {
+  background: var(--navy);
+  color: var(--gold);
+}
+
+.services .sec-title { color: var(--gold); }
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 48px;
+}
+
+.service-card {
+  padding: 32px 24px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(232,213,183,0.08);
+  transition: border-color 0.3s;
+}
+
+.service-card:hover { border-color: rgba(232,213,183,0.2); }
+
+.service-icon {
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.service-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.service-card p {
+  font-size: 0.85rem;
+  color: var(--silver);
+  line-height: 1.7;
+}
+
+/* Courses */
+.courses { background: #f8f4ee; }
+
+.course-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin-top: 48px;
+}
+
+.course-card {
+  background: white;
+  overflow: hidden;
+  border: 1px solid rgba(26,26,46,0.06);
+}
+
+.course-banner {
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: var(--gold);
+}
+
+.course-banner-1 {
+  background: linear-gradient(135deg, #1a1a2e, #2a1a3e);
+}
+
+.course-banner-2 {
+  background: linear-gradient(135deg, #0f3460, #1a2a4e);
+}
+
+.course-banner h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  font-weight: 400;
+}
+
+.course-banner span {
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-top: 6px;
+  opacity: 0.6;
+}
+
+.course-body {
+  padding: 24px;
+}
+
+.course-body p {
+  font-size: 0.88rem;
+  color: #5a5a6a;
+  margin-bottom: 16px;
+}
+
+.course-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.course-price {
+  font-weight: 500;
+  color: var(--indigo);
+}
+
+/* Workbook Preview */
+.workbook-section { background: var(--cream); }
+
+.wb-preview {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 48px;
+}
+
+.wb-card {
+  background: white;
+  padding: 28px;
+  border: 1px solid rgba(26,26,46,0.06);
+  position: relative;
+}
+
+.wb-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 3px;
+  background: linear-gradient(90deg, var(--indigo), var(--soft-gold));
+}
+
+.wb-card .tag {
+  font-size: 0.6rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--soft-gold);
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.wb-card h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  color: var(--navy);
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.wb-card p {
+  font-size: 0.82rem;
+  color: var(--muted);
+  font-style: italic;
+  border-left: 2px solid var(--soft-gold);
+  padding-left: 12px;
+}
+
+.wb-lines-mini { margin-top: 16px; }
+.wb-line-mini { height: 1px; background: rgba(26,26,46,0.06); margin: 12px 0; }
+
+/* Testimonials */
+.testimonials {
+  background: var(--navy);
+  color: var(--gold);
+}
+
+.testimonials .sec-title { color: var(--gold); }
+
+.test-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 48px;
+}
+
+.test-card {
+  padding: 28px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(232,213,183,0.08);
+}
+
+.test-card .stars {
+  color: var(--soft-gold);
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+}
+
+.test-card p {
+  font-size: 0.88rem;
+  color: var(--silver);
+  font-style: italic;
+  margin-bottom: 16px;
+  line-height: 1.7;
+}
+
+.test-card .author {
+  font-size: 0.78rem;
+  color: var(--soft-gold);
+  font-style: normal;
+}
+
+/* CTA */
+.cta-section {
+  background: linear-gradient(135deg, var(--midnight), var(--indigo));
+  color: var(--gold);
+  text-align: center;
+  padding: 80px 24px;
+}
+
+.cta-section .sec-title { color: var(--gold); }
+
+.cta-section p {
+  color: var(--silver);
+  max-width: 480px;
+  margin: 0 auto 36px;
+}
+
+/* Footer */
+footer {
+  background: var(--midnight);
+  color: var(--muted);
+  text-align: center;
+  padding: 32px 24px;
+  font-size: 0.78rem;
+}
+
+footer a { color: var(--soft-gold); text-decoration: none; }
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .about-content, .course-grid { grid-template-columns: 1fr; }
+  .services-grid, .wb-preview, .test-grid { grid-template-columns: 1fr; }
+  .about-stats { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-brand">Mystic Moon Wellness</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#courses">Courses</a></li>
+    <li><a href="#testimonials">Kind Words</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-moon"></div>
+  <h1>Awaken Your<br>Inner Knowing</h1>
+  <p>Spiritual coaching, intuitive development courses, and guided practices for seekers ready to trust their own wisdom.</p>
+  <a href="#courses" class="btn-gold">Explore Programs</a>
+</section>
+
+<!-- About -->
+<section class="about" id="about">
+  <div class="container">
+    <p class="sec-label">About Luna</p>
+    <h2 class="sec-title">Your Guide on the Path</h2>
+    <div class="about-content">
+      <div class="about-text">
+        <p>Luna Rivera is a certified spiritual life coach, Reiki practitioner, and intuitive guide with over a decade of experience helping seekers reconnect with their inner wisdom.</p>
+        <p>Through one-on-one coaching, online courses, and community circles, Luna creates space for deep self-discovery, energetic healing, and spiritual growth.</p>
+        <p>Her approach blends ancient wisdom traditions with practical tools for modern living, always meeting you exactly where you are on your journey.</p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-card"><span class="num">500+</span><span class="label">Students</span></div>
+        <div class="stat-card"><span class="num">12</span><span class="label">Courses</span></div>
+        <div class="stat-card"><span class="num">8</span><span class="label">Years Teaching</span></div>
+        <div class="stat-card"><span class="num">30+</span><span class="label">Workshops</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section class="services" id="services">
+  <div class="container">
+    <p class="sec-label">Offerings</p>
+    <h2 class="sec-title">Ways to Work Together</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <span class="service-icon">&#9789;</span>
+        <h3>1:1 Spiritual Coaching</h3>
+        <p>Personalized guidance sessions focused on intuitive development, life transitions, and aligning with your highest path. Available in 4- and 8-session packages.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">&#10024;</span>
+        <h3>Online Courses</h3>
+        <p>Self-paced programs in moon cycle work, energy reading, oracle card interpretation, and spiritual journaling. Lifetime access included.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">&#9883;</span>
+        <h3>Community Circles</h3>
+        <p>Monthly new moon and full moon circles for group practice, reflection, and shared intention setting. Open to all levels.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Courses -->
+<section class="courses" id="courses">
+  <div class="container">
+    <p class="sec-label">Programs</p>
+    <h2 class="sec-title">Featured Courses</h2>
+    <div class="course-grid">
+      <div class="course-card">
+        <div class="course-banner course-banner-1">
+          <h4>Moon Cycle Mastery</h4>
+          <span>8-Week Program</span>
+        </div>
+        <div class="course-body">
+          <p>Learn to harness the energy of each lunar phase for manifestation, release, and personal transformation. Includes guided rituals, workbook, and community access.</p>
+          <div class="course-meta">
+            <span>8 Modules / Self-Paced</span>
+            <span class="course-price">$297 CAD</span>
+          </div>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="course-banner course-banner-2">
+          <h4>Intuitive Oracle Reading</h4>
+          <span>6-Week Program</span>
+        </div>
+        <div class="course-body">
+          <p>Develop your intuitive reading practice from foundations to confidence. Covers multiple oracle decks, spreads, and how to read for yourself and others.</p>
+          <div class="course-meta">
+            <span>6 Modules / Self-Paced</span>
+            <span class="course-price">$247 CAD</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Workbook Section -->
+<section class="workbook-section">
+  <div class="container">
+    <p class="sec-label">Digital Resources</p>
+    <h2 class="sec-title">Course Workbooks</h2>
+    <div class="wb-preview">
+      <div class="wb-card">
+        <p class="tag">Moon Cycle Mastery</p>
+        <h4>New Moon Intentions</h4>
+        <p>"What seeds are you planting this cycle? What vision is calling you forward?"</p>
+        <div class="wb-lines-mini"><div class="wb-line-mini"></div><div class="wb-line-mini"></div><div class="wb-line-mini"></div></div>
+      </div>
+      <div class="wb-card">
+        <p class="tag">Weekly Practice</p>
+        <h4>Energy Check-In</h4>
+        <p>"Where in your body do you notice energy today? What emotion lives there?"</p>
+        <div class="wb-lines-mini"><div class="wb-line-mini"></div><div class="wb-line-mini"></div><div class="wb-line-mini"></div></div>
+      </div>
+      <div class="wb-card">
+        <p class="tag">Oracle Reading</p>
+        <h4>Reading Reflection</h4>
+        <p>"What came through in today's pull? What surprised you? What confirmed something you already knew?"</p>
+        <div class="wb-lines-mini"><div class="wb-line-mini"></div><div class="wb-line-mini"></div><div class="wb-line-mini"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testimonials" id="testimonials">
+  <div class="container">
+    <p class="sec-label">Kind Words</p>
+    <h2 class="sec-title">From the Community</h2>
+    <div class="test-grid">
+      <div class="test-card">
+        <div class="stars">&#9733; &#9733; &#9733; &#9733; &#9733;</div>
+        <p>"Luna's Moon Cycle course completely changed how I approach my month. The workbook alone is worth it. I keep coming back to the reflection prompts."</p>
+        <span class="author">Sarah K.</span>
+      </div>
+      <div class="test-card">
+        <div class="stars">&#9733; &#9733; &#9733; &#9733; &#9733;</div>
+        <p>"The 1:1 coaching sessions gave me tools I still use daily. Luna has a gift for holding space while also being clear and practical."</p>
+        <span class="author">Emily R.</span>
+      </div>
+      <div class="test-card">
+        <div class="stars">&#9733; &#9733; &#9733; &#9733; &#9733;</div>
+        <p>"I was nervous about oracle reading but the course made it so approachable. The community circle is now my favourite part of each month."</p>
+        <span class="author">Maya T.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="container">
+    <p class="sec-label">Begin Your Journey</p>
+    <h2 class="sec-title">Ready to Go Deeper?</h2>
+    <p>Book a free 20-minute discovery call to explore which program or coaching package is right for where you are right now.</p>
+    <a href="javascript:void(0)" class="btn-gold">Book a Discovery Call</a>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2026 Mystic Moon Wellness. All rights reserved. | <a href="javascript:void(0)">Privacy</a> | <a href="javascript:void(0)">Terms</a></p>
+  <p style="margin-top:8px;font-size:0.7rem;opacity:0.6">Demo site. Not a real business.</p>
+</footer>
+
+</body>
+</html>

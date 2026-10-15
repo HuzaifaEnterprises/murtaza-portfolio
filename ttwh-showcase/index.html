@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Murtaza Mustafa - Website & Digital Course Designer | Proposal for Tarot Times With Heidi</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --deep-plum: #2D1B3D;
+  --mystic-purple: #4A2D6B;
+  --soft-lavender: #B8A0D2;
+  --warm-gold: #D4A853;
+  --cream: #FFF8F0;
+  --muted-rose: #C9A0A0;
+  --charcoal: #2A2A2A;
+  --light-grey: #F5F0F8;
+  --text-body: #3D3347;
+  --text-muted: #7A6E85;
+  --sage: #8B9E82;
+  --deep-teal: #2D4A4A;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Jost', sans-serif;
+  color: var(--text-body);
+  background: var(--cream);
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+.serif { font-family: 'Cormorant Garamond', serif; }
+
+/* Hero */
+.hero {
+  background: linear-gradient(135deg, var(--deep-plum) 0%, var(--mystic-purple) 50%, #3D2558 100%);
+  color: var(--cream);
+  padding: 80px 24px 100px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at 20% 80%, rgba(212,168,83,0.15) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(184,160,210,0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero-content { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
+
+.hero-label {
+  font-size: 0.75rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--warm-gold);
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 400;
+  line-height: 1.2;
+  margin-bottom: 20px;
+  letter-spacing: 0.5px;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--warm-gold);
+}
+
+.hero-sub {
+  font-size: 1.05rem;
+  color: var(--soft-lavender);
+  max-width: 540px;
+  margin: 0 auto 40px;
+  font-weight: 300;
+}
+
+.hero-cta {
+  display: inline-block;
+  padding: 14px 40px;
+  background: var(--warm-gold);
+  color: var(--deep-plum);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.hero-cta:hover { background: #e6bc6a; transform: translateY(-2px); }
+
+/* Stars decoration */
+.stars {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+}
+
+.star {
+  position: absolute;
+  width: 3px; height: 3px;
+  background: rgba(212,168,83,0.4);
+  border-radius: 50%;
+}
+
+/* Sections */
+section { padding: 80px 24px; }
+
+.container { max-width: 960px; margin: 0 auto; }
+.container-narrow { max-width: 720px; margin: 0 auto; }
+
+.section-label {
+  font-size: 0.7rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--warm-gold);
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 400;
+  color: var(--deep-plum);
+  margin-bottom: 20px;
+  line-height: 1.25;
+}
+
+.section-desc {
+  font-size: 1rem;
+  color: var(--text-muted);
+  max-width: 600px;
+  font-weight: 300;
+}
+
+/* About section */
+.about-section { background: var(--cream); }
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+  margin-top: 40px;
+}
+
+.about-card {
+  background: white;
+  padding: 36px;
+  border: 1px solid rgba(74,45,107,0.08);
+}
+
+.about-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  color: var(--deep-plum);
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+.about-card p {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+}
+
+/* Skills tags */
+.skills-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.skill-tag {
+  display: inline-block;
+  padding: 6px 16px;
+  background: var(--light-grey);
+  color: var(--mystic-purple);
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+/* Understanding section */
+.understanding-section {
+  background: var(--deep-plum);
+  color: var(--cream);
+}
+
+.understanding-section .section-label { color: var(--warm-gold); }
+.understanding-section .section-title { color: var(--cream); }
+.understanding-section .section-desc { color: var(--soft-lavender); }
+
+.understanding-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 48px;
+}
+
+.understand-card {
+  padding: 32px 28px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(184,160,210,0.12);
+}
+
+.understand-icon {
+  width: 48px; height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(212,168,83,0.12);
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+}
+
+.understand-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem;
+  margin-bottom: 12px;
+  font-weight: 500;
+  color: var(--warm-gold);
+}
+
+.understand-card p {
+  font-size: 0.88rem;
+  color: var(--soft-lavender);
+  line-height: 1.7;
+}
+
+/* Sample Work / Mockups */
+.samples-section { background: var(--light-grey); }
+
+.sample-showcase {
+  margin-top: 48px;
+}
+
+.sample-item {
+  background: white;
+  margin-bottom: 32px;
+  border: 1px solid rgba(74,45,107,0.06);
+  overflow: hidden;
+}
+
+.sample-header {
+  padding: 28px 32px 0;
+}
+
+.sample-badge {
+  display: inline-block;
+  padding: 4px 14px;
+  background: var(--deep-plum);
+  color: var(--warm-gold);
+  font-size: 0.68rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+.sample-header h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  color: var(--deep-plum);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.sample-header p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+/* Course page mockup */
+.course-mockup {
+  margin: 0 32px 32px;
+  border: 1px solid rgba(74,45,107,0.1);
+  background: var(--cream);
+  overflow: hidden;
+}
+
+.mockup-browser-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--deep-plum);
+}
+
+.mockup-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+}
+.mockup-dot.r { background: #ff5f57; }
+.mockup-dot.y { background: #febc2e; }
+.mockup-dot.g { background: #28c840; }
+
+.mockup-url {
+  flex: 1;
+  background: rgba(255,255,255,0.1);
+  padding: 4px 12px;
+  font-size: 0.72rem;
+  color: var(--soft-lavender);
+  margin-left: 8px;
+  font-family: monospace;
+}
+
+.mockup-content {
+  padding: 0;
+}
+
+/* Course Hero Mockup */
+.course-hero-mockup {
+  background: linear-gradient(135deg, var(--deep-plum), var(--mystic-purple));
+  padding: 48px 32px;
+  text-align: center;
+  color: var(--cream);
+}
+
+.course-hero-mockup .label {
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--warm-gold);
+  margin-bottom: 12px;
+}
+
+.course-hero-mockup h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  font-weight: 400;
+  margin-bottom: 12px;
+}
+
+.course-hero-mockup .subtitle {
+  font-size: 0.85rem;
+  color: var(--soft-lavender);
+  margin-bottom: 24px;
+}
+
+.course-hero-mockup .cta-btn {
+  display: inline-block;
+  padding: 10px 32px;
+  background: var(--warm-gold);
+  color: var(--deep-plum);
+  font-size: 0.72rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+/* Course Modules Mockup */
+.course-modules-mockup {
+  padding: 32px;
+}
+
+.course-modules-mockup h5 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  color: var(--deep-plum);
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.module-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(74,45,107,0.06);
+}
+
+.module-num {
+  width: 36px; height: 36px;
+  background: var(--light-grey);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem;
+  color: var(--mystic-purple);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.module-info h6 {
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: var(--deep-plum);
+}
+
+.module-info span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Workbook Mockup */
+.workbook-mockup {
+  margin: 0 32px 32px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.workbook-page {
+  background: white;
+  border: 1px solid rgba(74,45,107,0.1);
+  padding: 28px;
+  position: relative;
+}
+
+.workbook-page::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 4px;
+  background: linear-gradient(90deg, var(--warm-gold), var(--soft-lavender));
+}
+
+.workbook-page .wb-label {
+  font-size: 0.6rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--warm-gold);
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.workbook-page h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  color: var(--deep-plum);
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+.wb-prompt {
+  padding: 12px;
+  background: var(--light-grey);
+  margin-bottom: 10px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-style: italic;
+  border-left: 3px solid var(--soft-lavender);
+}
+
+.wb-lines {
+  margin-top: 12px;
+}
+
+.wb-line {
+  height: 1px;
+  background: rgba(74,45,107,0.08);
+  margin: 16px 0;
+}
+
+.wb-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.wb-checkbox .box {
+  width: 16px; height: 16px;
+  border: 1.5px solid var(--soft-lavender);
+  flex-shrink: 0;
+}
+
+/* Demo section */
+.demos-section { background: var(--cream); }
+
+.demo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin-top: 48px;
+}
+
+.demo-card {
+  border: 1px solid rgba(74,45,107,0.08);
+  overflow: hidden;
+  background: white;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.demo-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(45,27,61,0.1);
+}
+
+.demo-preview {
+  height: 220px;
+  position: relative;
+  overflow: hidden;
+}
+
+.demo-preview-1 {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: #e8d5b7;
+}
+
+.demo-preview-1 .moon {
+  width: 64px; height: 64px;
+  border: 2px solid rgba(232,213,183,0.4);
+  border-radius: 50%;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.demo-preview-1 .moon::after {
+  content: '';
+  position: absolute;
+  top: 6px; right: 6px;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: #1a1a2e;
+}
+
+.demo-preview-1 h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+
+.demo-preview-1 span {
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-top: 6px;
+  opacity: 0.6;
+}
+
+.demo-preview-2 {
+  background: linear-gradient(135deg, #2d4a3e 0%, #3d5c4e 50%, #4a6b5a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: #e8e0d4;
+}
+
+.demo-preview-2 .lotus {
+  width: 56px; height: 56px;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.demo-preview-2 .petal {
+  position: absolute;
+  width: 20px; height: 32px;
+  border: 1.5px solid rgba(232,224,212,0.4);
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  bottom: 4px;
+  left: 50%;
+  transform-origin: bottom center;
+}
+
+.demo-preview-2 .petal:nth-child(1) { transform: translateX(-50%) rotate(-30deg); }
+.demo-preview-2 .petal:nth-child(2) { transform: translateX(-50%) rotate(0deg); }
+.demo-preview-2 .petal:nth-child(3) { transform: translateX(-50%) rotate(30deg); }
+
+.demo-preview-2 h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+
+.demo-preview-2 span {
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-top: 6px;
+  opacity: 0.6;
+}
+
+.demo-info {
+  padding: 24px;
+}
+
+.demo-info h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  color: var(--deep-plum);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.demo-info p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+.demo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--mystic-purple);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: gap 0.3s ease;
+}
+
+.demo-link:hover { gap: 12px; }
+
+.demo-link svg {
+  width: 16px; height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+}
+
+/* Availability */
+.availability-section {
+  background: var(--light-grey);
+}
+
+.avail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 48px;
+}
+
+.avail-card {
+  background: white;
+  padding: 32px 28px;
+  border: 1px solid rgba(74,45,107,0.06);
+  text-align: center;
+}
+
+.avail-card .icon {
+  width: 48px; height: 48px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--light-grey);
+  font-size: 1.2rem;
+}
+
+.avail-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  color: var(--deep-plum);
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.avail-card p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+/* Working Style section */
+.style-section { background: var(--cream); }
+
+.style-list {
+  margin-top: 36px;
+  list-style: none;
+}
+
+.style-list li {
+  display: flex;
+  gap: 16px;
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(74,45,107,0.06);
+}
+
+.style-list li:last-child { border-bottom: none; }
+
+.style-check {
+  width: 24px; height: 24px;
+  background: rgba(212,168,83,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--warm-gold);
+  font-size: 0.8rem;
+  margin-top: 2px;
+}
+
+.style-list li div h4 {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--deep-plum);
+  margin-bottom: 4px;
+}
+
+.style-list li div p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* CTA / Contact */
+.cta-section {
+  background: linear-gradient(135deg, var(--deep-plum), var(--mystic-purple));
+  color: var(--cream);
+  text-align: center;
+  padding: 80px 24px;
+}
+
+.cta-section .section-title { color: var(--cream); }
+
+.cta-section p {
+  color: var(--soft-lavender);
+  font-size: 1rem;
+  max-width: 520px;
+  margin: 0 auto 36px;
+}
+
+.cta-email {
+  display: inline-block;
+  padding: 14px 40px;
+  background: var(--warm-gold);
+  color: var(--deep-plum);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.cta-email:hover { background: #e6bc6a; transform: translateY(-2px); }
+
+/* Divider */
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 40px 0;
+}
+
+.divider-line {
+  height: 1px;
+  width: 60px;
+  background: var(--soft-lavender);
+  opacity: 0.4;
+}
+
+.divider-star {
+  color: var(--warm-gold);
+  font-size: 0.7rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .about-grid,
+  .demo-grid,
+  .workbook-mockup {
+    grid-template-columns: 1fr;
+  }
+
+  .understanding-grid,
+  .avail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero { padding: 60px 24px 80px; }
+  section { padding: 60px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="stars">
+    <div class="star" style="top:12%;left:8%"></div>
+    <div class="star" style="top:25%;left:85%"></div>
+    <div class="star" style="top:60%;left:15%"></div>
+    <div class="star" style="top:40%;left:72%"></div>
+    <div class="star" style="top:75%;left:90%"></div>
+    <div class="star" style="top:18%;left:45%"></div>
+    <div class="star" style="top:82%;left:35%"></div>
+    <div class="star" style="top:55%;left:55%"></div>
+  </div>
+  <div class="hero-content">
+    <p class="hero-label">Proposal for Tarot Times With Heidi</p>
+    <h1>Website & Digital Course <em>Designer</em></h1>
+    <p class="hero-sub">A tailored proposal from Murtaza Mustafa, demonstrating design direction, course page concepts, and workbook prototypes for your educational ecosystem.</p>
+    <a href="#samples" class="hero-cta">View Sample Work</a>
+  </div>
+</section>
+
+<!-- About -->
+<section class="about-section">
+  <div class="container">
+    <p class="section-label">About Me</p>
+    <h2 class="section-title">Hi, I'm Murtaza</h2>
+    <p class="section-desc">A business graduate with hands-on experience building digital ecosystems, websites, and tools that help small businesses run smoother and grow faster.</p>
+
+    <div class="about-grid">
+      <div class="about-card">
+        <h3>Why Tarot Times With Heidi</h3>
+        <p>I'm drawn to this position because it aligns with how I work best: learning an existing system deeply, maintaining consistency within established branding, and building outward from there. I'm not looking to redesign what you've built. I want to become someone you can rely on to maintain, expand, and support the TTWH digital ecosystem with care and precision over time.</p>
+      </div>
+      <div class="about-card">
+        <h3>What I Bring</h3>
+        <p>I combine business understanding with technical execution. I build websites, design course pages, create digital materials, and manage online platforms. I work independently, communicate clearly, and treat every project as something I own, not just complete. I'm comfortable with asynchronous workflows, documentation-based systems, and self-directed task management.</p>
+        <div class="skills-row">
+          <span class="skill-tag">Wix</span>
+          <span class="skill-tag">Canva</span>
+          <span class="skill-tag">Google Workspace</span>
+          <span class="skill-tag">Course Design</span>
+          <span class="skill-tag">UX/UI</span>
+          <span class="skill-tag">Digital Workbooks</span>
+          <span class="skill-tag">Branding</span>
+          <span class="skill-tag">Project Management</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Understanding TTWH -->
+<section class="understanding-section">
+  <div class="container">
+    <p class="section-label">My Understanding</p>
+    <h2 class="section-title">What I See in Tarot Times With Heidi</h2>
+    <p class="section-desc">I've reviewed your website, programs, and the Priorities Document. Here's what stands out to me.</p>
+
+    <div class="understanding-grid">
+      <div class="understand-card">
+        <div class="understand-icon">&#9883;</div>
+        <h3>Educational Ecosystem</h3>
+        <p>TTWH is not just a website. It's a learning ecosystem spanning Psychic Training School, Relationships and Regulation, workshops, community spaces, and Canva workbooks. Each piece connects.</p>
+      </div>
+      <div class="understand-card">
+        <div class="understand-icon">&#10022;</div>
+        <h3>Established Brand</h3>
+        <p>The mystical, warm, personal tone is intentional and consistent. From the doodle illustrations to the all-caps headers, the visual identity reflects the spirit of the work. This is not a canvas to redesign. It's a system to support.</p>
+      </div>
+      <div class="understand-card">
+        <div class="understand-icon">&#9734;</div>
+        <h3>Structured Workflow</h3>
+        <p>Your Priorities Document, Google Docs comments, tags, and asynchronous communication style show that you value clear systems. I thrive in this kind of organized, documentation-driven environment.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Sample Work -->
+<section class="samples-section" id="samples">
+  <div class="container">
+    <p class="section-label">Sample Work</p>
+    <h2 class="section-title">What I Can Build for You</h2>
+    <p class="section-desc">These concepts follow the TTWH aesthetic: mystical, grounded, warm. They show how I'd approach course pages, workbooks, and digital materials within your existing system.</p>
+
+    <!-- Course Page Concept -->
+    <div class="sample-showcase">
+      <div class="sample-item">
+        <div class="sample-header">
+          <span class="sample-badge">Course Page Concept</span>
+          <h3>New Workshop Landing Page</h3>
+          <p>A sample Wix course page following TTWH's existing visual language and structure. This shows how a new workshop or course module would look within the current site.</p>
+        </div>
+
+        <div class="course-mockup">
+          <div class="mockup-browser-bar">
+            <span class="mockup-dot r"></span>
+            <span class="mockup-dot y"></span>
+            <span class="mockup-dot g"></span>
+            <span class="mockup-url">tarottimeswithheidi.ca/new-workshop</span>
+          </div>
+          <div class="mockup-content">
+            <div class="course-hero-mockup">
+              <p class="label">Tarot Times With Heidi</p>
+              <h4>Intuitive Journaling Workshop</h4>
+              <p class="subtitle">A 4-week guided journey into reflective writing, inner wisdom, and intuitive practice</p>
+              <a class="cta-btn" href="javascript:void(0)">Book a Discovery Call</a>
+            </div>
+            <div class="course-modules-mockup">
+              <h5>What You'll Explore</h5>
+              <div class="module-item">
+                <span class="module-num">01</span>
+                <div class="module-info">
+                  <h6>Opening the Channel</h6>
+                  <span>Grounding practices and journaling foundations</span>
+                </div>
+              </div>
+              <div class="module-item">
+                <span class="module-num">02</span>
+                <div class="module-info">
+                  <h6>Reading Your Own Signs</h6>
+                  <span>Connecting symbols, dreams, and intuitive prompts</span>
+                </div>
+              </div>
+              <div class="module-item">
+                <span class="module-num">03</span>
+                <div class="module-info">
+                  <h6>Deepening the Practice</h6>
+                  <span>Extended sessions, pattern recognition, shadow work</span>
+                </div>
+              </div>
+              <div class="module-item">
+                <span class="module-num">04</span>
+                <div class="module-info">
+                  <h6>Integration and Ritual</h6>
+                  <span>Building your ongoing practice and closing ceremony</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Workbook Concept -->
+      <div class="sample-item">
+        <div class="sample-header">
+          <span class="sample-badge">Workbook Concept</span>
+          <h3>Digital Workbook Design</h3>
+          <p>A Canva-style workbook layout showing journal prompts, reflection exercises, and progress tracking pages. Designed to match TTWH's warm, mystical aesthetic.</p>
+        </div>
+
+        <div class="workbook-mockup">
+          <div class="workbook-page">
+            <p class="wb-label">Psychic Training School</p>
+            <h4>Reflection Journal</h4>
+            <div class="wb-prompt">"What patterns have been showing up in your readings this week? What might they be pointing toward?"</div>
+            <div class="wb-lines">
+              <div class="wb-line"></div>
+              <div class="wb-line"></div>
+              <div class="wb-line"></div>
+              <div class="wb-line"></div>
+              <div class="wb-line"></div>
+            </div>
+          </div>
+          <div class="workbook-page">
+            <p class="wb-label">Weekly Check-In</p>
+            <h4>Integration Tracker</h4>
+            <div class="wb-checkbox"><span class="box"></span> Completed daily grounding practice</div>
+            <div class="wb-checkbox"><span class="box"></span> Journaled at least 3 times</div>
+            <div class="wb-checkbox"><span class="box"></span> Practiced a reading without reference</div>
+            <div class="wb-checkbox"><span class="box"></span> Noted synchronicities</div>
+            <div class="wb-prompt" style="margin-top: 16px;">"What felt different this week compared to last?"</div>
+            <div class="wb-lines">
+              <div class="wb-line"></div>
+              <div class="wb-line"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Demo Sites -->
+<section class="demos-section" id="demos">
+  <div class="container">
+    <p class="section-label">Live Demos</p>
+    <h2 class="section-title">More Work in This Space</h2>
+    <p class="section-desc">Two additional prototypes built for spiritual and wellness educators. These demonstrate my ability to design within this niche while adapting to different brands.</p>
+
+    <div class="demo-grid">
+      <a href="../mystic-moon-wellness/" class="demo-card" style="text-decoration:none;color:inherit;">
+        <div class="demo-preview demo-preview-1">
+          <div class="moon"></div>
+          <h4>Mystic Moon Wellness</h4>
+          <span>Spiritual Coaching Platform</span>
+        </div>
+        <div class="demo-info">
+          <h3>Mystic Moon Wellness</h3>
+          <p>A spiritual life coach's website featuring course pages, booking integration, and workbook-style resources for moon cycle and energy work.</p>
+          <span class="demo-link">View Live Demo <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+      <a href="../sacred-flow-yoga/" class="demo-card" style="text-decoration:none;color:inherit;">
+        <div class="demo-preview demo-preview-2">
+          <div class="lotus">
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+          </div>
+          <h4>Sacred Flow Yoga</h4>
+          <span>Online Learning Studio</span>
+        </div>
+        <div class="demo-info">
+          <h3>Sacred Flow Yoga</h3>
+          <p>A yoga and meditation studio's digital ecosystem with online course pages, workshop schedules, and downloadable practice guides.</p>
+          <span class="demo-link">View Live Demo <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Availability -->
+<section class="availability-section">
+  <div class="container">
+    <p class="section-label">Availability & Working Style</p>
+    <h2 class="section-title">How I Work</h2>
+
+    <div class="avail-grid">
+      <div class="avail-card">
+        <div class="icon">&#9200;</div>
+        <h3>Availability</h3>
+        <p>5 to 10 hours per month through 2028 works perfectly with my schedule. I'm available for additional hours during launches and active development periods with advance notice.</p>
+      </div>
+      <div class="avail-card">
+        <div class="icon">&#9993;</div>
+        <h3>Communication</h3>
+        <p>I respond within 24 to 48 hours, address every point in an email, use Google Docs comments and tags actively, and communicate proactively when something changes or needs your input.</p>
+      </div>
+      <div class="avail-card">
+        <div class="icon">&#9881;</div>
+        <h3>Rate</h3>
+        <p>Open to discussing within the 40 to 60 CAD/hour range. I work efficiently and value quality, and I'm happy to discuss how my speed and accuracy support the value I bring.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Working Style Details -->
+<section class="style-section">
+  <div class="container-narrow">
+    <p class="section-label">What You Can Expect</p>
+    <h2 class="section-title">My Strongest Skills</h2>
+
+    <ul class="style-list">
+      <li>
+        <span class="style-check">&#10003;</span>
+        <div>
+          <h4>Self-Directed Work</h4>
+          <p>I review priorities, determine next steps, and execute independently. I don't wait to be told what to do next if the path is clear.</p>
+        </div>
+      </li>
+      <li>
+        <span class="style-check">&#10003;</span>
+        <div>
+          <h4>Systems Learner</h4>
+          <p>I'm comfortable learning established workflows, documentation, and processes. I prefer working within a system over imposing my own.</p>
+        </div>
+      </li>
+      <li>
+        <span class="style-check">&#10003;</span>
+        <div>
+          <h4>Attention to Detail</h4>
+          <p>Whether it's formatting a workbook, aligning course content, or responding to every point in an email, I don't let small things slip.</p>
+        </div>
+      </li>
+      <li>
+        <span class="style-check">&#10003;</span>
+        <div>
+          <h4>Reliable and Transparent</h4>
+          <p>If something is delayed, unclear, or not working, I communicate early. No surprises. I prefer over-communication to silence.</p>
+        </div>
+      </li>
+      <li>
+        <span class="style-check">&#10003;</span>
+        <div>
+          <h4>Long-Term Mindset</h4>
+          <p>I'm looking for a stable, sustainable working relationship. I want to become deeply familiar with TTWH and contribute meaningfully over time, not just complete a task and move on.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container-narrow">
+    <p class="section-label">Let's Connect</p>
+    <h2 class="section-title">Ready to Support Tarot Times With Heidi</h2>
+    <p>I'd love the opportunity to learn your systems, work with Devon during the transition, and become a reliable part of the TTWH team for the long term.</p>
+    <a href="mailto:murtazamustafaa02@gmail.com" class="cta-email">Get in Touch</a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer style="background:var(--deep-plum);color:var(--soft-lavender);text-align:center;padding:32px 24px;font-size:0.8rem;">
+  <p>&copy; 2026 Murtaza Mustafa. Designed with intention.</p>
+</footer>
+
+</body>
+</html>
