@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GoHighLevel Automation Blueprint · Bit Technologies</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="author" content="Murtaza Mustafa">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--primary:#0b3b40;--primary-2:#06282c;--on-primary:#e8f1f0;--gold:#b9c9c4;--gold-2:#7f9893;--gold-soft:#e3ecea;--gold-ink:#3f6862;--paper:#edf1f0;--sheet:#fcfdfc;--ink:#122224;--muted:#566a6b;--line:#d9e2e0;--zebra:#f4f7f6;--good:#2c7055;--bad:#b04a35;--signal:#d0743c;--display:"Fraunces",Georgia,serif;--sans:"Manrope","Segoe UI",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--primary:#0c3438;--primary-2:#061e21;--on-primary:#e3eeec;--gold:#c9d8d3;--gold-2:#8ea8a2;--gold-soft:#1e3432;--gold-ink:#a9cdc5;--paper:#091112;--sheet:#0f1a1b;--ink:#e3ecea;--muted:#93a8a6;--line:#213234;--zebra:#132123;--good:#79c9a6;--bad:#ee8f78;--signal:#ee9a62;color-scheme:dark}}
+:root[data-theme="dark"]{--primary:#0c3438;--primary-2:#061e21;--on-primary:#e3eeec;--gold:#c9d8d3;--gold-2:#8ea8a2;--gold-soft:#1e3432;--gold-ink:#a9cdc5;--paper:#091112;--sheet:#0f1a1b;--ink:#e3ecea;--muted:#93a8a6;--line:#213234;--zebra:#132123;--good:#79c9a6;--bad:#ee8f78;--signal:#ee9a62;color-scheme:dark}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 15px/1.6 var(--sans);font-feature-settings:"tnum" 1}
+a{color:inherit}
+.doc{max-width:1080px;margin:0 auto;background:var(--sheet);box-shadow:0 1px 0 var(--line),0 30px 60px -40px rgba(0,0,0,.35);position:relative;overflow:hidden}
+.pad{padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+@media(min-width:760px){.pad{padding-left:56px;padding-right:56px}}
+.label{font:600 10.5px/1.3 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.serif{font-family:var(--display)}
+.mast{position:relative;background:var(--primary);color:var(--on-primary);padding-block:34px 30px;overflow:hidden}
+.mast .guilloche{position:absolute;inset:0;width:100%;height:100%;opacity:var(--guil-op,.17);pointer-events:none}
+.mast-in{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:24px;align-items:center}
+.seal{width:84px;height:84px;flex:none}
+.title-block{min-width:0}
+.title-block h1{margin:0;font:var(--h1w,600) clamp(27px,4.2vw,42px)/1.06 var(--display);letter-spacing:var(--h1ls,.01em);text-wrap:balance}
+.title-block p{margin:8px 0 0;font:500 11px/1.5 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+.title-block p span{display:inline-block;width:28px;height:1px;background:var(--gold);vertical-align:middle;margin-right:10px}
+.meta{display:grid;grid-template-columns:auto auto;gap:5px 16px;font-size:13px;align-items:baseline;margin:0}
+.meta dt{font:600 9.5px/1.4 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.meta dd{margin:0;font-weight:600;text-align:right}
+.mast-rule{height:6px;background:linear-gradient(90deg,var(--gold-2),var(--gold),var(--gold-2)) top/100% 1px no-repeat,linear-gradient(90deg,var(--gold-2),var(--gold),var(--gold-2)) bottom/100% 2px no-repeat}
+@media(max-width:760px){.mast-in{grid-template-columns:auto minmax(0,1fr)}.meta{grid-column:1/-1;grid-template-columns:auto 1fr;padding-top:14px;border-top:1px solid rgba(255,255,255,.15)}.meta dd{text-align:left}.seal{width:62px;height:62px}}
+.watermark{position:absolute;left:50%;top:440px;transform:translateX(-50%);width:min(560px,90%);opacity:.045;pointer-events:none;color:var(--primary)}
+.res .fig,.sign .seal{color:var(--primary)}
+main{position:relative;display:grid;grid-template-columns:minmax(0,1fr);gap:46px;padding-block:40px 48px}
+main>*{min-width:0}
+.prepared{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:end;border-bottom:1px solid var(--line);padding-bottom:18px}
+.prepared .who{font:600 30px/1.1 var(--display);margin-top:4px;text-wrap:balance}
+.prepared .item{text-align:right;font-size:14px}
+.prepared .item b{font-weight:600}
+.lede{max-width:68ch;color:var(--muted);margin:0;font-size:15.5px}
+.lede strong{color:var(--ink);font-weight:600}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.tile{border:1px solid var(--line);border-top:2px solid var(--gold);padding:14px 16px 16px;background:var(--sheet);display:grid;gap:8px;align-content:start;min-width:0}
+.tile .fig{font:600 26px/1.1 var(--display);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.tile .sub{font-size:12px;color:var(--muted)}
+.tile.key{background:var(--primary);border-color:var(--primary);border-top-color:var(--gold);color:var(--on-primary)}
+.tile.key .label{color:var(--gold)}
+.tile.key .fig{color:var(--gold);font-size:30px}
+.tile.key .sub{color:color-mix(in srgb,var(--on-primary) 72%,transparent)}
+@media(max-width:820px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:400px){.tiles{grid-template-columns:1fr}}
+.section-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:14px}
+h2{margin:0;font:600 27px/1.15 var(--display);text-wrap:balance}
+h3{margin:0;font:600 20px/1.2 var(--display)}
+.chip{font:600 10px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--gold-ink);background:var(--gold-soft);padding:7px 10px;white-space:nowrap}
+.legend{margin:10px 0 0;font:italic 500 15px/1.5 var(--display);color:var(--muted)}
+.verdict{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:start;border:1px solid var(--line);border-left:3px solid var(--gold);padding:16px 18px;background:var(--zebra)}
+.verdict .mark{font:600 34px/1 var(--display);color:var(--gold-ink)}
+.verdict p{margin:0}
+input[type=number]{width:100%;min-width:70px;max-width:130px;text-align:right;font:600 14px var(--sans);font-variant-numeric:tabular-nums;color:var(--ink);background:transparent;border:0;border-bottom:1px dashed color-mix(in srgb,var(--muted) 55%,transparent);padding:4px 2px;border-radius:0}
+input[type=number]:focus{outline:none;border-bottom:1px solid var(--gold);background:var(--gold-soft)}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+input[type=number]{-moz-appearance:textfield}
+input[type=range]{width:100%;accent-color:var(--primary-acc,var(--primary))}
+.ctl{display:grid;gap:8px;min-width:0}
+.ctl .top{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.ctl output{font:600 13px var(--sans);font-variant-numeric:tabular-nums;white-space:nowrap}
+.ctl .hint{font-size:11.5px;color:var(--muted);font-style:italic}
+.two{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:44px}
+@media(max-width:820px){.two{grid-template-columns:1fr}}
+ol.use{margin:0;padding:0;list-style:none;display:grid;gap:16px;counter-reset:u}
+ol.use li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:6px;counter-increment:u}
+ol.use li::before{content:counter(u,upper-roman);font:600 18px/1.4 var(--display);color:var(--gold-ink)}
+.results{display:grid}
+.res{display:grid;grid-template-columns:160px minmax(0,1fr);gap:14px;padding:14px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.res:first-child{border-top:1px solid var(--line)}
+.res .fig{font:600 28px/1.05 var(--display);white-space:nowrap}
+.res p{margin:0;font-size:14px;color:var(--muted)}
+.res a{color:var(--gold-ink);font-weight:600;font-size:13px}
+@media(max-width:420px){.res{grid-template-columns:1fr;gap:4px}}
+.sign{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:28px;padding-top:28px;border-top:1px solid var(--line)}
+.sign .name{font:600 30px/1.1 var(--display);margin:6px 0 2px}
+.sign .cred{font-size:13px;color:var(--muted)}
+.sign .reach{margin-top:10px;font-size:13.5px;display:grid;gap:2px}
+.sign .reach a{color:var(--gold-ink);font-weight:600;text-decoration:none}
+.sign .stamp{display:grid;justify-items:center;gap:8px}
+.sign .line{width:200px;border-top:1px solid var(--ink)}
+.sign .seal{width:96px;height:96px}
+footer{background:var(--primary-2);color:var(--on-primary);padding-block:18px}
+.foot{display:flex;flex-wrap:wrap;gap:12px 26px;align-items:center;justify-content:center;font-size:13px}
+.foot span,.foot a{display:inline-flex;align-items:center;gap:8px;text-decoration:none;overflow-wrap:anywhere}
+.foot svg{width:15px;height:15px;color:var(--gold);flex:none}
+.foot a:hover{color:var(--gold)}
+.note{background:var(--primary-2);color:color-mix(in srgb,var(--on-primary) 62%,transparent);font-size:11.5px;text-align:center;padding-block:0 18px;margin:0}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+@media (prefers-reduced-motion:no-preference){.tile .fig,.calc{transition:color .3s}}
+
+:root[data-theme="dark"] .watermark,:root[data-theme="dark"] .res .fig,:root[data-theme="dark"] .sign .seal{color:var(--gold)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .watermark,:root:not([data-theme="light"]) .res .fig,:root:not([data-theme="light"]) .sign .seal{color:var(--gold)}}
+:root[data-theme="dark"] .watermark{opacity:.06}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .watermark{opacity:.06}}
+
+:root{--guil-op:.22}
+.title-block h1{font-optical-sizing:auto}
+.mapcard{border:1px solid var(--line);background:var(--sheet)}
+.maphead{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;align-items:baseline;padding:14px 18px;border-bottom:1px solid var(--line)}
+.map-wrap{overflow-x:auto;background:linear-gradient(var(--line) 1px,transparent 1px) 0 0/22px 22px,linear-gradient(90deg,var(--line) 1px,transparent 1px) 0 0/22px 22px;background-color:var(--zebra)}
+:root{--grid-op:1}
+#map{display:block;width:100%;height:auto;min-width:700px}
+.toggles{display:flex;flex-wrap:wrap;gap:8px;padding:14px 18px;border-top:1px solid var(--line)}
+.tg{display:inline-flex;align-items:center;gap:8px;font:600 12.5px/1 var(--sans);padding:8px 12px;border:1px solid var(--line);background:var(--sheet);color:var(--muted);cursor:pointer}
+.tg[aria-pressed="true"]{border-color:var(--primary);color:var(--ink);background:var(--gold-soft)}
+.tg i{width:8px;height:8px;border-radius:50%;background:var(--line);display:inline-block}
+.tg[aria-pressed="true"] i{background:var(--signal)}
+.calc-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);gap:34px;align-items:start}
+.calc-grid>*{min-width:0}
+@media(max-width:860px){.calc-grid{grid-template-columns:minmax(0,1fr)}}
+.inputs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 26px}
+@media(max-width:420px){.inputs{grid-template-columns:1fr}}
+.out{border:1px solid var(--line);border-top:3px solid var(--primary)}
+.out .row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;padding:11px 16px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums;align-items:baseline}
+.out .row span:first-child{font-size:13.5px}
+.out .row span:last-child{font-weight:600;white-space:nowrap}
+.out .row.off{color:var(--muted);text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--muted) 50%,transparent)}
+.out .tot{display:grid;gap:4px;padding:16px;background:var(--primary);color:var(--on-primary)}
+.out .tot .big{font:600 34px/1 var(--display);color:var(--gold)}
+.out .tot small{color:color-mix(in srgb,var(--on-primary) 70%,transparent);font-size:12px}
+.sheet-wrap{overflow-x:auto;border:1px solid var(--line)}
+table.build{border-collapse:collapse;width:100%;min-width:760px}
+table.build th,table.build td{padding:12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;font-size:13.5px}
+table.build thead th{background:var(--primary);color:var(--on-primary);font:600 10px/1.3 var(--sans);letter-spacing:.16em;text-transform:uppercase}
+table.build tbody tr:nth-child(even){background:var(--zebra)}
+table.build td code{font:500 12px/1.5 var(--mono);color:var(--gold-ink)}
+table.build th[scope=row]{font:600 15px/1.25 var(--display);min-width:150px}
+table.build tr.off{opacity:.45}
+
+</style>
+</head>
+<body style="margin:0">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="seal" viewBox="0 0 120 120">
+<path id="ring" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0" fill="none"/>
+<circle cx="60" cy="60" r="57" fill="none" stroke="currentColor" stroke-width="1.4"/>
+<circle cx="60" cy="60" r="53" fill="none" stroke="currentColor" stroke-width=".6"/>
+<circle cx="60" cy="60" r="35" fill="none" stroke="currentColor" stroke-width="1"/>
+<circle cx="60" cy="60" r="32" fill="none" stroke="currentColor" stroke-width=".5" stroke-dasharray="1.5 2.2"/>
+<text font-family="Manrope, Arial, sans-serif" font-size="7.4" font-weight="700" letter-spacing="3.1" fill="currentColor"><textPath href="#ring" startOffset="2%">MURTAZA MUSTAFA · KARACHI · AUTOMATION · GOHIGHLEVEL · N8N ·</textPath></text>
+<text x="60" y="68.5" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-size="25" font-weight="700" fill="currentColor" letter-spacing="1">MM</text>
+</symbol></defs></svg>
+<div class="doc">
+<header class="mast pad">
+<svg class="guilloche" viewBox="0 0 1080 200" preserveAspectRatio="none" aria-hidden="true" id="guil"></svg>
+<div class="mast-in">
+<svg class="seal" style="color:var(--gold)" role="img" aria-label="MM monogram"><use href="#seal"/></svg>
+<div class="title-block"><h1>GoHighLevel Automation Blueprint</h1><p><span></span>Seven workflows · time saved · build sheet</p></div>
+<dl class="meta"><dt>Prepared for</dt><dd>Bit Technologies</dd><dt>Role</dt><dd>GoHighLevel Automation Specialist</dd><dt>Reference</dt><dd>MM-BITT-2026-01</dd><dt>Date</dt><dd>15 Oct 2026</dd></dl>
+</div>
+</header>
+<div class="mast-rule" aria-hidden="true"></div>
+<svg class="watermark" viewBox="0 0 120 120" aria-hidden="true"><use href="#seal"/></svg>
+<main class="pad">
+
+<section class="prepared">
+  <div>
+    <div class="label">Automation blueprint · one GoHighLevel sub-account</div>
+    <div class="who">From first enquiry to a five-star review, without manual chasing</div>
+  </div>
+  <div class="item"><div class="label">Stack</div><b>GoHighLevel · n8n · Make · Zapier</b></div>
+</section>
+
+<p class="lede">Bit Technologies sets up GoHighLevel for clients across sales funnels, CRM, SMS and email automation and appointment scheduling. This is the blueprint I would bring to that work: <strong>seven workflows</strong> that carry a lead from first contact to a booked, kept and reviewed appointment, plus the agency-side onboarding that I cut from <strong>1 hour to 5 minutes</strong> for 5 US clinics. Switch workflows on or off and set the volumes to see the time saved across your client base.</p>
+
+<section class="tiles" aria-live="polite">
+  <div class="tile key"><div class="label">Hours saved a month</div><div class="fig" id="tHrs">&nbsp;</div><div class="sub" id="tHrsSub">&nbsp;</div></div>
+  <div class="tile"><div class="label">Team cost saved</div><div class="fig" id="tCost">&nbsp;</div><div class="sub">per month, at the hourly cost set</div></div>
+  <div class="tile"><div class="label">Client revenue recovered</div><div class="fig" id="tRev">&nbsp;</div><div class="sub">per month, from rebooked no-shows</div></div>
+  <div class="tile"><div class="label">Client onboarding</div><div class="fig">1 hr &#8594; 5 min</div><div class="sub">my result across 5 US clinics</div></div>
+</section>
+
+<section>
+  <div class="section-head"><h2>Workflow map</h2><span class="chip" id="mapChip">&nbsp;</span></div>
+  <div class="mapcard">
+    <div class="maphead"><h3>Lead to booked, kept and reviewed</h3><span class="label">Each node is one workflow</span></div>
+    <div class="map-wrap"><svg id="map" viewBox="0 0 960 300" role="img" aria-label="Workflow map of seven automations"></svg></div>
+    <div class="toggles" id="toggles" aria-label="Switch workflows on or off"></div>
+  </div>
+</section>
+
+<section>
+  <div class="section-head"><h2>Time-saved calculator</h2><span class="chip">Assumptions, adjust to your numbers</span></div>
+  <div class="calc-grid">
+    <div class="inputs" id="inputs"></div>
+    <div class="out" id="out"></div>
+  </div>
+  <p class="legend">Minutes saved are what a team member spends doing each step by hand. Recovered revenue assumes reminders and a rebooking sequence win back a share of no-shows. All figures are estimates for illustration.</p>
+</section>
+
+<section>
+  <div class="section-head"><h2>Build sheet</h2><span class="chip">How each workflow is wired</span></div>
+  <div class="sheet-wrap"><table class="build"><thead><tr><th scope="col">Workflow</th><th scope="col">Trigger</th><th scope="col">Actions</th><th scope="col">Built in</th></tr></thead><tbody id="build"></tbody></table></div>
+</section>
+
+<section class="two">
+  <div>
+    <h2 style="margin-bottom:16px">How I'd work at Bit Technologies</h2>
+    <ol class="use">
+      <li><span>Turn this blueprint into a reusable snapshot, so each new client sub-account starts with tested workflows instead of a blank build.</span></li>
+      <li><span>Use n8n, Make or Zapier where GoHighLevel stops: syncing sheets, invoices or a client's own software, and sending weekly reports.</span></li>
+      <li><span>Write a one-page handover for each client, so your account managers can explain every automation without opening the builder. I work remotely from Karachi and have delivered for teams in Malaysia and clients in the US.</span></li>
+    </ol>
+  </div>
+  <div>
+    <h2 style="margin-bottom:16px">Relevant results</h2>
+    <div class="results"><div class="res"><div class="fig">1 hr → 5 min</div><p>Client onboarding time after the 15+ GoHighLevel, n8n, Make and Zapier workflows I built for 5 US chiropractic clinics.</p></div><div class="res"><div class="fig">15+</div><p>Workflows live across 5 US clinics: booking and reminders, no-show follow-ups, lead nurturing and review requests.</p></div><div class="res"><div class="fig">~$15K</div><p>Untracked receivables recovered by the business management app I built for a softwood timber importer: invoicing, ledgers and sawmill payments in one place. It also saves 20+ hours a week. <a href="https://importdeskpro.vercel.app/" target="_blank" rel="noopener">View demo</a></p></div></div>
+  </div>
+</section>
+
+<section class="sign">
+<div>
+<div class="label">Prepared by</div>
+<div class="name">Murtaza Mustafa</div>
+<div class="cred">BA (Hons) Business Management, Buckinghamshire New University (2026) · Karachi</div>
+<div class="reach"><a href="mailto:murtazamustafaa02@gmail.com">murtazamustafaa02@gmail.com</a><span>+92 318 1253085 · Karachi, Pakistan (UTC+5)</span></div>
+</div>
+<div class="stamp"><svg class="seal" role="img" aria-label="MM seal"><use href="#seal"/></svg><div class="line"></div><div class="label">Signature</div></div>
+</section>
+
+</main>
+<footer class="pad"><div class="foot">
+<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Karachi, Pakistan</span>
+<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 6 6L15 14l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg>+92 318 1253085</span>
+<a href="mailto:murtazamustafaa02@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="m3.5 6 8.5 7 8.5-7"/></svg>murtazamustafaa02@gmail.com</a>
+<a href="https://www.linkedin.com/in/murtaza-mustafa2911/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"/></svg>LinkedIn</a>
+<a href="https://murtazamustafa.vercel.app" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>More about me</a>
+</div></footer>
+<p class="note pad">Independent work sample by Murtaza Mustafa. Not affiliated with or endorsed by Bit Technologies. Figures are sample data or estimates for illustration.</p>
+</div>
+<script>
+(function(){const g=document.getElementById('guil');if(!g)return;let p='';for(let k=0;k<12;k++){let d='';for(let x=0;x<=1080;x+=6){const ph=((x+k*40)%270)/270;const s=ph>.45&&ph<.55?Math.sin((ph-.45)*62.8)*(30+k*2):Math.sin(x/70+k*.5)*6;const y=30+k*13+s;d+=(x?'L':'M')+x+','+y.toFixed(1);}p+=`<path d="${d}" fill="none" stroke="#c9d8d3" stroke-width=".55"/>`;}g.innerHTML=p;})();
+
+(function(){
+const $=id=>document.getElementById(id);
+const WF=[
+ {id:"lead",nm:"Speed to lead",short:"New lead",tr:"Form, funnel or Facebook lead ad submitted",ac:"Create contact, move to <code>New lead</code> stage, SMS and email within 60 seconds, task for the rep",tool:"GoHighLevel",on:true},
+ {id:"book",nm:"Booking and reminders",short:"Booked",tr:"Appointment booked on calendar",ac:"Confirmation, reminders at <code>24h</code> and <code>2h</code>, stage <code>Booked</code>",tool:"GoHighLevel",on:true},
+ {id:"noshow",nm:"No-show recovery",short:"No-show",tr:"Appointment marked no-show",ac:"Rebooking link by SMS, 3-touch sequence over 5 days, stop on booking",tool:"GoHighLevel",on:true},
+ {id:"nurture",nm:"Lead nurture",short:"Nurture",tr:"No booking 3 days after enquiry",ac:"5-step email and SMS nurture over 14 days, then move to <code>Cold</code>",tool:"GoHighLevel",on:true},
+ {id:"review",nm:"Review requests",short:"Review",tr:"Appointment marked showed",ac:"Review request with 2 reminders, low ratings routed to the owner first",tool:"GoHighLevel",on:true},
+ {id:"onb",nm:"Client onboarding",short:"Onboard",tr:"New client signs, agency side",ac:"Load snapshot, send intake form, A2P / 10DLC checklist, book kickoff call",tool:"GoHighLevel + n8n",on:true},
+ {id:"rep",nm:"Weekly client report",short:"Report",tr:"Every Monday, 9am client time",ac:"Pull leads, bookings, show rate and reviews, email a one-page summary",tool:"n8n or Make",on:false}
+];
+const IN=[
+ {id:"subs",lb:"Client sub-accounts",min:1,max:60,st:1,v:10,f:v=>v},
+ {id:"leads",lb:"Leads per client / month",min:10,max:600,st:10,v:120,f:v=>v},
+ {id:"appts",lb:"Appointments per client / month",min:10,max:600,st:10,v:80,f:v=>v},
+ {id:"ns",lb:"No-show rate",min:0,max:40,st:1,v:12,f:v=>v+"%"},
+ {id:"val",lb:"Value of one appointment",min:20,max:500,st:10,v:120,f:v=>"$"+v},
+ {id:"newc",lb:"New clients onboarded / month",min:0,max:20,st:1,v:3,f:v=>v},
+ {id:"cost",lb:"Team hourly cost",min:2,max:40,st:1,v:8,f:v=>"$"+v}
+];
+$("inputs").innerHTML=IN.map(i=>`<div class="ctl"><div class="top"><label class="label" for="${i.id}">${i.lb}</label><output id="${i.id}Out"></output></div><input type="range" id="${i.id}" min="${i.min}" max="${i.max}" step="${i.st}" value="${i.v}"></div>`).join("");
+$("toggles").innerHTML=WF.map(w=>`<button type="button" class="tg" id="tg-${w.id}" data-id="${w.id}" aria-pressed="${w.on}"><i></i>${w.nm}</button>`).join("");
+$("toggles").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;const w=WF.find(x=>x.id===b.dataset.id);w.on=!w.on;b.setAttribute("aria-pressed",w.on);calc()});
+document.addEventListener("input",e=>{if(e.target.type==="range")calc()});
+const n0=v=>Math.round(v).toLocaleString("en-US");
+function calc(){
+  const g={};IN.forEach(i=>{g[i.id]=+$(i.id).value;$(i.id+"Out").textContent=i.f(g[i.id])});
+  const H={
+    lead:g.subs*g.leads*5/60,
+    book:g.subs*g.appts*4/60,
+    noshow:g.subs*g.appts*g.ns/100*6/60,
+    nurture:g.subs*g.leads*0.5*3/60,
+    review:g.subs*g.appts*0.6*2/60,
+    onb:g.newc*55/60,
+    rep:g.subs*30*4.33/60
+  };
+  const lbl={lead:"Manual first reply, 5 min a lead",book:"Confirm and remind, 4 min a booking",noshow:"Chasing no-shows, 6 min each",nurture:"Follow-ups for unbooked leads",review:"Asking for reviews by hand",onb:"Setup per new client, 60 to 5 min",rep:"Weekly report, 30 min a client"};
+  let tot=0;WF.forEach(w=>{if(w.on)tot+=H[w.id]});
+  const rev=WF.find(w=>w.id==="noshow").on?g.subs*g.appts*g.ns/100*0.3*g.val:0;
+  $("tHrs").textContent=n0(tot)+" hrs";$("tHrsSub").textContent="across "+g.subs+" client sub-accounts";
+  $("tCost").textContent="$"+n0(tot*g.cost);$("tRev").textContent="$"+n0(rev);
+  $("mapChip").textContent=WF.filter(w=>w.on).length+" of 7 workflows on";
+  $("out").innerHTML=WF.map(w=>`<div class="row ${w.on?"":"off"}"><span>${lbl[w.id]}</span><span>${n0(H[w.id])} hrs</span></div>`).join("")+
+   `<div class="tot"><span class="label" style="color:var(--gold)">Estimated hours saved each month</span><span class="big">${n0(tot)} hrs</span><small>About ${(tot/160).toFixed(1)} full-time team members, or $${n0(tot*g.cost)} at $${g.cost} an hour. Estimate.</small></div>`;
+  $("build").innerHTML=WF.map(w=>`<tr class="${w.on?"":"off"}"><th scope="row">${w.nm}</th><td>${w.tr}</td><td>${w.ac}</td><td><code>${w.tool}</code></td></tr>`).join("");
+  draw();
+}
+function draw(){
+  // two rows: top lead journey, bottom agency side
+  const pos={lead:[90,80],book:[290,80],noshow:[490,80],review:[690,80],nurture:[290,215],onb:[690,215],rep:[870,215]};
+  const edges=[["lead","book","books"],["book","noshow","misses"],["noshow","book","rebooks"],["book","review","shows"],["lead","nurture","no booking"],["nurture","book","books later"],["onb","rep","weekly"]];
+  const on=id=>WF.find(w=>w.id===id).on;
+  let s=`<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10Z" fill="var(--muted)"/></marker><marker id="arOn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10Z" fill="var(--signal)"/></marker></defs>`;
+  s+=`<text x="20" y="28" font-size="10" letter-spacing="2" fill="var(--muted)" font-family="Manrope,sans-serif" font-weight="700">CLIENT'S CUSTOMER JOURNEY</text><text x="560" y="168" font-size="10" letter-spacing="2" fill="var(--muted)" font-family="Manrope,sans-serif" font-weight="700">AGENCY SIDE</text>`;
+  s+=`<line x1="540" y1="150" x2="540" y2="290" stroke="var(--line)" stroke-dasharray="4 4"/>`;
+  edges.forEach(([a,b,t])=>{const A=pos[a],B=pos[b],act=on(a)&&on(b);let d,lx,ly;
+    if(a==="noshow"&&b==="book"){d=`M${A[0]-30},${A[1]+30}C${A[0]-60},${A[1]+70} ${B[0]+60},${B[1]+70} ${B[0]+30},${B[1]+30}`;lx=(A[0]+B[0])/2;ly=A[1]+68}
+    else if(a==="book"&&b==="review"){d=`M${A[0]+20},${A[1]-34}C${A[0]+90},${A[1]-80} ${B[0]-90},${B[1]-80} ${B[0]-20},${B[1]-34}`;lx=(A[0]+B[0])/2;ly=A[1]-58}
+    else if(a==="lead"&&b==="nurture"){d=`M${A[0]},${A[1]+34}C${A[0]},${B[1]} ${B[0]-120},${B[1]} ${B[0]-74},${B[1]}`;lx=A[0]+20;ly=B[1]-30}
+    else if(a==="nurture"&&b==="book"){d=`M${A[0]},${A[1]-34}L${B[0]},${B[1]+36}`;lx=A[0]+8;ly=(A[1]+B[1])/2+4}
+    else{d=`M${A[0]+76},${A[1]}L${B[0]-76},${B[1]}`;lx=(A[0]+B[0])/2;ly=A[1]-8}
+    s+=`<path d="${d}" fill="none" stroke="${act?"var(--signal)":"var(--muted)"}" stroke-width="${act?1.6:1}" ${act?"":'stroke-dasharray="3 4"'} marker-end="url(#${act?"arOn":"ar"})"/>`;
+    s+=`<text x="${lx}" y="${ly}" text-anchor="${a==="lead"&&b==="nurture"||a==="nurture"?"start":"middle"}" font-size="10.5" fill="var(--muted)" font-family="Manrope,sans-serif" font-style="italic">${t}</text>`});
+  WF.forEach((w,i)=>{const [x,y]=pos[w.id];const o=w.on;
+    s+=`<g opacity="${o?1:.5}"><rect x="${x-74}" y="${y-32}" width="148" height="64" fill="${o?"var(--primary)":"var(--sheet)"}" stroke="${o?"var(--primary)":"var(--muted)"}" ${o?"":'stroke-dasharray="4 3"'}/>`+
+      `<text x="${x-64}" y="${y-14}" font-size="9" letter-spacing="1.6" fill="${o?"var(--gold)":"var(--muted)"}" font-family="Manrope,sans-serif" font-weight="700">WORKFLOW ${String(i+1).padStart(2,"0")}</text>`+
+      `<text x="${x-64}" y="${y+6}" font-size="15" fill="${o?"var(--on-primary)":"var(--ink)"}" font-family="Fraunces,Georgia,serif" font-weight="600">${w.short}</text>`+
+      `<text x="${x-64}" y="${y+22}" font-size="9.5" fill="${o?"var(--gold)":"var(--muted)"}" font-family="JetBrains Mono,monospace">${w.tool}</text>`+
+      `<circle cx="${x+62}" cy="${y-20}" r="4" fill="${o?"var(--signal)":"var(--line)"}"/></g>`});
+  $("map").innerHTML=s;
+}
+calc();
+})();
+
+</script>
+
+
+</body>
+</html>

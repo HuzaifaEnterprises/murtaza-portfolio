@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Import Clearance Desk · SAM Logistics</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="author" content="Murtaza Mustafa">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{--primary:#0f2740;--primary-2:#0a1b2e;--on-primary:#eef1f4;--gold:#b5773f;--gold-2:#7d5128;--gold-soft:#f3e5d6;--gold-ink:#8a531f;--paper:#eef0f2;--sheet:#fdfdfb;--ink:#13202c;--muted:#59656f;--line:#dce1e6;--zebra:#f5f7f8;--good:#2e6b4f;--warn:#a3600f;--bad:#a8392b;--display:"Playfair Display",Georgia,serif;--sans:"Public Sans","Segoe UI",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--primary:#0d2136;--primary-2:#081626;--on-primary:#e8edf2;--gold-2:#9a6a3c;--gold-soft:#3a2a1b;--gold-ink:#e2ad79;--gold:#d49c63;--paper:#0a1016;--sheet:#111920;--ink:#e5eaef;--muted:#97a3ae;--line:#24303b;--zebra:#152029;--good:#78c49d;--warn:#e3a75e;--bad:#e8806f;color-scheme:dark}}
+:root[data-theme="dark"]{--primary:#0d2136;--primary-2:#081626;--on-primary:#e8edf2;--gold-2:#9a6a3c;--gold-soft:#3a2a1b;--gold-ink:#e2ad79;--gold:#d49c63;--paper:#0a1016;--sheet:#111920;--ink:#e5eaef;--muted:#97a3ae;--line:#24303b;--zebra:#152029;--good:#78c49d;--warn:#e3a75e;--bad:#e8806f;color-scheme:dark}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 15px/1.6 var(--sans);font-feature-settings:"tnum" 1}
+a{color:inherit}
+.doc{max-width:1080px;margin:0 auto;background:var(--sheet);box-shadow:0 1px 0 var(--line),0 30px 60px -40px rgba(0,0,0,.35);position:relative;overflow:hidden}
+.pad{padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+@media(min-width:760px){.pad{padding-left:56px;padding-right:56px}}
+.label{font:600 10.5px/1.3 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.serif{font-family:var(--display)}
+.mast{position:relative;background:var(--primary);color:var(--on-primary);padding-block:34px 30px;overflow:hidden}
+.mast .guilloche{position:absolute;inset:0;width:100%;height:100%;opacity:var(--guil-op,.17);pointer-events:none}
+.mast-in{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:24px;align-items:center}
+.seal{width:84px;height:84px;flex:none}
+.title-block{min-width:0}
+.title-block h1{margin:0;font:var(--h1w,600) clamp(27px,4.2vw,42px)/1.06 var(--display);letter-spacing:var(--h1ls,.01em);text-wrap:balance}
+.title-block p{margin:8px 0 0;font:500 11px/1.5 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+.title-block p span{display:inline-block;width:28px;height:1px;background:var(--gold);vertical-align:middle;margin-right:10px}
+.meta{display:grid;grid-template-columns:auto auto;gap:5px 16px;font-size:13px;align-items:baseline;margin:0}
+.meta dt{font:600 9.5px/1.4 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.meta dd{margin:0;font-weight:600;text-align:right}
+.mast-rule{height:6px;background:linear-gradient(90deg,var(--gold-2),var(--gold),var(--gold-2)) top/100% 1px no-repeat,linear-gradient(90deg,var(--gold-2),var(--gold),var(--gold-2)) bottom/100% 2px no-repeat}
+@media(max-width:760px){.mast-in{grid-template-columns:auto minmax(0,1fr)}.meta{grid-column:1/-1;grid-template-columns:auto 1fr;padding-top:14px;border-top:1px solid rgba(255,255,255,.15)}.meta dd{text-align:left}.seal{width:62px;height:62px}}
+.watermark{position:absolute;left:50%;top:440px;transform:translateX(-50%);width:min(560px,90%);opacity:.045;pointer-events:none;color:var(--primary)}
+.res .fig,.sign .seal{color:var(--primary)}
+main{position:relative;display:grid;grid-template-columns:minmax(0,1fr);gap:46px;padding-block:40px 48px}
+main>*{min-width:0}
+.prepared{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:end;border-bottom:1px solid var(--line);padding-bottom:18px}
+.prepared .who{font:600 30px/1.1 var(--display);margin-top:4px;text-wrap:balance}
+.prepared .item{text-align:right;font-size:14px}
+.prepared .item b{font-weight:600}
+.lede{max-width:68ch;color:var(--muted);margin:0;font-size:15.5px}
+.lede strong{color:var(--ink);font-weight:600}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.tile{border:1px solid var(--line);border-top:2px solid var(--gold);padding:14px 16px 16px;background:var(--sheet);display:grid;gap:8px;align-content:start;min-width:0}
+.tile .fig{font:600 26px/1.1 var(--display);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.tile .sub{font-size:12px;color:var(--muted)}
+.tile.key{background:var(--primary);border-color:var(--primary);border-top-color:var(--gold);color:var(--on-primary)}
+.tile.key .label{color:var(--gold)}
+.tile.key .fig{color:var(--gold);font-size:30px}
+.tile.key .sub{color:color-mix(in srgb,var(--on-primary) 72%,transparent)}
+@media(max-width:820px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:400px){.tiles{grid-template-columns:1fr}}
+.section-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:14px}
+h2{margin:0;font:600 27px/1.15 var(--display);text-wrap:balance}
+h3{margin:0;font:600 20px/1.2 var(--display)}
+.chip{font:600 10px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--gold-ink);background:var(--gold-soft);padding:7px 10px;white-space:nowrap}
+.legend{margin:10px 0 0;font:italic 500 15px/1.5 var(--display);color:var(--muted)}
+.verdict{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:start;border:1px solid var(--line);border-left:3px solid var(--gold);padding:16px 18px;background:var(--zebra)}
+.verdict .mark{font:600 34px/1 var(--display);color:var(--gold-ink)}
+.verdict p{margin:0}
+input[type=number]{width:100%;min-width:70px;max-width:130px;text-align:right;font:600 14px var(--sans);font-variant-numeric:tabular-nums;color:var(--ink);background:transparent;border:0;border-bottom:1px dashed color-mix(in srgb,var(--muted) 55%,transparent);padding:4px 2px;border-radius:0}
+input[type=number]:focus{outline:none;border-bottom:1px solid var(--gold);background:var(--gold-soft)}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+input[type=number]{-moz-appearance:textfield}
+input[type=range]{width:100%;accent-color:var(--primary-acc,var(--primary))}
+.ctl{display:grid;gap:8px;min-width:0}
+.ctl .top{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.ctl output{font:600 13px var(--sans);font-variant-numeric:tabular-nums;white-space:nowrap}
+.ctl .hint{font-size:11.5px;color:var(--muted);font-style:italic}
+.two{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:44px}
+@media(max-width:820px){.two{grid-template-columns:1fr}}
+ol.use{margin:0;padding:0;list-style:none;display:grid;gap:16px;counter-reset:u}
+ol.use li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:6px;counter-increment:u}
+ol.use li::before{content:counter(u,upper-roman);font:600 18px/1.4 var(--display);color:var(--gold-ink)}
+.results{display:grid}
+.res{display:grid;grid-template-columns:160px minmax(0,1fr);gap:14px;padding:14px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.res:first-child{border-top:1px solid var(--line)}
+.res .fig{font:600 28px/1.05 var(--display);white-space:nowrap}
+.res p{margin:0;font-size:14px;color:var(--muted)}
+.res a{color:var(--gold-ink);font-weight:600;font-size:13px}
+@media(max-width:420px){.res{grid-template-columns:1fr;gap:4px}}
+.sign{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:28px;padding-top:28px;border-top:1px solid var(--line)}
+.sign .name{font:600 30px/1.1 var(--display);margin:6px 0 2px}
+.sign .cred{font-size:13px;color:var(--muted)}
+.sign .reach{margin-top:10px;font-size:13.5px;display:grid;gap:2px}
+.sign .reach a{color:var(--gold-ink);font-weight:600;text-decoration:none}
+.sign .stamp{display:grid;justify-items:center;gap:8px}
+.sign .line{width:200px;border-top:1px solid var(--ink)}
+.sign .seal{width:96px;height:96px}
+footer{background:var(--primary-2);color:var(--on-primary);padding-block:18px}
+.foot{display:flex;flex-wrap:wrap;gap:12px 26px;align-items:center;justify-content:center;font-size:13px}
+.foot span,.foot a{display:inline-flex;align-items:center;gap:8px;text-decoration:none;overflow-wrap:anywhere}
+.foot svg{width:15px;height:15px;color:var(--gold);flex:none}
+.foot a:hover{color:var(--gold)}
+.note{background:var(--primary-2);color:color-mix(in srgb,var(--on-primary) 62%,transparent);font-size:11.5px;text-align:center;padding-block:0 18px;margin:0}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+@media (prefers-reduced-motion:no-preference){.tile .fig,.calc{transition:color .3s}}
+
+:root[data-theme="dark"] .watermark,:root[data-theme="dark"] .res .fig,:root[data-theme="dark"] .sign .seal{color:var(--gold)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .watermark,:root:not([data-theme="light"]) .res .fig,:root:not([data-theme="light"]) .sign .seal{color:var(--gold)}}
+:root[data-theme="dark"] .watermark{opacity:.06}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .watermark{opacity:.06}}
+
+.lane{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;font:500 13px/1.4 var(--mono);color:var(--muted);margin-top:8px}
+.lane b{color:var(--ink);font-weight:500}
+.lane i{font-style:normal;color:var(--gold-ink)}
+.setup{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px 22px;padding:18px 20px;border:1px solid var(--line);background:var(--zebra)}
+@media(max-width:820px){.setup{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:400px){.setup{grid-template-columns:1fr}}
+.seg{display:flex;border:1px solid var(--line);background:var(--sheet)}
+.seg button{flex:1;min-width:0;font:600 12px/1 var(--sans);letter-spacing:.04em;padding:9px 6px;border:0;background:transparent;color:var(--muted);cursor:pointer;border-right:1px solid var(--line)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--primary);color:var(--on-primary)}
+.numrow{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.numrow input{max-width:110px}
+.desk{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:34px;align-items:start}
+.desk>*{min-width:0}
+@media(max-width:900px){.desk{grid-template-columns:minmax(0,1fr)}}
+.stage{border-top:2px solid var(--primary);margin-top:18px}
+.stage:first-of-type{margin-top:0}
+.stage h3{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:18px;padding:10px 0 6px}
+.stage h3 small{font:600 10px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.doc-item{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:4px 12px;align-items:start;padding:11px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.doc-item input{margin:3px 0 0;width:16px;height:16px;accent-color:var(--primary)}
+.doc-item .nm{font-weight:600;font-size:14.5px}
+.doc-item .by{grid-column:2;font-size:12.5px;color:var(--muted)}
+.doc-item .tag{font:500 10.5px/1 var(--mono);padding:5px 7px;border:1px solid var(--line);color:var(--muted);white-space:nowrap;align-self:start}
+.doc-item.miss .tag{border-color:color-mix(in srgb,var(--bad) 45%,transparent);color:var(--bad);background:color-mix(in srgb,var(--bad) 8%,transparent)}
+.doc-item.ok .tag{border-color:color-mix(in srgb,var(--good) 40%,transparent);color:var(--good)}
+.tl-card{border:1px solid var(--line);background:var(--sheet)}
+.tl-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.tl-wrap{overflow-x:auto}
+#tl{display:block;width:100%;height:auto}
+@media(max-width:560px){#tl{min-width:520px}}
+.tl-key{display:flex;flex-wrap:wrap;gap:8px 18px;padding:12px 16px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+.tl-key i{display:inline-block;width:14px;height:10px;margin-right:6px;vertical-align:-1px}
+.costs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--line)}
+.costs>div{padding:14px 16px;border-right:1px solid var(--line);display:grid;gap:4px;min-width:0}
+.costs>div:last-child{border-right:0}
+.costs .v{font:600 22px/1.1 var(--display);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.costs .bad{color:var(--bad)}
+@media(max-width:480px){.costs{grid-template-columns:1fr}.costs>div{border-right:0;border-bottom:1px solid var(--line)}}
+.tile.key .fig.zero{color:var(--on-primary)}
+
+</style>
+</head>
+<body style="margin:0">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="seal" viewBox="0 0 120 120">
+<path id="ring" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0" fill="none"/>
+<circle cx="60" cy="60" r="57" fill="none" stroke="currentColor" stroke-width="1.4"/>
+<circle cx="60" cy="60" r="53" fill="none" stroke="currentColor" stroke-width=".6"/>
+<circle cx="60" cy="60" r="35" fill="none" stroke="currentColor" stroke-width="1"/>
+<circle cx="60" cy="60" r="32" fill="none" stroke="currentColor" stroke-width=".5" stroke-dasharray="1.5 2.2"/>
+<text font-family="Manrope, Arial, sans-serif" font-size="7.4" font-weight="700" letter-spacing="3.1" fill="currentColor"><textPath href="#ring" startOffset="2%">MURTAZA MUSTAFA · KARACHI · IMPORTS · CUSTOMS · DOCUMENTATION ·</textPath></text>
+<text x="60" y="68.5" text-anchor="middle" font-family="Playfair Display, Georgia, serif" font-size="25" font-weight="700" fill="currentColor" letter-spacing="1">MM</text>
+</symbol></defs></svg>
+<div class="doc">
+<header class="mast pad">
+<svg class="guilloche" viewBox="0 0 1080 200" preserveAspectRatio="none" aria-hidden="true" id="guil"></svg>
+<div class="mast-in">
+<svg class="seal" style="color:var(--gold)" role="img" aria-label="MM monogram"><use href="#seal"/></svg>
+<div class="title-block"><h1>Import Clearance Desk</h1><p><span></span>Documents · customs channel · demurrage</p></div>
+<dl class="meta"><dt>Prepared for</dt><dd>SAM Logistics</dd><dt>Role</dt><dd>Operations / Import Documentation</dd><dt>Reference</dt><dd>MM-SAML-2026-01</dd><dt>Date</dt><dd>15 Oct 2026</dd></dl>
+</div>
+</header>
+<div class="mast-rule" aria-hidden="true"></div>
+<svg class="watermark" viewBox="0 0 120 120" aria-hidden="true"><use href="#seal"/></svg>
+<main class="pad">
+
+<section class="prepared">
+  <div>
+    <div class="label">Pre-clearance file · sample consignment</div>
+    <div class="who">Sawn softwood, Kotka to Karachi</div>
+    <div class="lane"><span><i>MODE</i> <b id="laneMode">Sea FCL</b></span><span><i>UNITS</i> <b id="laneUnits">2 x 40' HC</b></span><span><i>TERMS</i> <b>CFR Karachi</b></span><span><i>PORT</i> <b>Karachi port terminals</b></span></div>
+  </div>
+  <div class="item"><div class="label">Desk check</div><b>Documents · timeline · demurrage</b></div>
+</section>
+
+<p class="lede">A shipment rarely gets stuck at the port. It gets stuck because one paper was late. This desk sheet tracks every document a consignment needs, shows which ones <strong>block the Goods Declaration or the delivery order</strong>, and projects the release day and the <strong>demurrage</strong> if something is still missing. Tick a document, change the channel or the free days, and the plan updates.</p>
+
+<section class="tiles" aria-live="polite">
+  <div class="tile"><div class="label">Documents in hand</div><div class="fig" id="tDocs">&nbsp;</div><div class="sub" id="tDocsSub">&nbsp;</div></div>
+  <div class="tile"><div class="label">Projected gate-out</div><div class="fig" id="tOut">&nbsp;</div><div class="sub">days after vessel arrival</div></div>
+  <div class="tile key"><div class="label">Demurrage exposure</div><div class="fig" id="tDem">&nbsp;</div><div class="sub" id="tDemSub">&nbsp;</div></div>
+  <div class="tile"><div class="label">Next action</div><div class="fig" id="tNext" style="font-size:19px">&nbsp;</div><div class="sub" id="tNextSub">&nbsp;</div></div>
+</section>
+
+<section>
+  <div class="section-head"><h2>Consignment set-up</h2><span class="chip">Sample data for illustration</span></div>
+  <div class="setup">
+    <div class="ctl"><span class="label">Mode</span><div class="seg" id="segMode" role="group" aria-label="Mode"><button type="button" data-v="fcl" aria-pressed="true">Sea FCL</button><button type="button" data-v="lcl" aria-pressed="false">Sea LCL</button><button type="button" data-v="air" aria-pressed="false">Air</button></div></div>
+    <div class="ctl"><span class="label">Cargo</span><div class="seg" id="segCargo" role="group" aria-label="Cargo"><button type="button" data-v="timber" aria-pressed="true">Timber</button><button type="button" data-v="food" aria-pressed="false">Food</button><button type="button" data-v="gen" aria-pressed="false">General</button></div></div>
+    <div class="ctl"><span class="label">Customs channel</span><div class="seg" id="segCh" role="group" aria-label="Customs channel"><button type="button" data-v="0" aria-pressed="false">Green</button><button type="button" data-v="1" aria-pressed="true">Yellow</button><button type="button" data-v="3" aria-pressed="false">Red</button></div></div>
+    <div class="ctl"><div class="top"><label class="label" for="units">Containers</label><output id="unitsOut"></output></div><input type="range" id="units" min="1" max="10" step="1" value="2"></div>
+    <div class="ctl"><div class="numrow"><label class="label" for="free">Free days</label><input type="number" id="free" min="0" value="5"></div><span class="hint">terminal plus line, assumption</span></div>
+    <div class="ctl"><div class="numrow"><label class="label" for="rate">Demurrage / unit / day</label><input type="number" id="rate" min="0" value="9000"></div><span class="hint">PKR, sample rate, adjust</span></div>
+    <div class="ctl"><div class="numrow"><label class="label" for="lag">Delay per missing doc</label><input type="number" id="lag" min="0" value="3"></div><span class="hint">days, from experience, adjust</span></div>
+    <div class="ctl"><div class="numrow"><label class="label" for="ship">Shipment value</label><input type="number" id="ship" min="0" value="9800000"></div><span class="hint">PKR, used for cost of delay</span></div>
+  </div>
+</section>
+
+<section class="desk">
+  <div>
+    <div class="section-head"><h2>Document checklist</h2><span class="chip" id="docChip">&nbsp;</span></div>
+    <div id="stages"></div>
+    <p class="legend">GD = Goods Declaration filed on WeBOC / Pakistan Single Window. DO = the line's delivery order, released against the original B/L or a telex release. Requirements vary by HS code and origin, so this list is a working checklist, not legal advice.</p>
+  </div>
+  <div>
+    <div class="tl-card">
+      <div class="tl-head"><h3>Clearance timeline</h3><span class="label">Day 0 = vessel arrival</span></div>
+      <div class="tl-wrap"><svg id="tl" viewBox="0 0 600 320" role="img" aria-label="Clearance timeline chart"></svg></div>
+      <div class="tl-key"><span><i style="background:var(--primary)"></i>Planned step</span><span><i style="background:var(--warn)"></i>Waiting on documents</span><span><i style="background:color-mix(in srgb,var(--good) 18%,transparent);border:1px solid var(--good)"></i>Free days</span><span><i style="background:color-mix(in srgb,var(--bad) 18%,transparent);border:1px solid var(--bad)"></i>Demurrage zone</span></div>
+      <div class="costs">
+        <div><span class="label">Demurrage</span><span class="v" id="cDem">&nbsp;</span></div>
+        <div><span class="label">Capital tied up</span><span class="v" id="cCap">&nbsp;</span></div>
+        <div><span class="label">Days over free time</span><span class="v" id="cOver">&nbsp;</span></div>
+      </div>
+    </div>
+    <div class="verdict" style="margin-top:18px"><div class="mark" aria-hidden="true">§</div><p id="verdict"></p></div>
+  </div>
+</section>
+
+<section class="two">
+  <div>
+    <h2 style="margin-bottom:16px">How I'd use this at SAM Logistics</h2>
+    <ol class="use">
+      <li><span>Open a file like this for every inbound job the day the booking is confirmed, and chase the shipper for anything that blocks the GD before the vessel arrives. I do this for our own timber shipments from Finland and Sweden, where the phytosanitary and treatment papers decide whether a container sits at the port.</span></li>
+      <li><span>Send each client a short status update from the same file: what is in hand, what is missing, and the projected gate-out day. I have built automations that send updates like this without anyone typing them.</span></li>
+      <li><span>Log the delay on every job against its cause. After a quarter, the data shows which shippers, lines or document types cost the most days, and that is where the follow-up effort goes.</span></li>
+    </ol>
+  </div>
+  <div>
+    <h2 style="margin-bottom:16px">Relevant results</h2>
+    <div class="results"><div class="res"><div class="fig">2</div><p>New sawmill suppliers onboarded for softwood imports from Finland and Sweden, with import documentation and customs clearance handled end to end.</p></div><div class="res"><div class="fig">~$15K</div><p>Untracked receivables recovered by the business management app I built for a softwood timber importer: invoicing, ledgers and sawmill payments in one place. It also saves 20+ hours a week. <a href="https://importdeskpro.vercel.app/" target="_blank" rel="noopener">View demo</a></p></div><div class="res"><div class="fig">1 hr → 5 min</div><p>Client onboarding time after the 15+ GoHighLevel, n8n, Make and Zapier workflows I built for 5 US chiropractic clinics.</p></div></div>
+  </div>
+</section>
+
+<section class="sign">
+<div>
+<div class="label">Prepared by</div>
+<div class="name">Murtaza Mustafa</div>
+<div class="cred">BA (Hons) Business Management, Buckinghamshire New University (2026) · Karachi</div>
+<div class="reach"><a href="mailto:murtazamustafaa02@gmail.com">murtazamustafaa02@gmail.com</a><span>+92 318 1253085 · Karachi, Pakistan (UTC+5)</span></div>
+</div>
+<div class="stamp"><svg class="seal" role="img" aria-label="MM seal"><use href="#seal"/></svg><div class="line"></div><div class="label">Signature</div></div>
+</section>
+
+</main>
+<footer class="pad"><div class="foot">
+<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Karachi, Pakistan</span>
+<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 6 6L15 14l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg>+92 318 1253085</span>
+<a href="mailto:murtazamustafaa02@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="m3.5 6 8.5 7 8.5-7"/></svg>murtazamustafaa02@gmail.com</a>
+<a href="https://www.linkedin.com/in/murtaza-mustafa2911/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"/></svg>LinkedIn</a>
+<a href="https://murtazamustafa.vercel.app" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>More about me</a>
+</div></footer>
+<p class="note pad">Independent work sample by Murtaza Mustafa. Not affiliated with or endorsed by SAM Logistics (Pvt.) Limited. Figures are sample data or estimates for illustration.</p>
+</div>
+<script>
+(function(){const g=document.getElementById('guil');if(!g)return;let p='';for(let k=0;k<14;k++){let d='';for(let x=0;x<=1080;x+=8){const y=100+Math.sin(x/62+k*.45)*(38+k*3)+Math.sin(x/23+k)*6;d+=(x?'L':'M')+x+','+y.toFixed(1);}p+=`<path d="${d}" fill="none" stroke="#d49c63" stroke-width=".6"/>`;}g.innerHTML=p;})();
+
+(function(){
+const $=id=>document.getElementById(id);
+const pkr=n=>"PKR "+Math.round(n).toLocaleString("en-US");
+const short=n=>n>=1e6?"PKR "+(n/1e6).toFixed(2)+"M":n>=1e3?"PKR "+Math.round(n/1e3)+"K":"PKR "+Math.round(n);
+const DOCS=[
+ {id:"ci",nm:"Commercial invoice",by:"Supplier",st:"pre",bl:"GD",m:"all",c:"all",have:true},
+ {id:"pl",nm:"Packing list",by:"Supplier",st:"pre",bl:"GD",m:"all",c:"all",have:true},
+ {id:"eif",nm:"Electronic Import Form (EIF)",by:"Importer's bank, via PSW",st:"pre",bl:"GD",m:"all",c:"all",have:true},
+ {id:"ins",nm:"Insurance certificate",by:"Insurer (CFR / FOB terms)",st:"pre",bl:"GD",m:"all",c:"all",have:true},
+ {id:"coo",nm:"Certificate of origin",by:"Supplier / chamber of commerce",st:"pre",bl:"GD",m:"all",c:"all",have:true},
+ {id:"phy",nm:"Phytosanitary certificate",by:"Exporting country plant protection",st:"pre",bl:"GD",m:"all",c:"timber",have:false},
+ {id:"fum",nm:"Treatment / fumigation certificate",by:"Supplier's treatment provider",st:"pre",bl:"GD",m:"all",c:"timber",have:true},
+ {id:"coa",nm:"Certificate of analysis",by:"Supplier's lab",st:"pre",bl:"GD",m:"all",c:"food",have:true},
+ {id:"hc",nm:"Health certificate",by:"Exporting country authority",st:"pre",bl:"GD",m:"all",c:"food",have:false},
+ {id:"an",nm:"Arrival notice",by:"Shipping line / airline",st:"arr",bl:"none",m:"all",c:"all",have:true},
+ {id:"igm",nm:"IGM confirmed",by:"Carrier files manifest",st:"arr",bl:"GD",m:"all",c:"all",have:true},
+ {id:"bl",nm:"Original B/L or telex release",by:"Supplier, via the line",st:"rel",bl:"DO",m:"sea",c:"all",have:false},
+ {id:"awb",nm:"Air waybill",by:"Airline / agent",st:"rel",bl:"DO",m:"air",c:"all",have:true},
+ {id:"hbl",nm:"House B/L from consolidator",by:"LCL consolidator",st:"rel",bl:"DO",m:"lcl",c:"all",have:true}
+];
+const ST={pre:["Before arrival","from the shipper"],arr:["On arrival","carrier side"],rel:["For release","delivery order"]};
+const S={mode:"fcl",cargo:"timber",ch:1};
+function applies(d){const mOk=d.m==="all"||(d.m==="sea"&&S.mode!=="air")||d.m===S.mode;const cOk=d.c==="all"||d.c===S.cargo;return mOk&&cOk}
+function renderDocs(){
+  const list=DOCS.filter(applies);
+  $("stages").innerHTML=Object.keys(ST).map(k=>{const items=list.filter(d=>d.st===k);if(!items.length)return"";
+    return `<div class="stage"><h3>${ST[k][0]}<small>${ST[k][1]}</small></h3>${items.map(d=>`<label class="doc-item ${d.have?"ok":"miss"}" id="row-${d.id}"><input type="checkbox" id="d-${d.id}" ${d.have?"checked":""}><span class="nm">${d.nm}</span><span class="tag">${d.have?"IN HAND":d.bl==="none"?"PENDING":"BLOCKS "+d.bl}</span><span class="by">${d.by}</span></label>`).join("")}</div>`}).join("");
+}
+function seg(id,key,num){$(id).addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;[...$(id).children].forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));S[key]=num?+b.dataset.v:b.dataset.v;if(!num)renderDocs();calc()})}
+seg("segMode","mode");seg("segCargo","cargo");seg("segCh","ch",true);
+document.addEventListener("change",e=>{if(e.target.matches(".doc-item input")){const d=DOCS.find(x=>"d-"+x.id===e.target.id);d.have=e.target.checked;const r=$("row-"+d.id);r.className="doc-item "+(d.have?"ok":"miss");r.querySelector(".tag").textContent=d.have?"IN HAND":d.bl==="none"?"PENDING":"BLOCKS "+d.bl;calc()}});
+document.addEventListener("input",e=>{if(e.target.matches("#units,#free,#rate,#lag,#ship"))calc()});
+
+function calc(){
+  const air=S.mode==="air";
+  const units=+$("units").value;$("unitsOut").textContent=air?"n/a":units;
+  const free=Math.max(0,+$("free").value||0),rate=Math.max(0,+$("rate").value||0),lag=Math.max(0,+$("lag").value||0),val=Math.max(0,+$("ship").value||0);
+  $("laneMode").textContent=air?"Air":S.mode==="lcl"?"Sea LCL":"Sea FCL";
+  $("laneUnits").textContent=air?"Loose cargo":S.mode==="lcl"?"Part container":units+" x 40' HC";
+  const list=DOCS.filter(applies),have=list.filter(d=>d.have).length;
+  const missGD=list.filter(d=>!d.have&&d.bl==="GD"),missDO=list.filter(d=>!d.have&&d.bl==="DO");
+  // steps: [label, start, duration, kind]
+  const steps=[];let t=0;
+  steps.push(["Landing and IGM",0,1,"p"]);t=1;
+  if(missGD.length){steps.push(["Waiting: GD documents",t,missGD.length*lag,"w"]);t+=missGD.length*lag}
+  steps.push(["GD filed, PSW",t,1,"p"]);t+=1;
+  const ex=[1,2,0,4][S.ch];steps.push([S.ch===0?"Assessment, green":S.ch===1?"Document check, yellow":"Examination, red",t,ex,"p"]);t+=ex;
+  steps.push(["Duty and taxes paid",t,1,"p"]);t+=1;
+  if(missDO.length){steps.push(["Waiting: release docs",t,missDO.length*lag,"w"]);t+=missDO.length*lag}
+  steps.push(["Delivery order",t,1,"p"]);t+=1;
+  steps.push(["Gate-out, to warehouse",t,1,"p"]);t+=1;
+  const out=t,over=Math.max(0,out-free);
+  const n=air?1:S.mode==="lcl"?0.35:units;
+  const dem=air?over*rate*0.25:over*rate*n;
+  const cap=val*0.18*over/365; // capital at 18% a year
+  // tiles
+  $("tDocs").textContent=have+" of "+list.length;
+  $("tDocsSub").textContent=(missGD.length+missDO.length)?(missGD.length+missDO.length)+" blocking, "+(list.length-have-missGD.length-missDO.length)+" other":"nothing blocking";
+  $("docChip").textContent=have+" / "+list.length+" in hand";
+  $("tOut").textContent="Day "+out;
+  $("tDem").textContent=dem>0?short(dem):"PKR 0";$("tDem").classList.toggle("zero",dem<=0);
+  $("tDemSub").textContent=over>0?over+" days past "+free+" free days":"cleared inside free time";
+  const nx=missGD[0]||missDO[0];
+  $("tNext").textContent=nx?"Chase "+(nx.id==="bl"?"B/L release":nx.nm.charAt(0).toLowerCase()+nx.nm.slice(1)):"File the GD";
+  $("tNextSub").textContent=nx?nx.by:"all documents in hand";
+  $("cDem").textContent=pkr(dem);$("cDem").classList.toggle("bad",dem>0);
+  $("cCap").textContent=pkr(cap);$("cOver").textContent=over;
+  // verdict
+  let v;
+  if(!nx){v=`<b>Ready to file.</b> Every document is in hand, so the GD can go in on day 1 and the cargo should gate out on <b>day ${out}</b>${over?`, still ${over} days past free time. Ask the line for extra free days at booking.`:", inside the free time."}`}
+  else{const save=(missGD.length+missDO.length)*lag;v=`<b>${missGD.length+missDO.length} document${missGD.length+missDO.length>1?"s":""} will hold this shipment.</b> Missing: ${[...missGD,...missDO].map(d=>d.nm).join(", ")}. If they arrive before the vessel, gate-out moves from day ${out} to day ${out-save} and demurrage falls by about ${pkr(dem-(air?Math.max(0,out-save-free)*rate*.25:Math.max(0,out-save-free)*rate*n))}.`}
+  $("verdict").innerHTML=v;
+  draw(steps,out,free);
+}
+function draw(steps,out,free){
+  const svg=$("tl"),W=520,L=150,R=16,T=26,rowH=30,H=T+steps.length*rowH+34;
+  svg.setAttribute("viewBox",`0 0 ${W} ${H}`);
+  const maxD=Math.max(out+2,free+2,10),x=d=>L+(W-L-R)*d/maxD;
+  let s="";
+  // zones
+  s+=`<rect x="${x(0)}" y="${T-8}" width="${x(Math.min(free,maxD))-x(0)}" height="${steps.length*rowH+8}" fill="var(--good)" fill-opacity=".09"/>`;
+  if(out>free)s+=`<rect x="${x(free)}" y="${T-8}" width="${x(out)-x(free)}" height="${steps.length*rowH+8}" fill="var(--bad)" fill-opacity=".1"/>`;
+  // grid
+  const step=maxD>24?4:maxD>12?2:1;
+  for(let d=0;d<=maxD;d+=step){s+=`<line x1="${x(d)}" x2="${x(d)}" y1="${T-8}" y2="${T+steps.length*rowH}" stroke="var(--line)" stroke-width="1"/><text x="${x(d)}" y="${T+steps.length*rowH+16}" text-anchor="middle" font-size="10.5" fill="var(--muted)" font-family="IBM Plex Mono,monospace">${d}</text>`}
+  s+=`<text x="${x(maxD)}" y="${T+steps.length*rowH+30}" text-anchor="end" font-size="10" fill="var(--muted)" font-family="Public Sans,sans-serif" letter-spacing="1.5">DAYS</text>`;
+  s+=`<line x1="${x(free)}" x2="${x(free)}" y1="${T-14}" y2="${T+steps.length*rowH}" stroke="var(--good)" stroke-width="1.2" stroke-dasharray="3 3"/><text x="${x(free)+4}" y="${T-12}" font-size="10" fill="var(--good)" font-family="Public Sans,sans-serif" font-weight="600">FREE TIME ENDS</text>`;
+  steps.forEach((st,i)=>{const y=T+i*rowH;const w=Math.max(3,x(st[1]+st[2])-x(st[1]));
+    s+=`<text x="${L-10}" y="${y+rowH/2+4}" text-anchor="end" font-size="11.5" fill="${st[3]==="w"?"var(--warn)":"var(--ink)"}" font-family="Public Sans,sans-serif" font-weight="${st[3]==="w"?600:500}">${st[0]}</text>`;
+    s+=`<rect x="${x(st[1])}" y="${y+8}" width="${w}" height="${rowH-16}" fill="${st[3]==="w"?"var(--warn)":"var(--primary)"}" ${st[3]==="w"?'fill-opacity=".85"':''}/>`;
+    if(st[2]>0)s+=`<text x="${x(st[1])+w+5}" y="${y+rowH/2+4}" font-size="10" fill="var(--muted)" font-family="IBM Plex Mono,monospace">${st[2]}d</text>`});
+  s+=`<line x1="${x(out)}" x2="${x(out)}" y1="${T-8}" y2="${T+steps.length*rowH}" stroke="var(--gold)" stroke-width="2"/>`;
+  svg.innerHTML=s;
+}
+renderDocs();calc();
+})();
+
+</script>
+
+
+</body>
+</html>

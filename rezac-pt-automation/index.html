@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3 Things I'd Automate · Rezac &amp; Associates</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="author" content="Murtaza Mustafa">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,600;1,6..96,500&family=Karla:ital,wght@0,400;0,500;0,700;1,400&display=swap">
+<style>
+:root{--primary:#4a1f19;--primary-2:#311410;--on-primary:#f6eee8;--gold:#b9c4ae;--gold-2:#7f8e74;--gold-soft:#e8eddf;--gold-ink:#4f6145;--paper:#f2eeea;--sheet:#fffdfa;--ink:#25191a;--muted:#6c5d5a;--line:#e5ddd6;--zebra:#f9f5f1;--good:#3d6b48;--bad:#b0422c;--clay:#a8553c;--display:"Bodoni Moda",Didot,Georgia,serif;--sans:"Karla","Segoe UI",system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--primary:#4f2119;--primary-2:#26100c;--on-primary:#f3e9e2;--gold:#c3cfb7;--gold-2:#8d9c82;--gold-soft:#262c21;--gold-ink:#bfd0ae;--paper:#120c0b;--sheet:#1a1311;--ink:#efe6e1;--muted:#ad9e99;--line:#352824;--zebra:#201714;--good:#8fcf9c;--bad:#f0917a;--clay:#e08d70;color-scheme:dark}}
+:root[data-theme="dark"]{--primary:#4f2119;--primary-2:#26100c;--on-primary:#f3e9e2;--gold:#c3cfb7;--gold-2:#8d9c82;--gold-soft:#262c21;--gold-ink:#bfd0ae;--paper:#120c0b;--sheet:#1a1311;--ink:#efe6e1;--muted:#ad9e99;--line:#352824;--zebra:#201714;--good:#8fcf9c;--bad:#f0917a;--clay:#e08d70;color-scheme:dark}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 15px/1.6 var(--sans);font-feature-settings:"tnum" 1}
+a{color:inherit}
+.doc{max-width:1080px;margin:0 auto;background:var(--sheet);box-shadow:0 1px 0 var(--line),0 30px 60px -40px rgba(0,0,0,.35);position:relative;overflow:hidden}
+.pad{padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+@media(min-width:760px){.pad{padding-left:56px;padding-right:56px}}
+.label{font:600 10.5px/1.3 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.serif{font-family:var(--display)}
+.mast{position:relative;background:var(--primary);color:var(--on-primary);padding-block:34px 30px;overflow:hidden}
+.mast .guilloche{position:absolute;inset:0;width:100%;height:100%;opacity:var(--guil-op,.17);pointer-events:none}
+.mast-in{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:24px;align-items:center}
+.seal{width:84px;height:84px;flex:none}
+.title-block{min-width:0}
+.title-block h1{margin:0;font:var(--h1w,600) clamp(27px,4.2vw,42px)/1.06 var(--display);letter-spacing:var(--h1ls,.01em);text-wrap:balance}
+.title-block p{margin:8px 0 0;font:500 11px/1.5 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+.title-block p span{display:inline-block;width:28px;height:1px;background:var(--gold);vertical-align:middle;margin-right:10px}
+.meta{display:grid;grid-template-columns:auto auto;gap:5px 16px;font-size:13px;align-items:baseline;margin:0}
+.meta dt{font:600 9.5px/1.4 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.meta dd{margin:0;font-weight:600;text-align:right}
+.mast-rule{height:6px;background:linear-gradient(90deg,var(--gold-2),var(--gold),var(--gold-2)) top/100% 1px no-repeat,linear-gradient(90deg,var(--gold-2),var(--gold),var(--gold-2)) bottom/100% 2px no-repeat}
+@media(max-width:760px){.mast-in{grid-template-columns:auto minmax(0,1fr)}.meta{grid-column:1/-1;grid-template-columns:auto 1fr;padding-top:14px;border-top:1px solid rgba(255,255,255,.15)}.meta dd{text-align:left}.seal{width:62px;height:62px}}
+.watermark{position:absolute;left:50%;top:440px;transform:translateX(-50%);width:min(560px,90%);opacity:.045;pointer-events:none;color:var(--primary)}
+.res .fig,.sign .seal{color:var(--primary)}
+main{position:relative;display:grid;grid-template-columns:minmax(0,1fr);gap:46px;padding-block:40px 48px}
+main>*{min-width:0}
+.prepared{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:end;border-bottom:1px solid var(--line);padding-bottom:18px}
+.prepared .who{font:600 30px/1.1 var(--display);margin-top:4px;text-wrap:balance}
+.prepared .item{text-align:right;font-size:14px;margin-left:auto}
+.prepared .item b{font-weight:600}
+.lede{max-width:68ch;color:var(--muted);margin:0;font-size:15.5px}
+.lede strong{color:var(--ink);font-weight:600}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.tile{border:1px solid var(--line);border-top:2px solid var(--gold);padding:14px 16px 16px;background:var(--sheet);display:grid;gap:8px;align-content:start;min-width:0}
+.tile .fig{font:600 26px/1.1 var(--display);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.tile .sub{font-size:12px;color:var(--muted)}
+.tile.key{background:var(--primary);border-color:var(--primary);border-top-color:var(--gold);color:var(--on-primary)}
+.tile.key .label{color:var(--gold)}
+.tile.key .fig{color:var(--gold);font-size:30px}
+.tile.key .sub{color:color-mix(in srgb,var(--on-primary) 72%,transparent)}
+@media(max-width:820px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:400px){.tiles{grid-template-columns:1fr}}
+.section-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:14px}
+h2{margin:0;font:600 27px/1.15 var(--display);text-wrap:balance}
+h3{margin:0;font:600 20px/1.2 var(--display)}
+.chip{font:600 10px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--gold-ink);background:var(--gold-soft);padding:7px 10px;white-space:nowrap}
+.legend{margin:10px 0 0;font:italic 500 15px/1.5 var(--display);color:var(--muted)}
+.verdict{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:start;border:1px solid var(--line);border-left:3px solid var(--gold);padding:16px 18px;background:var(--zebra)}
+.verdict .mark{font:600 34px/1 var(--display);color:var(--gold-ink)}
+.verdict p{margin:0}
+input[type=number]{width:100%;min-width:70px;max-width:130px;text-align:right;font:600 14px var(--sans);font-variant-numeric:tabular-nums;color:var(--ink);background:transparent;border:0;border-bottom:1px dashed color-mix(in srgb,var(--muted) 55%,transparent);padding:4px 2px;border-radius:0}
+input[type=number]:focus{outline:none;border-bottom:1px solid var(--gold);background:var(--gold-soft)}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+input[type=number]{-moz-appearance:textfield}
+input[type=range]{width:100%;accent-color:var(--primary-acc,var(--primary))}
+.ctl{display:grid;gap:8px;min-width:0}
+.ctl .top{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.ctl output{font:600 13px var(--sans);font-variant-numeric:tabular-nums;white-space:nowrap}
+.ctl .hint{font-size:11.5px;color:var(--muted);font-style:italic}
+.two{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:44px}
+@media(max-width:820px){.two{grid-template-columns:1fr}}
+ol.use{margin:0;padding:0;list-style:none;display:grid;gap:16px;counter-reset:u}
+ol.use li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:6px;counter-increment:u}
+ol.use li::before{content:counter(u,upper-roman);font:600 18px/1.4 var(--display);color:var(--gold-ink)}
+.results{display:grid}
+.res{display:grid;grid-template-columns:160px minmax(0,1fr);gap:14px;padding:14px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.res:first-child{border-top:1px solid var(--line)}
+.res .fig{font:600 28px/1.05 var(--display);white-space:nowrap}
+.res p{margin:0;font-size:14px;color:var(--muted)}
+.res a{color:var(--gold-ink);font-weight:600;font-size:13px}
+@media(max-width:420px){.res{grid-template-columns:1fr;gap:4px}}
+.sign{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:28px;padding-top:28px;border-top:1px solid var(--line)}
+.sign .name{font:600 30px/1.1 var(--display);margin:6px 0 2px}
+.sign .cred{font-size:13px;color:var(--muted)}
+.sign .reach{margin-top:10px;font-size:13.5px;display:grid;gap:2px}
+.sign .reach a{color:var(--gold-ink);font-weight:600;text-decoration:none}
+.sign .stamp{display:grid;justify-items:center;gap:8px}
+.sign .line{width:200px;border-top:1px solid var(--ink)}
+.sign .seal{width:96px;height:96px}
+footer{background:var(--primary-2);color:var(--on-primary);padding-block:18px}
+.foot{display:flex;flex-wrap:wrap;gap:12px 26px;align-items:center;justify-content:center;font-size:13px}
+.foot span,.foot a{display:inline-flex;align-items:center;gap:8px;text-decoration:none;overflow-wrap:anywhere}
+.foot svg{width:15px;height:15px;color:var(--gold);flex:none}
+.foot a:hover{color:var(--gold)}
+.note{background:var(--primary-2);color:color-mix(in srgb,var(--on-primary) 62%,transparent);font-size:11.5px;text-align:center;padding-block:0 18px;margin:0}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+@media (prefers-reduced-motion:no-preference){.tile .fig,.calc{transition:color .3s}}
+
+:root[data-theme="dark"] .watermark,:root[data-theme="dark"] .res .fig,:root[data-theme="dark"] .sign .seal{color:var(--gold)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .watermark,:root:not([data-theme="light"]) .res .fig,:root:not([data-theme="light"]) .sign .seal{color:var(--gold)}}
+:root[data-theme="dark"] .watermark{opacity:.06}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .watermark{opacity:.06}}
+
+:root{--guil-op:.14}
+.title-block h1{font-weight:500;font-style:italic}
+h2{font-weight:500}
+.prepared .who{font-weight:500}
+.tile .fig,.res .fig{font-weight:500}
+.compare-wrap{overflow-x:auto;border:1px solid var(--line)}
+table.cmp{border-collapse:collapse;width:100%;min-width:640px}
+table.cmp th,table.cmp td{padding:14px 16px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;font-size:14px}
+table.cmp thead th{font:700 10px/1.3 var(--sans);letter-spacing:.18em;text-transform:uppercase;background:var(--zebra);color:var(--muted)}
+table.cmp thead th.new{background:var(--primary);color:var(--gold)}
+table.cmp tbody th{font:500 17px/1.25 var(--display);width:150px}
+table.cmp td.now{color:var(--muted)}
+table.cmp td.new{background:color-mix(in srgb,var(--gold-soft) 55%,transparent)}
+.pill{display:inline-block;font:700 9.5px/1 var(--sans);letter-spacing:.14em;padding:5px 7px;margin-right:8px;vertical-align:1px}
+.pill.gap{color:var(--bad);border:1px solid var(--bad)}
+.pill.ok{color:var(--good);border:1px solid var(--good)}
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.three>article{border:1px solid var(--line);border-top:3px solid var(--primary);padding:20px;display:grid;gap:14px;align-content:start;background:var(--sheet);min-width:0}
+.three .k{font:italic 500 40px/1 var(--display);color:var(--clay)}
+.three h3{font-weight:500;font-size:21px}
+.three p{margin:4px 0 0;font-size:14px}
+.three .src{font-size:12px;color:var(--muted);font-style:italic;margin-top:4px}
+.flow.v{display:block;width:100%;max-width:290px;height:auto;margin:0 auto}
+@media(max-width:900px){.three{grid-template-columns:minmax(0,1fr)}}
+.stmt-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:0;border:1px solid var(--line);background:var(--sheet)}
+.ln{display:grid;grid-template-columns:minmax(0,1fr) 120px 130px;gap:14px;align-items:center;padding:12px 18px;border-bottom:1px solid var(--line)}
+.ln .d{font-size:14px}
+.ln .d small{display:block;color:var(--gold-ink);font-size:11.5px;font-style:italic}
+.ln input[type=range]{grid-column:1/-1;margin-top:-4px}
+.ln .amt{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.ln.hd{background:var(--primary);color:var(--on-primary);padding-block:10px}
+.ln.hd span{font:700 10px/1.3 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.ln.hd span:nth-child(n+2){text-align:right}
+.ln.group{background:var(--zebra);font:500 17px/1.2 var(--display);padding-block:10px}
+.ln.sub{border-top:1px solid var(--ink)}
+.ln.sub .d{font:700 10.5px/1.3 var(--sans);letter-spacing:.16em;text-transform:uppercase}
+.ln.sub .amt{color:var(--clay)}
+.grand{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:end;padding:22px 18px;border-top:2px solid var(--ink);border-bottom:4px double var(--ink)}
+.grand .big{font:500 clamp(30px,5vw,48px)/1 var(--display);color:var(--clay)}
+.grand p{margin:6px 0 0;font-size:13px;color:var(--muted)}
+.grand .yr{text-align:right}
+.grand .yr b{display:block;font:500 26px/1 var(--display)}
+@media(max-width:560px){.ln{grid-template-columns:minmax(0,1fr) 92px;}.ln .amt{grid-column:2}.ln input[type=number]{grid-column:2;grid-row:1}.ln .amt{grid-row:2}.ln.hd span:nth-child(2){display:none}.grand{grid-template-columns:1fr}.grand .yr{text-align:left}}
+.voucher{position:relative;border:1.5px dashed var(--clay);padding:26px 26px 26px 120px;background:var(--zebra)}
+.voucher svg{position:absolute;left:24px;top:50%;transform:translateY(-50%);width:76px;height:76px;color:var(--clay)}
+.voucher h2{font-size:24px;font-style:italic}
+.voucher p{margin:8px 0 0;color:var(--muted);font-size:14.5px}
+@media(max-width:560px){.voucher{padding:22px}.voucher svg{position:static;transform:none;margin-bottom:10px}}
+.cta{display:grid;gap:10px}
+.cta div{padding:12px 0;border-bottom:1px solid var(--line);font-size:14.5px}
+.cta b{font:500 18px/1.3 var(--display);display:block}
+.cta a{color:var(--clay);font-weight:700}
+
+</style>
+</head>
+<body style="margin:0">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="seal" viewBox="0 0 120 120">
+<path id="ring" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0" fill="none"/>
+<circle cx="60" cy="60" r="57" fill="none" stroke="currentColor" stroke-width="1.4"/>
+<circle cx="60" cy="60" r="53" fill="none" stroke="currentColor" stroke-width=".6"/>
+<circle cx="60" cy="60" r="35" fill="none" stroke="currentColor" stroke-width="1"/>
+<circle cx="60" cy="60" r="32" fill="none" stroke="currentColor" stroke-width=".5" stroke-dasharray="1.5 2.2"/>
+<text font-family="Manrope, Arial, sans-serif" font-size="7.4" font-weight="700" letter-spacing="3.1" fill="currentColor"><textPath href="#ring" startOffset="2%">MURTAZA MUSTAFA · KARACHI · CLINIC AUTOMATION · INTAKE ·</textPath></text>
+<text x="60" y="68.5" text-anchor="middle" font-family="Bodoni Moda, Georgia, serif" font-size="25" font-weight="700" fill="currentColor" letter-spacing="1">MM</text>
+</symbol></defs></svg>
+<div class="doc">
+<header class="mast pad">
+<svg class="guilloche" viewBox="0 0 1080 200" preserveAspectRatio="none" aria-hidden="true" id="guil"></svg>
+<div class="mast-in">
+<svg class="seal" style="color:var(--gold)" role="img" aria-label="MM monogram"><use href="#seal"/></svg>
+<div class="title-block"><h1>3 Things I'd Automate for Rezac &amp; Associates</h1><p><span></span>Booking · intake · reminders · cost of the gap</p></div>
+<dl class="meta"><dt>Prepared for</dt><dd>Rezac &amp; Associates PT</dd><dt>Re</dt><dd>Online booking and intake</dd><dt>Reference</dt><dd>MM-RZPT-2026-01</dd><dt>Date</dt><dd>15 Oct 2026</dd></dl>
+</div>
+</header>
+<div class="mast-rule" aria-hidden="true"></div>
+<svg class="watermark" viewBox="0 0 120 120" aria-hidden="true"><use href="#seal"/></svg>
+<main class="pad">
+
+<section class="prepared">
+  <div>
+    <div class="label">Automation brief · Attn: Dr. Scott Rezac, Owner</div>
+    <div class="who">Online booking, digital intake and reminders for 855 Citadel Drive East</div>
+  </div>
+  <div class="item"><div class="label">Delivered by</div><b>Free demo within 72 hours</b></div>
+</section>
+
+<p class="lede">Rezac &amp; Associates offers care few clinics can match, from robotic gait therapy to animal-assisted therapy. Getting a new patient through the door still depends on the phone and on paper: the <strong>Book Now</strong> button dials the clinic, and the intake packet takes <strong>20 to 30 minutes</strong> by hand, with page 1 faxed for insurance verification. Here are three automations I would build, and an estimate of what the gap may cost each month.</p>
+
+<section class="tiles" aria-live="polite">
+  <div class="tile key"><div class="label">Estimated cost of the gap</div><div class="fig" id="tGap">&nbsp;</div><div class="sub">a month, from the statement below</div></div>
+  <div class="tile"><div class="label">Booking hours</div><div class="fig">51 hrs</div><div class="sub">a week the phone can take bookings, from your hours</div></div>
+  <div class="tile"><div class="label">Intake packet</div><div class="fig">20-30 min</div><div class="sub">by hand, from your Patient Forms page</div></div>
+  <div class="tile"><div class="label">Insurance check</div><div class="fig">By fax</div><div class="sub">page 1 to 719-465-2087</div></div>
+</section>
+
+<section>
+  <div class="section-head"><h2>The Missing Piece</h2><span class="chip">Your new patient journey, today and automated</span></div>
+  <div class="compare-wrap">
+    <table class="cmp">
+      <thead><tr><th scope="col">Stage</th><th scope="col">Today</th><th scope="col" class="new">With automation</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Booking</th><td class="now"><span class="pill gap">GAP</span>Book Now opens a phone call, so bookings happen only while the front desk can answer, Monday to Friday.</td><td class="new"><span class="pill ok">FIXED</span>Book Now opens a booking page. Patients request a time 24/7 and get an instant confirmation.</td></tr>
+        <tr><th scope="row">Paperwork</th><td class="now"><span class="pill gap">GAP</span>Patients download and print PDF packets, fill them in by hand and carry them to the first visit.</td><td class="new"><span class="pill ok">FIXED</span>The intake packet becomes one online form, sent automatically after booking.</td></tr>
+        <tr><th scope="row">Insurance</th><td class="now"><span class="pill gap">GAP</span>Page 1 is faxed, if the patient can, so your team can verify insurance before the visit.</td><td class="new"><span class="pill ok">FIXED</span>Insurance details and card photos reach your team the moment the form is submitted. No fax needed.</td></tr>
+        <tr><th scope="row">Before each visit</th><td class="now"><span class="pill gap">GAP</span>No reminder system is mentioned on the site.</td><td class="new"><span class="pill ok">FIXED</span>Text and email reminders before every visit.</td></tr>
+        <tr><th scope="row">After a miss</th><td class="now">The front desk notices and calls when it has time.</td><td class="new"><span class="pill ok">FIXED</span>A rebooking message goes out the same day, automatically.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="section-head"><h2>3 Things I'd Automate for Rezac &amp; Associates</h2><span class="chip">From your public website</span></div>
+  <div class="three">
+    <article>
+      <div class="k">i.</div>
+      <h3>Online booking requests</h3>
+      <div><div class="label">What I noticed on your site</div><p>The homepage Book Now, Click To Call and Call Today buttons all dial (719) 465-1502. There is no online scheduler.</p><div class="src">rezacpt.com, homepage</div></div>
+      <div id="f1"></div>
+      <div><div class="label">What it changes for you</div><p>Patients who find you in the evening can book then, instead of trying to remember to call. Fewer calls for the front desk.</p></div>
+    </article>
+    <article>
+      <div class="k">ii.</div>
+      <h3>Digital intake and insurance capture</h3>
+      <div><div class="label">What I noticed on your site</div><p>The Patient Forms page asks new patients to complete the intake packet (about 20 to 30 minutes), fax page 1 for insurance verification and bring the rest.</p><div class="src">rezacpt.com/paperwork</div></div>
+      <div id="f2"></div>
+      <div><div class="label">What it changes for you</div><p>Clean, typed answers arrive before the visit. Insurance is verified early, and nobody re-keys handwriting.</p></div>
+    </article>
+    <article>
+      <div class="k">iii.</div>
+      <h3>Reminders and follow-up</h3>
+      <div><div class="label">What I noticed on your site</div><p>The only form on the homepage is a newsletter sign-up, and no visit reminders are mentioned.</p><div class="src">rezacpt.com, homepage</div></div>
+      <div id="f3"></div>
+      <div><div class="label">What it changes for you</div><p>Fewer missed visits, and a missed one is rebooked the same day, so plans of care keep moving.</p></div>
+    </article>
+  </div>
+</section>
+
+<section>
+  <div class="section-head"><h2>Cost of the Gap</h2><span class="chip">Estimate · change any figure</span></div>
+  <div class="stmt-grid" id="stmt">
+    <div class="ln hd"><span>Line</span><span>Input</span><span>Per month</span></div>
+    <div class="ln group">A. Patients who never get through to book</div>
+    <div class="ln"><span class="d">New patient enquiries a week<small>assumption, adjust to your numbers</small></span><input type="number" id="enq" value="8" min="1" max="40" step="1" aria-label="New patient enquiries a week"><span class="amt" id="enqA"></span><input type="range" id="enqR" value="8" min="1" max="40" step="1" aria-label="New patient enquiries a week slider"></div><div class="ln"><span class="d">Share lost because booking is phone-only, %<small>assumption, adjust to your numbers</small></span><input type="number" id="lost" value="10" min="0" max="40" step="1" aria-label="Share lost because booking is phone-only, %"><span class="amt" id="lostA"></span><input type="range" id="lostR" value="10" min="0" max="40" step="1" aria-label="Share lost because booking is phone-only, % slider"></div><div class="ln"><span class="d">Visits per plan of care<small>assumption, adjust to your numbers</small></span><input type="number" id="vpp" value="6" min="1" max="20" step="1" aria-label="Visits per plan of care"><span class="amt" id="vppA"></span><input type="range" id="vppR" value="6" min="1" max="20" step="1" aria-label="Visits per plan of care slider"></div><div class="ln"><span class="d">Average reimbursement a visit, $<small>assumption, adjust to your numbers</small></span><input type="number" id="rv" value="85" min="40" max="200" step="5" aria-label="Average reimbursement a visit, $"><span class="amt" id="rvA"></span><input type="range" id="rvR" value="85" min="40" max="200" step="5" aria-label="Average reimbursement a visit, $ slider"></div>
+    <div class="ln sub"><span class="d">Subtotal A</span><span></span><span class="amt" id="sA"></span></div>
+    <div class="ln group">B. Missed visits that are not rebooked</div>
+    <div class="ln"><span class="d">Visits a week, all therapists<small>assumption, adjust to your numbers</small></span><input type="number" id="vis" value="140" min="20" max="500" step="10" aria-label="Visits a week, all therapists"><span class="amt" id="visA"></span><input type="range" id="visR" value="140" min="20" max="500" step="10" aria-label="Visits a week, all therapists slider"></div><div class="ln"><span class="d">No-show rate, %<small>assumption, adjust to your numbers</small></span><input type="number" id="ns" value="7" min="0" max="25" step="1" aria-label="No-show rate, %"><span class="amt" id="nsA"></span><input type="range" id="nsR" value="7" min="0" max="25" step="1" aria-label="No-show rate, % slider"></div><div class="ln"><span class="d">Share won back by reminders and rebooking, %<small>assumption, adjust to your numbers</small></span><input type="number" id="win" value="30" min="0" max="60" step="5" aria-label="Share won back by reminders and rebooking, %"><span class="amt" id="winA"></span><input type="range" id="winR" value="30" min="0" max="60" step="5" aria-label="Share won back by reminders and rebooking, % slider"></div>
+    <div class="ln sub"><span class="d">Subtotal B</span><span></span><span class="amt" id="sB"></span></div>
+    <div class="ln group">C. Staff time on paper intake and fax</div>
+    <div class="ln"><span class="d">New patients a week<small>assumption, adjust to your numbers</small></span><input type="number" id="np" value="8" min="1" max="40" step="1" aria-label="New patients a week"><span class="amt" id="npA"></span><input type="range" id="npR" value="8" min="1" max="40" step="1" aria-label="New patients a week slider"></div><div class="ln"><span class="d">Staff minutes per packet<small>fax, verification, re-keying, chasing pages</small></span><input type="number" id="mins" value="20" min="0" max="60" step="1" aria-label="Staff minutes per packet"><span class="amt" id="minsA"></span><input type="range" id="minsR" value="20" min="0" max="60" step="1" aria-label="Staff minutes per packet slider"></div><div class="ln"><span class="d">Front-desk hourly cost, $<small>assumption, adjust to your numbers</small></span><input type="number" id="hr" value="20" min="10" max="40" step="1" aria-label="Front-desk hourly cost, $"><span class="amt" id="hrA"></span><input type="range" id="hrR" value="20" min="10" max="40" step="1" aria-label="Front-desk hourly cost, $ slider"></div>
+    <div class="ln sub"><span class="d">Subtotal C</span><span></span><span class="amt" id="sC"></span></div>
+    <div class="grand" aria-live="polite">
+      <div><span class="label">Estimated total left on the table</span><div class="big" id="gTot"></div><p>A month. An estimate built from the assumptions above, not your actual figures.</p></div>
+      <div class="yr"><span class="label">Per year</span><b id="gYr"></b></div>
+    </div>
+  </div>
+  <p class="legend">Your website does not list prices, so each value is an assumption to replace with your own. A = enquiries a week x 4.33 x share lost x visits per plan x reimbursement. B = visits a week x 4.33 x no-show rate x share won back x reimbursement. C = new patients a week x 4.33 x minutes x hourly cost.</p>
+</section>
+
+<section class="voucher">
+  <svg viewBox="0 0 120 120" aria-hidden="true"><use href="#seal"/></svg>
+  <div class="label">The offer</div>
+  <h2>Free working demo prototype plus your first automation, built before you pay anything.</h2>
+  <p>Days 1 to 3: a booking page behind your Book Now button and an online version of your intake packet. Week 1: online booking live. Week 2: digital intake and insurance capture on every booking. Week 3: reminders and missed-visit follow-up, then a review with you and Angela.</p>
+</section>
+
+<section class="two">
+  <div>
+    <h2 style="margin-bottom:16px">Proof</h2>
+    <div class="results"><div class="res"><div class="fig">1 hr → 5 min</div><p>Client onboarding time after the 15+ GoHighLevel, n8n, Make and Zapier workflows I built for 5 US chiropractic clinics.</p></div><div class="res"><div class="fig">15+</div><p>Workflows live across 5 US clinics: booking and reminders, no-show follow-ups, lead nurturing and review requests.</p></div><div class="res"><div class="fig">~$15K</div><p>Untracked receivables recovered by the business management app I built for a softwood timber importer: invoicing, ledgers and sawmill payments in one place. It also saves 20+ hours a week. <a href="https://importdeskpro.vercel.app/" target="_blank" rel="noopener">View demo</a></p></div></div>
+  </div>
+  <div>
+    <h2 style="margin-bottom:16px">Next step</h2>
+    <div class="cta">
+      <div><b>Reply to my email</b>Reply "send the demo" and I will build it for Rezac &amp; Associates within 72 hours.</div>
+      <div><b>Prefer a call?</b>Email <a href="mailto:murtazamustafaa02@gmail.com">murtazamustafaa02@gmail.com</a> with a time in Mountain Time and I will send a calendar invite.</div>
+      <div><b>Phone</b>+92 318 1253085, Karachi, Pakistan</div>
+    </div>
+  </div>
+</section>
+
+<section class="sign">
+<div>
+<div class="label">Prepared by</div>
+<div class="name">Murtaza Mustafa</div>
+<div class="cred">BA (Hons) Business Management, Buckinghamshire New University (2026) · Karachi</div>
+<div class="reach"><a href="mailto:murtazamustafaa02@gmail.com">murtazamustafaa02@gmail.com</a><span>+92 318 1253085 · Karachi, Pakistan (UTC+5)</span></div>
+</div>
+<div class="stamp"><svg class="seal" role="img" aria-label="MM seal"><use href="#seal"/></svg><div class="line"></div><div class="label">Signature</div></div>
+</section>
+
+</main>
+<footer class="pad"><div class="foot">
+<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Karachi, Pakistan</span>
+<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 6 6L15 14l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg>+92 318 1253085</span>
+<a href="mailto:murtazamustafaa02@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="m3.5 6 8.5 7 8.5-7"/></svg>murtazamustafaa02@gmail.com</a>
+<a href="https://www.linkedin.com/in/murtaza-mustafa2911/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"/></svg>LinkedIn</a>
+<a href="https://murtazamustafa.vercel.app" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>More about me</a>
+</div></footer>
+<p class="note pad">Independent work sample by Murtaza Mustafa. Not affiliated with or endorsed by Rezac &amp; Associates Physical Therapy. Figures are sample data or estimates for illustration.</p>
+</div>
+<script>
+(function(){const g=document.getElementById('guil');if(!g)return;let p='';for(let k=-12;k<30;k++){let d='',e='';for(let x=0;x<=1080;x+=12){const y1=k*14+x*.18+Math.sin(x/40)*5,y2=k*14+200-x*.18+Math.sin(x/40)*5;d+=(x?'L':'M')+x+','+y1.toFixed(1);e+=(x?'L':'M')+x+','+y2.toFixed(1);}p+=`<path d="${d}" fill="none" stroke="#c3cfb7" stroke-width=".4"/><path d="${e}" fill="none" stroke="#c3cfb7" stroke-width=".4"/>`;}g.innerHTML=p;})();
+
+function flowSVG(steps,o){o=o||{};const v=!!o.vertical,font=o.font||"sans-serif",disp=o.disp||"Georgia,serif";
+ if(!v){const bw=118,gap=34,h=96,W=steps.length*bw+(steps.length-1)*gap+4;let s=`<svg viewBox="0 0 ${W} ${h}" class="flow" role="img" aria-label="${steps.map(x=>x[0]).join(' to ')}">`;
+  steps.forEach((st,i)=>{const x=2+i*(bw+gap),last=i===steps.length-1,hl=st[2];
+   s+=`<rect x="${x}" y="18" width="${bw}" height="58" fill="${hl?'var(--primary)':'var(--sheet)'}" stroke="${hl?'var(--primary)':'var(--gold-2)'}" stroke-width="1"/>`;
+   s+=`<text x="${x+10}" y="12" font-size="8.5" letter-spacing="1.6" fill="var(--muted)" font-family="${font}" font-weight="700">STEP ${i+1}</text>`;
+   s+=`<text x="${x+10}" y="44" font-size="13" fill="${hl?'var(--on-primary)':'var(--ink)'}" font-family="${disp}" font-weight="600">${st[0]}</text>`;
+   s+=`<text x="${x+10}" y="62" font-size="9.5" fill="${hl?'var(--gold)':'var(--muted)'}" font-family="${font}">${st[1]}</text>`;
+   if(!last)s+=`<path d="M${x+bw+4},47 L${x+bw+gap-6},47" stroke="var(--gold)" stroke-width="1.5"/><path d="M${x+bw+gap-11},42 L${x+bw+gap-4},47 L${x+bw+gap-11},52" fill="none" stroke="var(--gold)" stroke-width="1.5"/>`});
+  return s+"</svg>"}
+ const bh=50,gap=22,w=250,H=steps.length*bh+(steps.length-1)*gap+4;let s=`<svg viewBox="0 0 ${w} ${H}" class="flow v" role="img" aria-label="${steps.map(x=>x[0]).join(' to ')}">`;
+ steps.forEach((st,i)=>{const y=2+i*(bh+gap),hl=st[2];
+  s+=`<rect x="34" y="${y}" width="${w-36}" height="${bh}" fill="${hl?'var(--primary)':'var(--sheet)'}" stroke="${hl?'var(--primary)':'var(--gold-2)'}"/>`;
+  s+=`<circle cx="14" cy="${y+bh/2}" r="11" fill="var(--gold-soft)" stroke="var(--gold-2)"/><text x="14" y="${y+bh/2+4}" text-anchor="middle" font-size="11" font-weight="700" fill="var(--gold-ink)" font-family="${font}">${i+1}</text>`;
+  s+=`<text x="46" y="${y+21}" font-size="13.5" fill="${hl?'var(--on-primary)':'var(--ink)'}" font-family="${disp}" font-weight="600">${st[0]}</text><text x="46" y="${y+38}" font-size="10" fill="${hl?'var(--gold)':'var(--muted)'}" font-family="${font}">${st[1]}</text>`;
+  if(i<steps.length-1)s+=`<path d="M14,${y+bh/2+13} L14,${y+bh+gap+bh/2-14}" stroke="var(--gold)" stroke-width="1.4" stroke-dasharray="2 3"/>`});
+ return s+"</svg>"}
+
+(function(){
+const $=id=>document.getElementById(id);
+const F={vertical:1,font:"Karla,sans-serif",disp:"Karla,sans-serif"};
+$("f1").innerHTML=flowSVG([["Book Now","on rezacpt.com"],["Booking page","pick a time, 24/7",1],["Confirmation","text and email"],["Front desk","approves in calendar"]],F);
+$("f2").innerHTML=flowSVG([["Visit booked","request accepted"],["Intake form","sent automatically",1],["Insurance in","details and card photo"],["Ready","verified before visit"]],F);
+$("f3").innerHTML=flowSVG([["Visit scheduled","plan of care"],["Reminders","48h email, 2h text"],["No-show?","marked in calendar"],["Rebook link","sent same day",1]],F);
+const money=v=>"$"+Math.round(v).toLocaleString("en-US");
+const ids=["enq","lost","vpp","rv","vis","ns","win","np","mins","hr"];
+function calc(){
+  const g={};ids.forEach(i=>g[i]=Math.max(0,+$(i).value||0));
+  const A=g.enq*4.33*g.lost/100*g.vpp*g.rv,B=g.vis*4.33*g.ns/100*g.win/100*g.rv,C=g.np*4.33*g.mins/60*g.hr;
+  $("enqA").textContent=(g.enq*4.33).toFixed(0)+" a month";$("lostA").textContent=(g.enq*4.33*g.lost/100).toFixed(1)+" patients";
+  $("vppA").textContent=(g.enq*4.33*g.lost/100*g.vpp).toFixed(0)+" visits";$("rvA").textContent=money(A);
+  $("visA").textContent=(g.vis*4.33).toFixed(0)+" a month";$("nsA").textContent=(g.vis*4.33*g.ns/100).toFixed(0)+" missed";$("winA").textContent=money(B);
+  $("npA").textContent=(g.np*4.33).toFixed(0)+" packets";$("minsA").textContent=(g.np*4.33*g.mins/60).toFixed(1)+" hrs";$("hrA").textContent=money(C);
+  $("sA").textContent=money(A);$("sB").textContent=money(B);$("sC").textContent=money(C);
+  const T=A+B+C;$("gTot").textContent=money(T)+" a month";$("gYr").textContent=money(T*12);$("tGap").textContent=money(T);
+}
+document.addEventListener("input",e=>{const t=e.target;if(t.type==="range"&&t.id.endsWith("R")){$(t.id.slice(0,-1)).value=t.value;calc()}else if(t.type==="number"){const r=$(t.id+"R");if(r)r.value=t.value;calc()}});
+calc();
+})();
+
+</script>
+
+
+</body>
+</html>
