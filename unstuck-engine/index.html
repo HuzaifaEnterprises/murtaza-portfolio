@@ -232,7 +232,7 @@ footer{border-top:1px solid var(--line);padding:22px 0 40px;margin-top:32px;colo
   ];
   var cur=0,state=pilots.map(function(p){return p.done.slice();});
   var pBox=document.getElementById("pilots"),sBox=document.getElementById("steps"),upd=document.getElementById("upd"),bar=document.getElementById("bar");
-  function lc(t){return t.replace(/^([A-Za-z])/,function(m){return m.toLowerCase();});}
+  function lc(t){return t.replace(/^([A-Z])(?![A-Z])/,function(m){return m.toLowerCase();});}
   function render(){
     var d=state[cur],n=d.reduce(function(a,b){return a+b;},0);
     Array.prototype.forEach.call(pBox.children,function(b,i){b.setAttribute("aria-pressed",i===cur?"true":"false");});
