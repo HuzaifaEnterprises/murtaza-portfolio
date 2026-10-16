@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>3 Things I'd Automate at CP Solutions | A note for Carrie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,700&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg:#F0F4F4;--fg:#1B2A33;--muted:#4D6068;--card:#FFFFFF;--line:#D1DCDC;--accent:#3F7563;--pop:#C99A2E;--soft:#E3ECEA;
+--hero-bg:#1E2F3A;--hero-fg:#F0F4F4;--hero-sub:#CFDCDC;--btn:#C99A2E;--onbtn:#1B2A33;--tagc:#3F7563;--tagh:#E7C26A;
+--display:"Newsreader",Georgia,serif;--body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+@media (prefers-color-scheme:dark){:root{--bg:#0E171C;--fg:#E6EEEE;--muted:#9FB3B6;--card:#15232A;--line:#273A42;--accent:#7FC2A8;--soft:#1D2F36;--hero-bg:#17262E}}
+h1,h2,h3{font-weight:700}
+.tl{list-style:none;margin:0;padding:0;display:grid;gap:0;border-left:3px solid var(--accent)}
+.tl li{padding:0 0 22px 20px;position:relative}
+.tl li::before{content:"";position:absolute;left:-10px;top:6px;width:17px;height:17px;border-radius:50%;background:var(--pop);border:3px solid var(--bg)}
+.tl b{display:block;font-family:var(--display);font-size:1.2rem}
+.tl span{color:var(--muted)}
+@media(min-width:760px){.tl{grid-template-columns:repeat(4,1fr);border-left:0;border-top:3px solid var(--accent);gap:16px}.tl li{padding:20px 0 0}.tl li::before{left:0;top:-11px}}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 1.0625rem/1.6 var(--body);-webkit-text-size-adjust:100%}
+h1,h2,h3{font-family:var(--display);line-height:1.15;margin:0;letter-spacing:-.01em}
+p{margin:0 0 1em;max-width:68ch}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--pop);outline-offset:3px;border-radius:4px}
+.wrap{width:100%;max-width:880px;margin:0 auto;padding:0 20px}
+section{padding:56px 0 8px}
+h2{font-size:clamp(1.7rem,5.2vw,2.3rem);margin-bottom:.6em}
+.small{font-size:.875rem;color:var(--muted)}
+.tag{display:inline-block;font-size:.8rem;font-weight:600;padding:3px 10px;border:1px solid currentColor;border-radius:999px;color:var(--tagc)}
+header{background:var(--hero-bg);color:var(--hero-fg);padding:28px 0 60px;border-bottom:5px solid var(--pop)}
+.mast{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:.9rem;opacity:.92;margin-bottom:56px}
+header h1{font-size:clamp(2.2rem,8.4vw,3.9rem);max-width:16ch;animation:rise .7s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.lead{font-size:clamp(1.1rem,3.4vw,1.3rem);margin-top:24px;max-width:48ch;color:var(--hero-sub)}
+.lead em{font-style:normal;border-bottom:2px solid var(--pop)}
+.leaks{border-top:2px solid var(--fg)}
+.leak{display:grid;grid-template-columns:1fr;gap:4px;padding:18px 0;border-bottom:1px solid var(--line)}
+.leak h3{font-size:1.25rem}
+.leak p{margin:0;color:var(--muted)}
+@media(min-width:640px){.leak{grid-template-columns:240px 1fr;gap:24px}}
+.auto{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--accent);padding:22px 20px;margin:0 0 20px;border-radius:4px}
+.auto h3{font-size:1.35rem;margin-bottom:10px}
+.auto dl{margin:12px 0 0;display:grid;gap:10px}
+.auto dt{font-weight:600;font-size:.9rem}
+.auto dd{margin:0;color:var(--muted)}
+@media(min-width:640px){.auto dl{grid-template-columns:150px 1fr;gap:8px 20px}}
+.demo{background:var(--card);border:2px solid var(--fg);border-radius:6px;margin:18px 0 28px;overflow:hidden}
+.demo-h{background:var(--hero-bg);color:var(--hero-fg);padding:10px 16px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:.85rem}
+.demo-h .tag{color:var(--tagh)}
+.demo-b{display:grid;grid-template-columns:1fr}
+.pane{padding:16px}
+.pane+.pane{border-top:1px solid var(--line)}
+@media(min-width:720px){.demo-b{grid-template-columns:1fr 1fr}.pane+.pane{border-top:0;border-left:1px solid var(--line)}}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.chips button{font:inherit;font-size:.9rem;padding:7px 12px;border:1px solid var(--line);background:transparent;color:var(--fg);border-radius:999px;cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--btn);border-color:var(--btn);color:var(--onbtn)}
+.ctl label{display:flex;justify-content:space-between;gap:12px;font-weight:500;margin-top:12px}
+.ctl output{font-weight:700;color:var(--accent)}
+.ctl input[type=range]{width:100%;accent-color:var(--accent);height:30px}
+.stat{font-family:var(--display);font-size:1.2rem;margin:4px 0 8px}
+.upd{background:var(--soft);padding:12px 14px;border-radius:4px;font-size:.95rem}
+.upd p{margin:0 0 .6em}.upd p:last-child{margin:0}
+.calc{background:var(--card);border:1px solid var(--line);padding:22px 20px;border-radius:4px}
+.calc label{display:flex;justify-content:space-between;gap:12px;font-weight:500;margin-top:16px}
+.calc output{font-weight:700;color:var(--accent)}
+.calc input[type=range]{width:100%;accent-color:var(--accent);height:32px}
+.out{margin:22px 0 0;padding-top:16px;border-top:2px solid var(--fg);font-family:var(--display);font-size:clamp(1.25rem,4.4vw,1.7rem)}
+.out span{color:var(--accent)}
+.offer{background:var(--hero-bg);color:var(--hero-fg);padding:28px 22px;border-radius:4px;border-top:6px solid var(--pop)}
+.offer p{color:var(--hero-sub)}
+.offer h2{margin-bottom:.4em}
+.seq{display:grid;gap:10px;margin:18px 0 0;padding:0;list-style:none;counter-reset:s}
+.seq li{counter-increment:s;padding-left:44px;position:relative}
+.seq li::before{content:counter(s);position:absolute;left:0;top:0;width:30px;height:30px;border-radius:50%;background:var(--pop);color:#111;font-weight:700;display:grid;place-items:center}
+.proof{display:grid;gap:16px}
+@media(min-width:720px){.proof{grid-template-columns:repeat(3,1fr)}}
+.pf{border-top:4px solid var(--accent);padding-top:12px}
+.pf b{display:block;font-family:var(--display);font-size:1.75rem;line-height:1.15;margin-bottom:6px}
+.pf p{color:var(--muted);font-size:.97rem}
+.btn{display:inline-block;background:var(--btn);color:var(--onbtn);font-weight:600;font-size:1.1rem;text-decoration:none;padding:14px 26px;border-radius:6px;border:2px solid var(--fg);transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.next{padding-bottom:40px}
+footer{border-top:1px solid var(--line);padding:22px 0 40px;margin-top:32px;color:var(--muted);font-size:.9rem}
+
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<div class="mast"><span><strong>CP Solutions</strong> &nbsp;|&nbsp; A short note for Carrie</span><span>17 October 2026</span></div>
+<h1>3 Things I'd Automate at CP Solutions</h1>
+<p class="lead">Carrie, your site offers a free AI Readiness Assessment followed by a 60 minute strategy session. <em>Every step around that session is a step that can run in the background.</em></p>
+</div></header>
+<main><div class="wrap">
+<section aria-labelledby="leaks"><h2 id="leaks">Where the time quietly goes</h2>
+<p>I am reading this from the outside, from your site, so treat these as educated guesses for you to correct.</p>
+<div class="leaks"><div class="leak"><h3>The assessment flow</h3><p>An intake form, a scoring summary, a results report and a follow-up timeline can all be assembled automatically, so each assessment arrives at the strategy session already prepared.</p></div><div class="leak"><h3>The hand-off from plan to running</h3><p>Your plans are built so a client's own team can run them. The automation parts of a plan are a natural place for a delivery partner to take over.</p></div><div class="leak"><h3>Weekly status updates</h3><p>A status note or dashboard for each client project is useful and repetitive. It can be drawn from the project's own task list.</p></div></div>
+<p style="margin-top:20px">You design the plan, and your clients lead the work. This is an offer to be the delivery partner behind the automation parts, as a subcontractor or white label, with you leading the client relationship. I am not offering advice on AI readiness. That is your work.</p></section>
+<section aria-labelledby="three"><h2 id="three">Three things I would build</h2>
+<article class="auto"><h3>1. AI Readiness Assessment intake and results hand-off</h3><p>Each assessment request comes in through an intake form. The answers become a scoring summary, a results report draft for you to review, and a follow-up timeline for the strategy session.</p><dl><dt>What you notice</dt><dd>Your client gets a prompt confirmation and a clear next step. You get a finished draft to review instead of assembling one.</dd><dt>Result it should produce</dt><dd>Every assessment moves smoothly into the strategy session, and your time goes to the session itself.</dd></dl></article>
+<div class="demo"><div class="demo-h"><strong>Try it: assessment intake to results hand-off</strong><span class="tag">Illustrative, sample data</span></div>
+<div class="demo-b"><div class="pane"><p class="small">Sample intake answers (1 low, 5 high). Your own assessment questions would replace these.</p><div class="ctl"><label for="a1">Goals and sponsorship <output id="o_a1">4</output></label><input type="range" id="a1" min="1" max="5" step="1" value="4"><label for="a2">Data and systems <output id="o_a2">2</output></label><input type="range" id="a2" min="1" max="5" step="1" value="2"><label for="a3">Team skills <output id="o_a3">3</output></label><input type="range" id="a3" min="1" max="5" step="1" value="3"><label for="a4">Process readiness <output id="o_a4">2</output></label><input type="range" id="a4" min="1" max="5" step="1" value="2"></div></div>
+<div class="pane" aria-live="polite"><p class="small">Results draft for you to review before it is sent</p><p class="stat" id="stat"></p><div class="upd" id="draft"></div></div></div></div><article class="auto"><h3>2. Plan-to-automation hand-off</h3><p>When one of your plans includes automations, I build and run those parts for the client, working from your plan and your sign-off at each stage.</p><dl><dt>What you notice</dt><dd>Your client sees the plan turn into running work, under your name or mine, as you prefer.</dd><dt>Result it should produce</dt><dd>Plans that get implemented as designed, with you leading the relationship.</dd></dl></article>
+<article class="auto"><h3>3. Weekly project status note</h3><p>Each client project gets a weekly status note, or a simple dashboard, built from the project's own task list.</p><dl><dt>What you notice</dt><dd>A short, consistent update lands with the client every week, ready for your review.</dd><dt>Result it should produce</dt><dd>Less time writing updates, and clients always know where things stand.</dd></dl></article>
+</section>
+<section aria-labelledby="cost"><h2 id="cost">What it might cost</h2>
+<p class="small">Illustrative estimate, based on assumptions you can change. Move the sliders to your real numbers.</p>
+<div class="calc"><label for="m1">Assessments per month <output id="o_m1">6</output></label><input type="range" id="m1" min="0" max="30" step="1" value="6"><label for="m2">Minutes to assemble each results report <output id="o_m2">45</output></label><input type="range" id="m2" min="5" max="120" step="5" value="45"><label for="m3">Active client projects <output id="o_m3">5</output></label><input type="range" id="m3" min="0" max="20" step="1" value="5"><label for="m4">Minutes per weekly status note <output id="o_m4">30</output></label><input type="range" id="m4" min="5" max="90" step="5" value="30"><label for="m5">What an hour of your time is worth ($) <output id="o_m5">100</output></label><input type="range" id="m5" min="25" max="300" step="5" value="100"><p class="out" id="out"></p></div></section>
+<section aria-labelledby="tl"><h2 id="tl">A simple project timeline</h2>
+<ol class="tl"><li><b>Day 0</b><span>You reply and I start.</span></li>
+<li><b>Within 48 to 72 hours</b><span>A working demo of the assessment intake and results hand-off, on sample data.</span></li>
+<li><b>After your review</b><span>You tell me what to change, and I adjust it to your own assessment and wording.</span></li>
+<li><b>Then, if it fits</b><span>We agree how we work together, subcontract or white label, and I build the next piece.</span></li></ol></section>
+<section aria-labelledby="offer"><div class="offer"><h2 id="offer">The offer: a working demo first, free</h2><p>I build the AI Readiness Assessment intake and results hand-off flow first, as a working demo on sample data, before you pay anything. You judge it, and decide what happens next.</p></div></section>
+<section aria-labelledby="proof"><h2 id="proof">Why I can carry this for you</h2>
+<p>I am a business graduate who has run operations, finance and online sales in real businesses, and then built the automation.</p>
+<div class="proof"><div class="pf"><b>1 hour to 5 minutes</b><p>Built 15+ workflows for 5 US clinics, cutting client onboarding from one hour to five minutes.</p></div><div class="pf"><b>20+ hours a week</b><p>Built a business management app for a timber importer that replaced manual invoicing. It opened up the ledgers, and the company noticed long-unpaid customer balances that had only been noted in a diary.</p></div><div class="pf"><b>Monthly reporting</b><p>At the same importer I introduced monthly profitability and customer payment day reporting.</p></div></div></section>
+<section class="next" aria-labelledby="next"><h2 id="next">Next step</h2>
+<p>If this is useful, one reply is enough.</p>
+<a class="btn" href="mailto:murtazamustafaa02@gmail.com?subject=CP%20Solutions%20demo&amp;body=Hi%20Murtaza%2C%20go%20ahead%20and%20start.">Reply and I will start</a>
+<p class="small" style="margin-top:16px">Murtaza Mustafa | murtazamustafaa02@gmail.com</p></section>
+</div></main>
+<footer><div class="wrap">Built by Murtaza Mustafa</div></footer>
+<script>
+
+(function(){
+ var names=["Goals and sponsorship","Data and systems","Team skills","Process readiness"],ids=["a1","a2","a3","a4"];
+ function draw(){
+  var v=ids.map(function(id){var x=+document.getElementById(id).value;document.getElementById("o_"+id).textContent=x;return x;});
+  var avg=v.reduce(function(a,b){return a+b;},0)/v.length;
+  var order=v.map(function(x,i){return i;}).sort(function(a,b){return v[a]-v[b]||a-b;});
+  document.getElementById("stat").textContent="Overall score: "+avg.toFixed(1)+" out of 5";
+  document.getElementById("draft").innerHTML="<p><strong>Scoring summary:</strong> "+names.map(function(n,i){return n+" "+v[i];}).join(", ")+".</p><p><strong>For the strategy session:</strong> "+names[order[0]]+" and "+names[order[1]]+" scored lowest.</p><p><strong>Follow-up timeline:</strong> results report on day 0, reminder to book the session on day 2, check-in on day 7.</p>";
+ }
+ ids.forEach(function(id){document.getElementById(id).addEventListener("input",draw);});draw();
+ var c=["m1","m2","m3","m4","m5"];
+ function calc(){
+  var v=c.map(function(id){var x=+document.getElementById(id).value;document.getElementById("o_"+id).textContent=x;return x;});
+  var h=(v[0]*v[1]+v[2]*v[3]*4.33)/60;
+  document.getElementById("out").innerHTML="About <span>"+Math.round(h)+" hours</span> a month, roughly <span>$"+Math.round(h*v[4]).toLocaleString("en-US")+"</span> of your time.";
+ }
+ c.forEach(function(id){document.getElementById(id).addEventListener("input",calc);});calc();
+})();
+
+</script>
+</body>
+</html>

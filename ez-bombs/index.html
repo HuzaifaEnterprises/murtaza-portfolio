@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>3 Things I'd Automate for TikTok Shop at EZ Bombs | A note for Ben</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700&family=Karla:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg:#F3F4F6;--fg:#15171C;--muted:#555B66;--card:#FFFFFF;--line:#D9DCE2;--accent:#C23A1B;--pop:#FF6A3D;--soft:#ECEEF2;
+--hero-bg:#14161B;--hero-fg:#F3F4F6;--hero-sub:#C8CCD4;--btn:#FF6A3D;--onbtn:#14161B;--tagc:#C23A1B;--tagh:#FFA98C;
+--display:"Outfit",system-ui,sans-serif;--body:"Karla",system-ui,-apple-system,"Segoe UI",sans-serif}
+@media (prefers-color-scheme:dark){:root{--bg:#0E1014;--fg:#EDEFF3;--muted:#9AA1AD;--card:#171A21;--line:#2A2F39;--accent:#FF8A63;--soft:#20242D;--hero-bg:#171A21}}
+h1,h2,h3{font-weight:700}
+.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:6px}
+.tile{background:var(--soft);padding:10px 12px;border-radius:6px;border-top:3px solid var(--accent)}
+.tile b{display:block;font-family:var(--display);font-size:1.9rem;line-height:1.1}
+.tile span{font-size:.85rem;color:var(--muted)}
+.rows{list-style:none;margin:0;padding:0}
+.rows li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:.95rem}
+.rows li:last-child{border-bottom:0}
+.rows small{display:block;color:var(--muted)}
+.rows button{font:inherit;font-size:.85rem;font-weight:600;padding:6px 10px;border:2px solid var(--fg);background:var(--btn);color:var(--onbtn);border-radius:6px;cursor:pointer;white-space:nowrap}
+.rows button:disabled{background:transparent;color:var(--muted);border-color:var(--line);cursor:default}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 1.0625rem/1.6 var(--body);-webkit-text-size-adjust:100%}
+h1,h2,h3{font-family:var(--display);line-height:1.15;margin:0;letter-spacing:-.01em}
+p{margin:0 0 1em;max-width:68ch}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--pop);outline-offset:3px;border-radius:4px}
+.wrap{width:100%;max-width:880px;margin:0 auto;padding:0 20px}
+section{padding:56px 0 8px}
+h2{font-size:clamp(1.7rem,5.2vw,2.3rem);margin-bottom:.6em}
+.small{font-size:.875rem;color:var(--muted)}
+.tag{display:inline-block;font-size:.8rem;font-weight:600;padding:3px 10px;border:1px solid currentColor;border-radius:999px;color:var(--tagc)}
+header{background:var(--hero-bg);color:var(--hero-fg);padding:28px 0 60px;border-bottom:5px solid var(--pop)}
+.mast{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:.9rem;opacity:.92;margin-bottom:56px}
+header h1{font-size:clamp(2.2rem,8.4vw,3.9rem);max-width:16ch;animation:rise .7s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.lead{font-size:clamp(1.1rem,3.4vw,1.3rem);margin-top:24px;max-width:48ch;color:var(--hero-sub)}
+.lead em{font-style:normal;border-bottom:2px solid var(--pop)}
+.leaks{border-top:2px solid var(--fg)}
+.leak{display:grid;grid-template-columns:1fr;gap:4px;padding:18px 0;border-bottom:1px solid var(--line)}
+.leak h3{font-size:1.25rem}
+.leak p{margin:0;color:var(--muted)}
+@media(min-width:640px){.leak{grid-template-columns:240px 1fr;gap:24px}}
+.auto{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--accent);padding:22px 20px;margin:0 0 20px;border-radius:4px}
+.auto h3{font-size:1.35rem;margin-bottom:10px}
+.auto dl{margin:12px 0 0;display:grid;gap:10px}
+.auto dt{font-weight:600;font-size:.9rem}
+.auto dd{margin:0;color:var(--muted)}
+@media(min-width:640px){.auto dl{grid-template-columns:150px 1fr;gap:8px 20px}}
+.demo{background:var(--card);border:2px solid var(--fg);border-radius:6px;margin:18px 0 28px;overflow:hidden}
+.demo-h{background:var(--hero-bg);color:var(--hero-fg);padding:10px 16px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:.85rem}
+.demo-h .tag{color:var(--tagh)}
+.demo-b{display:grid;grid-template-columns:1fr}
+.pane{padding:16px}
+.pane+.pane{border-top:1px solid var(--line)}
+@media(min-width:720px){.demo-b{grid-template-columns:1fr 1fr}.pane+.pane{border-top:0;border-left:1px solid var(--line)}}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.chips button{font:inherit;font-size:.9rem;padding:7px 12px;border:1px solid var(--line);background:transparent;color:var(--fg);border-radius:999px;cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--btn);border-color:var(--btn);color:var(--onbtn)}
+.ctl label{display:flex;justify-content:space-between;gap:12px;font-weight:500;margin-top:12px}
+.ctl output{font-weight:700;color:var(--accent)}
+.ctl input[type=range]{width:100%;accent-color:var(--accent);height:30px}
+.stat{font-family:var(--display);font-size:1.2rem;margin:4px 0 8px}
+.upd{background:var(--soft);padding:12px 14px;border-radius:4px;font-size:.95rem}
+.upd p{margin:0 0 .6em}.upd p:last-child{margin:0}
+.calc{background:var(--card);border:1px solid var(--line);padding:22px 20px;border-radius:4px}
+.calc label{display:flex;justify-content:space-between;gap:12px;font-weight:500;margin-top:16px}
+.calc output{font-weight:700;color:var(--accent)}
+.calc input[type=range]{width:100%;accent-color:var(--accent);height:32px}
+.out{margin:22px 0 0;padding-top:16px;border-top:2px solid var(--fg);font-family:var(--display);font-size:clamp(1.25rem,4.4vw,1.7rem)}
+.out span{color:var(--accent)}
+.offer{background:var(--hero-bg);color:var(--hero-fg);padding:28px 22px;border-radius:4px;border-top:6px solid var(--pop)}
+.offer p{color:var(--hero-sub)}
+.offer h2{margin-bottom:.4em}
+.seq{display:grid;gap:10px;margin:18px 0 0;padding:0;list-style:none;counter-reset:s}
+.seq li{counter-increment:s;padding-left:44px;position:relative}
+.seq li::before{content:counter(s);position:absolute;left:0;top:0;width:30px;height:30px;border-radius:50%;background:var(--pop);color:#111;font-weight:700;display:grid;place-items:center}
+.proof{display:grid;gap:16px}
+@media(min-width:720px){.proof{grid-template-columns:repeat(3,1fr)}}
+.pf{border-top:4px solid var(--accent);padding-top:12px}
+.pf b{display:block;font-family:var(--display);font-size:1.75rem;line-height:1.15;margin-bottom:6px}
+.pf p{color:var(--muted);font-size:.97rem}
+.btn{display:inline-block;background:var(--btn);color:var(--onbtn);font-weight:600;font-size:1.1rem;text-decoration:none;padding:14px 26px;border-radius:6px;border:2px solid var(--fg);transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.next{padding-bottom:40px}
+footer{border-top:1px solid var(--line);padding:22px 0 40px;margin-top:32px;color:var(--muted);font-size:.9rem}
+
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<div class="mast"><span><strong>EZ Bombs</strong> &nbsp;|&nbsp; A short note for Ben</span><span>17 October 2026</span></div>
+<h1>3 Things I'd Automate at EZ Bombs</h1>
+<p class="lead">Ben, congratulations on the Series A news you shared. EZ Bombs invites creators in through Collaborate and a Sampling Community, and <em>that kind of growth means more applications and sample requests to keep track of.</em></p>
+</div></header>
+<main><div class="wrap">
+<section aria-labelledby="leaks"><h2 id="leaks">Where the time quietly goes</h2>
+<p>I am a TikTok Shop operator too, and I am reading this from the outside, from your site and your posts. Your team may already have some of this covered, so treat these as educated guesses.</p>
+<div class="leaks"><div class="leak"><h3>Applications and sample requests</h3><p>As the creator program grows, each application and sample request needs a decision and a status. A shared tracker keeps them all visible.</p></div><div class="leak"><h3>One weekly picture</h3><p>TikTok Shop, site and retail sales sit in different places. A single weekly report joins them for the marketing team.</p></div><div class="leak"><h3>Payouts and performance</h3><p>For a program like Collaborate, a clear view of who is owed what, and which creators perform, saves a lot of back and forth.</p></div></div>
+<p style="margin-top:20px">This is a small, personal offer from one TikTok Shop operator to another. It is not about changing how your team works, and it is yours to try or to pass along.</p></section>
+<section aria-labelledby="three"><h2 id="three">Three things I would build</h2>
+<article class="auto"><h3>1. Creator sample request and affiliate application tracker</h3><p>Each application and sample request lands in one tracker with a clear status, from new to approved, sample sent and content posted, with a reminder when one stalls.</p><dl><dt>What you notice</dt><dd>One screen shows where every creator stands, and nothing waits unseen.</dd><dt>Result it should produce</dt><dd>Faster replies to creators and a clean record of who has received what.</dd></dl></article>
+<div class="demo"><div class="demo-h"><strong>Try it: creator applications and sample requests tracker</strong><span class="tag">Illustrative, sample data</span></div>
+<div class="demo-b"><div class="pane"><div class="tiles" id="tiles" aria-live="polite"></div><p class="small">Press the button on a row to move that creator to the next step.</p></div>
+<div class="pane"><ul class="rows" id="rows"></ul></div></div></div><article class="auto"><h3>2. Weekly TikTok Shop report</h3><p>TikTok Shop, site and retail sales are joined into one page each week, with a short summary of what moved.</p><dl><dt>What you notice</dt><dd>The report is ready at the start of the week, instead of being assembled by hand.</dd><dt>Result it should produce</dt><dd>One consistent view for the marketing team, built in less time.</dd></dl></article>
+<article class="auto"><h3>3. Creator payout and performance tracker</h3><p>For the Collaborate program, each creator's activity and what is owed is tracked in one place, with a simple check before payouts.</p><dl><dt>What you notice</dt><dd>A clear answer to who is owed what, and who is driving results.</dd><dt>Result it should produce</dt><dd>Fewer payout questions and a clear view of top creators.</dd></dl></article>
+</section>
+<section aria-labelledby="cost"><h2 id="cost">What it might cost</h2>
+<p class="small">Illustrative estimate, based on assumptions you can change. Move the sliders to your real numbers.</p>
+<div class="calc"><label for="b1">Creator applications and sample requests per week <output id="o_b1">25</output></label><input type="range" id="b1" min="0" max="150" step="1" value="25"><label for="b2">Minutes to handle each one <output id="o_b2">6</output></label><input type="range" id="b2" min="1" max="30" step="1" value="6"><label for="b3">Minutes to build the weekly report <output id="o_b3">90</output></label><input type="range" id="b3" min="0" max="240" step="10" value="90"><label for="b4">Creators to pay or track each month <output id="o_b4">30</output></label><input type="range" id="b4" min="0" max="150" step="1" value="30"><label for="b5">Minutes per payout check <output id="o_b5">5</output></label><input type="range" id="b5" min="1" max="30" step="1" value="5"><label for="b6">What an hour of time is worth ($) <output id="o_b6">100</output></label><input type="range" id="b6" min="25" max="300" step="5" value="100"><p class="out" id="out"></p></div></section>
+<section aria-labelledby="offer"><div class="offer"><h2 id="offer">The offer: a working demo first, free</h2><p>I build a creator sample request and affiliate application tracker first, as a working demo on sample data, before anything is asked of you. If it is useful, I build the weekly TikTok Shop report next. Use it yourself, or pass it to whoever on your team would find it helpful.</p><ol class="seq"><li><strong>Day 0:</strong> you reply and I start.</li><li><strong>Within 48 to 72 hours:</strong> you get the working demo, on sample data.</li><li><strong>Then:</strong> keep it, change it, or walk away. If a contract or remote role conversation makes more sense, I am glad to talk about that too.</li></ol></div></section>
+<section aria-labelledby="proof"><h2 id="proof">Why I can carry this for you</h2>
+<p>I am a business graduate who has run operations, finance and online sales in real businesses, and then built the automation.</p>
+<div class="proof"><div class="pf"><b>RM 50K to RM 500K</b><p>Took Masaki's TikTok Shop from RM 50K to RM 500K in six months and built a 20,000+ creator affiliate network.</p></div><div class="pf"><b>$50K+</b><p>Scaled my own TikTok Shop USA stores past $50K in revenue.</p></div><div class="pf"><b>Monthly P&amp;L and COGS</b><p>I own the monthly P&amp;L and COGS reporting at Alzo Home, so the numbers are read by someone who understands them.</p></div></div></section>
+<section class="next" aria-labelledby="next"><h2 id="next">Next step</h2>
+<p>If this is useful, one reply is enough.</p>
+<a class="btn" href="mailto:murtazamustafaa02@gmail.com?subject=TikTok%20Shop%20demo&amp;body=Hi%20Murtaza%2C%20go%20ahead%20and%20start.">Reply and I will start</a>
+<p class="small" style="margin-top:16px">Murtaza Mustafa | murtazamustafaa02@gmail.com</p></section>
+</div></main>
+<footer><div class="wrap">Built by Murtaza Mustafa</div></footer>
+<script>
+
+(function(){
+ var st=["New","Approved","Sample sent","Content posted"],act=["Approve","Send sample","Mark posted"];
+ var cr=[{n:"Sample creator A",s:0},{n:"Sample creator B",s:0},{n:"Sample creator C",s:1},{n:"Sample creator D",s:2},{n:"Sample creator E",s:3},{n:"Sample creator F",s:0}];
+ var tiles=document.getElementById("tiles"),rows=document.getElementById("rows");
+ function draw(){
+  tiles.innerHTML=st.map(function(n,i){var c=cr.filter(function(x){return x.s===i;}).length;return '<div class="tile"><b>'+c+'</b><span>'+n+'</span></div>';}).join("");
+  rows.innerHTML="";
+  cr.forEach(function(c,i){
+   var li=document.createElement("li"),d=document.createElement("div"),b=document.createElement("button");
+   d.innerHTML=c.n+"<small>"+st[c.s]+"</small>";
+   b.type="button";b.textContent=c.s<3?act[c.s]:"Done";b.disabled=c.s>=3;
+   b.addEventListener("click",function(){cr[i].s++;draw();});
+   li.appendChild(d);li.appendChild(b);rows.appendChild(li);
+  });
+ }
+ draw();
+ var ids=["b1","b2","b3","b4","b5","b6"];
+ function calc(){
+  var v=ids.map(function(id){var x=+document.getElementById(id).value;document.getElementById("o_"+id).textContent=x;return x;});
+  var h=(v[0]*v[1]*4.33+v[2]*4.33+v[3]*v[4])/60;
+  document.getElementById("out").innerHTML="About <span>"+Math.round(h)+" hours</span> a month, roughly <span>$"+Math.round(h*v[5]).toLocaleString("en-US")+"</span> of time.";
+ }
+ ids.forEach(function(id){document.getElementById(id).addEventListener("input",calc);});calc();
+})();
+
+</script>
+</body>
+</html>
