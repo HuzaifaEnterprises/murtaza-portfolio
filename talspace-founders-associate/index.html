@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="author" content="Murtaza Mustafa">
+<meta name="description" content="Murtaza Mustafa's case for the Talspace Founders Associate role: someone who has already built, run and fixed real businesses.">
+<title>Murtaza Mustafa, for Talspace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#000308; --panel:#070b14; --panel-2:#0b1120; --ink:#f2f6ff; --muted:#8a94ad; --faint:#566179; --line:#172033;
+  --cyan:#22d3ee; --cyan-deep:#0e7490; --grid:rgba(60,110,160,.07);
+  --display:"Space Grotesk","Segoe UI",system-ui,sans-serif;
+  --body:"Inter","Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--body);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:64px 64px;background-position:center top}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:3px}
+.pad{padding-left:max(22px,env(safe-area-inset-left,0px));padding-right:max(22px,env(safe-area-inset-right,0px))}
+.col{max-width:1060px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);margin:0;letter-spacing:-.02em;line-height:1.02;font-weight:600;text-wrap:balance}
+.cy{color:var(--cyan)}
+.eyebrow{font:500 12.5px/1.4 var(--body);letter-spacing:.24em;text-transform:uppercase;color:var(--cyan);display:flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:34px;height:1px;background:var(--cyan);opacity:.7}
+
+/* top bar */
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:22px;border-bottom:1px solid var(--line)}
+.wm{font:700 19px/1 var(--display);letter-spacing:-.01em}
+.wm b{color:var(--cyan);font-weight:700}
+.top .for{font:500 13px/1.4 var(--body);color:var(--muted);text-align:right}
+
+/* hero */
+.hero{position:relative;padding-block:clamp(60px,12vw,150px) clamp(60px,10vw,120px);overflow:hidden}
+.hero::before{content:"";position:absolute;left:50%;top:-10%;width:760px;height:760px;transform:translateX(-50%);
+  background:radial-gradient(circle,rgba(34,211,238,.16),transparent 62%);pointer-events:none;z-index:-1}
+.hero h1{font-size:clamp(37px,6.2vw,72px);font-weight:600;max-width:17ch}
+.hero .lede{margin:30px 0 0;max-width:54ch;font-size:clamp(17px,2vw,20px);color:#c3cce0;line-height:1.55}
+.hero .sig{margin-top:30px;display:flex;flex-wrap:wrap;gap:10px 26px;color:var(--muted);font-size:15px;font-weight:500}
+.hero .sig b{color:var(--ink);font-weight:600}
+.cta{margin-top:40px;display:flex;flex-wrap:wrap;gap:14px}
+.cta a{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font:600 15px/1 var(--body);padding:15px 22px;border-radius:999px}
+.cta .main{background:var(--cyan);color:#001018}
+.cta .ghost{border:1px solid var(--line);color:var(--ink)}
+.cta a:hover{transform:translateY(-1px)}
+
+section{padding-block:clamp(54px,8vw,96px);border-top:1px solid var(--line)}
+section h2{font-size:clamp(28px,4.4vw,46px);max-width:22ch}
+section .sub{margin:16px 0 0;max-width:60ch;color:var(--muted);font-size:17px}
+
+/* built run fixed */
+.brf{margin-top:48px;display:grid;gap:18px}
+.brf article{position:relative;background:linear-gradient(180deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:18px;
+  padding:clamp(24px,3vw,34px);display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 30px;align-items:start}
+.brf .verb{font:600 13px/1 var(--display);letter-spacing:.22em;text-transform:uppercase;color:var(--cyan);
+  writing-mode:vertical-rl;transform:rotate(180deg);align-self:stretch;padding-top:4px}
+.brf .num{font:600 clamp(30px,4vw,42px)/1 var(--display);color:var(--ink);grid-column:2}
+.brf h3{grid-column:2;font-size:21px;font-weight:600;margin-top:2px}
+.brf p{grid-column:2;margin:10px 0 0;color:#b9c2d8}
+.brf p.where{color:var(--muted);font-size:15px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+@media(max-width:620px){.brf article{grid-template-columns:1fr}.brf .verb{writing-mode:horizontal-tb;transform:none}.brf .num,.brf h3,.brf p{grid-column:1}}
+
+/* fit checklist */
+.fit{margin-top:44px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.fit article{padding:24px;border:1px solid var(--line);border-radius:14px;background:var(--panel);display:flex;gap:16px;align-items:flex-start}
+.fit .tick{width:26px;height:26px;flex:none;border-radius:50%;border:1.5px solid var(--cyan);display:grid;place-items:center;margin-top:2px}
+.fit .tick svg{width:13px;height:13px;stroke:var(--cyan);fill:none;stroke-width:2.4}
+.fit h3{font-size:16px;font-weight:600;line-height:1.35;color:var(--ink)}
+.fit p{margin:8px 0 0;color:var(--muted);font-size:15px}
+@media(max-width:720px){.fit{grid-template-columns:1fr}}
+
+/* own map */
+.own{margin-top:44px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.own article{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px 22px}
+.own h3{font-size:18px;font-weight:600;margin-bottom:10px;display:flex;align-items:baseline;gap:10px}
+.own h3 i{font-style:normal;font:600 12px/1 var(--display);color:var(--cyan);letter-spacing:.1em}
+.own p{margin:0;color:var(--muted);font-size:15px}
+@media(max-width:820px){.own{grid-template-columns:1fr}}
+
+/* honest */
+.honest{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:clamp(26px,3.4vw,40px);margin-top:16px}
+.honest h2{font-size:clamp(24px,3.4vw,34px)}
+.honest ul{margin:22px 0 0;padding:0;list-style:none;display:grid;gap:16px}
+.honest li{padding-left:26px;position:relative;color:#b9c2d8}
+.honest li::before{content:"";position:absolute;left:0;top:9px;width:9px;height:9px;border-radius:2px;background:var(--cyan);transform:rotate(45deg)}
+.honest li b{color:var(--ink);font-weight:600}
+
+/* moves */
+.moves{margin-top:44px;counter-reset:m;display:grid;gap:0}
+.moves div{counter-increment:m;padding:26px 0;border-top:1px solid var(--line);display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:baseline}
+.moves div::before{content:counter(m,decimal-leading-zero);font:600 15px/1 var(--display);color:var(--cyan)}
+.moves h3{font-size:19px;font-weight:600}
+.moves p{margin:8px 0 0;color:var(--muted);font-size:15px;grid-column:2}
+
+/* close */
+.close{text-align:left}
+.close h2{font-size:clamp(28px,5vw,52px);max-width:18ch}
+.close .contact{margin-top:30px;display:flex;flex-wrap:wrap;gap:12px}
+.close .contact a{display:inline-block;padding:14px 22px;border-radius:999px;text-decoration:none;font-weight:600;font-size:15px}
+.close .contact a.p{background:var(--cyan);color:#001018}
+.close .contact a.g{border:1px solid var(--line);color:var(--ink)}
+.fine{margin-top:40px;font-size:13.5px;color:#566179;border-top:1px solid var(--line);padding-top:18px;line-height:1.6}
+.fine{color:#566179}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
+@media(prefers-color-scheme:light){body{background-color:#000308}}
+</style>
+</head>
+<body>
+<div class="pad"><div class="col">
+  <div class="top">
+    <div class="wm">murtaza<b>.</b></div>
+    <div class="for">A note for Absaar Malik<br>Founders Associate, Talspace</div>
+  </div>
+</div></div>
+
+<header class="hero"><div class="pad"><div class="col">
+  <p class="eyebrow">Built. Run. Fixed.</p>
+  <h1 style="margin-top:22px">You asked for someone who has <span class="cy">built</span> something, <span class="cy">run</span> something, or <span class="cy">fixed</span> something nobody asked them to. I have done all three.</h1>
+  <p class="lede">I am Murtaza Mustafa, a business graduate from Pakistan. I did not wait for a job to start operating. While finishing my degree I built software that recovered real money for an importer, ran a brand's store from RM 50K to RM 500K, and fixed broken client operations for a US company. This page is my application to run Talspace with you.</p>
+  <div class="sig">
+    <span><b>Karachi, Pakistan</b></span>
+    <span>BA (Hons) Business Management, <b>2026</b></span>
+    <span>Open to relocate and travel</span>
+  </div>
+  <div class="cta">
+    <a class="main" href="#fit">Why me, point by point</a>
+    <a class="ghost" href="#own">What I would own</a>
+  </div>
+</div></div></header>
+
+<main>
+<section id="brf"><div class="pad"><div class="col">
+  <p class="eyebrow">The evidence</p>
+  <h2 style="margin-top:18px">Three things, already done</h2>
+  <p class="sub">Not coursework. Not theory. Real businesses, real numbers, my own hands on them.</p>
+  <div class="brf">
+    <article>
+      <div class="verb">Built</div>
+      <div class="num">~$15K</div>
+      <h3>Software that found money the business had lost</h3>
+      <p>At Huzaifa Enterprises, a softwood timber importer, I built a business management app that replaced manual invoicing and opened up every customer ledger. It surfaced long-unpaid balances the company had only written in a diary and forgotten, about $15K, and it saves more than 20 hours a week. Demo: importdeskpro.vercel.app</p>
+      <p class="where">Nobody told me to build it. I saw the leak and closed it.</p>
+    </article>
+    <article>
+      <div class="verb">Run</div>
+      <div class="num">10x</div>
+      <h3>A brand's whole store, grown tenfold in six months</h3>
+      <p>At Masaki in Malaysia I ran the TikTok Shop end to end and took revenue from RM 50K to RM 500K in six months. I built and directed a network of more than 20,000 affiliate creators and ran the campaigns that drove it.</p>
+      <p class="where">Owning people, targets and outcomes across a border and a time zone, from Karachi.</p>
+    </article>
+    <article>
+      <div class="verb">Fixed</div>
+      <div class="num">1hr &rarr; 5min</div>
+      <h3>Broken client operations for a US company</h3>
+      <p>At Orien Systems I built more than 15 workflows for five US clinics and cut client onboarding from one hour to five minutes, a reduction of over 90%. I was the operator who made the client machine run.</p>
+      <p class="where">Handed a messy process and a US client, I made it work.</p>
+    </article>
+  </div>
+</div></div></section>
+
+<section id="fit"><div class="pad"><div class="col">
+  <p class="eyebrow">Your list, my answer</p>
+  <h2 style="margin-top:18px">You wrote down who you want. That is me.</h2>
+  <p class="sub">Four lines from your post, and where I stand on each.</p>
+  <div class="fit">
+    <article><span class="tick"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span><div><h3>Undergrad from Pakistan: fresh grad, a few years in, or finishing</h3><p>Business graduate from Pakistan, degree finished July 2026, based in Karachi.</p></div></article>
+    <article><span class="tick"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span><div><h3>An operator who has built, run or fixed something</h3><p>All three, above, across an importer, a Malaysian brand and a US client company.</p></div></article>
+    <article><span class="tick"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span><div><h3>Hungry and relentless, would rather be handed a hard problem than a job description</h3><p>Every result above started with a problem nobody scoped for me. I built the app, the creator network and the workflows without being told to.</p></div></article>
+    <article><span class="tick"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span><div><h3>Comfortable owning outcomes, including the bad ones</h3><p>I own a P&amp;L and COGS at Alzo Home every month. When a number is bad, it is mine to explain and fix, not to pass on.</p></div></article>
+  </div>
+</div></div></section>
+
+<section id="own"><div class="pad"><div class="col">
+  <p class="eyebrow">The role</p>
+  <h2 style="margin-top:18px">What you want me to own, and where I have done it</h2>
+  <p class="sub">Your post lists six areas. I have carried each one in a real business already.</p>
+  <div class="own">
+    <article><h3><i>01</i> Client relationships</h3><p>Ran US clinic clients at Orien Systems and influencer partners at Masaki. Kept partners to a standard while keeping the relationship intact.</p></article>
+    <article><h3><i>02</i> Engineer and talent operations</h3><p>Built and directed a 20,000+ creator network: recruiting, coordinating and holding a large distributed group to delivery.</p></article>
+    <article><h3><i>03</i> Hiring and growth</h3><p>Grew a store 10x in six months and scaled my own TikTok Shop USA stores past $50K through the channels I built.</p></article>
+    <article><h3><i>04</i> Finance</h3><p>Own monthly P&amp;L, income statements, COGS and pricing at Alzo Home. Introduced cash-flow and DSO reporting at the importer.</p></article>
+    <article><h3><i>05</i> Operations and systems</h3><p>Build the tools myself. Shipped an ERP-style app on Supabase and Vercel and 15+ automations that removed repeat work.</p></article>
+    <article><h3><i>06</i> Strategy</h3><p>Set pricing, picked channels and decided where to spend across four businesses, then lived with the results.</p></article>
+  </div>
+</div></div></section>
+
+<section><div class="pad"><div class="col honest">
+  <p class="eyebrow">Straight with you</p>
+  <h2 style="margin-top:16px">What I do not have yet</h2>
+  <ul>
+    <li><b>I have not run a venture-backed company before.</b> I have run businesses and owned their numbers, but not one with investors watching. I would ask a lot of sharp questions early and learn your bar fast.</li>
+    <li><b>I am not an engineer by training.</b> I build with AI tools, Supabase, Vercel and automation platforms. For deep technical calls I would lean on your engineering network, which is the whole point of Talspace.</li>
+    <li><b>My wins are mine, but they are small-company wins.</b> The scope here is bigger. That is exactly why I want it.</li>
+  </ul>
+</div></div></section>
+
+<section><div class="pad"><div class="col">
+  <p class="eyebrow">If you hand me the wheel</p>
+  <h2 style="margin-top:18px">My first moves</h2>
+  <p class="sub">A starting plan, to be rewritten with you in the first week. It is a plan, not a promise.</p>
+  <div class="moves">
+    <div><div><h3>Learn the machine</h3><p>Sit inside every part of the business: how clients are won, how engineers are matched and managed, where money comes in and goes out. Map it before I touch it.</p></div></div>
+    <div><div><h3>Take the operational load off the founders</h3><p>Own the repeatable work first, client coordination, engineer operations, reporting, so your time goes to the decisions only you can make.</p></div></div>
+    <div><div><h3>Find the one leak and close it</h3><p>Pick the slowest or most expensive repeated step, measure it, and fix it with a number attached, the same way I found $15K at the importer.</p></div></div>
+    <div><div><h3>Own an outcome end to end</h3><p>Take one client relationship or growth target fully, deliver it, and report it honestly, good or bad, then take the next one.</p></div></div>
+  </div>
+</div></div></section>
+
+<section class="close"><div class="pad"><div class="col">
+  <h2>Hand me the hard problem. I will run it.</h2>
+  <p class="sub">I am ready to move fast, same as you. One call and you will know if I am the operator you are looking for.</p>
+  <div class="contact">
+    <a class="p" href="mailto:murtazamustafa.k@gmail.com">murtazamustafa.k@gmail.com</a>
+    <a class="g" href="tel:+923181253085">+92 318 1253085</a>
+    <a class="g" href="https://www.linkedin.com/in/murtaza-mustafa2911/" rel="noopener">LinkedIn</a>
+  </div>
+  <p class="fine">Prepared by Murtaza Mustafa as part of his application for the Founders Associate role. This is an independent page and is not published by or affiliated with Talspace. The Talspace name belongs to Talspace.</p>
+</div></div></section>
+</main>
+</body>
+</html>
