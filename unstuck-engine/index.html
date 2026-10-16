@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>3 Things I'd Automate at Unstuck Engine | A note for Ivan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --graphite:#151B26; --cloud:#F3F5F8; --cobalt:#2F4BDB; --coral:#E8644B; --slate:#4A5568;
+  --bg:var(--cloud); --fg:var(--graphite); --muted:#4A5568; --card:#FFFFFF; --line:#D5DAE3; --accent:var(--cobalt); --pop:var(--coral);
+  --hero-bg:var(--graphite); --hero-fg:#F3F5F8; --ok:#17794F; --soft:#E7EBFA;
+  --display:"Fraunces",Georgia,serif; --body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#0F141D; --fg:#E9EDF4; --muted:#A3AEC2; --card:#171E2B; --line:#2B3548; --accent:#8FA2FF; --hero-bg:#171E2B; --ok:#5ED6A0; --soft:#1F2942;}
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 1.0625rem/1.6 var(--body);-webkit-text-size-adjust:100%}
+h1,h2,h3{font-family:var(--display);line-height:1.15;margin:0;letter-spacing:-.01em}
+p{margin:0 0 1em;max-width:68ch}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--pop);outline-offset:3px;border-radius:4px}
+.wrap{width:100%;max-width:880px;margin:0 auto;padding:0 20px}
+section{padding:56px 0 8px}
+h2{font-size:clamp(1.6rem,5vw,2.1rem);margin-bottom:.6em}
+.small{font-size:.875rem;color:var(--muted)}
+.tag{display:inline-block;font-size:.8rem;font-weight:600;padding:3px 10px;border:1px solid currentColor;border-radius:999px}
+
+header{background:var(--hero-bg);color:var(--hero-fg);padding:28px 0 60px;border-bottom:5px solid var(--accent)}
+.mast{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:.9rem;opacity:.9;margin-bottom:56px}
+header h1{font-size:clamp(2.1rem,8vw,3.7rem);max-width:16ch;animation:rise .7s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.lead{font-size:clamp(1.1rem,3.4vw,1.3rem);margin-top:24px;max-width:48ch;color:#D8DEEA}
+.lead em{font-style:normal;border-bottom:2px solid var(--pop)}
+
+.leaks{border-top:2px solid var(--fg)}
+.leak{display:grid;grid-template-columns:1fr;gap:4px;padding:18px 0;border-bottom:1px solid var(--line)}
+.leak h3{font-size:1.2rem}
+.leak p{margin:0;color:var(--muted)}
+@media(min-width:640px){.leak{grid-template-columns:240px 1fr;gap:24px}}
+
+.auto{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--accent);padding:22px 20px;margin:0 0 20px;border-radius:4px}
+.auto h3{font-size:1.3rem;margin-bottom:10px}
+.auto dl{margin:12px 0 0;display:grid;gap:10px}
+.auto dt{font-weight:600;font-size:.9rem}
+.auto dd{margin:0;color:var(--muted)}
+@media(min-width:640px){.auto dl{grid-template-columns:150px 1fr;gap:8px 20px}}
+
+.demo{background:var(--card);border:2px solid var(--fg);border-radius:6px;margin:18px 0 28px;overflow:hidden}
+.demo-h{background:var(--graphite);color:#F3F5F8;padding:10px 16px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:.85rem}
+.demo-b{display:grid;grid-template-columns:1fr}
+.pane{padding:16px}
+.pane+.pane{border-top:1px solid var(--line)}
+@media(min-width:720px){.demo-b{grid-template-columns:1fr 1fr}.pane+.pane{border-top:0;border-left:1px solid var(--line)}}
+.pilots{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.pilots button{font:inherit;font-size:.9rem;padding:6px 12px;border:1px solid var(--line);background:transparent;color:var(--fg);border-radius:999px;cursor:pointer}
+.pilots button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+@media(prefers-color-scheme:dark){.pilots button[aria-pressed="true"]{color:#0F141D}}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.steps label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.steps input{width:20px;height:20px;margin-top:2px;accent-color:var(--accent);flex:none}
+.bar{height:8px;background:var(--line);border-radius:4px;margin:14px 0 0;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--ok);transition:width .25s}
+.upd{background:var(--soft);padding:12px 14px;border-radius:4px;font-size:.95rem}
+.upd p{margin:0 0 .6em}
+.upd p:last-child{margin:0}
+
+.calc{background:var(--card);border:1px solid var(--line);padding:22px 20px;border-radius:4px}
+.calc label{display:flex;justify-content:space-between;gap:12px;font-weight:500;margin-top:16px}
+.calc output{font-weight:700;color:var(--accent)}
+.calc input[type=range]{width:100%;accent-color:var(--accent);height:32px}
+.out{margin:22px 0 0;padding-top:16px;border-top:2px solid var(--fg);font-family:var(--display);font-size:clamp(1.3rem,4.6vw,1.75rem)}
+.out span{color:var(--accent)}
+
+.offer{background:var(--graphite);color:#F3F5F8;padding:28px 22px;border-radius:4px;border-top:6px solid var(--pop)}
+.offer p{color:#D8DEEA}
+.offer h2{margin-bottom:.4em}
+.seq{display:grid;gap:10px;margin:18px 0 0;padding:0;list-style:none;counter-reset:s}
+.seq li{counter-increment:s;padding-left:44px;position:relative}
+.seq li::before{content:counter(s);position:absolute;left:0;top:0;width:30px;height:30px;border-radius:50%;background:var(--pop);color:#151B26;font-weight:700;display:grid;place-items:center}
+
+.proof{display:grid;gap:16px}
+@media(min-width:720px){.proof{grid-template-columns:repeat(3,1fr)}}
+.pf{border-top:4px solid var(--accent);padding-top:12px}
+.pf b{display:block;font-family:var(--display);font-size:1.7rem;line-height:1.15;margin-bottom:6px}
+.pf p{color:var(--muted);font-size:.97rem}
+
+.btn{display:inline-block;background:var(--accent);color:#fff;font-weight:600;font-size:1.1rem;text-decoration:none;padding:14px 26px;border-radius:6px;border:2px solid var(--fg);transition:transform .15s}
+@media(prefers-color-scheme:dark){.btn{color:#0F141D}}
+.btn:hover{transform:translateY(-2px)}
+.next{padding-bottom:40px}
+footer{border-top:1px solid var(--line);padding:22px 0 40px;margin-top:32px;color:var(--muted);font-size:.9rem}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="mast"><span><strong>Unstuck Engine</strong> &nbsp;|&nbsp; A short note for Ivan</span><span>17 October 2026</span></div>
+    <h1>3 Things I'd Automate at Unstuck Engine</h1>
+    <p class="lead">Ivan, you are building your pipeline in public, with day counts, meetings and pilots on LinkedIn, while demo and access requests arrive through forms. <em>Pilots are where a small team's time goes next.</em></p>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+
+<section aria-labelledby="leaks">
+  <h2 id="leaks">Where a small team's hours go</h2>
+  <p>I am reading this from the outside, from your site and your posts, so treat these as educated guesses for you to correct.</p>
+  <div class="leaks">
+    <div class="leak"><h3>Every pilot repeats</h3><p>Once a pilot starts, the onboarding steps and the weekly customer update look much the same each time. That is repeat work that can follow a fixed routine.</p></div>
+    <div class="leak"><h3>Inbound needs a fast first reply</h3><p>Book a Demo and Request Access both bring in people at the moment they are most interested. Quick triage, a first reply and a follow-up cadence keep that interest warm.</p></div>
+    <div class="leak"><h3>The build log by hand</h3><p>Your public numbers (day counts, meetings, pilots) probably start in a CRM. Assembling them each week is a job a report can do for you.</p></div>
+  </div>
+  <p style="margin-top:20px">You sell a platform to GTM teams, so this is not a pitch about tools. It is an offer to be the implementation and customer success partner for your pilots and your agency partners: a business operator who sets up the onboarding and reporting around your product.</p>
+</section>
+
+<section aria-labelledby="three">
+  <h2 id="three">Three things I would build</h2>
+
+  <article class="auto">
+    <h3>1. Pilot onboarding checklist and weekly customer update</h3>
+    <p>Each new pilot gets the same clear onboarding checklist. As steps are completed, the weekly customer update drafts itself from the progress, ready for you or me to review and send.</p>
+    <dl>
+      <dt>What the customer notices</dt><dd>A clear path from day one, and a regular update that says what is done and what comes next.</dd>
+      <dt>Result it should produce</dt><dd>Pilots start faster and stay informed without a founder writing every update.</dd>
+    </dl>
+  </article>
+
+  <div class="demo" id="demo">
+    <div class="demo-h"><strong>Try it: onboarding progress to weekly update</strong><span class="tag" style="color:#F08A73">Illustrative, sample data</span></div>
+    <div class="demo-b">
+      <div class="pane">
+        <div class="pilots" role="group" aria-label="Sample pilots" id="pilots"></div>
+        <ul class="steps" id="steps"></ul>
+        <div class="bar" aria-hidden="true"><i id="bar"></i></div>
+      </div>
+      <div class="pane" aria-live="polite">
+        <p class="small">Draft update (you approve before anything is sent)</p>
+        <div class="upd" id="upd"></div>
+      </div>
+    </div>
+  </div>
+
+  <article class="auto">
+    <h3>2. Inbound request triage for demo and access requests</h3>
+    <p>Each Book a Demo or Request Access submission is sorted by fit, gets a fast first reply, and then follows a set follow-up cadence until it books or is closed.</p>
+    <dl>
+      <dt>What the requester notices</dt><dd>A prompt, relevant reply instead of a wait, and a polite nudge if they go quiet.</dd>
+      <dt>Result it should produce</dt><dd>Fewer requests going cold, and you spend your time only on the calls that fit.</dd>
+    </dl>
+  </article>
+
+  <article class="auto">
+    <h3>3. A weekly pipeline report from your CRM</h3>
+    <p>Your meetings, pilots and day counts are assembled once a week into a single page, with a plain summary of what moved. It can feed the public build log and your own review.</p>
+    <dl>
+      <dt>What you notice</dt><dd>The numbers are already assembled on the day you want to post them.</dd>
+      <dt>Result it should produce</dt><dd>A steady weekly rhythm for the build log and fewer manual steps in your week.</dd>
+    </dl>
+  </article>
+</section>
+
+<section aria-labelledby="cost">
+  <h2 id="cost">What the repeat work might cost</h2>
+  <p class="small">Illustrative estimate, based on assumptions you can change. Move the sliders to your real numbers.</p>
+  <div class="calc">
+    <label for="pil">Active pilots at once <output id="o1">4</output></label>
+    <input type="range" id="pil" min="0" max="20" value="4">
+    <label for="mu">Minutes to write each weekly update <output id="o2">30</output></label>
+    <input type="range" id="mu" min="5" max="120" step="5" value="30">
+    <label for="inb">Inbound requests per week <output id="o3">15</output></label>
+    <input type="range" id="inb" min="0" max="80" value="15">
+    <label for="mt">Minutes to triage and reply to each <output id="o4">10</output></label>
+    <input type="range" id="mt" min="2" max="30" value="10">
+    <label for="mr">Minutes to assemble the weekly report <output id="o5">60</output></label>
+    <input type="range" id="mr" min="0" max="240" step="10" value="60">
+    <label for="rate">What an hour of your time is worth ($) <output id="o6">100</output></label>
+    <input type="range" id="rate" min="25" max="300" step="5" value="100">
+    <p class="out" id="out"></p>
+  </div>
+</section>
+
+<section aria-labelledby="offer">
+  <div class="offer">
+    <h2 id="offer">The offer: a working demo first, free</h2>
+    <p>I build the pilot onboarding checklist and weekly customer update first, as a working demo on sample data, before you pay anything. If it fits how you run pilots, I build the inbound request triage next.</p>
+    <ol class="seq">
+      <li><strong>Day 0:</strong> you reply and I start.</li>
+      <li><strong>Within 48 to 72 hours:</strong> you get the working demo, on sample data.</li>
+      <li><strong>Then:</strong> you decide. Keep it, change it, or walk away.</li>
+    </ol>
+  </div>
+</section>
+
+<section aria-labelledby="proof">
+  <h2 id="proof">Why I can carry this for you</h2>
+  <p>I am a business graduate who has run operations, finance and e-commerce in real businesses, and then built the automation.</p>
+  <div class="proof">
+    <div class="pf"><b>1 hour to 5 minutes</b><p>Built 15+ workflows in GoHighLevel, n8n, Make and Zapier for 5 US clinics, cutting client onboarding from one hour to five minutes.</p></div>
+    <div class="pf"><b>Monthly reporting</b><p>I own the monthly P&amp;L and reporting at Alzo Home, so I know what a useful report needs to say.</p></div>
+    <div class="pf"><b>20+ hours a week</b><p>Built a business management app for a timber importer that replaced manual invoicing. It opened up the ledgers, and the company noticed long-unpaid customer balances that had only been noted in a diary.</p></div>
+  </div>
+</section>
+
+<section class="next" aria-labelledby="next">
+  <h2 id="next">Next step</h2>
+  <p>If this is useful, one reply is enough.</p>
+  <a class="btn" href="mailto:murtazamustafaa02@gmail.com?subject=Unstuck%20Engine%20demo&amp;body=Hi%20Murtaza%2C%20go%20ahead%20and%20start.">Reply and I will start</a>
+  <p class="small" style="margin-top:16px">Murtaza Mustafa | murtazamustafaa02@gmail.com</p>
+</section>
+
+</div>
+</main>
+
+<footer><div class="wrap">Built by Murtaza Mustafa</div></footer>
+
+<script>
+(function(){
+  var stepNames=["Account access granted","ICP and personas confirmed","Signal types chosen","First audience built","Audience pushed to outbound and CRM","First results reviewed together"];
+  var pilots=[
+    {n:"Sample pilot A",done:[1,1,1,1,0,0]},
+    {n:"Sample pilot B",done:[1,1,0,0,0,0]},
+    {n:"Sample pilot C",done:[1,1,1,1,1,1]}
+  ];
+  var cur=0,state=pilots.map(function(p){return p.done.slice();});
+  var pBox=document.getElementById("pilots"),sBox=document.getElementById("steps"),upd=document.getElementById("upd"),bar=document.getElementById("bar");
+  function render(){
+    var d=state[cur],n=d.reduce(function(a,b){return a+b;},0);
+    Array.prototype.forEach.call(pBox.children,function(b,i){b.setAttribute("aria-pressed",i===cur?"true":"false");});
+    sBox.innerHTML="";
+    stepNames.forEach(function(s,i){
+      var li=document.createElement("li"),lb=document.createElement("label"),cb=document.createElement("input");
+      cb.type="checkbox";cb.checked=!!d[i];
+      cb.addEventListener("change",function(){state[cur][i]=cb.checked?1:0;render();});
+      lb.appendChild(cb);lb.appendChild(document.createTextNode(s));li.appendChild(lb);sBox.appendChild(li);
+    });
+    bar.style.width=(n/stepNames.length*100)+"%";
+    var doneList=stepNames.filter(function(s,i){return d[i];}),next=stepNames.filter(function(s,i){return !d[i];});
+    var html='<p><strong>'+pilots[cur].n+': weekly update</strong></p><p>'+n+' of '+stepNames.length+' onboarding steps are complete.</p>';
+    if(doneList.length)html+='<p>Done: '+doneList.join(", ").toLowerCase()+'.</p>';
+    html+=next.length?'<p>Next: '+next[0].toLowerCase()+'.</p>':'<p>Onboarding is complete. Next, we review results and plan what to scale.</p>';
+    upd.innerHTML=html;
+  }
+  pilots.forEach(function(p,i){
+    var b=document.createElement("button");b.type="button";b.textContent=p.n;b.setAttribute("aria-pressed","false");
+    b.addEventListener("click",function(){cur=i;render();});pBox.appendChild(b);
+  });
+  render();
+
+  var ids=["pil","mu","inb","mt","mr","rate"];
+  function calc(){
+    var v=ids.map(function(id,k){var x=+document.getElementById(id).value;document.getElementById("o"+(k+1)).textContent=x;return x;});
+    var hrs=(v[0]*v[1]/60+v[2]*v[3]/60+v[4]/60)*4.33;
+    document.getElementById("out").innerHTML='About <span>'+Math.round(hrs)+' hours</span> a month, roughly <span>$'+Math.round(hrs*v[5]).toLocaleString("en-US")+'</span> of your time.';
+  }
+  ids.forEach(function(id){document.getElementById(id).addEventListener("input",calc);});
+  calc();
+})();
+</script>
+</body>
+</html>

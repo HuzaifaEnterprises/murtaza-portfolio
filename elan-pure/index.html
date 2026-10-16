@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>3 Things I'd Automate at Elan Pure | A note for Paige</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg:#F8F2F3;--fg:#2A1822;--muted:#5E4A55;--card:#FFFFFF;--line:#E3D3D8;--accent:#8A4A63;--pop:#B7752F;--soft:#F1E3E7;
+--hero-bg:#4A2339;--hero-fg:#F8F2F3;--hero-sub:#EBD9DF;--btn:#A35F22;--onbtn:#FFFFFF;--tagc:#8A4A63;--tagh:#F0C48C;
+--display:"Cormorant Garamond",Georgia,serif;--body:"Jost",system-ui,-apple-system,"Segoe UI",sans-serif}
+@media (prefers-color-scheme:dark){:root{--bg:#1A0F16;--fg:#F3E8EC;--muted:#C3AAB5;--card:#26151F;--line:#3F2735;--accent:#E3A9BF;--pop:#D08B44;--soft:#33202D;--hero-bg:#2A1625;--btn:#E0A468;--onbtn:#1A0F16}}
+h1,h2,h3{font-weight:700}h2{font-size:clamp(1.9rem,5.8vw,2.6rem)}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 1.0625rem/1.6 var(--body);-webkit-text-size-adjust:100%}
+h1,h2,h3{font-family:var(--display);line-height:1.15;margin:0;letter-spacing:-.01em}
+p{margin:0 0 1em;max-width:68ch}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--pop);outline-offset:3px;border-radius:4px}
+.wrap{width:100%;max-width:880px;margin:0 auto;padding:0 20px}
+section{padding:56px 0 8px}
+h2{font-size:clamp(1.7rem,5.2vw,2.3rem);margin-bottom:.6em}
+.small{font-size:.875rem;color:var(--muted)}
+.tag{display:inline-block;font-size:.8rem;font-weight:600;padding:3px 10px;border:1px solid currentColor;border-radius:999px;color:var(--tagc)}
+header{background:var(--hero-bg);color:var(--hero-fg);padding:28px 0 60px;border-bottom:5px solid var(--pop)}
+.mast{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:.9rem;opacity:.92;margin-bottom:56px}
+header h1{font-size:clamp(2.2rem,8.4vw,3.9rem);max-width:16ch;animation:rise .7s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.lead{font-size:clamp(1.1rem,3.4vw,1.3rem);margin-top:24px;max-width:48ch;color:var(--hero-sub)}
+.lead em{font-style:normal;border-bottom:2px solid var(--pop)}
+.leaks{border-top:2px solid var(--fg)}
+.leak{display:grid;grid-template-columns:1fr;gap:4px;padding:18px 0;border-bottom:1px solid var(--line)}
+.leak h3{font-size:1.25rem}
+.leak p{margin:0;color:var(--muted)}
+@media(min-width:640px){.leak{grid-template-columns:240px 1fr;gap:24px}}
+.auto{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--accent);padding:22px 20px;margin:0 0 20px;border-radius:4px}
+.auto h3{font-size:1.35rem;margin-bottom:10px}
+.auto dl{margin:12px 0 0;display:grid;gap:10px}
+.auto dt{font-weight:600;font-size:.9rem}
+.auto dd{margin:0;color:var(--muted)}
+@media(min-width:640px){.auto dl{grid-template-columns:150px 1fr;gap:8px 20px}}
+.demo{background:var(--card);border:2px solid var(--fg);border-radius:6px;margin:18px 0 28px;overflow:hidden}
+.demo-h{background:var(--hero-bg);color:var(--hero-fg);padding:10px 16px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:.85rem}
+.demo-h .tag{color:var(--tagh)}
+.demo-b{display:grid;grid-template-columns:1fr}
+.pane{padding:16px}
+.pane+.pane{border-top:1px solid var(--line)}
+@media(min-width:720px){.demo-b{grid-template-columns:1fr 1fr}.pane+.pane{border-top:0;border-left:1px solid var(--line)}}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.chips button{font:inherit;font-size:.9rem;padding:7px 12px;border:1px solid var(--line);background:transparent;color:var(--fg);border-radius:999px;cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--btn);border-color:var(--btn);color:var(--onbtn)}
+.ctl label{display:flex;justify-content:space-between;gap:12px;font-weight:500;margin-top:12px}
+.ctl output{font-weight:700;color:var(--accent)}
+.ctl input[type=range]{width:100%;accent-color:var(--accent);height:30px}
+.stat{font-family:var(--display);font-size:1.2rem;margin:4px 0 8px}
+.upd{background:var(--soft);padding:12px 14px;border-radius:4px;font-size:.95rem}
+.upd p{margin:0 0 .6em}.upd p:last-child{margin:0}
+.calc{background:var(--card);border:1px solid var(--line);padding:22px 20px;border-radius:4px}
+.calc label{display:flex;justify-content:space-between;gap:12px;font-weight:500;margin-top:16px}
+.calc output{font-weight:700;color:var(--accent)}
+.calc input[type=range]{width:100%;accent-color:var(--accent);height:32px}
+.out{margin:22px 0 0;padding-top:16px;border-top:2px solid var(--fg);font-family:var(--display);font-size:clamp(1.25rem,4.4vw,1.7rem)}
+.out span{color:var(--accent)}
+.offer{background:var(--hero-bg);color:var(--hero-fg);padding:28px 22px;border-radius:4px;border-top:6px solid var(--pop)}
+.offer p{color:var(--hero-sub)}
+.offer h2{margin-bottom:.4em}
+.seq{display:grid;gap:10px;margin:18px 0 0;padding:0;list-style:none;counter-reset:s}
+.seq li{counter-increment:s;padding-left:44px;position:relative}
+.seq li::before{content:counter(s);position:absolute;left:0;top:0;width:30px;height:30px;border-radius:50%;background:var(--pop);color:#111;font-weight:700;display:grid;place-items:center}
+.proof{display:grid;gap:16px}
+@media(min-width:720px){.proof{grid-template-columns:repeat(3,1fr)}}
+.pf{border-top:4px solid var(--accent);padding-top:12px}
+.pf b{display:block;font-family:var(--display);font-size:1.75rem;line-height:1.15;margin-bottom:6px}
+.pf p{color:var(--muted);font-size:.97rem}
+.btn{display:inline-block;background:var(--btn);color:var(--onbtn);font-weight:600;font-size:1.1rem;text-decoration:none;padding:14px 26px;border-radius:6px;border:2px solid var(--fg);transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.next{padding-bottom:40px}
+footer{border-top:1px solid var(--line);padding:22px 0 40px;margin-top:32px;color:var(--muted);font-size:.9rem}
+
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<div class="mast"><span><strong>Elan Pure</strong> &nbsp;|&nbsp; A short note for Paige</span><span>17 October 2026</span></div>
+<h1>3 Things I'd Automate at Elan Pure</h1>
+<p class="lead">Paige, you pitch wholesale to spa and dermatology owners yourself and set aside a lock-in day for it. <em>With the 11 November launch coming, that is exactly where the follow-ups pile up.</em></p>
+</div></header>
+<main><div class="wrap">
+<section aria-labelledby="leaks"><h2 id="leaks">Where the time quietly goes</h2>
+<p>I am reading this from the outside, from your site and your posts, so treat these as educated guesses for you to correct.</p>
+<div class="leaks"><div class="leak"><h3>Wholesale leads run through you</h3><p>Every spa and dermatology inquiry goes through your own pitching. Capturing each one, reminding you to follow up and taking the first order can run in the background, so your lock-in day is for conversations, not catch-up.</p></div><div class="leak"><h3>The launch needs a sequence</h3><p>The waitlist for 11 November needs a launch-day message and a follow-up after it, by email and text. It is easy to plan and tiring to send by hand in launch week.</p></div><div class="leak"><h3>A growing affiliate network</h3><p>Living Elan means onboarding, codes and payout tracking. Each task is small, and together they add up.</p></div></div>
+<p style="margin-top:20px">You want your time on the product and on selling, not on admin. This is an offer to take the admin off your plate.</p></section>
+<section aria-labelledby="three"><h2 id="three">Three things I would build</h2>
+<article class="auto"><h3>1. Wholesale inquiry capture and follow-up</h3><p>Every wholesale inquiry is captured with its details and gets a prompt first reply. If a lead goes quiet, you get a reminder with a follow-up draft ready.</p><dl><dt>What you notice</dt><dd>Your lock-in day starts with a clean list: who to call, who to nudge, who is ready to order.</dd><dt>Result it should produce</dt><dd>Fewer wholesale leads going quiet, and new orders arriving in one place.</dd></dl></article>
+<div class="demo"><div class="demo-h"><strong>Try it: the wholesale follow-up on sample inquiries</strong><span class="tag">Illustrative, sample data</span></div>
+<div class="demo-b"><div class="pane"><div class="chips" id="chips" role="group" aria-label="Sample inquiries"></div><p class="small" id="ask"></p>
+<div class="ctl"><label for="days">Days since your last reply <output id="o_days">0</output></label><input type="range" id="days" min="0" max="14" value="0"></div></div>
+<div class="pane" aria-live="polite"><p class="small">Status and draft (you approve before anything is sent)</p><p class="stat" id="stat"></p><div class="upd" id="draft"></div></div></div></div><article class="auto"><h3>2. Launch-day and follow-up sequence</h3><p>Your 11 November waitlist gets a launch-day email and text, then a timed follow-up for people who have not bought. Written in your voice, approved by you.</p><dl><dt>What you notice</dt><dd>Waitlist members hear from you on launch day and again a few days later, without you sending each one.</dd><dt>Result it should produce</dt><dd>More of the waitlist turns into first orders, and launch week stays calm.</dd></dl></article>
+<article class="auto"><h3>3. Living Elan affiliate onboarding and payouts</h3><p>New Living Elan members get a simple welcome, their own code, and a payout tracker that shows who is owed what.</p><dl><dt>What you notice</dt><dd>New affiliates start quickly, and payout questions have one clear answer.</dd><dt>Result it should produce</dt><dd>A tidy network that can grow without more admin.</dd></dl></article>
+</section>
+<section aria-labelledby="cost"><h2 id="cost">What it might cost</h2>
+<p class="small">Illustrative estimate, based on assumptions you can change. Move the sliders to your real numbers.</p>
+<div class="calc"><label for="q1">Wholesale inquiries per month <output id="o_q1">20</output></label><input type="range" id="q1" min="0" max="100" step="1" value="20"><label for="q2">Share that go quiet (%) <output id="o_q2">30</output></label><input type="range" id="q2" min="0" max="80" step="1" value="30"><label for="q3">Average first order ($) <output id="o_q3">500</output></label><input type="range" id="q3" min="50" max="3000" step="50" value="500"><label for="q4">Share a follow-up could win back (%) <output id="o_q4">15</output></label><input type="range" id="q4" min="0" max="50" step="1" value="15"><p class="out" id="out"></p></div></section>
+<section aria-labelledby="offer"><div class="offer"><h2 id="offer">The offer: a working demo first, free</h2><p>I build the wholesale inquiry capture and follow-up flow first, as a working demo on sample data, before you pay anything. If it fits how you work, I build the launch sequence next.</p><ol class="seq"><li><strong>Day 0:</strong> you reply and I start.</li><li><strong>Within 48 to 72 hours:</strong> you get the working demo, on sample data.</li><li><strong>Then:</strong> you decide. Keep it, change it, or walk away.</li></ol></div></section>
+<section aria-labelledby="proof"><h2 id="proof">Why I can carry this for you</h2>
+<p>I am a business graduate who has run operations, finance and online sales in real businesses, and then built the automation.</p>
+<div class="proof"><div class="pf"><b>20,000+ creators</b><p>Built a TikTok Shop affiliate creator network of 20,000+ creators and launched customer loyalty programs at Masaki.</p></div><div class="pf"><b>Pricing, stock, books</b><p>Co-run Bubble Bath Bars, a handmade bath products business, handling pricing, inventory and bookkeeping.</p></div><div class="pf"><b>1 hour to 5 minutes</b><p>Built 15+ workflows for 5 US clinics covering booking, reminders and follow-up, cutting client onboarding from one hour to five minutes.</p></div></div></section>
+<section class="next" aria-labelledby="next"><h2 id="next">Next step</h2>
+<p>If this is useful, one reply is enough.</p>
+<a class="btn" href="mailto:murtazamustafaa02@gmail.com?subject=Elan%20Pure%20demo&amp;body=Hi%20Murtaza%2C%20go%20ahead%20and%20start.">Reply and I will start</a>
+<p class="small" style="margin-top:16px">Murtaza Mustafa | murtazamustafaa02@gmail.com</p></section>
+</div></main>
+<footer><div class="wrap">Built by Murtaza Mustafa</div></footer>
+<script>
+
+(function(){
+ var leads=[{n:"Sample spa",a:"Asked about carrying the line."},{n:"Sample dermatology office",a:"Asked how wholesale orders work."},{n:"Sample med spa",a:"Asked for wholesale details."}];
+ var cur=0,chips=document.getElementById("chips"),d=document.getElementById("days");
+ function draw(){
+  var n=+d.value,l=leads[cur],s,t;
+  document.getElementById("o_days").textContent=n;
+  Array.prototype.forEach.call(chips.children,function(b,i){b.setAttribute("aria-pressed",i===cur?"true":"false");});
+  document.getElementById("ask").textContent=l.a;
+  if(n<3){s="On track. Reminder set for day 3.";t="<p>Inquiry captured and thank-you reply sent. Nothing for you to do yet.</p>";}
+  else if(n<7){s="Reminder for you: first follow-up ready.";t="<p>Hi, thanks again for your wholesale inquiry with Elan Pure. Would a quick call this week suit you?</p>";}
+  else if(n<14){s="Going quiet: second follow-up ready, flagged for your lock-in day.";t="<p>Hi, I wanted to check in once more about your wholesale inquiry. Happy to answer questions by message if that is easier.</p>";}
+  else{s="Quiet for 14 days: one last note, then parked.";t="<p>Hi, I will leave this with you for now. If wholesale becomes a fit later, just reply and we will pick it up.</p>";}
+  document.getElementById("stat").textContent=l.n+": "+s;
+  document.getElementById("draft").innerHTML=t;
+ }
+ leads.forEach(function(l,i){var b=document.createElement("button");b.type="button";b.textContent=l.n;b.setAttribute("aria-pressed","false");b.addEventListener("click",function(){cur=i;draw();});chips.appendChild(b);});
+ d.addEventListener("input",draw);draw();
+ var ids=["q1","q2","q3","q4"];
+ function calc(){
+  var v=ids.map(function(id){var x=+document.getElementById(id).value;document.getElementById("o_"+id).textContent=x;return x;});
+  var quiet=v[0]*v[1]/100,won=quiet*v[3]/100;
+  document.getElementById("out").innerHTML="About <span>"+quiet.toFixed(1)+"</span> leads go quiet a month. Winning some back could mean about <span>"+won.toFixed(1)+"</span> extra first orders, roughly <span>$"+Math.round(won*v[2]).toLocaleString("en-US")+"</span> a month.";
+ }
+ ids.forEach(function(id){document.getElementById(id).addEventListener("input",calc);});calc();
+})();
+
+</script>
+</body>
+</html>

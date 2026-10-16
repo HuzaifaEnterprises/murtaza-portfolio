@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>3 Things I'd Automate at Mind Above Solutions | A note for Curtis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg:#EEF4F3;--fg:#0C2B2E;--muted:#4B6568;--card:#FFFFFF;--line:#CBDAD8;--accent:#0D6B70;--pop:#E8561F;--soft:#DDEBE9;
+--hero-bg:#0D3B3F;--hero-fg:#EEF4F3;--hero-sub:#CFE2E0;--btn:#E8561F;--onbtn:#0C1A1B;--tagc:#0D6B70;--tagh:#F6A27F;
+--display:"Familjen Grotesk",system-ui,sans-serif;--body:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+@media (prefers-color-scheme:dark){:root{--bg:#09191B;--fg:#E4F0EF;--muted:#9DB8B6;--card:#102427;--line:#23403F;--accent:#5CC6C9;--soft:#173538;--hero-bg:#0F2C2F}}
+h1,h2,h3{font-weight:700}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 1.0625rem/1.6 var(--body);-webkit-text-size-adjust:100%}
+h1,h2,h3{font-family:var(--display);line-height:1.15;margin:0;letter-spacing:-.01em}
+p{margin:0 0 1em;max-width:68ch}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--pop);outline-offset:3px;border-radius:4px}
+.wrap{width:100%;max-width:880px;margin:0 auto;padding:0 20px}
+section{padding:56px 0 8px}
+h2{font-size:clamp(1.7rem,5.2vw,2.3rem);margin-bottom:.6em}
+.small{font-size:.875rem;color:var(--muted)}
+.tag{display:inline-block;font-size:.8rem;font-weight:600;padding:3px 10px;border:1px solid currentColor;border-radius:999px;color:var(--tagc)}
+header{background:var(--hero-bg);color:var(--hero-fg);padding:28px 0 60px;border-bottom:5px solid var(--pop)}
+.mast{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:.9rem;opacity:.92;margin-bottom:56px}
+header h1{font-size:clamp(2.2rem,8.4vw,3.9rem);max-width:16ch;animation:rise .7s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.lead{font-size:clamp(1.1rem,3.4vw,1.3rem);margin-top:24px;max-width:48ch;color:var(--hero-sub)}
+.lead em{font-style:normal;border-bottom:2px solid var(--pop)}
+.leaks{border-top:2px solid var(--fg)}
+.leak{display:grid;grid-template-columns:1fr;gap:4px;padding:18px 0;border-bottom:1px solid var(--line)}
+.leak h3{font-size:1.25rem}
+.leak p{margin:0;color:var(--muted)}
+@media(min-width:640px){.leak{grid-template-columns:240px 1fr;gap:24px}}
+.auto{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--accent);padding:22px 20px;margin:0 0 20px;border-radius:4px}
+.auto h3{font-size:1.35rem;margin-bottom:10px}
+.auto dl{margin:12px 0 0;display:grid;gap:10px}
+.auto dt{font-weight:600;font-size:.9rem}
+.auto dd{margin:0;color:var(--muted)}
+@media(min-width:640px){.auto dl{grid-template-columns:150px 1fr;gap:8px 20px}}
+.demo{background:var(--card);border:2px solid var(--fg);border-radius:6px;margin:18px 0 28px;overflow:hidden}
+.demo-h{background:var(--hero-bg);color:var(--hero-fg);padding:10px 16px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:.85rem}
+.demo-h .tag{color:var(--tagh)}
+.demo-b{display:grid;grid-template-columns:1fr}
+.pane{padding:16px}
+.pane+.pane{border-top:1px solid var(--line)}
+@media(min-width:720px){.demo-b{grid-template-columns:1fr 1fr}.pane+.pane{border-top:0;border-left:1px solid var(--line)}}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.chips button{font:inherit;font-size:.9rem;padding:7px 12px;border:1px solid var(--line);background:transparent;color:var(--fg);border-radius:999px;cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--btn);border-color:var(--btn);color:var(--onbtn)}
+.ctl label{display:flex;justify-content:space-between;gap:12px;font-weight:500;margin-top:12px}
+.ctl output{font-weight:700;color:var(--accent)}
+.ctl input[type=range]{width:100%;accent-color:var(--accent);height:30px}
+.stat{font-family:var(--display);font-size:1.2rem;margin:4px 0 8px}
+.upd{background:var(--soft);padding:12px 14px;border-radius:4px;font-size:.95rem}
+.upd p{margin:0 0 .6em}.upd p:last-child{margin:0}
+.calc{background:var(--card);border:1px solid var(--line);padding:22px 20px;border-radius:4px}
+.calc label{display:flex;justify-content:space-between;gap:12px;font-weight:500;margin-top:16px}
+.calc output{font-weight:700;color:var(--accent)}
+.calc input[type=range]{width:100%;accent-color:var(--accent);height:32px}
+.out{margin:22px 0 0;padding-top:16px;border-top:2px solid var(--fg);font-family:var(--display);font-size:clamp(1.25rem,4.4vw,1.7rem)}
+.out span{color:var(--accent)}
+.offer{background:var(--hero-bg);color:var(--hero-fg);padding:28px 22px;border-radius:4px;border-top:6px solid var(--pop)}
+.offer p{color:var(--hero-sub)}
+.offer h2{margin-bottom:.4em}
+.seq{display:grid;gap:10px;margin:18px 0 0;padding:0;list-style:none;counter-reset:s}
+.seq li{counter-increment:s;padding-left:44px;position:relative}
+.seq li::before{content:counter(s);position:absolute;left:0;top:0;width:30px;height:30px;border-radius:50%;background:var(--pop);color:#111;font-weight:700;display:grid;place-items:center}
+.proof{display:grid;gap:16px}
+@media(min-width:720px){.proof{grid-template-columns:repeat(3,1fr)}}
+.pf{border-top:4px solid var(--accent);padding-top:12px}
+.pf b{display:block;font-family:var(--display);font-size:1.75rem;line-height:1.15;margin-bottom:6px}
+.pf p{color:var(--muted);font-size:.97rem}
+.btn{display:inline-block;background:var(--btn);color:var(--onbtn);font-weight:600;font-size:1.1rem;text-decoration:none;padding:14px 26px;border-radius:6px;border:2px solid var(--fg);transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.next{padding-bottom:40px}
+footer{border-top:1px solid var(--line);padding:22px 0 40px;margin-top:32px;color:var(--muted);font-size:.9rem}
+
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<div class="mast"><span><strong>Mind Above Solutions</strong> &nbsp;|&nbsp; A short note for Curtis</span><span>17 October 2026</span></div>
+<h1>3 Things I'd Automate at Mind Above Solutions</h1>
+<p class="lead">Curtis, you offer a private demo built from a prospect's own website and say a voice agent can be live in days. <em>That speed wins the sale, and then someone has to deliver it.</em></p>
+</div></header>
+<main><div class="wrap">
+<section aria-labelledby="leaks"><h2 id="leaks">Where the time quietly goes</h2>
+<p>I am reading this from the outside, from your site and your posts, so treat these as educated guesses for you to correct.</p>
+<div class="leaks"><div class="leak"><h3>Onboarding repeats for every client</h3><p>Each new agent needs business details collected, tests run and a go-live checklist signed off. It is the same routine every time.</p></div><div class="leak"><h3>Monthly reports by hand</h3><p>Clients want to see calls handled, leads captured and appointments booked. Pulling those together each month adds up as you add clients.</p></div><div class="leak"><h3>Demos built from scratch</h3><p>A private demo built from each prospect's website is likely repeat manual work that a flow could assemble.</p></div></div>
+<p style="margin-top:20px">You already sell AI automations, so this is not a pitch to automate you. It is an offer to be your back office and delivery partner, white label or as a subcontractor, so you keep selling.</p></section>
+<section aria-labelledby="three"><h2 id="three">Three things I would build</h2>
+<article class="auto"><h3>1. Client onboarding checklist</h3><p>Each new client gets the same clear path: business details collected, tests run, and a go-live checklist signed off, with progress visible to you.</p><dl><dt>What you notice</dt><dd>A new client knows what is needed from them and when, and you can see where each one stands.</dd><dt>Result it should produce</dt><dd>Faster, more consistent go-lives without you chasing each step.</dd></dl></article>
+<div class="demo"><div class="demo-h"><strong>Try it: the monthly client report on sample data</strong><span class="tag">Illustrative, sample data</span></div>
+<div class="demo-b"><div class="pane"><div class="chips" id="chips" role="group" aria-label="Sample clients"></div><div class="ctl"><label for="c1">Calls handled <output id="o_c1">120</output></label><input type="range" id="c1" min="0" max="300" step="1" value="120"><label for="c2">Leads captured <output id="o_c2">45</output></label><input type="range" id="c2" min="0" max="300" step="1" value="45"><label for="c3">Appointments booked <output id="o_c3">28</output></label><input type="range" id="c3" min="0" max="300" step="1" value="28"></div></div>
+<div class="pane" aria-live="polite"><p class="small">Draft report (you approve before it goes to the client)</p><p class="stat" id="stat"></p><div class="upd" id="draft"></div></div></div></div><article class="auto"><h3>2. Monthly client report</h3><p>Calls handled, leads captured and appointments booked are pulled into one clear page per client each month, with a plain-language summary.</p><dl><dt>What you notice</dt><dd>Reports are drafted and waiting for you to review, in your name or white label.</dd><dt>Result it should produce</dt><dd>Clients see the value every month, which supports renewals and referrals.</dd></dl></article>
+<article class="auto"><h3>3. Private demo preparation</h3><p>The first draft of a private demo is assembled from the prospect's website, so you start from a working base instead of a blank page.</p><dl><dt>What you notice</dt><dd>Less time preparing each demo, and demos ready sooner after a prospect says yes.</dd><dt>Result it should produce</dt><dd>More demos in the same hours, with your time spent on the conversation.</dd></dl></article>
+</section>
+<section aria-labelledby="cost"><h2 id="cost">What it might cost</h2>
+<p class="small">Illustrative estimate, based on assumptions you can change. Move the sliders to your real numbers.</p>
+<div class="calc"><label for="k1">New clients per month <output id="o_k1">3</output></label><input type="range" id="k1" min="0" max="15" step="1" value="3"><label for="k2">Hours to onboard each client <output id="o_k2">6</output></label><input type="range" id="k2" min="1" max="20" step="1" value="6"><label for="k3">Active clients getting a report <output id="o_k3">10</output></label><input type="range" id="k3" min="0" max="40" step="1" value="10"><label for="k4">Hours per monthly report <output id="o_k4">1.5</output></label><input type="range" id="k4" min="0.5" max="4" step="0.5" value="1.5"><label for="k5">Private demos per month <output id="o_k5">8</output></label><input type="range" id="k5" min="0" max="30" step="1" value="8"><label for="k6">Hours to prepare each demo <output id="o_k6">2</output></label><input type="range" id="k6" min="0.5" max="5" step="0.5" value="2"><label for="k7">What an hour of your time is worth ($) <output id="o_k7">100</output></label><input type="range" id="k7" min="25" max="300" step="5" value="100"><p class="out" id="out"></p></div></section>
+<section aria-labelledby="offer"><div class="offer"><h2 id="offer">The offer: a working demo first, free</h2><p>I build the client onboarding checklist and the monthly report first, as a working demo on sample data, before you pay anything. If it fits how you work, I build the demo preparation next.</p><ol class="seq"><li><strong>Day 0:</strong> you reply and I start.</li><li><strong>Within 48 to 72 hours:</strong> you get the working demo, on sample data.</li><li><strong>Then:</strong> you decide. Keep it, change it, or walk away.</li></ol></div></section>
+<section aria-labelledby="proof"><h2 id="proof">Why I can carry this for you</h2>
+<p>I am a business graduate who has run operations, finance and online sales in real businesses, and then built the automation.</p>
+<div class="proof"><div class="pf"><b>1 hour to 5 minutes</b><p>Built 15+ workflows in GoHighLevel, n8n, Make and Zapier for 5 US clinics, cutting client onboarding from one hour to five minutes.</p></div><div class="pf"><b>Monthly reporting</b><p>I own the monthly P&amp;L and reporting at Alzo Home, so I know what a useful report needs to say.</p></div><div class="pf"><b>20+ hours a week</b><p>Built a business management app for a timber importer that replaced manual invoicing. It opened up the ledgers, and the company noticed long-unpaid customer balances that had only been noted in a diary.</p></div></div></section>
+<section class="next" aria-labelledby="next"><h2 id="next">Next step</h2>
+<p>If this is useful, one reply is enough.</p>
+<a class="btn" href="mailto:murtazamustafaa02@gmail.com?subject=Mind%20Above%20Solutions%20demo&amp;body=Hi%20Murtaza%2C%20go%20ahead%20and%20start.">Reply and I will start</a>
+<p class="small" style="margin-top:16px">Murtaza Mustafa | murtazamustafaa02@gmail.com</p></section>
+</div></main>
+<footer><div class="wrap">Built by Murtaza Mustafa</div></footer>
+<script>
+
+(function(){
+ var cl=[{n:"Sample med spa",v:[120,45,28]},{n:"Sample mortgage branch",v:[80,30,12]}],cur=0;
+ var chips=document.getElementById("chips"),s=["c1","c2","c3"].map(function(i){return document.getElementById(i);});
+ function draw(){
+  var calls=+s[0].value,leads=Math.min(+s[1].value,calls),appts=Math.min(+s[2].value,leads);
+  s[1].value=leads;s[2].value=appts;
+  [calls,leads,appts].forEach(function(x,i){document.getElementById("o_"+s[i].id).textContent=x;});
+  Array.prototype.forEach.call(chips.children,function(b,i){b.setAttribute("aria-pressed",i===cur?"true":"false");});
+  var lr=calls?Math.round(leads/calls*100):0,ar=leads?Math.round(appts/leads*100):0;
+  document.getElementById("stat").textContent=cl[cur].n+": monthly report";
+  document.getElementById("draft").innerHTML="<p>Calls handled: "+calls+". Leads captured: "+leads+" ("+lr+"% of calls). Appointments booked: "+appts+" ("+ar+"% of leads).</p><p>Summary: "+(appts?"The agent booked "+appts+" appointments this month from "+calls+" calls.":"No appointments were booked this month, so we will review the call flow.")+"</p>";
+ }
+ cl.forEach(function(c,i){var b=document.createElement("button");b.type="button";b.textContent=c.n;b.setAttribute("aria-pressed","false");b.addEventListener("click",function(){cur=i;s.forEach(function(x,j){x.value=c.v[j];});draw();});chips.appendChild(b);});
+ s.forEach(function(x){x.addEventListener("input",draw);});draw();
+ var ids=["k1","k2","k3","k4","k5","k6","k7"];
+ function calc(){
+  var v=ids.map(function(id){var x=+document.getElementById(id).value;document.getElementById("o_"+id).textContent=x;return x;});
+  var h=v[0]*v[1]+v[2]*v[3]+v[4]*v[5];
+  document.getElementById("out").innerHTML="About <span>"+Math.round(h)+" hours</span> a month, roughly <span>$"+Math.round(h*v[6]).toLocaleString("en-US")+"</span> of your time.";
+ }
+ ids.forEach(function(id){document.getElementById(id).addEventListener("input",calc);});calc();
+})();
+
+</script>
+</body>
+</html>
