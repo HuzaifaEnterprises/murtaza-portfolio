@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="author" content="Murtaza Mustafa">
+<meta name="description" content="Murtaza Mustafa's application for Procurement Partner, Home Care (contract), Karachi: seven responsibilities matched to work already done.">
+<title>Murtaza Mustafa, Procurement Partner application</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: blue hero with one sentence, a seven-row matcher (JD line on the left, proof on the right), plain gaps, a 90 day sequence, contact band */
+:root{
+  --blue:#1f36c7; --navy:#0b1347; --sun:#ffd23f; --mist:#eef0ff; --paper:#ffffff; --ink:#0b1033; --muted:#4b5280; --line:#d9ddf5;
+  --on-blue:#ffffff; --card:#ffffff;
+  --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"Hanken Grotesk","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0b0f2e; --mist:#121846; --ink:#eceffd; --muted:#a6aedb; --line:#262e6b; --card:#10163f; color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#0b0f2e; --mist:#121846; --ink:#eceffd; --muted:#a6aedb; --line:#262e6b; --card:#10163f; color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.62 var(--body)}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--sun);outline-offset:3px;border-radius:4px}
+.pad{padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.col{max-width:1080px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-.02em;line-height:1.05}
+
+/* hero */
+.hero{position:relative;background:var(--blue);color:var(--on-blue);overflow:hidden;isolation:isolate}
+.hero::before{content:"";position:absolute;right:-18vw;top:-22vw;width:70vw;height:70vw;max-width:900px;max-height:900px;border-radius:50%;
+  background:repeating-radial-gradient(circle at center,transparent 0 46px,rgba(255,255,255,.07) 46px 48px);z-index:-1}
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:10px;background:var(--sun)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:22px}
+.bar img{height:26px;width:auto;display:block}
+.bar span{font:600 14px/1.3 var(--body);opacity:.9;text-align:right}
+.hero-body{padding-block:clamp(48px,9vw,120px) clamp(64px,10vw,130px)}
+.hero h1{font-size:clamp(36px,6.4vw,84px);font-weight:800;max-width:19ch}
+.hero h1 .ln{display:block;overflow:hidden}
+.hero h1 .ln>span{display:block;animation:up .9s cubic-bezier(.2,.8,.2,1) both}
+.hero h1 .ln:nth-child(2)>span{animation-delay:.12s}
+.hero h1 .ln:nth-child(3)>span{animation-delay:.24s}
+@keyframes up{from{transform:translateY(105%)}to{transform:none}}
+.hero p.lede{margin:28px 0 0;max-width:46ch;font-size:clamp(18px,2.2vw,22px);line-height:1.5;color:#e4e8ff}
+.who{margin-top:36px;display:flex;flex-wrap:wrap;gap:10px 28px;font-weight:600}
+.who a{text-decoration:none;border-bottom:2px solid var(--sun)}
+.jump{display:inline-block;margin-top:34px;background:var(--sun);color:var(--navy);font:700 16px/1 var(--body);padding:16px 22px;border-radius:999px;text-decoration:none}
+.jump:hover{filter:brightness(1.05)}
+
+/* sections */
+section{padding-block:clamp(56px,8vw,104px)}
+section h2{font-size:clamp(30px,4.6vw,52px);font-weight:800;max-width:20ch}
+section .intro{margin:18px 0 0;max-width:60ch;color:var(--muted);font-size:18px}
+.mist{background:var(--mist)}
+
+/* matcher */
+.match{margin-top:44px;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:0 36px;align-items:start}
+.match ol{display:contents;list-style:none;margin:0;padding:0}
+.match li{display:contents}
+.jd{grid-column:1;text-align:left;border:0;border-top:1px solid var(--line);background:transparent;color:var(--ink);font:600 18px/1.35 var(--display);padding:20px 8px 20px 0;cursor:pointer;display:flex;gap:14px;align-items:baseline;width:100%}
+.match li:last-child .jd{border-bottom:1px solid var(--line)}
+.jd .n{font:700 14px/1 var(--body);color:var(--muted);min-width:1.4em}
+.jd:hover{color:var(--blue)}
+:root[data-theme="dark"] .jd:hover{color:var(--sun)}
+.jd[aria-expanded="true"]{color:var(--blue);box-shadow:inset 4px 0 0 var(--blue);padding-left:16px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .jd[aria-expanded="true"],:root:not([data-theme="light"]) .jd:hover{color:var(--sun)}:root:not([data-theme="light"]) .jd[aria-expanded="true"]{box-shadow:inset 4px 0 0 var(--sun)}}
+.proof{grid-column:2;grid-row:1 / span 7;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:clamp(22px,3vw,36px);position:sticky;top:20px;box-shadow:0 24px 50px -34px rgba(31,54,199,.45)}
+.proof[hidden]{display:none}
+.proof h3{font-size:clamp(22px,2.6vw,30px);font-weight:700;margin-bottom:14px}
+.proof .did{margin:0 0 18px;font-size:18px}
+.proof dl{margin:0;display:grid;gap:16px}
+.proof dt{font:700 15px/1.3 var(--display);color:var(--blue)}
+:root[data-theme="dark"] .proof dt{color:var(--sun)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .proof dt{color:var(--sun)}}
+.proof dd{margin:2px 0 0;color:var(--muted)}
+.proof .anim{animation:fade .35s ease both}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.note{margin-top:22px;font-size:15px;color:var(--muted)}
+@media (max-width:860px){
+  .match{display:block}
+  .match li{display:block}
+  .proof{position:static;margin:0 0 14px;border-radius:16px}
+  .jd{font-size:17px}
+}
+
+/* gaps */
+.gaps{margin-top:40px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.gaps article{padding:26px 24px;border-radius:16px;background:var(--paper);border:1px solid var(--line)}
+.gaps h3{font-size:22px;font-weight:700;margin-bottom:10px}
+.gaps p{margin:0 0 12px;color:var(--muted)}
+.gaps p strong{color:var(--ink);font-weight:600}
+@media (max-width:860px){.gaps{grid-template-columns:1fr}}
+
+/* sequence */
+.seq{margin:40px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:4px solid var(--blue)}
+.seq li{padding:22px 22px 8px 0;position:relative}
+.seq li+li{padding-left:22px;border-left:1px solid var(--line)}
+.seq h3{font-size:22px;font-weight:700;margin-bottom:8px}
+.seq p{margin:0 0 14px;color:var(--muted)}
+@media (max-width:860px){.seq{grid-template-columns:1fr}.seq li+li{padding-left:0;border-left:0;border-top:1px solid var(--line)}}
+
+/* record */
+.rec{margin-top:36px;display:grid;gap:0}
+.rec div{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,9fr);gap:8px 32px;padding:18px 0;border-top:1px solid var(--line)}
+.rec div:last-child{border-bottom:1px solid var(--line)}
+.rec b{font:700 17px/1.3 var(--display)}
+.rec span{color:var(--muted)}
+@media (max-width:700px){.rec div{grid-template-columns:1fr}}
+
+/* close */
+.close{background:var(--navy);color:#fff}
+.close h2{max-width:22ch}
+.close p{color:#cfd5f5;max-width:56ch;font-size:18px}
+.contact{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px}
+.contact a{display:inline-block;padding:14px 20px;border-radius:999px;border:2px solid #fff;text-decoration:none;font-weight:700}
+.contact a.p{background:var(--sun);border-color:var(--sun);color:var(--navy)}
+.fine{margin-top:40px;font-size:14px;color:#a9b2e6;border-top:1px solid #2a3470;padding-top:18px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="pad"><div class="col">
+    <div class="bar">
+      <img src="https://www.unilever.com/core-assets/logos/logo-wordmark.svg" alt="Unilever" width="130" height="28">
+      <span>Application for Procurement Partner, Home Care (contract), Karachi</span>
+    </div>
+    <div class="hero-body">
+      <h1 aria-label="You will read stronger CVs than mine. Here is the work behind this one.">
+        <span class="ln"><span>You will read</span></span>
+        <span class="ln"><span>stronger CVs than mine.</span></span>
+        <span class="ln"><span>Read the work behind this one.</span></span>
+      </h1>
+      <p class="lede">I am Murtaza Mustafa, a business graduate in Karachi. Today I source softwood from sawmills in Finland and Sweden, negotiate price, volume and shipping terms, clear the imports through customs, and report the cash position to management. Your role asks for exactly that kind of work. Below, each of your seven responsibilities is matched to something I have already done.</p>
+      <a class="jump" href="#match">See the match, line by line</a>
+    </div>
+  </div></div>
+</header>
+
+<main>
+<section id="match">
+  <div class="pad"><div class="col">
+    <h2>Your seven responsibilities, matched to real work</h2>
+    <p class="intro">Pick a responsibility from the job description. The right side shows what I have done, what I would do in the role, and where I still have to learn.</p>
+    <div class="match" id="matcher">
+      <ol>
+        <li>
+          <button class="jd" aria-expanded="true" aria-controls="p1"><span class="n">1</span>Supplier sourcing and evaluation</button>
+          <div class="proof" id="p1">
+            <h3>I find suppliers, compare them and onboard them.</h3>
+            <p class="did">At Huzaifa Enterprises, a family-owned softwood importer, I sourced and onboarded two new sawmill suppliers in Finland and Sweden, comparing them on price, volume and shipment terms.</p>
+            <dl>
+              <div><dt>What I would do for Home Care</dt><dd>Build a simple, repeatable scorecard for third-party manufacturers: safety, quality, capacity, capability and cost, using your existing criteria.</dd></div>
+              <div><dt>Where I still have to learn</dt><dd>My suppliers make timber, not detergent. I have not run plant audits. I would join audits as an observer first.</dd></div>
+            </dl>
+          </div>
+        </li>
+        <li>
+          <button class="jd" aria-expanded="false" aria-controls="p2"><span class="n">2</span>Negotiation and contracting</button>
+          <div class="proof" id="p2" hidden>
+            <h3>I negotiate terms, not just price.</h3>
+            <p class="did">I negotiated pricing, volumes and shipment terms with sawmills. At Alzo Home I negotiated weekly commission-based livestream contracts with influencers, which lifted sales by 20 to 30%.</p>
+            <dl>
+              <div><dt>What I would do for Home Care</dt><dd>Prepare every negotiation with a target, a walk-away point and a list of trades (volume, payment terms, lead time) before the call.</dd></div>
+              <div><dt>Where I still have to learn</dt><dd>I have negotiated terms but have not drafted legal contracts. I would work from Unilever templates and with Legal.</dd></div>
+            </dl>
+          </div>
+        </li>
+        <li>
+          <button class="jd" aria-expanded="false" aria-controls="p3"><span class="n">3</span>Supplier relationship management</button>
+          <div class="proof" id="p3" hidden>
+            <h3>I keep long-distance relationships working.</h3>
+            <p class="did">I manage sawmill relationships across time zones and languages from Karachi. At Masaki I built and directed a creator network of 20,000+ affiliates, which taught me to hold a partner to a standard while keeping the relationship good.</p>
+            <dl>
+              <div><dt>What I would do for Home Care</dt><dd>Keep a short, regular check-in rhythm with each manufacturing partner, and raise quality, delivery or service issues early and in writing.</dd></div>
+              <div><dt>Where I still have to learn</dt><dd>Creators and sawmills are different kinds of partner from a contract manufacturer. The habits carry over; the technical vocabulary I will pick up on the job.</dd></div>
+            </dl>
+          </div>
+        </li>
+        <li>
+          <button class="jd" aria-expanded="false" aria-controls="p4"><span class="n">4</span>Supply chain coordination</button>
+          <div class="proof" id="p4" hidden>
+            <h3>I make sure the goods actually arrive.</h3>
+            <p class="did">I oversee import documentation and customs clearance compliance so shipments clear without delay. I also manage inventory, pricing and bookkeeping at Bubble Bath Bars, a handmade products business I co-founded.</p>
+            <dl>
+              <div><dt>What I would do for Home Care</dt><dd>Work with production, logistics, quality and regulatory teams on one shared view of what is due, what is late and why.</dd></div>
+              <div><dt>Where I still have to learn</dt><dd>Your planning systems and stock rules. I would learn them first and ask before changing anything.</dd></div>
+            </dl>
+          </div>
+        </li>
+        <li>
+          <button class="jd" aria-expanded="false" aria-controls="p5"><span class="n">5</span>Risk management</button>
+          <div class="proof" id="p5" hidden>
+            <h3>I look for the risk nobody was measuring.</h3>
+            <p class="did">At the importer I introduced reporting on monthly profitability, cash conversion cycle and average customer payment days (DSO). It gave management a view of cash-flow and credit risk it did not have before, and the business recovered about $15K in untracked receivables.</p>
+            <dl>
+              <div><dt>What I would do for Home Care</dt><dd>Keep a running list of supplier risks (single source, capacity, delivery, compliance) with an owner and a fallback for each.</dd></div>
+              <div><dt>Where I still have to learn</dt><dd>My risk work so far is financial and shipment risk. Regulatory and product-safety risk in consumer goods is new to me.</dd></div>
+            </dl>
+          </div>
+        </li>
+        <li>
+          <button class="jd" aria-expanded="false" aria-controls="p6"><span class="n">6</span>Data analysis and reporting</button>
+          <div class="proof" id="p6" hidden>
+            <h3>I turn records into decisions.</h3>
+            <p class="did">At Alzo Home I own the monthly P&amp;L, income statements, expense recording and cost of goods sold (COGS) reporting, and I use it to drive pricing and sales decisions.</p>
+            <dl>
+              <div><dt>What I would do for Home Care</dt><dd>Produce a regular supplier performance report (cost, quality, delivery) that ends with a recommendation, not just numbers.</dd></div>
+              <div><dt>Where I still have to learn</dt><dd>Unilever's data sources and reporting formats. I would copy your existing format first.</dd></div>
+            </dl>
+          </div>
+        </li>
+        <li>
+          <button class="jd" aria-expanded="false" aria-controls="p7"><span class="n">7</span>Continuous improvement</button>
+          <div class="proof" id="p7" hidden>
+            <h3>I remove repeat work.</h3>
+            <p class="did">I built a business management app that replaced manual invoicing and saved 20+ hours a week. At Orien Systems I built 15+ workflows that cut client onboarding from 1 hour to 5 minutes, a reduction of over 90%.</p>
+            <dl>
+              <div><dt>What I would do for Home Care</dt><dd>Find the slowest repeated step in the third-party manufacturing process, measure it, and propose one fix with a number attached.</dd></div>
+              <div><dt>Where I still have to learn</dt><dd>Which changes are allowed inside a global company's systems. I would propose, not install.</dd></div>
+            </dl>
+          </div>
+        </li>
+      </ol>
+    </div>
+    <p class="note">All figures come from my CV. They describe my own role in each business.</p>
+  </div></div>
+</section>
+
+<section class="mist" id="gaps">
+  <div class="pad"><div class="col">
+    <h2>What I am missing, said plainly</h2>
+    <p class="intro">Your listing prefers an engineering degree and consumer goods experience. I have neither, and you will see that in the CV anyway. Here is how I would cover each gap.</p>
+    <div class="gaps">
+      <article>
+        <h3>No engineering degree</h3>
+        <p><strong>What I have:</strong> BA (Hons) Business Management, Buckinghamshire New University, 74%, completed July 2026.</p>
+        <p><strong>How I cover it:</strong> I would lean on your quality, safety and regulatory colleagues for technical judgement and learn your standards in the first weeks.</p>
+      </article>
+      <article>
+        <h3>No consumer goods plant experience</h3>
+        <p><strong>What I have:</strong> Supplier sourcing, price and terms negotiation, import compliance and cash reporting in a real import business.</p>
+        <p><strong>How I cover it:</strong> The method carries over. The category knowledge I will build by working with the people who already have it.</p>
+      </article>
+      <article>
+        <h3>No formal contract drafting</h3>
+        <p><strong>What I have:</strong> Negotiated commercial terms with suppliers and with influencers.</p>
+        <p><strong>How I cover it:</strong> I would work from Unilever's templates and with Legal, and I would ask early rather than guess.</p>
+      </article>
+    </div>
+  </div></div>
+</section>
+
+<section id="plan">
+  <div class="pad"><div class="col">
+    <h2>My first 90 days, if you choose me</h2>
+    <p class="intro">A plan I would adjust with your local procurement partner in the first week. It is a plan, not a promise.</p>
+    <ol class="seq">
+      <li>
+        <h3>Days 1 to 30: learn</h3>
+        <p>Learn the Home Care third-party manufacturing landscape, the supplier list, the scorecards and the approval and compliance rules.</p>
+        <p>Handle low-value sourcing tasks cleanly and on time.</p>
+      </li>
+      <li>
+        <h3>Days 31 to 60: run</h3>
+        <p>Own the supplier performance report for my category: cost, quality, delivery.</p>
+        <p>Raise issues early, with the data and a suggested next step.</p>
+      </li>
+      <li>
+        <h3>Days 61 to 90: improve</h3>
+        <p>Pick the slowest repeated step in the process, measure it and propose one fix with numbers.</p>
+        <p>Review my first quarter with my manager and set the next goals.</p>
+      </li>
+    </ol>
+  </div></div>
+</section>
+
+<section class="mist" id="record">
+  <div class="pad"><div class="col">
+    <h2>The record, in short</h2>
+    <div class="rec">
+      <div><b>Procurement and Operations Executive</b><span>Huzaifa Enterprises, softwood timber importer, Karachi. Jul 2026 to present, part-time. Supplier sourcing, negotiation, import documentation and customs compliance, cash and credit reporting, and a management app that saves 20+ hours a week.</span></div>
+      <div><b>Account Manager</b><span>Alzo Home, Malaysia, remote. Dec 2025 to present, part-time. Monthly P&amp;L, COGS reporting, pricing and influencer contract negotiation.</span></div>
+      <div><b>AI Automation Specialist</b><span>Orien Systems, remote, US clients. May to Jul 2026, contract. 15+ workflows for 5 clinics; onboarding cut from 1 hour to 5 minutes.</span></div>
+      <div><b>Business Manager</b><span>Masaki, Malaysia, remote. Nov 2023 to Aug 2024, part-time. TikTok Shop revenue from RM 50K to RM 500K in 6 months; 20,000+ creator network.</span></div>
+      <div><b>Co-Founder</b><span>Bubble Bath Bars, Karachi. Mar 2022 to present. Branding, pricing, inventory and bookkeeping for a handmade products business.</span></div>
+    </div>
+  </div></div>
+</section>
+
+<section class="close" id="contact">
+  <div class="pad"><div class="col">
+    <h2>Give me one interview to show you the rest</h2>
+    <p>I am based in Karachi, available for day-shift, on-site work, and willing to travel for supplier visits, audits and meetings, as the role requires.</p>
+    <div class="contact">
+      <a class="p" href="mailto:murtazamustafa.k@gmail.com">murtazamustafa.k@gmail.com</a>
+      <a href="tel:+923181253085">+92 318 1253085</a>
+      <a href="https://www.linkedin.com/in/murtaza-mustafa2911/" rel="noopener">LinkedIn profile</a>
+    </div>
+    <p class="fine">This page was prepared by Murtaza Mustafa as part of his application. It is an independent page and is not published by or affiliated with Unilever. The Unilever name and logo belong to Unilever.</p>
+  </div></div>
+</section>
+</main>
+
+<script>
+(function(){
+  var btns=[].slice.call(document.querySelectorAll('.jd'));
+  function show(b){
+    btns.forEach(function(x){
+      var p=document.getElementById(x.getAttribute('aria-controls'));
+      var on=(x===b);
+      x.setAttribute('aria-expanded',on?'true':'false');
+      p.hidden=!on;
+      if(on){p.classList.remove('anim');void p.offsetWidth;p.classList.add('anim')}
+    });
+  }
+  btns.forEach(function(b){
+    b.addEventListener('click',function(){show(b)});
+    b.addEventListener('keydown',function(e){
+      var i=btns.indexOf(b);
+      if(e.key==='ArrowDown'||e.key==='ArrowUp'){
+        e.preventDefault();
+        var n=btns[(i+(e.key==='ArrowDown'?1:-1)+btns.length)%btns.length];
+        n.focus();show(n);
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>
