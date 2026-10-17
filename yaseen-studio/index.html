@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#111827">
+<title>Yaseen Studio Growth Demo | A note for Yaseen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+--ink:#111827;--ink2:#1C2433;--bone:#F5F2EC;--card:#FFFFFF;--fg:#141A26;--muted:#5B6372;--line:#E2DDD3;
+--brass:#B8893E;--brass2:#D9B36A;--pole:#B3261E;--ok:#1F7A4D;--soft:#EFEAE0;
+--display:"DM Serif Display",Georgia,serif;--body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif}
+@media (prefers-color-scheme:dark){:root{--bone:#0D1118;--card:#151B26;--fg:#ECEEF2;--muted:#9AA3B2;--line:#283041;--soft:#1B2230;--brass:#D9B36A;--ok:#4CC38A}}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bone);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--brass2);outline-offset:2px;border-radius:4px}
+.wrap{max-width:980px;margin:0 auto;padding:0 16px}
+h1,h2,h3{margin:0;line-height:1.15}
+h2{font-family:var(--display);font-weight:400;font-size:clamp(1.7rem,4.5vw,2.3rem)}
+p{margin:0 0 12px}
+.muted{color:var(--muted)}
+.small{font-size:.86rem}
+
+/* HERO */
+.hero{background:var(--ink);color:#F5F2EC;padding:28px 0 40px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-60px;top:-40px;width:180px;height:360px;transform:rotate(18deg);
+background:repeating-linear-gradient(135deg,#B3261E 0 18px,#F5F2EC 18px 36px,#1E3A8A 36px 54px,#F5F2EC 54px 72px);opacity:.14;border-radius:90px}
+.top{display:flex;justify-content:space-between;align-items:center;font-size:.85rem;color:#BFC5D0;margin-bottom:34px;gap:12px;flex-wrap:wrap}
+.top b{color:#F5F2EC;letter-spacing:.02em}
+.hero h1{font-family:var(--display);font-weight:400;font-size:clamp(2.3rem,8vw,4rem);max-width:15ch}
+.hero h1 em{color:var(--brass2);font-style:italic}
+.hero .lede{max-width:60ch;color:#D3D8E0;margin-top:18px;font-size:1.05rem}
+.hero .stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.chip{border:1px solid #3A4456;border-radius:999px;padding:6px 12px;font-size:.85rem;color:#D3D8E0}
+.chip b{color:#fff}
+
+/* TABS */
+.tabbar{position:sticky;top:0;z-index:20;background:var(--bone);border-bottom:1px solid var(--line)}
+.tabs{display:flex;gap:4px;overflow-x:auto;padding:10px 0;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;font:600 .92rem var(--body);background:transparent;color:var(--muted);border:1px solid transparent;border-radius:999px;padding:9px 14px;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--ink);color:#F5F2EC}
+@media (prefers-color-scheme:dark){.tab[aria-selected="true"]{background:var(--brass);color:#111827}}
+.panel{padding:34px 0 44px}
+.panel[hidden]{display:none}
+.intro{max-width:62ch;margin:10px 0 24px}
+.grid2{display:grid;gap:18px}
+@media (min-width:820px){.grid2{grid-template-columns:1fr 1fr;align-items:start}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+.card h3{font-size:1.05rem;margin-bottom:12px}
+.step{display:inline-block;font-size:.75rem;font-weight:800;color:var(--brass);margin-bottom:6px}
+label{display:block;font-size:.85rem;font-weight:600;margin:12px 0 5px}
+input[type=text],input[type=date],input[type=number],select{width:100%;font:500 1rem var(--body);padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bone);color:var(--fg)}
+input[type=file]{font:.9rem var(--body);color:var(--muted);max-width:100%}
+.row{display:flex;gap:10px}
+.row>*{flex:1;min-width:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:700 .95rem var(--body);border:0;border-radius:10px;padding:12px 16px;cursor:pointer;text-decoration:none}
+.btn-main{background:var(--ink);color:#F5F2EC}
+@media (prefers-color-scheme:dark){.btn-main{background:var(--brass);color:#111827}}
+.btn-ghost{background:var(--soft);color:var(--fg)}
+.btn-wa{background:#1F8F55;color:#fff}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+
+/* CARD PREVIEW */
+.phone{background:var(--ink);border-radius:26px;padding:10px;max-width:300px;margin:0 auto;box-shadow:0 18px 40px rgba(17,24,39,.25)}
+.phone canvas{width:100%;height:auto;display:block;border-radius:18px}
+.tag{display:inline-block;font-size:.72rem;font-weight:700;background:var(--soft);color:var(--muted);padding:3px 8px;border-radius:999px}
+
+/* WALLET + LISTS */
+.wallet{display:flex;justify-content:space-between;align-items:center;background:var(--ink);color:#F5F2EC;border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.wallet b{font-family:var(--display);font-size:1.8rem;font-weight:400;color:var(--brass2)}
+.list{list-style:none;margin:0;padding:0}
+.list li{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px dashed var(--line);font-size:.92rem}
+.list li:last-child{border-bottom:0}
+.list .you{font-weight:800;color:var(--brass)}
+.empty{color:var(--muted);font-size:.9rem;padding:8px 0}
+
+/* SQUAD */
+.seats{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-top:10px}
+.seat{border:1.5px dashed var(--line);border-radius:12px;padding:10px;min-height:76px;font-size:.88rem;background:var(--bone);text-align:left;color:var(--fg);font-family:var(--body)}
+button.seat{cursor:pointer}
+button.seat:hover{border-color:var(--brass)}
+.seat.filled{border-style:solid;border-color:var(--ok);background:var(--card)}
+.seat.groom{border-style:solid;border-color:var(--brass);background:var(--card)}
+.seat b{display:block;font-size:.95rem}
+.bar{height:10px;background:var(--soft);border-radius:999px;overflow:hidden;margin:8px 0 4px}
+.bar span{display:block;height:100%;width:0;background:var(--ok);transition:width .4s}
+.joinbox{margin-top:12px;padding:12px;border-radius:12px;background:var(--soft)}
+.joinbox[hidden]{display:none}
+
+/* ROI */
+.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:6px 0 4px}
+@media (min-width:820px){.tiles{grid-template-columns:repeat(4,1fr)}}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.tile b{display:block;font-family:var(--display);font-weight:400;font-size:1.65rem;line-height:1.1}
+.tile span{font-size:.8rem;color:var(--muted)}
+.slider{margin:4px 0 12px}
+.slider .lab{display:flex;justify-content:space-between;font-size:.88rem;font-weight:600}
+.slider output{color:var(--brass);font-weight:800}
+input[type=range]{width:100%;accent-color:#B8893E}
+.ledger{width:100%;border-collapse:collapse;font-size:.95rem}
+.ledger td{padding:9px 0;border-bottom:1px solid var(--line)}
+.ledger td:last-child{text-align:right;white-space:nowrap;padding-left:12px;font-weight:700;font-variant-numeric:tabular-nums}
+.ledger tr.total td{border-bottom:0;border-top:2px solid var(--fg);font-size:1.05rem}
+.price{margin-top:14px;background:var(--ink);color:#F5F2EC;border-radius:14px;padding:18px}
+.price .big{font-family:var(--display);font-size:2.4rem;color:var(--brass2);line-height:1}
+.note{font-size:.8rem;color:var(--muted);margin-top:10px}
+
+/* OFFER / PROOF */
+.offer{background:var(--card);border-top:1px solid var(--line);padding:40px 0}
+.proof{display:grid;gap:12px;margin-top:18px}
+@media (min-width:820px){.proof{grid-template-columns:repeat(3,1fr)}}
+.proof .card b{display:block;font-family:var(--display);font-weight:400;font-size:1.5rem;color:var(--brass)}
+.cta{margin-top:26px;display:flex;gap:10px;flex-wrap:wrap}
+footer{padding:22px 0 30px;font-size:.85rem;color:var(--muted);text-align:center}
+.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:999px;font-size:.9rem;opacity:0;pointer-events:none;transition:opacity .25s;z-index:50;max-width:calc(100% - 32px);text-align:center}
+.toast.show{opacity:1}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="top"><b>YASEEN STUDIO</b><span>A growth demo for Yaseen · Oct 2026</span></div>
+    <h1>Your clients already pose after every cut. <em>Let them sell for you.</em></h1>
+    <p class="lede">Your pinned posts are clients standing next to you after a cut. That photo is the best ad you have, and right now it ends on your page. These two working demos turn that moment into new bookings, and show you exactly how many rupees each one brings.</p>
+    <div class="stats">
+      <span class="chip"><b>Demo 1</b> Fresh Cut Card</span>
+      <span class="chip"><b>Demo 2</b> Shaadi Squad</span>
+      <span class="chip"><b>Plus</b> the money math</span>
+    </div>
+  </div>
+</header>
+
+<nav class="tabbar" aria-label="Demos">
+  <div class="wrap">
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" id="t1" aria-controls="p1" aria-selected="true">1. Fresh Cut Card</button>
+      <button class="tab" role="tab" id="t2" aria-controls="p2" aria-selected="false">2. Shaadi Squad</button>
+      <button class="tab" role="tab" id="t3" aria-controls="p3" aria-selected="false">3. What it earns you</button>
+    </div>
+  </div>
+</nav>
+
+<main>
+<!-- DEMO 1 -->
+<section class="panel" id="p1" role="tabpanel" aria-labelledby="t1">
+  <div class="wrap">
+    <span class="tag">Working demo · try it</span>
+    <h2 style="margin-top:8px">Fresh Cut Card + referral wallet</h2>
+    <p class="intro muted">After the cut, your barber takes one photo. The app makes a story card with the client's own booking code. He posts it because he looks good. His friend books with the code and gets Rs 500 off, and he earns Rs 500 credit. Every client becomes a small ad for Yaseen Studio.</p>
+
+    <div class="grid2">
+      <div class="card">
+        <span class="step">STEP 1 · BARBER, 20 SECONDS</span>
+        <h3>Make the client's card</h3>
+        <label for="cName">Client first name</label>
+        <input type="text" id="cName" value="Hamza" maxlength="16" autocomplete="off">
+        <div class="row">
+          <div>
+            <label for="cStyle">Cut</label>
+            <select id="cStyle">
+              <option>Mid Fade</option><option>Low Taper</option><option>Textured Crop</option><option>Side Part</option><option>Buzz + Beard Line</option>
+            </select>
+          </div>
+          <div>
+            <label for="cBarber">Barber</label>
+            <select id="cBarber"><option>Yaseen</option><option>Studio Team</option></select>
+          </div>
+        </div>
+        <label for="cPhoto">After-cut photo (optional, stays on your phone)</label>
+        <input type="file" id="cPhoto" accept="image/*">
+        <div class="btns">
+          <button class="btn btn-main" id="makeCard">Make card</button>
+        </div>
+
+        <div style="margin-top:22px">
+          <span class="step">STEP 2 · CLIENT</span>
+          <h3>Share it</h3>
+          <div class="btns" style="margin-top:0">
+            <button class="btn btn-ghost" id="dlCard">Download story</button>
+            <a class="btn btn-wa" id="waCard" href="#" target="_blank" rel="noopener">Send on WhatsApp</a>
+          </div>
+        </div>
+
+        <div style="margin-top:22px">
+          <span class="step">STEP 3 · HIS FRIEND</span>
+          <h3>A friend books with the code</h3>
+          <p class="small muted" style="margin:0">In the live version this happens on your booking page. Tap to see what it does.</p>
+          <div class="btns"><button class="btn btn-main" id="simRef">Friend books with <span id="codeBtn">HAMZA500</span></button></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="phone"><canvas id="cv" width="1080" height="1920" aria-label="Preview of the client's story card"></canvas></div>
+        <div class="card" style="margin-top:16px">
+          <div class="wallet"><div><div class="small" style="color:#BFC5D0"><span id="wName">Hamza</span>'s credit</div><b id="wAmt">Rs 0</b></div><div class="small" style="color:#BFC5D0;text-align:right"><span id="wCount">0</span> friends<br>booked</div></div>
+          <h3>This month's top referrers</h3>
+          <p class="small muted" style="margin-top:-6px">Prize: a free cut by Yaseen himself. <span class="tag">sample data</span></p>
+          <ol class="list" id="board"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEMO 2 -->
+<section class="panel" id="p2" role="tabpanel" aria-labelledby="t2" hidden>
+  <div class="wrap">
+    <span class="tag">Working demo · try it</span>
+    <h2 style="margin-top:8px">Shaadi Squad booking</h2>
+    <p class="intro muted">Wedding season is weeks away. The groom books a package and gets one link for his baraat WhatsApp group. Each friend opens it, picks a slot and pays his own share. One booking brings in five to seven people, and most of them have never sat in your chair.</p>
+
+    <div class="grid2">
+      <div class="card">
+        <span class="step">STEP 1 · THE GROOM</span>
+        <h3>Book the squad</h3>
+        <label for="gName">Groom's name</label>
+        <input type="text" id="gName" value="Faraz" maxlength="16" autocomplete="off">
+        <label for="gDate">Baraat date</label>
+        <input type="date" id="gDate">
+        <label for="gPkg">Package <span class="tag">sample prices, you set yours</span></label>
+        <select id="gPkg">
+          <option value="classic">Groom Classic: groom + 5 friends · Rs 25,000</option>
+          <option value="royal">Groom Royal: groom + 7 friends · Rs 40,000</option>
+        </select>
+        <div class="btns"><button class="btn btn-main" id="makeSquad">Create squad link</button></div>
+
+        <div id="shareBox" hidden style="margin-top:20px">
+          <span class="step">STEP 2 · INTO THE BARAAT GROUP</span>
+          <h3>One link, the whole squad</h3>
+          <div class="btns" style="margin-top:0">
+            <a class="btn btn-wa" id="waSquad" href="#" target="_blank" rel="noopener">Share on WhatsApp</a>
+            <button class="btn btn-ghost" id="fillSquad">Fill squad (demo)</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="step">STEP 3 · EACH FRIEND</span>
+        <h3 id="sqTitle">Squad board</h3>
+        <p class="empty" id="sqEmpty">Create a squad on the left to see the board.</p>
+        <div id="sqBoard" hidden>
+          <div class="small" style="display:flex;justify-content:space-between"><span><b id="sqJoined">1</b> of <span id="sqTotal">6</span> confirmed</span><span>Collected <b id="sqPaid">Rs 0</b></span></div>
+          <div class="bar"><span id="sqBar"></span></div>
+          <div class="seats" id="seats"></div>
+          <div class="joinbox" id="joinBox" hidden>
+            <label for="fName" style="margin-top:0">Friend's name</label>
+            <input type="text" id="fName" maxlength="16" autocomplete="off" placeholder="e.g. Saad">
+            <label for="fSlot">Pick a slot, the evening before</label>
+            <select id="fSlot"></select>
+            <div class="btns"><button class="btn btn-main" id="joinBtn">Pay share &amp; confirm</button><button class="btn btn-ghost" id="joinCancel">Cancel</button></div>
+            <p class="small muted" style="margin:8px 0 0">Live version: JazzCash, Easypaisa or card payment goes here.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROI -->
+<section class="panel" id="p3" role="tabpanel" aria-labelledby="t3" hidden>
+  <div class="wrap">
+    <span class="tag">Illustrative estimate, based on assumptions you can change</span>
+    <h2 style="margin-top:8px">What it earns you in 3 months</h2>
+    <p class="intro muted">Move the sliders to your real numbers. The live app tracks every referral code and squad booking, so after 30 days you see the actual rupees, not my guess.</p>
+
+    <h3 style="font-size:1rem;margin-bottom:8px">From your demo session just now</h3>
+    <div class="tiles">
+      <div class="tile"><b id="liveRef">0</b><span>friends booked by code</span></div>
+      <div class="tile"><b id="liveSq">0</b><span>squad seats confirmed</span></div>
+      <div class="tile"><b id="liveRev">Rs 0</b><span>tracked revenue</span></div>
+      <div class="tile"><b id="liveNew">0</b><span>new faces in your chair</span></div>
+    </div>
+
+    <div class="grid2" style="margin-top:22px">
+      <div class="card">
+        <h3>Your numbers</h3>
+        <div class="slider"><div class="lab"><span>Average cut price</span><output id="oPrice"></output></div><input type="range" id="rPrice" min="1000" max="8000" step="250" value="3000" aria-label="Average cut price"></div>
+        <div class="slider"><div class="lab"><span>Clients per month</span><output id="oClients"></output></div><input type="range" id="rClients" min="100" max="2000" step="50" value="600" aria-label="Clients per month"></div>
+        <div class="slider"><div class="lab"><span>Clients who bring 1 friend a month</span><output id="oRefer"></output></div><input type="range" id="rRefer" min="1" max="20" step="1" value="5" aria-label="Referral percentage"></div>
+        <div class="slider"><div class="lab"><span>Reward each side</span><output id="oReward"></output></div><input type="range" id="rReward" min="0" max="1500" step="100" value="500" aria-label="Referral reward"></div>
+        <div class="slider"><div class="lab"><span>Shaadi squads per week</span><output id="oSquads"></output></div><input type="range" id="rSquads" min="0" max="5" step="0.5" value="1" aria-label="Squads per week"></div>
+        <div class="slider"><div class="lab"><span>Squad package price</span><output id="oPkg"></output></div><input type="range" id="rPkg" min="10000" max="80000" step="2500" value="25000" aria-label="Squad package price"></div>
+      </div>
+      <div class="card">
+        <h3>3-month result</h3>
+        <table class="ledger">
+          <tr><td>New clients from referral codes</td><td id="lNew"></td></tr>
+          <tr><td>Referral revenue (after both rewards)</td><td id="lRef"></td></tr>
+          <tr><td>Shaadi squads booked (12 weeks)</td><td id="lSqN"></td></tr>
+          <tr><td>Squad revenue</td><td id="lSq"></td></tr>
+          <tr class="total"><td>Extra revenue in 3 months</td><td id="lTot"></td></tr>
+        </table>
+        <div class="price">
+          <div class="small" style="color:#BFC5D0">Price for both tools (10% of 3-month result)</div>
+          <div class="big" id="lPrice"></div>
+          <div class="small" style="color:#D3D8E0;margin-top:8px">Pays for itself in about <b id="lDays"></b> days.</div>
+        </div>
+        <p class="note">Illustrative estimate. Does not count repeat visits from the new clients, which is where most of the long-term value sits.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<section class="offer">
+  <div class="wrap">
+    <h2>The offer: free for 30 days</h2>
+    <p class="intro muted" style="margin-top:10px">I set up both tools on your booking site for free. For 30 days the dashboard counts every code booking and every squad. If the numbers are real, we agree a price at 10% or less of what it brought you. If they are not, you pay nothing.</p>
+    <h3 style="font-size:1rem;margin-top:26px">Who is building it</h3>
+    <p class="muted" style="max-width:62ch">I am Murtaza, a business graduate from Karachi. I have run procurement, finance and online sales in real businesses, and I build the systems that fix what I see.</p>
+    <div class="proof">
+      <div class="card"><b>~$15K</b>surfaced in forgotten receivables by an app I built for a Karachi timber importer, saving 20+ hours a week.</div>
+      <div class="card"><b>10x</b>TikTok Shop revenue for a Malaysian brand in 6 months (RM 50K to RM 500K), built on creators sharing the product.</div>
+      <div class="card"><b>15+</b>booking, reminder and review workflows built for 5 US clinics.</div>
+    </div>
+    <div class="cta">
+      <a class="btn btn-wa" href="https://wa.me/923181253085?text=Salam%20Murtaza%2C%20I%20saw%20the%20Yaseen%20Studio%20demo.%20Let%27s%20talk." target="_blank" rel="noopener">WhatsApp Murtaza</a>
+      <a class="btn btn-ghost" href="mailto:murtazamustafa.k@gmail.com?subject=Yaseen%20Studio%20demo">Email</a>
+    </div>
+    <p class="small muted" style="margin-top:12px">+92 318 1253085 · murtazamustafa.k@gmail.com</p>
+  </div>
+</section>
+
+<footer>Built by Murtaza Mustafa · A private demo for Yaseen Studio, not affiliated with or published by the studio.</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+var $=function(id){return document.getElementById(id)};
+var fmt=function(n){return "Rs "+Math.round(n).toLocaleString("en-PK")};
+var lac=function(n){return n>=100000?"Rs "+(n/100000).toFixed(n>=1000000?1:2).replace(/\.?0+$/,"")+" lac":fmt(n)};
+function toast(t){var el=$("toast");el.textContent=t;el.classList.add("show");clearTimeout(el._t);el._t=setTimeout(function(){el.classList.remove("show")},2200)}
+
+/* TABS */
+var tabs=[].slice.call(document.querySelectorAll(".tab"));
+tabs.forEach(function(t,i){
+  t.addEventListener("click",function(){select(i)});
+  t.addEventListener("keydown",function(e){if(e.key==="ArrowRight"){select((i+1)%tabs.length);tabs[(i+1)%tabs.length].focus()}if(e.key==="ArrowLeft"){var j=(i+tabs.length-1)%tabs.length;select(j);tabs[j].focus()}});
+});
+function select(i){tabs.forEach(function(t,j){t.setAttribute("aria-selected",j===i?"true":"false");t.tabIndex=j===i?0:-1;$(t.getAttribute("aria-controls")).hidden=j!==i});
+  var tb=document.querySelector(".tabbar");if(tb.getBoundingClientRect().top<0||window.scrollY>tb.offsetTop)window.scrollTo({top:tb.offsetTop,behavior:"smooth"});
+  if(i===2)updateLive();}
+
+/* SHARED DEMO STATE */
+var live={ref:0,seats:0,rev:0};
+
+/* DEMO 1: CARD */
+var cv=$("cv"),ctx=cv.getContext("2d"),photo=null,credit=0,friends=0;
+var sample=[["Bilal",6],["Usman",4],["Saad",3],["Hamza",0],["Ali",2]];
+function code(){var n=($("cName").value||"Client").toUpperCase().replace(/[^A-Z]/g,"").slice(0,6)||"CLIENT";return n+"500"}
+function clientName(){var n=($("cName").value||"Client").trim();return n.charAt(0).toUpperCase()+n.slice(1)}
+function cover(img,x,y,w,h){var r=Math.max(w/img.width,h/img.height),iw=img.width*r,ih=img.height*r;ctx.drawImage(img,x+(w-iw)/2,y+(h-ih)/2,iw,ih)}
+function draw(){
+  var W=1080,H=1920;
+  ctx.fillStyle="#111827";ctx.fillRect(0,0,W,H);
+  var PH=1180;
+  if(photo){cover(photo,0,0,W,PH)}else{
+    var g=ctx.createLinearGradient(0,0,W,PH);g.addColorStop(0,"#2A3346");g.addColorStop(1,"#111827");ctx.fillStyle=g;ctx.fillRect(0,0,W,PH);
+    ctx.save();ctx.globalAlpha=.10;ctx.translate(W-140,-80);ctx.rotate(.32);
+    var cols=["#B3261E","#F5F2EC","#1E3A8A","#F5F2EC"];for(var i=0;i<26;i++){ctx.fillStyle=cols[i%4];ctx.fillRect(-60,i*60,260,60)}ctx.restore();
+    ctx.fillStyle="rgba(245,242,236,.55)";ctx.font="600 38px Manrope";ctx.textAlign="center";ctx.fillText("Client's after-cut photo goes here",W/2,PH/2);ctx.textAlign="left";
+  }
+  var fade=ctx.createLinearGradient(0,PH-420,0,PH);fade.addColorStop(0,"rgba(17,24,39,0)");fade.addColorStop(1,"#111827");ctx.fillStyle=fade;ctx.fillRect(0,PH-420,W,420);
+  ctx.fillStyle="#F5F2EC";ctx.font="800 34px Manrope";ctx.fillText("YASEEN STUDIO · KARACHI",80,110);
+  ctx.fillStyle="#D9B36A";ctx.font="italic 150px 'DM Serif Display'";ctx.fillText("Fresh cut.",80,PH-90);
+  ctx.fillStyle="#F5F2EC";ctx.font="700 52px Manrope";ctx.fillText(clientName()+" · "+$("cStyle").value,80,PH+10);
+  ctx.fillStyle="#9AA3B2";ctx.font="500 40px Manrope";ctx.fillText("by "+$("cBarber").value+", Yaseen Studio",80,PH+72);
+  ctx.strokeStyle="#D9B36A";ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(80,PH+140);ctx.lineTo(W-80,PH+140);ctx.stroke();
+  ctx.fillStyle="#D3D8E0";ctx.font="500 42px Manrope";ctx.fillText("Want this cut? Book with my code",80,PH+230);
+  var bx=80,by=PH+270,bw=W-160,bh=200;ctx.fillStyle="#D9B36A";roundRect(bx,by,bw,bh,28);ctx.fill();
+  ctx.fillStyle="#111827";ctx.font="800 108px Manrope";ctx.textAlign="center";ctx.fillText(code(),W/2,by+138);
+  ctx.fillStyle="#F5F2EC";ctx.font="700 46px Manrope";ctx.fillText("Rs 500 off your first cut",W/2,by+300);
+  ctx.fillStyle="#9AA3B2";ctx.font="500 38px Manrope";ctx.fillText("yaseensstudio.com",W/2,H-90);ctx.textAlign="left";
+}
+function roundRect(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
+function syncCard(){draw();$("codeBtn").textContent=code();$("wName").textContent=clientName();
+  var msg="Just got a fresh "+$("cStyle").value.toLowerCase()+" at Yaseen Studio. Book with my code "+code()+" and get Rs 500 off your first cut: yaseensstudio.com";
+  $("waCard").href="https://wa.me/?text="+encodeURIComponent(msg);renderBoard()}
+$("cPhoto").addEventListener("change",function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){photo=im;draw()};im.src=r.result};r.readAsDataURL(f)});
+$("makeCard").addEventListener("click",function(){credit=0;friends=0;$("wAmt").textContent="Rs 0";$("wCount").textContent="0";syncCard();toast("Card ready for "+clientName())});
+["cName","cStyle","cBarber"].forEach(function(id){$(id).addEventListener("input",syncCard)});
+$("dlCard").addEventListener("click",function(){var a=document.createElement("a");a.download="fresh-cut-"+code()+".png";a.href=cv.toDataURL("image/png");a.click()});
+$("simRef").addEventListener("click",function(){
+  credit+=500;friends+=1;live.ref+=1;live.rev+=3000-500;
+  $("wAmt").textContent=fmt(credit);$("wCount").textContent=friends;renderBoard();
+  toast("Friend booked with "+code()+". "+clientName()+" earned Rs 500 credit");
+});
+function renderBoard(){
+  var me=clientName(),rows=sample.filter(function(r){return r[0].toLowerCase()!==me.toLowerCase()}).map(function(r){return{n:r[0],c:r[1],you:false}});
+  rows.push({n:me,c:friends,you:true});rows.sort(function(a,b){return b.c-a.c||(a.you?-1:1)});
+  $("board").innerHTML=rows.map(function(r,i){var n=document.createElement("span");n.textContent=r.n;return'<li'+(r.you?' class="you"':'')+'><span>'+(i+1)+". "+n.innerHTML+(r.you?" (this client)":"")+(i===0?" 👑":"")+'</span><span>'+r.c+' friends</span></li>'}).join("");
+}
+(document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(syncCard);syncCard();
+
+/* DEMO 2: SQUAD */
+var pk={classic:{friends:5,groom:10000,share:3000,total:25000},royal:{friends:7,groom:16000,share:3000,total:40000}};
+var squad=null,openSeat=-1;
+var d=new Date();d.setDate(d.getDate()+40);$("gDate").value=d.toISOString().slice(0,10);
+var allSlots=["2:00 pm","2:45 pm","3:30 pm","4:15 pm","5:00 pm","5:45 pm","6:30 pm","7:15 pm","8:00 pm","8:45 pm"];
+var demoNames=["Saad","Owais","Taha","Danish","Rehan","Zain","Arsalan"];
+function gName(){var n=($("gName").value||"Groom").trim();return n.charAt(0).toUpperCase()+n.slice(1)}
+$("makeSquad").addEventListener("click",function(){
+  var p=pk[$("gPkg").value];
+  if(squad){live.seats-=squad.counted;live.rev-=squad.paid}
+  squad={p:p,seats:[{n:gName(),slot:"1:00 pm",groom:true}],free:allSlots.slice(),paid:p.groom,counted:0};
+  for(var i=0;i<p.friends;i++)squad.seats.push(null);
+  live.rev+=p.groom;squad.counted=0;
+  $("shareBox").hidden=false;$("sqEmpty").hidden=true;$("sqBoard").hidden=false;
+  var dt=new Date($("gDate").value);var ds=isNaN(dt)?"the big day":dt.toLocaleDateString("en-GB",{day:"numeric",month:"short"});
+  $("sqTitle").textContent=gName()+"'s Shaadi Squad · "+ds;
+  var msg="Baraat squad! "+gName()+"'s grooming is booked at Yaseen Studio. Tap to grab your slot and pay your share (Rs "+p.share.toLocaleString("en-PK")+"): yaseensstudio.com/squad/"+gName().toUpperCase().replace(/[^A-Z]/g,"");
+  $("waSquad").href="https://wa.me/?text="+encodeURIComponent(msg);
+  renderSquad();toast("Squad link ready. Send it to the baraat group");
+});
+function renderSquad(){
+  var s=squad,html="",joined=0;
+  s.seats.forEach(function(seat,i){
+    if(seat){joined++;var n=document.createElement("span");n.textContent=seat.n;
+      html+='<div class="seat '+(seat.groom?"groom":"filled")+'"><b>'+n.innerHTML+(seat.groom?" (groom)":"")+'</b>'+seat.slot+'<br><span class="small" style="color:var(--ok)">✓ '+(seat.groom?"Paid "+fmt(s.p.groom):"Paid "+fmt(s.p.share))+'</span></div>'}
+    else html+='<button class="seat" data-i="'+i+'"><b>Open seat</b><span class="small muted">Tap to join as a friend</span></button>';
+  });
+  $("seats").innerHTML=html;
+  [].slice.call(document.querySelectorAll("button.seat")).forEach(function(b){b.addEventListener("click",function(){openJoin(+b.getAttribute("data-i"))})});
+  var total=s.seats.length;$("sqJoined").textContent=joined;$("sqTotal").textContent=total;$("sqPaid").textContent=fmt(s.paid);
+  $("sqBar").style.width=(joined/total*100)+"%";
+  if(joined===total)toast("Full squad confirmed: "+fmt(s.paid)+" collected, "+(total-1)+" new faces");
+}
+function openJoin(i){openSeat=i;$("joinBox").hidden=false;$("fSlot").innerHTML=squad.free.map(function(t){return"<option>"+t+"</option>"}).join("");$("fName").value="";$("fName").focus()}
+function join(name){
+  if(openSeat<0)return;var slot=$("fSlot").value||squad.free[0];
+  squad.seats[openSeat]={n:name,slot:slot};squad.free=squad.free.filter(function(t){return t!==slot});
+  squad.paid+=squad.p.share;squad.counted++;live.seats++;live.rev+=squad.p.share;openSeat=-1;$("joinBox").hidden=true;renderSquad();
+}
+$("joinBtn").addEventListener("click",function(){var n=($("fName").value||"").trim();if(!n){$("fName").focus();toast("Add the friend's name");return}join(n.charAt(0).toUpperCase()+n.slice(1))});
+$("joinCancel").addEventListener("click",function(){openSeat=-1;$("joinBox").hidden=true});
+$("fillSquad").addEventListener("click",function(){if(!squad)return;var k=0;squad.seats.forEach(function(s,i){if(!s){openSeat=i;$("fSlot").innerHTML="<option>"+squad.free[0]+"</option>";
+  var used=squad.seats.filter(Boolean).map(function(x){return x.n});while(used.indexOf(demoNames[k%demoNames.length])>-1)k++;join(demoNames[k%demoNames.length]);k++}})});
+
+/* ROI */
+var R=["Price","Clients","Refer","Reward","Squads","Pkg"];
+function calc(){
+  var price=+$("rPrice").value,cl=+$("rClients").value,rf=+$("rRefer").value,rw=+$("rReward").value,sq=+$("rSquads").value,pkg=+$("rPkg").value;
+  $("oPrice").textContent=fmt(price);$("oClients").textContent=cl;$("oRefer").textContent=rf+"%";$("oReward").textContent=fmt(rw);$("oSquads").textContent=sq;$("oPkg").textContent=fmt(pkg);
+  var nw=Math.round(cl*rf/100*3),refRev=nw*Math.max(price-2*rw,0),sqN=Math.round(sq*12),sqRev=sqN*pkg,tot=refRev+sqRev;
+  var pr=Math.max(5000,Math.round(tot*0.10/1000)*1000);
+  $("lNew").textContent=nw;$("lRef").textContent=lac(refRev);$("lSqN").textContent=sqN;$("lSq").textContent=lac(sqRev);$("lTot").textContent=lac(tot);
+  $("lPrice").textContent=fmt(pr);$("lDays").textContent=tot>0?Math.max(1,Math.ceil(pr/(tot/90))):"--";
+}
+R.forEach(function(k){$("r"+k).addEventListener("input",calc)});calc();
+function updateLive(){$("liveRef").textContent=live.ref;$("liveSq").textContent=live.seats;$("liveRev").textContent=lac(Math.max(live.rev,0));$("liveNew").textContent=live.ref+live.seats}
+})();
+</script>
+</body>
+</html>
