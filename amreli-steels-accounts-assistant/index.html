@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="author" content="Murtaza Mustafa">
+<meta name="description" content="Murtaza Mustafa's application for the Accounts Assistant role at Amreli Steels, with a small sample collection-verification desk built on made-up data.">
+<title>Murtaza Mustafa, Accounts Assistant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ink:#121212; --ink-2:#2b2b2e; --mut:#5c5c63; --paper:#fbf8f0; --card:#ffffff; --line:#e4dfd0;
+  --amber:#fdb913; --amber-deep:#b27f00; --black:#0c0c0d;
+  --good:#17703f; --good-bg:#e1f3e8; --warn:#8f5b00; --warn-bg:#fff0cc; --bad:#a3302b; --bad-bg:#fbe3e1;
+  --display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"Inter","Segoe UI",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 var(--body)}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--amber);outline-offset:3px;border-radius:3px}
+.pad{padding-left:max(22px,env(safe-area-inset-left,0px));padding-right:max(22px,env(safe-area-inset-right,0px))}
+.col{max-width:1040px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);margin:0;line-height:.98;letter-spacing:.005em;text-transform:uppercase;font-weight:800;text-wrap:balance}
+.kicker{font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--amber-deep)}
+
+/* hero */
+.hero{background:var(--black);color:#fff;position:relative;overflow:hidden;padding-top:max(28px,env(safe-area-inset-top,0px))}
+.hero::before{content:"";position:absolute;right:-8%;top:0;bottom:0;width:46%;background:var(--amber);clip-path:polygon(34% 0,100% 0,100% 100%,0 100%);opacity:1}
+.hero::after{content:"";position:absolute;right:-8%;top:0;bottom:0;width:50%;background:#1b1b1d;clip-path:polygon(0 100%,22% 0,28% 0,6% 100%);}
+.hero .col{position:relative;z-index:2;padding:36px 0 84px}
+.bar{display:flex;align-items:center;gap:12px;font:500 12px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#cfcfd4}
+.bar i{display:inline-block;width:38px;height:6px;background:var(--amber)}
+h1{font-size:clamp(46px,9.4vw,104px);margin-top:44px;max-width:11ch}
+h1 em{font-style:normal;color:var(--amber)}
+.lede{max-width:34em;margin:26px 0 0;color:#dcdce0;font-size:clamp(17px,2.2vw,20px)}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.btn{display:inline-block;font:700 15px/1 var(--body);text-decoration:none;padding:15px 22px;border-radius:4px;border:2px solid var(--amber);background:var(--amber);color:#111;cursor:pointer}
+.btn.ghost{background:transparent;color:#fff}
+.btn:hover{filter:brightness(1.07)}
+.proofline{position:relative;z-index:3;background:var(--amber);color:#111}
+.proofline .col{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.proofline div{padding:18px 18px;border-left:2px solid rgba(0,0,0,.18)}
+.proofline div:first-child{border-left:0;padding-left:0}
+.proofline b{display:block;font:800 clamp(26px,4vw,40px)/1 var(--display);letter-spacing:.01em}
+.proofline span{font-size:13px;line-height:1.35;display:block;margin-top:4px}
+@media (max-width:760px){.hero::before{width:100%;top:auto;height:14px;clip-path:none}.hero::after{display:none}.proofline .col{grid-template-columns:1fr 1fr}.proofline div:nth-child(3){border-left:0;padding-left:0}.proofline div{padding:14px 14px}}
+
+section{padding:76px 0}
+section h2{font-size:clamp(34px,5.5vw,58px);margin-top:12px}
+.intro{max-width:38em;margin:16px 0 0;color:var(--mut)}
+
+/* JD matcher */
+.rows{margin-top:36px;display:grid;gap:14px}
+.row{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--amber);border-radius:6px;padding:22px 24px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:12px 36px}
+.row h3{font-size:25px;letter-spacing:.01em}
+.row .jd{font:500 12px/1.2 var(--mono);color:var(--amber-deep);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+.row p{margin:0 0 8px}
+.row .learn{font-size:15px;color:var(--mut)}
+.row .learn b{color:var(--ink)}
+@media (max-width:760px){.row{grid-template-columns:1fr;padding:18px}}
+
+/* desk */
+.desk-wrap{background:var(--black);color:#fff}
+.desk-wrap section{padding:76px 0 84px}
+.desk-wrap .intro{color:#bdbdc4}
+.desk-wrap .kicker{color:var(--amber)}
+.tag{display:inline-block;margin-top:18px;font:500 12px/1.3 var(--mono);color:#111;background:var(--amber);padding:6px 10px;border-radius:3px;letter-spacing:.04em}
+.desk{margin-top:30px;align-items:start;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:22px}
+.panel{background:#141416;border:1px solid #2a2a2e;border-radius:8px;padding:20px}
+.panel h3{font-size:22px;color:#fff;margin-bottom:4px}
+.panel .sub{font-size:14px;color:#9a9aa3;margin:0 0 14px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{font:500 11px/1.2 var(--mono);text-transform:uppercase;letter-spacing:.1em;color:#8b8b95;text-align:left;padding:8px 8px;border-bottom:1px solid #2a2a2e}
+td{padding:11px 8px;border-bottom:1px solid #202024;vertical-align:middle}
+td.n,th.n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+td.m{font-family:var(--mono);font-size:13px;color:#c8c8cf}
+.st{display:inline-block;font:600 12px/1 var(--body);padding:5px 9px;border-radius:99px;white-space:nowrap}
+.st.pending{background:#26262a;color:#b7b7c0}
+.st.ok{background:var(--good-bg);color:var(--good)}
+.st.posted{background:var(--good);color:#fff}
+.st.warn{background:var(--warn-bg);color:var(--warn)}
+.st.bad{background:var(--bad-bg);color:var(--bad)}
+.controls{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.controls .btn{padding:12px 16px;font-size:14px}
+.controls .btn[disabled]{opacity:.35;cursor:not-allowed;filter:none}
+.controls .btn.ghost{border-color:#3a3a40}
+.report{white-space:pre-wrap;font:400 13px/1.65 var(--mono);color:#e9e9ee;background:#0b0b0c;border:1px solid #2a2a2e;border-radius:6px;padding:16px;min-height:220px}
+.exc{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.exc li{font-size:14px;color:#d9d9df;background:#0b0b0c;border:1px solid #2a2a2e;border-radius:6px;padding:11px 13px}
+.exc li b{color:#fff}
+.exc .who{display:block;margin-top:4px;color:var(--amber);font:500 12px/1.3 var(--mono)}
+.stack{display:grid;gap:22px;align-content:start}
+@media (max-width:860px){.desk{grid-template-columns:1fr}
+ .panel{padding:14px}
+ table.rc thead{display:none}
+ table.rc,table.rc tbody,table.rc tr,table.rc td{display:block;width:100%}
+ table.rc tr{border:1px solid #2a2a2e;border-radius:6px;margin-bottom:10px;padding:8px 10px}
+ table.rc td{border:0;padding:3px 0;display:flex;justify-content:space-between;gap:10px;text-align:right}
+ table.rc td::before{content:attr(data-l);font:500 11px/1.6 var(--mono);text-transform:uppercase;letter-spacing:.08em;color:#8b8b95;text-align:left}
+}
+
+/* week one + honest */
+.cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:34px}
+.card{background:var(--card);border:1px solid var(--line);border-top:6px solid var(--ink);border-radius:6px;padding:22px}
+.card .num{font:800 40px/1 var(--display);color:var(--amber-deep)}
+.card h3{font-size:24px;margin:8px 0 8px}
+.card p{margin:0;color:var(--ink-2);font-size:16px}
+@media (max-width:860px){.cols{grid-template-columns:1fr}}
+.honest{background:#efe9d6;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.honest ul{margin:22px 0 0;padding:0;list-style:none;display:grid;gap:12px;max-width:46em}
+.honest li{padding-left:28px;position:relative}
+.honest li::before{content:"";position:absolute;left:0;top:.62em;width:14px;height:6px;background:var(--amber-deep)}
+
+/* contact */
+.contact{background:var(--amber);color:#111;padding:70px 0}
+.contact h2{font-size:clamp(36px,6vw,68px);max-width:14ch}
+.contact p{max-width:34em;margin:16px 0 0;font-size:18px}
+.chips{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.chip{background:#111;color:#fff;text-decoration:none;font:600 15px/1 var(--body);padding:14px 18px;border-radius:4px}
+.chip.alt{background:transparent;color:#111;border:2px solid #111}
+footer{background:var(--black);color:#9a9aa3;text-align:center;padding:26px 22px calc(26px + env(safe-area-inset-bottom,0px));font-size:14px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="hero pad">
+  <div class="col">
+    <div class="bar"><i></i> Application: Accounts Assistant, Karsaz, Karachi</div>
+    <h1>Verify first. Post second. <em>Report the same day.</em></h1>
+    <p class="lede">Hello, I am Murtaza Mustafa. Your post lists five daily duties: post collections, verify online payments, report the daily collection status, resolve receipt disputes, and obtain bank statements for reconciliation. This page shows how I would work each one, and below it there is a small collection desk you can try with made-up data.</p>
+    <div class="hero-cta">
+      <a class="btn" href="#desk">Try the sample desk</a>
+      <a class="btn ghost" href="#duties">See the five duties</a>
+    </div>
+  </div>
+</header>
+<div class="proofline pad">
+    <div class="col">
+      <div><b>$10K+</b><span>forgotten customer balances surfaced when I opened every ledger</span></div>
+      <div><b>20+ hrs</b><span>saved each week by the app I built for a Karachi importer</span></div>
+      <div><b>Monthly</b><span>P&amp;L and COGS report I own at a Malaysian business</span></div>
+      <div><b>74%</b><span>BA (Hons) Business Management, July 2026</span></div>
+    </div>
+</div>
+
+<main>
+<section id="duties" class="pad">
+  <div class="col">
+    <div class="kicker">Your post, line by line</div>
+    <h2>The five duties, and what I would do</h2>
+    <p class="intro">For each duty I put the nearest real experience I have, how I would run it, and what I still have to learn. I have not worked in a formal accounts department, so I say that plainly.</p>
+    <div class="rows">
+      <article class="row">
+        <div><div class="jd">Duty 1</div><h3>Post customer collections after verification against bank statements</h3></div>
+        <div><p>I would never post a receipt before it shows on the bank statement with the same amount and reference. At Huzaifa Enterprises I run customer ledgers every day, and my app opened every ledger for the first time, which is how over $10K in forgotten balances came to light.</p><p class="learn"><b>Still to learn:</b> Amreli's accounting software and posting rules.</p></div>
+      </article>
+      <article class="row">
+        <div><div class="jd">Duty 2</div><h3>Verify online payments and provide payment confirmations</h3></div>
+        <div><p>Check amount, reference, date and customer, then confirm to Sales the same day. A confirmation only goes out after the money is seen. The sample desk below runs exactly this check.</p><p class="learn"><b>Still to learn:</b> your confirmation format and the banks you use.</p></div>
+      </article>
+      <article class="row">
+        <div><div class="jd">Duty 3</div><h3>Report daily collection status to management</h3></div>
+        <div><p>One short report at the end of each day: collected and verified, on hold, disputed, unidentified. I already report profitability, cash conversion and average payment days (DSO) to management, so a daily view is a natural step.</p><p class="learn"><b>Still to learn:</b> what your management wants in the report.</p></div>
+      </article>
+      <article class="row">
+        <div><div class="jd">Duty 4</div><h3>Coordinate with Sales and banks to resolve receipt disputes</h3></div>
+        <div><p>Every exception gets an owner and a next step: Sales for who paid what, the bank for what actually landed. I work with suppliers and customers in English every day, and I keep following up until an item is closed.</p><p class="learn"><b>Still to learn:</b> your escalation path and bank contacts.</p></div>
+      </article>
+      <article class="row">
+        <div><div class="jd">Duty 5</div><h3>Obtain bank statements for reconciliation</h3></div>
+        <div><p>I own the monthly P&amp;L, income statement and COGS report at Alzo Home, in Excel and Sheets, to a deadline. I know how a missing item breaks a month-end.</p><p class="learn"><b>Still to learn:</b> full bank reconciliation at your size. This is the biggest gap and I would ask for guidance early.</p></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<div class="desk-wrap" id="desk">
+<section class="pad">
+  <div class="col">
+    <div class="kicker">Sample collection desk</div>
+    <h2>Try the daily check</h2>
+    <p class="intro">Eight receipts from Sales on one side, the bank statement credits on the other. Press the buttons in order: verify, post, then read the report.</p>
+    <span class="tag">Sample data, made up for illustration. Not Amreli data.</span>
+
+    <div class="desk">
+      <div class="panel">
+        <h3>Receipts from Sales</h3>
+        <p class="sub">Amounts in PKR. Customers and references are invented.</p>
+        <table class="rc" id="rcTable" aria-label="Receipts from Sales">
+          <thead><tr><th>Receipt</th><th>Customer</th><th>Reference</th><th class="n">Amount</th><th>Status</th></tr></thead>
+          <tbody id="rcBody"></tbody>
+        </table>
+        <div class="controls">
+          <button class="btn" id="bVerify">1. Verify against statement</button>
+          <button class="btn" id="bPost" disabled>2. Post verified</button>
+          <button class="btn ghost" id="bReset">Reset</button>
+        </div>
+      </div>
+
+      <div class="stack">
+        <div class="panel">
+          <h3>Bank statement credits</h3>
+          <p class="sub">What actually landed today.</p>
+          <table aria-label="Bank statement credits">
+            <thead><tr><th>Reference</th><th class="n">Amount</th><th>Match</th></tr></thead>
+            <tbody id="bkBody"></tbody>
+          </table>
+        </div>
+        <div class="panel">
+          <h3>Exceptions</h3>
+          <p class="sub">Each one has an owner and a next step.</p>
+          <ul class="exc" id="exc" aria-live="polite"><li>Run the verification to see exceptions.</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:22px">
+      <h3>Daily collection status</h3>
+      <p class="sub">Generated from the desk above. Copy it as plain text.</p>
+      <div class="report" id="report" aria-live="polite">Run the verification to build the report.</div>
+      <div class="controls"><button class="btn" id="bCopy" disabled>Copy report</button></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<section class="pad">
+  <div class="col">
+    <div class="kicker">First weeks</div>
+    <h2>How I would start</h2>
+    <div class="cols">
+      <div class="card"><div class="num">01</div><h3>Learn your way</h3><p>Sit with the current process: posting rules, bank accounts, statement timing and the report you use now. Write it down as a one-page checklist and ask for it to be corrected.</p></div>
+      <div class="card"><div class="num">02</div><h3>Run the daily routine</h3><p>Verify, post, report and chase, every day, with a short exceptions list so nothing is lost between Sales and the bank.</p></div>
+      <div class="card"><div class="num">03</div><h3>Close the gap</h3><p>Shadow the month-end bank reconciliation, then take a section of it. Where an Excel check would save time, I would build it, with your approval.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="pad honest">
+  <div class="col">
+    <div class="kicker">Straight answers</div>
+    <h2>Where I am not yet strong</h2>
+    <ul>
+      <li>I have not worked in a formal accounts department, and I have not run a bank reconciliation at the size of a listed manufacturer.</li>
+      <li>My degree is in business management, not accounting. Your post asks for graduation in process or completed and fresh to one year, which fits where I am.</li>
+      <li>I would arrive with real receivables experience, strong Excel, a habit of checking numbers twice, and a wish to learn your system properly.</li>
+    </ul>
+  </div>
+</section>
+</main>
+
+<section class="contact pad">
+  <div class="col">
+    <h2>Happy to speak this week</h2>
+    <p>My CV and cover letter are attached to my email. If it is easier, reach me directly.</p>
+    <div class="chips">
+      <a class="chip" href="mailto:murtazamustafaa02@gmail.com">murtazamustafaa02@gmail.com</a>
+      <a class="chip alt" href="tel:+923181253085">+92 318 1253085</a>
+      <a class="chip alt" href="https://www.linkedin.com/in/murtaza-mustafa2911/" target="_blank" rel="noopener">My LinkedIn profile</a>
+    </div>
+  </div>
+</section>
+
+<footer>Built by Murtaza Mustafa</footer>
+
+<script>
+const RECEIPTS=[
+ {id:"R-01",cust:"Customer A",ref:"A1021",amt:1250000},
+ {id:"R-02",cust:"Customer B",ref:"B2210",amt:840000},
+ {id:"R-03",cust:"Customer C",ref:"C0873",amt:2100000},
+ {id:"R-04",cust:"Customer D",ref:"D5512",amt:560000},
+ {id:"R-05",cust:"Customer E",ref:"E7740",amt:975000},
+ {id:"R-06",cust:"Customer F",ref:"F3308",amt:1430000},
+ {id:"R-07",cust:"Customer F",ref:"F3308",amt:1430000},
+ {id:"R-08",cust:"Customer G",ref:"G9021",amt:310000}
+];
+const BANK=[
+ {ref:"A1021",amt:1250000},{ref:"B2210",amt:840000},{ref:"C0873",amt:2010000},
+ {ref:"E7740",amt:975000},{ref:"F3308",amt:1430000},{ref:"G9021",amt:310000},{ref:"X4417",amt:720000}
+];
+const $=id=>document.getElementById(id);
+const fmt=n=>n.toLocaleString("en-US");
+let state=null;
+function fresh(){state=RECEIPTS.map(r=>({...r,status:"pending",note:""}));bank=BANK.map(b=>({...b,match:"pending"}));verified=false;posted=false}
+let bank,verified,posted;
+const LAB={pending:"Not checked",ok:"Verified",posted:"Posted",warn:"On hold",bad:"Mismatch"};
+function render(){
+  $("rcBody").innerHTML=state.map(r=>`<tr><td data-l="Receipt" class="m">${r.id}</td><td data-l="Customer">${r.cust}</td><td data-l="Reference" class="m">${r.ref}</td><td data-l="Amount" class="n">${fmt(r.amt)}</td><td data-l="Status"><span class="st ${r.status}">${r.status==="bad"?"Amount mismatch":r.note||LAB[r.status]}</span></td></tr>`).join("");
+  $("bkBody").innerHTML=bank.map(b=>`<tr><td class="m">${b.ref}</td><td class="n">${fmt(b.amt)}</td><td><span class="st ${b.match==="pending"?"pending":b.match==="ok"?"ok":b.match==="bad"?"bad":"warn"}">${b.match==="pending"?"Not checked":b.match==="ok"?"Matched":b.match==="bad"?"Differs":"Unidentified"}</span></td></tr>`).join("");
+  $("bPost").disabled=!verified||posted;
+  $("bVerify").disabled=verified;
+}
+function verify(){
+  const seen={};
+  state.forEach(r=>{
+    const b=bank.find(x=>x.ref===r.ref);
+    if(seen[r.ref]){r.status="warn";r.note="Duplicate receipt";return}
+    seen[r.ref]=true;
+    if(!b){r.status="warn";r.note="Not on statement";return}
+    if(b.amt!==r.amt){r.status="bad";b.match="bad";return}
+    r.status="ok";b.match="ok";
+  });
+  bank.forEach(b=>{if(b.match==="pending")b.match="un"});
+  verified=true;buildExceptions();buildReport();render();
+}
+function post(){state.forEach(r=>{if(r.status==="ok")r.status="posted"});posted=true;buildReport();render()}
+function buildExceptions(){
+  const out=[];
+  state.forEach(r=>{
+    const b=bank.find(x=>x.ref===r.ref);
+    if(r.status==="bad")out.push(`<li><b>${r.id} ${r.cust}:</b> Sales says ${fmt(r.amt)}, bank shows ${fmt(b.amt)}. Difference ${fmt(r.amt-b.amt)}.<span class="who">Owner: Sales to confirm the invoice amount, bank to confirm the credit. Do not post.</span></li>`);
+    if(r.status==="warn"&&r.note==="Not on statement")out.push(`<li><b>${r.id} ${r.cust}:</b> ${fmt(r.amt)} reported, nothing on the statement under ${r.ref}.<span class="who">Owner: Sales to ask the customer for proof of transfer. Hold until it lands.</span></li>`);
+    if(r.status==="warn"&&r.note==="Duplicate receipt")out.push(`<li><b>${r.id} ${r.cust}:</b> same reference ${r.ref} as an earlier receipt, only one credit on the statement.<span class="who">Owner: Sales to confirm it is a duplicate entry. Post once only.</span></li>`);
+  });
+  bank.filter(b=>b.match==="un").forEach(b=>out.push(`<li><b>Statement credit ${b.ref}:</b> ${fmt(b.amt)} with no receipt.<span class="who">Owner: Sales to identify the customer, bank to share the sender details. Keep as unallocated.</span></li>`));
+  $("exc").innerHTML=out.join("")||"<li>No exceptions.</li>";
+}
+function sum(a){return a.reduce((s,r)=>s+r.amt,0)}
+function buildReport(){
+  const ok=state.filter(r=>r.status==="ok"||r.status==="posted");
+  const hold=state.filter(r=>r.status==="warn");
+  const mis=state.filter(r=>r.status==="bad");
+  const un=bank.filter(b=>b.match==="un");
+  const lines=[
+   "DAILY COLLECTION STATUS (SAMPLE DATA)",
+   "",
+   `Receipts reported by Sales: ${state.length}, PKR ${fmt(sum(state))}`,
+   `Verified against statement: ${ok.length}, PKR ${fmt(sum(ok))}${posted?"  [posted]":"  [ready to post]"}`,
+   `Amount mismatch: ${mis.length}, PKR ${fmt(sum(mis))} claimed`,
+   `On hold (duplicate or not on statement): ${hold.length}, PKR ${fmt(sum(hold))} claimed`,
+   `Unidentified bank credits: ${un.length}, PKR ${fmt(sum(un))}`,
+   "",
+   "Open items and owners:",
+   ...state.filter(r=>r.status==="bad"||r.status==="warn").map(r=>`- ${r.id} ${r.cust}: ${r.status==="bad"?"amount mismatch, Sales and bank":r.note.toLowerCase()+", Sales"}`),
+   ...un.map(b=>`- Credit ${b.ref}: unidentified, Sales and bank`),
+   "",
+   "Prepared by: Accounts Assistant"
+  ];
+  $("report").textContent=lines.join("\n");$("bCopy").disabled=false;
+}
+$("bVerify").addEventListener("click",verify);
+$("bPost").addEventListener("click",post);
+$("bReset").addEventListener("click",()=>{fresh();$("exc").innerHTML="<li>Run the verification to see exceptions.</li>";$("report").textContent="Run the verification to build the report.";$("bCopy").disabled=true;render()});
+$("bCopy").addEventListener("click",async()=>{const b=$("bCopy");try{await navigator.clipboard.writeText($("report").textContent);b.textContent="Copied"}catch(e){const r=document.createRange();r.selectNodeContents($("report"));const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent="Selected, press Ctrl+C"}setTimeout(()=>b.textContent="Copy report",2000)});
+fresh();render();
+</script>
+</body>
+</html>
