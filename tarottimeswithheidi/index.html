@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ttwh control room - demo</title>
+<meta name="description" content="A private, read-only demo of the TTWH Control Room: course atlas and waiting on you.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#FBF9F6">
+<link rel="manifest" href="/tarottimeswithheidi/manifest.json">
+<link rel="icon" type="image/png" href="/tarottimeswithheidi/icons/icon-192.png">
+<link rel="apple-touch-icon" href="/tarottimeswithheidi/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="control room">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Jost:wght@400;500;600&family=Lora:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FBF9F6;--ink:#0E2523;--purple:#9851C5;--deep:#6E229D;--yellow:#FFBF31;
+  --green:#73C074;--orange:#D5560F;--mint:#A5EBE6;--grey:#858F8D;
+  --sand:#EEE8DF;
+  --serif:'Lora',Georgia,'Times New Roman',serif;
+  --body:'Jost','Poppins','Helvetica Neue',Arial,sans-serif;
+  --btn:'Bricolage Grotesque','Jost','Poppins',Arial,sans-serif;
+  --shadow:3px 3px 0 var(--ink);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--cream);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;min-height:100vh;
+  padding-bottom:env(safe-area-inset-bottom);-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-align:left}
+a{color:var(--deep)}
+:focus-visible{outline:3px solid var(--deep);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+h1,h2,h3,.serif{font-family:var(--serif);font-weight:700;text-transform:lowercase;line-height:1.15}
+.wrap{max-width:1200px;margin:0 auto;padding:0 16px}
+
+/* header */
+header.top{border-bottom:2px solid var(--ink);background:var(--cream);padding:calc(12px + env(safe-area-inset-top)) 0 12px}
+.hrow{display:flex;align-items:center;gap:12px}
+.logo{width:48px;height:48px;flex:none;border:2px dashed var(--grey);display:flex;align-items:center;justify-content:center;text-align:center;font-size:11px;line-height:1.1;color:var(--grey);background:#fff}
+.htitle h1{font-size:26px;color:var(--deep)}
+.hmeta{font-size:13px;color:#3d5552}
+.chips{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.chip{display:inline-flex;align-items:center;gap:6px;font-family:var(--btn);font-weight:600;font-size:13px;line-height:1;padding:6px 9px;border:2px solid var(--ink);background:#fff;white-space:nowrap}
+.chip svg{width:14px;height:14px;flex:none}
+.chip.sample{background:var(--yellow)}
+.chip.lock{background:var(--mint)}
+
+nav.main{display:flex;gap:10px;margin-top:12px;overflow-x:auto;padding:2px 3px 6px 0;scrollbar-width:none}
+nav.main::-webkit-scrollbar{display:none}
+.navbtn{font-family:var(--btn);font-weight:700;font-size:15px;min-height:44px;padding:0 16px;border:2px solid var(--ink);background:#fff;box-shadow:var(--shadow);white-space:nowrap;display:inline-flex;align-items:center;gap:8px;text-transform:lowercase}
+.navbtn[aria-current="page"]{background:var(--ink);color:var(--cream);box-shadow:3px 3px 0 var(--purple)}
+.navbtn[disabled]{border-style:dashed;border-color:var(--grey);color:#5d6967;box-shadow:none;cursor:default;background:transparent}
+.badge{background:var(--purple);color:#fff;font-size:13px;min-width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;padding:0 6px;border:2px solid var(--ink)}
+.navbtn[aria-current="page"] .badge{border-color:var(--cream)}
+
+main{padding:18px 0 40px}
+.banner{border:2px solid var(--ink);background:var(--yellow);padding:10px 12px;font-size:14px;box-shadow:var(--shadow);margin-bottom:18px}
+.banner b{font-family:var(--btn)}
+.offline{display:none;background:var(--ink);color:var(--cream);padding:8px 16px;text-align:center;font-family:var(--btn);font-weight:600;font-size:14px}
+.offline.on{display:block}
+
+/* program tabs */
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
+.tab{border:2px solid var(--ink);box-shadow:var(--shadow);padding:10px 12px;display:flex;align-items:center;gap:12px;min-height:76px;background:var(--bg);color:var(--fg);transition:transform .15s,box-shadow .15s}
+.tab[aria-selected="false"]{background:#fff;color:var(--ink);box-shadow:none;border-color:var(--ink)}
+.tab[aria-selected="false"] .tabtop{opacity:1}
+.tab[aria-selected="false"] .swatch{display:block}
+.swatch{display:none;width:10px;align-self:stretch;background:var(--bg);border:2px solid var(--ink);margin:-4px 0}
+.tab .t1{font-family:var(--serif);font-weight:700;font-size:17px;line-height:1.15;text-transform:lowercase}
+.tab .t2{font-size:14px;margin-top:2px}
+.ring{flex:none;position:relative;width:54px;height:54px}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .pc{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--btn);font-weight:700;font-size:13px}
+.tab[aria-selected="true"] .rt{stroke:rgba(255,255,255,.55)}
+.tab[aria-selected="true"][data-fg="ink"] .rt{stroke:rgba(14,37,35,.2)}
+.rt{stroke:var(--sand)}
+.rp{transition:stroke-dashoffset .9s cubic-bezier(.2,.7,.2,1)}
+
+.psum{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin-bottom:6px}
+.psum h2{font-size:24px}
+.psum .hrs{font-family:var(--btn);font-weight:600}
+.tier{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:500;border:2px solid var(--ink);padding:3px 8px;line-height:1.2;white-space:nowrap}
+.tier b{font-weight:600}
+.tier.D{background:var(--purple);color:#fff}
+.tier.S{background:var(--yellow)}
+.tier.B{background:var(--mint)}
+.tier.none{background:transparent;border:2px dashed var(--grey);color:#566562}
+.note{display:flex;gap:8px;align-items:flex-start;font-size:14px;border:2px solid var(--orange);padding:8px 10px;margin:10px 0 4px;background:#fff}
+.note svg{flex:none;width:18px;height:18px;margin-top:2px}
+.note.soft{border-color:var(--grey);border-style:dashed}
+
+/* lanes and cards */
+.lane{margin-top:22px}
+.lanehead{display:flex;align-items:baseline;gap:10px;margin-bottom:10px}
+.lanehead h3{font-size:20px}
+.lanehead span{font-size:14px;color:#3d5552}
+.row{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x proximity;padding:4px 16px 14px 3px;margin:0 -16px 0 -3px;padding-left:19px;scrollbar-width:thin}
+.card{flex:none;width:184px;min-height:300px;scroll-snap-align:start;background:#fff;border:2px solid var(--ink);box-shadow:var(--shadow);display:flex;flex-direction:column;position:relative;transition:transform .15s,box-shadow .15s}
+.card:hover,.card:focus-visible{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink)}
+.cb{height:92px;background:var(--bg);border-bottom:2px solid var(--ink);position:relative;display:flex;align-items:center;justify-content:center}
+.cb svg.doodle{width:62px;height:62px}
+.hrschip{position:absolute;left:8px;top:8px;background:#fff;border:2px solid var(--ink);font-family:var(--btn);font-weight:600;font-size:13px;padding:2px 6px;line-height:1.2}
+.cbody{padding:10px 10px 10px;display:flex;flex-direction:column;gap:8px;flex:1}
+.cn{font-family:var(--serif);font-weight:700;font-size:17px;line-height:1.15;text-transform:lowercase}
+.aka{font-size:13px;color:#3d5552;margin-top:-4px}
+.trows{display:flex;flex-direction:column;gap:4px;margin-top:auto}
+.tr{display:flex;justify-content:space-between;gap:6px;font-size:13px;border:2px solid var(--ink);padding:1px 6px;line-height:1.35;font-weight:500}
+.tr.D{background:var(--purple);color:#fff}.tr.S{background:var(--yellow)}.tr.B{background:var(--mint)}
+.tr.none{border:2px dashed var(--grey);background:transparent;color:#566562}
+.tr.inc{border:2px solid var(--ink);background:var(--cream);justify-content:center;font-size:13px;text-align:center}
+.seg{display:grid;grid-template-columns:repeat(8,1fr);gap:2px;height:10px}
+.seg i{border:1.5px solid var(--ink);background:#fff;display:block}
+.seg i.d{background:var(--green)}.seg i.o{background:var(--yellow)}.seg i.w{background:var(--purple)}.seg i.n{background:#fff;border:1.5px dashed var(--grey)}
+.cstat{font-size:13px;color:#3d5552;line-height:1.2}
+
+/* skeleton */
+.skel{pointer-events:none}
+.skel .cb,.skel .l{background:var(--sand);border-color:var(--sand)}
+.skel .l{height:14px;margin:8px 10px 0}
+.skel .l.s{width:60%}
+
+/* animation (respects reduced motion) */
+@media (prefers-reduced-motion:no-preference){
+  .rise{animation:rise .38s cubic-bezier(.2,.7,.2,1) both;animation-delay:var(--d,0ms)}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .skel{animation:pulse 1.2s ease-in-out 1}
+  @keyframes pulse{50%{opacity:.55}}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+}
+
+/* drawer */
+.scrim{position:fixed;inset:0;background:rgba(14,37,35,.45);opacity:0;pointer-events:none;transition:opacity .2s;z-index:40}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;z-index:50;background:var(--cream);border:2px solid var(--ink);display:flex;flex-direction:column;
+  left:0;right:0;bottom:0;max-height:90vh;max-height:90dvh;transform:translateY(105%);transition:transform .2s ease-out;visibility:hidden;
+  border-bottom:0;box-shadow:0 -4px 0 var(--ink)}
+.drawer.on{transform:none;visibility:visible}
+.dgrip{display:flex;justify-content:center;padding:8px 0 0;touch-action:none}
+.dgrip i{width:44px;height:5px;background:var(--ink);display:block}
+.dhead{display:flex;gap:10px;padding:8px 16px 10px;align-items:flex-start;border-bottom:2px solid var(--ink)}
+.dhead .pill{display:inline-block;font-family:var(--btn);font-weight:600;font-size:13px;border:2px solid var(--ink);padding:2px 8px;background:var(--bg);color:var(--fg);margin-bottom:6px}
+.dhead h2{font-size:24px}
+.dhead .sub{font-size:14px;color:#3d5552;margin-top:2px}
+.xbtn{margin-left:auto;flex:none;width:44px;height:44px;border:2px solid var(--ink);background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:2px 2px 0 var(--ink)}
+.dbody{overflow-y:auto;padding:14px 16px 20px;display:flex;flex-direction:column;gap:16px;-webkit-overflow-scrolling:touch}
+.dbody h4{font-family:var(--btn);font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:lowercase;color:var(--deep);margin-bottom:6px}
+.tp{border:2px solid var(--ink);padding:8px 10px;margin-bottom:8px;font-size:15px}
+.tp .tt{display:flex;justify-content:space-between;gap:10px;font-family:var(--btn);font-weight:700}
+.tp .in{font-size:14px;margin-top:2px}
+.tp.D{background:var(--purple);color:#fff}.tp.S{background:var(--yellow)}.tp.B{background:var(--mint)}
+.tp.none{border-style:dashed;border-color:var(--grey);background:transparent;color:#566562}
+.tp.pkg{background:#fff}
+.chk{list-style:none;display:flex;flex-direction:column;gap:8px}
+.chk li{display:flex;align-items:center;gap:10px;justify-content:space-between;font-size:15px;border-bottom:1px solid var(--sand);padding-bottom:7px}
+.st{display:inline-flex;align-items:center;gap:6px;font-family:var(--btn);font-weight:600;font-size:13px;line-height:1;padding:5px 8px;border:2px solid var(--ink);white-space:nowrap;flex:none}
+.st svg{width:13px;height:13px;flex:none}
+.st.d{background:var(--green)}.st.o{background:var(--yellow)}.st.w{background:var(--purple);color:#fff}
+.st.n{background:transparent;border:2px dashed var(--grey);color:#566562}
+.st.c{background:var(--orange);color:#fff}
+.owner{font-size:15px}
+.owner .dash{display:inline-block;border:2px dashed var(--grey);color:#566562;font-size:13px;padding:1px 8px;margin-left:6px;font-family:var(--btn);font-weight:600}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 20px;background:var(--purple);color:#fff;border:2px solid var(--ink);box-shadow:var(--shadow);font-family:var(--btn);font-weight:700;font-size:16px;text-decoration:none;text-transform:lowercase;transition:transform .15s,box-shadow .15s}
+.btn:hover,.btn:focus-visible{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink);background:var(--deep)}
+.btn svg{width:16px;height:16px}
+.dfoot{padding:12px 16px calc(14px + env(safe-area-inset-bottom));border-top:2px solid var(--ink);background:var(--cream)}
+.dfoot .btn{width:100%}
+
+@media (min-width:900px){
+  .drawer{left:auto;right:0;top:0;bottom:0;width:460px;max-height:none;transform:translateX(105%);border-bottom:2px solid var(--ink);border-right:0;box-shadow:-4px 0 0 var(--ink)}
+  .dgrip{display:none}
+  .row{flex-wrap:wrap;overflow:visible;margin:0;padding:4px 0 10px}
+  .card{width:calc((100% - 14px*4)/5)}
+  .wrap{padding:0 24px}
+}
+@media (min-width:1100px){.card{width:calc((100% - 14px*5)/6)}}
+@media (max-width:699px){
+  .tabs{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -16px 16px;padding:3px 16px 8px;gap:12px}
+  .tab{flex:none;width:236px;scroll-snap-align:start}
+  .htitle h1{font-size:23px}
+  .chips{display:none}
+}
+
+/* waiting on you */
+.wlist{display:flex;flex-direction:column;gap:16px;max-width:760px}
+.wcard{background:#fff;border:2px solid var(--ink);box-shadow:var(--shadow);position:relative;padding:12px 14px 14px 20px}
+.wcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:8px;background:var(--yellow);border-right:2px solid var(--ink)}
+.wcard.late::before{background:var(--orange)}
+.whead{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:6px}
+.who{font-size:14px;color:#3d5552}
+.wcourse{font-family:var(--serif);font-weight:700;font-size:19px;text-transform:lowercase}
+.wex{font-size:15px;margin:4px 0 12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.age{font-family:var(--btn);font-weight:600;font-size:14px}
+.late-tag{background:var(--orange);color:#fff;border:2px solid var(--ink);font-family:var(--btn);font-weight:600;font-size:13px;padding:2px 8px;display:inline-flex;gap:6px;align-items:center}
+.late-tag svg{width:12px;height:12px}
+.wfoot{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.empty{border:2px dashed var(--grey);padding:28px;text-align:center;max-width:760px}
+.sec-intro{max-width:760px;margin-bottom:16px;font-size:16px}
+footer.foot{border-top:2px solid var(--ink);padding:16px 0 26px;font-size:14px;color:#3d5552}
+footer.foot .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
+.inst{display:none;font-family:var(--btn);font-weight:700;font-size:14px;min-height:44px;padding:0 14px;border:2px solid var(--ink);background:var(--mint);box-shadow:2px 2px 0 var(--ink);text-transform:lowercase;align-items:center}
+.inst.on{display:inline-flex}
+.ioshint{display:none;font-size:14px}
+.ioshint.on{display:block;width:100%}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="offline" id="offline" role="status">offline. showing the last saved view.</div>
+
+<header class="top">
+  <div class="wrap">
+    <div class="hrow">
+      <div class="logo" aria-label="be kind logo placeholder">be kind logo</div>
+      <div class="htitle">
+        <h1>control room</h1>
+        <div class="hmeta">updated 30 oct, 11:56 a.m. (vancouver) · source: pricing doc</div>
+      </div>
+      <div class="chips">
+        <span class="chip lock"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" fill="#0E2523"/><path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="#0E2523" stroke-width="2.6"/></svg>read-only</span>
+        <span class="chip sample">demo · sample statuses</span>
+      </div>
+    </div>
+    <nav class="main" aria-label="main">
+      <button class="navbtn" id="nav-atlas" data-view="atlas">atlas</button>
+      <button class="navbtn" id="nav-waiting" data-view="waiting">waiting on you <span class="badge" id="wbadge" aria-label="sample items">5</span></button>
+      <button class="navbtn" disabled aria-disabled="true">team board · phase 2</button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+    <div class="banner" role="note"><b>demo.</b> course names, hours and prices come from the pricing doc. every status and every waiting item here is <b>sample</b>. nothing is connected yet and nothing can be changed.</div>
+    <section id="view-atlas" aria-label="atlas"></section>
+    <section id="view-waiting" aria-label="waiting on you" hidden></section>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <span>ttwh control room · demo · private</span>
+    <button class="inst" id="install" type="button">install on this phone</button>
+    <span class="ioshint" id="ioshint">on iphone: tap the share button, then "add to home screen".</span>
+  </div>
+</footer>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="dtitle" aria-hidden="true">
+  <div class="dgrip" id="dgrip"><i></i></div>
+  <div class="dhead">
+    <div>
+      <span class="pill" id="dpill"></span>
+      <h2 id="dtitle"></h2>
+      <div class="sub" id="dsub"></div>
+    </div>
+    <button class="xbtn" id="dclose" aria-label="close"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4l16 16M20 4L4 20" stroke="#0E2523" stroke-width="3.4"/></svg></button>
+  </div>
+  <div class="dbody" id="dbody"></div>
+  <div class="dfoot"><a class="btn" id="dopen" target="_blank" rel="noopener" href="#">open in doc <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="3"/></svg></a></div>
+</aside>
+
+<script>
+(function(){
+'use strict';
+var DOC='https://docs.google.com/document/d/1kfHn-7KinQ9esgvd_kslMR7Ac_Pdgj7qt4L17qSft7s/edit';
+var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- data: course names, hours and prices from the pricing doc ---------- */
+var STEPS=['videos on youtube','videos and blurbs in the course','workbook','splash page','prices set','deluxe 1:1 note ($120 an hour)','workbook length and video hours listed','heidi’s approval'];
+var DX='everything in standard + ';
+function c(name,h,D,S,B,pat,o){o=o||{};return {name:name,h:h,D:D,S:S,B:B,pat:pat,aka:o.aka,he:o.he,est:o.est||'',dx:o.dx,check:o.check,inc:o.inc,pkg:o.pkg}}
+var PROGRAMS=[
+ {id:'pts',name:'psychic training school',total:150,bg:'#9851C5',fg:'#fff',fgn:'white',tiers:{D:7200,S:3600,B:2200},groups:[
+  {name:'foundation',courses:[
+   c('intro',11.12,null,null,null,'dddddddd',{inc:'included with the program'}),
+   c('baby witch intro',5.92,368,248,148.8,'dddddddd',{dx:'1 hour ritual'}),
+   c('divination baby',4.85,315,195,227,'dddddodn',{dx:'1 hour ritual',check:'basic ($227) is higher than standard ($195) in the pricing doc'}),
+   c('diy witch kit',4.04,297,162,97.2,'dddddddo',{dx:'1.5 hour ritual healing + mentoring session'}),
+   c('healing baby',5.25,330,210,126,'ddddddon',{dx:'1 hour ritual healing or mentoring session'}),
+   c('psychic baby',15.42,976.8,616.8,370,'dddddddw',{dx:'3 hours mentoring'}),
+   c('ritual baby',3.03,302,122,75,'ddddddno',{dx:'1.5 hours mentoring'})]},
+  {name:'expansion',courses:[
+   c('tea ceremony',7.5,480,300,180,'ddddoond',{dx:'2 live sessions with heidi (30 min cha dao + 1 hour gong fu cha), or 1 long session of either (1.5 hours)'}),
+   c('reiki 1',3.5,260,140,105,'dddddddd',{dx:'60 minute healing and/or mentoring session'}),
+   c('reiki 2',3.8,272,152,114,'dddddwon',{dx:'60 minute healing and/or mentoring session'}),
+   c('reiki 3',5.85,354,234,175.5,'ddooonnn',{he:1,dx:'60 minute healing and/or mentoring session'}),
+   c('runes upright',5.5,400,220,132,'ddoonnnn',{he:1,dx:'90 minute ritual reading, mentoring and/or healing session'}),
+   c('runes reversed',4.8,372,192,115.2,'dooonnnn',{he:1,dx:'90 minute ritual reading, mentoring and/or healing session'}),
+   c('speed tarot',3.4,320,140,84,'dddddddw',{dx:'90 minute ritual major arcana reading and/or healing session'})]},
+  {name:'deepen',courses:[
+   c('tarot x astro level 1',9.46,560,380,228,'dddddddd',{dx:'1.5 hour ritual reading and/or healing session'}),
+   c('tarot x astro level 2',8.25,510,330,228,'dddddddo',{dx:'1.5 hour ritual reading and/or healing session'}),
+   c('tarot x astro level 3',12,660,480,288,'dddwoonn',{dx:'1.5 hour ritual reading and/or healing session'}),
+   c('tarot x astro level 4',12.9,696,516,309.6,'ddddoonn',{dx:'1.5 hour ritual reading and/or healing session'}),
+   c('tarot x astro level 5',7.75,490,310,186,'dooonnnn',{aka:'also called divination facilitator',he:1,dx:'1.5 hour ritual reading and/or healing session'}),
+   c('ceremonial magic',5.23,390,210,126,'ddooonnn',{dx:'2 hour healing ritual, mentoring and/or healing'})]},
+  {name:'advanced psychic development',courses:[
+   c('advanced psychic development 1',12.19,728,488,293,'ddddoond',{dx:'2 hours mentoring, healing and/or ritual'}),
+   c('advanced psychic development 2',5.8,472,232,139.2,'dddoonnn',{dx:'2 hours mentoring, healing and/or ritual'}),
+   c('advanced psychic development 3',7.5,540,300,null,'doonnnnn',{he:1,dx:'2 hours mentoring, healing and/or ritual'}),
+   c('advanced psychic development 4',10,740,500,300,'oonnnnnn',{he:1,est:'DS',dx:'2 hours mentoring, healing and/or ritual'}),
+   c('advanced psychic development 5',10,740,500,300,'nnnnnnnn',{he:1,est:'DS',dx:'2 hours mentoring, healing and/or ritual'})]}
+ ]},
+ {id:'rr',name:'relationships + regulation',total:125,bg:'#A5EBE6',fg:'#0E2523',fgn:'ink',tiers:{D:6000,S:3000,B:1800},
+  devnote:'still in development, so offered at a bit of a discount. the program is made as people take it.',groups:[
+  {name:'foundation',courses:[
+   c('regulation',10,640,400,240,'ddwoonnn',{dx:'2 hours 1:1 with heidi to unpack further, privately'}),
+   c('intro to attachment',6,726,246,147.6,'ddddddon',{dx:'2 hours 1:1 with heidi to unpack further, privately'}),
+   c('intro to secure attachment',6,null,240,null,'oooonnnn',{dx:'1.5 hours 1:1 with heidi to unpack further, privately'}),
+   c('intro to anxious attachment',6,null,null,null,'nnnnnnnn',{dx:'1.5 hours 1:1 with heidi to unpack further, privately'}),
+   c('intro to avoidant attachment',6,null,null,null,'nnnnnnnn',{dx:'1.5 hours 1:1 with heidi to unpack further, privately'}),
+   c('intro to disordered attachment',6,null,null,null,'nnnnnnnn',{dx:'1.5 hours 1:1 with heidi to unpack further, privately'})]},
+  {name:'healing and relational patterns',courses:[
+   c('anxious attachment to secure attachment',8,null,null,null,'oonnnnnn',{dx:'1.5 hours 1:1 with heidi to unpack further, privately'}),
+   c('avoidant attachment to secure attachment',8,null,null,null,'nnnnnnnn',{dx:'1.5 hours 1:1 with heidi to unpack further, privately'}),
+   c('disordered attachment to secure attachment',8,null,null,null,'nnnnnnnn',{dx:'1.5 hours 1:1 with heidi to unpack further, privately'}),
+   c('drama triangle',6,null,null,null,'nnnnnnnn',{aka:'also called triangle of disempowerment',dx:'1 hour 1:1 with heidi to unpack further, privately'}),
+   c('pro-social skill development',20,null,null,null,'nnnnnnnn',{aka:'how to make friends, lovers, casual friends, acquaintances',dx:'2 hours 1:1 with heidi to unpack further, privately'})]},
+  {name:'relating in context',courses:[
+   c('neurodivergence + relational processing',8,null,null,null,'nnnnnnnn',{dx:'2 hours 1:1 with heidi to unpack further, privately'}),
+   c('disability + accessibility in relationships',4,null,null,null,'nnnnnnnn',{dx:'1 hour 1:1 with heidi to unpack further, privately'}),
+   c('queer identity and relational dynamics',5,null,null,null,'nnnnnnnn',{dx:'1 hour 1:1 with heidi to unpack further, privately'}),
+   c('spiritual trauma + deconstruction',8,null,null,null,'nnnnnnnn',{dx:'1.5 hours 1:1 with heidi to unpack further, privately'}),
+   c('understanding grief',8,null,null,null,'nnnnnnnn',{aka:'how to move through it, impact on relationships',dx:'2 hours 1:1 with heidi to unpack further, privately'})]}
+ ]},
+ {id:'mesa',name:'i love my mesa',total:108,bg:'#FFBF31',fg:'#0E2523',fgn:'ink',tiers:{D:3800,S:2600,B:null},pkg:true,
+  devnote:'offered only as a package, so each section shows teaching hours and no price. fire ceremonies (full + new moon) are included.',groups:[
+  {name:'the sections',courses:[
+   c('intro',23.6,null,null,null,'dddddddd',{pkg:1}),
+   c('south',28.4,null,null,null,'dddddddo',{pkg:1}),
+   c('west',21.7,null,null,null,'ddddoond',{pkg:1}),
+   c('north',11.8,null,null,null,'dddoonnn',{pkg:1}),
+   c('east',12,null,null,null,'ddooonnn',{pkg:1}),
+   c('advanced healing techniques',10.15,null,null,null,'dooonnnn',{pkg:1})]}
+ ]}
+];
+var MESA_DX='10 hours of 1:1 private work with heidi + free tutoring ($3,800 total, of which $2,600 is the online program)';
+
+/* ---------- helpers ---------- */
+function money(n){return '$'+(Number.isInteger(n)?n.toLocaleString('en-US'):n.toFixed(2))}
+function hrs(h){return (Math.round(h*100)/100)+''}
+function esc(s){return String(s).replace(/[&<>"]/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]})}
+function stepStates(p,co){
+  var s=co.pat.split('');
+  // "prices set" comes from the pricing doc, not from sample data
+  var priced=p.pkg?true:(co.D!=null&&co.S!=null&&co.B!=null&&!co.est&&!co.check);
+  if(co.inc)priced=true;
+  s[4]=priced?'d':'o';
+  return s;
+}
+function builtHours(p){var t=0;p.groups.forEach(function(g){g.courses.forEach(function(co){var s=stepStates(p,co),d=s.filter(function(x){return x==='d'}).length;t+=co.h*d/8})});return t}
+function listedHours(p){var t=0;p.groups.forEach(function(g){g.courses.forEach(function(co){t+=co.h})});return t}
+function byId(id){return PROGRAMS.filter(function(p){return p.id===id})[0]}
+
+var ICON={
+ done:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#0E2523" stroke-width="3.4"/></svg>',
+ open:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7.5" fill="none" stroke="#0E2523" stroke-width="3"/></svg>',
+ hand:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 12V6.5a1.5 1.5 0 0 1 3 0V11m0-5.5a1.5 1.5 0 0 1 3 0V11m0-4a1.5 1.5 0 0 1 3 0v6.5c0 4-2.5 6.5-6 6.5-3 0-5-2-6-4.5l-1-2.5a1.5 1.5 0 0 1 2.7-1L7 14" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/></svg>',
+ dash:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14" stroke="#566562" stroke-width="3.4"/></svg>',
+ flag:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 21V4m0 1h12l-2.5 4L18 13H6" fill="#fff" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"/></svg>',
+ flagO:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 21V4m0 1h12l-2.5 4L18 13H6" fill="#D5560F" stroke="#D5560F" stroke-width="2.4" stroke-linejoin="round"/></svg>',
+ arrow:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="3"/></svg>'
+};
+function chip(k){
+  var m={d:['done','done',ICON.done],o:['open','open',ICON.open],w:['waiting on you','waiting on you',ICON.hand],n:['not tracked','not tracked',ICON.dash]}[k];
+  return '<span class="st '+k+'">'+m[2]+m[0]+'</span>';
+}
+var DOODLES=[
+ '<path d="M32 6l6 17 18 1-14 11 5 18-15-10-15 10 5-18L8 24l18-1z" fill="#FBF9F6" stroke="#0E2523" stroke-width="2.4" stroke-linejoin="round"/>',
+ '<path d="M42 8a24 24 0 1 0 14 34A19 19 0 0 1 42 8z" fill="#FBF9F6" stroke="#0E2523" stroke-width="2.4" stroke-linejoin="round"/><circle cx="48" cy="14" r="2.4" fill="#0E2523"/>',
+ '<path d="M4 32C14 16 50 16 60 32 50 48 14 48 4 32z" fill="#FBF9F6" stroke="#0E2523" stroke-width="2.4"/><circle cx="32" cy="32" r="9" fill="#FFBF31" stroke="#0E2523" stroke-width="2.4"/><circle cx="32" cy="32" r="3" fill="#0E2523"/>',
+ '<circle cx="32" cy="32" r="11" fill="#FFBF31" stroke="#0E2523" stroke-width="2.4"/><path d="M32 6v10M32 48v10M6 32h10M48 32h10M14 14l7 7M43 43l7 7M50 14l-7 7M21 43l-7 7" stroke="#0E2523" stroke-width="2.4"/>',
+ '<path d="M32 6c10 10 18 17 18 27a18 18 0 0 1-36 0C14 23 22 16 32 6z" fill="#FBF9F6" stroke="#0E2523" stroke-width="2.4" stroke-linejoin="round"/><path d="M32 30c4 4 6 7 6 10a6 6 0 0 1-12 0c0-3 2-6 6-10z" fill="#FFBF31" stroke="#0E2523" stroke-width="2"/>',
+ '<path d="M12 50V30l10-6v26M26 50V20l10-8v38M40 50V28l10 6v16" fill="#FBF9F6" stroke="#0E2523" stroke-width="2.4" stroke-linejoin="round"/>',
+ '<circle cx="32" cy="32" r="22" fill="#FBF9F6" stroke="#0E2523" stroke-width="2.4"/><path d="M32 10a22 22 0 0 0 0 44 11 11 0 0 1 0-22 11 11 0 0 0 0-22z" fill="#0E2523"/><circle cx="32" cy="21" r="3" fill="#FBF9F6"/><circle cx="32" cy="43" r="3" fill="#0E2523"/>',
+ '<path d="M32 8l22 12v24L32 56 10 44V20z" fill="#FBF9F6" stroke="#0E2523" stroke-width="2.4" stroke-linejoin="round"/><path d="M32 8v48M10 20l44 24M54 20L10 44" stroke="#0E2523" stroke-width="1.6"/>'
+];
+function doodle(i){return '<svg class="doodle" viewBox="0 0 64 64" aria-hidden="true">'+DOODLES[i%DOODLES.length]+'</svg>'}
+
+/* ---------- state ---------- */
+var state={view:'atlas',prog:'pts'};
+try{var sv=localStorage.getItem('ttwh-cr-prog');if(sv&&byId(sv))state.prog=sv}catch(e){}
+var lastFocus=null;
+
+/* ---------- ring ---------- */
+function ringHTML(p,size){
+  var built=builtHours(p),pct=Math.min(1,built/p.total),r=22,C=2*Math.PI*r;
+  var off=C*(1-pct);
+  return '<div class="ring" role="img" aria-label="'+Math.round(built)+' of '+p.total+' hours built (sample)">'+
+   '<svg viewBox="0 0 54 54"><circle class="rt" cx="27" cy="27" r="'+r+'" fill="none" stroke-width="7"/>'+
+   '<circle class="rp" data-off="'+off.toFixed(2)+'" cx="27" cy="27" r="'+r+'" fill="none" stroke="'+(p.fgn==='white'?'#fff':'#0E2523')+'" stroke-width="7" stroke-dasharray="'+C.toFixed(2)+'" stroke-dashoffset="'+(reduce?off.toFixed(2):C.toFixed(2))+'"/></svg>'+
+   '<span class="pc">'+Math.round(pct*100)+'%</span></div>';
+}
+function fillRings(){
+  var rs=document.querySelectorAll('.rp');
+  if(reduce)return;
+  requestAnimationFrame(function(){requestAnimationFrame(function(){rs.forEach(function(el){el.setAttribute('stroke-dashoffset',el.getAttribute('data-off'))})})});
+}
+
+/* ---------- atlas ---------- */
+function tiersHTML(t,cls){
+  function one(k,label){var v=t[k];return v==null?'<span class="tier none">'+label+' · not priced yet</span>':'<span class="tier '+k+'">'+label+' <b>'+money(v)+'</b></span>'}
+  return one('D','deluxe')+one('S','standard')+one('B','basic');
+}
+function cardHTML(p,co,gi,idx,delay){
+  var s=stepStates(p,co),d=s.filter(function(x){return x==='d'}).length;
+  var tr='';
+  if(co.inc){tr='<div class="tr inc">'+esc(co.inc)+'</div>'}
+  else if(co.pkg){tr='<div class="tr inc">part of the mesa package</div>'}
+  else{
+    [['D','deluxe'],['S','standard'],['B','basic']].forEach(function(x){
+      var v=co[x[0]],est=co.est.indexOf(x[0])>-1;
+      tr+=v==null?'<div class="tr none"><span>'+x[1]+'</span><span>not priced yet</span></div>':'<div class="tr '+x[0]+'"><span>'+x[1]+'</span><span>'+(est?'est. ':'')+money(v)+'</span></div>';
+    });
+  }
+  var seg='<div class="seg" aria-hidden="true">'+s.map(function(x){return '<i class="'+x+'"></i>'}).join('')+'</div>';
+  return '<button class="card rise" style="--bg:'+p.bg+';--d:'+delay+'ms" data-p="'+p.id+'" data-g="'+gi+'" data-i="'+idx+'" aria-label="'+esc(co.name)+', '+hrs(co.h)+' hours, '+d+' of 8 steps done (sample). open details">'+
+    '<div class="cb">'+doodle(gi*3+idx)+'<span class="hrschip">'+hrs(co.h)+' h'+(co.he?' est.':'')+'</span></div>'+
+    '<div class="cbody"><div class="cn">'+esc(co.name)+'</div>'+(co.aka||co.check?'<div class="aka">'+(co.aka?esc(co.aka):'')+(co.check?(co.aka?' · ':'')+'<span style="color:#D5560F;font-weight:600">check this</span>':'')+'</div>':'')+
+    '<div class="trows">'+tr+'</div>'+seg+'<div class="cstat">'+d+' of 8 steps · sample</div></div></button>';
+}
+function skeletonLane(){
+  var h='<div class="lane"><div class="lanehead"><h3>&nbsp;</h3></div><div class="row">';
+  for(var i=0;i<4;i++)h+='<div class="card skel" aria-hidden="true"><div class="cb"></div><div class="l"></div><div class="l s"></div></div>';
+  return h+'</div></div>';
+}
+function renderTabs(){
+  return '<div class="tabs" role="tablist" aria-label="programs">'+PROGRAMS.map(function(p){
+    var sel=p.id===state.prog,b=builtHours(p);
+    return '<button class="tab" role="tab" id="tab-'+p.id+'" data-prog="'+p.id+'" aria-selected="'+sel+'" tabindex="'+(sel?0:-1)+'" data-fg="'+p.fgn+'" style="--bg:'+p.bg+';--fg:'+p.fg+'">'+
+      '<span class="swatch"></span>'+ringHTML(p)+'<span><span class="t1">'+esc(p.name)+'</span><br><span class="t2">'+Math.round(b)+' of '+p.total+' hours</span></span></button>';
+  }).join('')+'</div>';
+}
+function renderAtlas(skeleton){
+  var p=byId(state.prog),el=document.getElementById('view-atlas');
+  var listed=listedHours(p);
+  var sum='<div class="psum"><h2>'+esc(p.name)+'</h2><span class="hrs">'+p.total+' hours</span>'+tiersHTML(p.tiers)+'</div>';
+  var notes='';
+  if(!p.pkg&&Math.abs(listed-p.total)>1){
+    notes+='<div class="note">'+ICON.flagO+'<span><b>check this:</b> the courses listed add up to about '+Math.round(listed)+' hours, and the program total in the pricing doc is '+p.total+'. shown as written.</span></div>';
+  }
+  if(p.pkg)notes+='<div class="note soft"><span>'+esc(p.devnote)+'</span></div>';
+  else if(p.devnote)notes+='<div class="note soft"><span>'+esc(p.devnote)+'</span></div>';
+  var lanes='';
+  if(skeleton){lanes=skeletonLane()+skeletonLane()}
+  else{
+    var n=0;
+    p.groups.forEach(function(g,gi){
+      var gh=0;g.courses.forEach(function(co){gh+=co.h});
+      lanes+='<div class="lane"><div class="lanehead"><h3>'+esc(g.name)+'</h3><span>'+g.courses.length+' '+(p.pkg?'sections':'courses')+' · '+Math.round(gh*10)/10+' hours</span></div><div class="row">';
+      g.courses.forEach(function(co,i){lanes+=cardHTML(p,co,gi,i,Math.min(n*35,320));n++});
+      lanes+='</div></div>';
+    });
+  }
+  el.innerHTML='<p class="sec-intro" style="font-size:14px;color:#3d5552;max-width:760px">ring = hours built against the program total (sample). tap a card to open it.</p>'+renderTabs()+sum+notes+lanes;
+  fillRings();
+}
+
+/* ---------- drawer ---------- */
+function openDrawer(pid,gi,i,trigger){
+  var p=byId(pid),co=p.groups[gi].courses[i],s=stepStates(p,co);
+  lastFocus=trigger||document.activeElement;
+  document.getElementById('dpill').textContent=p.name;
+  var pill=document.getElementById('dpill');pill.style.setProperty('--bg',p.bg);pill.style.setProperty('--fg',p.fg);
+  document.getElementById('dtitle').textContent=co.name;
+  document.getElementById('dsub').textContent=p.groups[gi].name+' · '+hrs(co.h)+' hours'+(co.he?' (estimated)':'')+(co.aka?' · '+co.aka:'');
+  var h='';
+  if(co.pkg||co.inc){
+    h+='<div><h4>price</h4><div class="tp pkg"><div class="tt"><span>'+(co.inc?'included with the program':'part of the mesa package')+'</span></div><div class="in">'+(co.inc?'no separate price in the pricing doc.':'sections are not sold or priced one by one. package tiers are shown on the atlas.')+'</div></div></div>';
+  }else{
+    h+='<div><h4>tiers</h4>';
+    var base=co.pkg?'':'';
+    [['D','deluxe'],['S','standard'],['B','basic']].forEach(function(x){
+      var v=co[x[0]],est=co.est.indexOf(x[0])>-1,inc='';
+      if(x[0]==='D')inc=DX+(co.dx||'1:1 time with heidi');
+      if(x[0]==='S')inc='teaching + tutoring videos ('+hrs(co.h)+' hours'+(co.he?', estimated':'')+'), workbook, free tutoring';
+      if(x[0]==='B')inc='workbook, tutoring videos, free tutoring';
+      if(v==null)h+='<div class="tp none"><div class="tt"><span>'+x[1]+'</span><span>not priced yet</span></div></div>';
+      else h+='<div class="tp '+x[0]+'"><div class="tt"><span>'+x[1]+'</span><span>'+(est?'est. ':'')+money(v)+'</span></div><div class="in">'+esc(inc)+'</div></div>';
+    });
+    if(co.check)h+='<div class="note" style="margin:0">'+ICON.flagO+'<span><b>check this:</b> '+esc(co.check)+'. shown as written.</span></div>';
+    h+='</div>';
+  }
+  h+='<div><h4>owner</h4><div class="owner"><span class="dash" style="margin-left:0">not tracked yet</span></div></div>';
+  h+='<div><h4>build checklist</h4><ul class="chk">'+STEPS.map(function(lab,k){
+    var fromDoc=k===4?' <span style="font-size:13px;color:#3d5552">(from pricing doc)</span>':'';
+    return '<li><span>'+esc(lab)+fromDoc+'</span>'+chip(s[k])+'</li>';
+  }).join('')+'</ul><p style="font-size:13px;color:#3d5552;margin-top:8px">statuses are sample, except "prices set", which reads the pricing doc. a step with no tick in the real doc will show as "not tracked", never "not done".</p></div>';
+  document.getElementById('dbody').innerHTML=h;
+  document.getElementById('dopen').href=DOC;
+  var d=document.getElementById('drawer');
+  d.classList.add('on');d.setAttribute('aria-hidden','false');
+  document.getElementById('scrim').classList.add('on');
+  document.getElementById('dbody').scrollTop=0;
+  document.body.style.overflow='hidden';
+  document.getElementById('main').setAttribute('aria-hidden','true');
+  setTimeout(function(){document.getElementById('dclose').focus()},reduce?0:30);
+}
+function closeDrawer(){
+  var d=document.getElementById('drawer');
+  if(!d.classList.contains('on'))return;
+  d.classList.remove('on');d.setAttribute('aria-hidden','true');d.style.transform='';
+  document.getElementById('scrim').classList.remove('on');
+  document.body.style.overflow='';
+  document.getElementById('main').removeAttribute('aria-hidden');
+  if(lastFocus&&lastFocus.focus)lastFocus.focus();
+}
+
+/* ---------- waiting on you (all sample) ---------- */
+var WAITING=[
+ {days:6,who:'a team member (sample)',course:'regulation',ex:'sample: workbook draft is ready for you to look at. it needs your okay before it moves on.'},
+ {days:5,who:'a developer (sample)',course:'tarot x astro level 3',ex:'sample: splash page wording is in the doc, waiting for your confirmation.'},
+ {days:3,who:'a team member (sample)',course:'reiki 2',ex:'sample: price line is ready to check against the pricing doc.'},
+ {days:2,who:'a developer (sample)',course:'psychic baby',ex:'sample: workbook length and video hours are listed. ready for your approval.'},
+ {days:1,who:'a team member (sample)',course:'speed tarot',ex:'sample: final pass is done and waiting for your approval.'}
+];
+function renderWaiting(){
+  var el=document.getElementById('view-waiting');
+  var items=WAITING.slice().sort(function(a,b){return b.days-a.days});
+  var h='<h2 style="font-size:26px;margin-bottom:6px">waiting on you</h2><p class="sec-intro">oldest first. you answer or tick in the priorities doc, as you do now. these five items are <b>sample</b>.</p>';
+  if(!items.length){h+='<div class="empty"><h3>nothing waiting on you.</h3><p>enjoy the quiet.</p></div>'}
+  else{
+    h+='<div class="wlist">'+items.map(function(it,i){
+      var late=it.days>3;
+      return '<article class="wcard rise'+(late?' late':'')+'" style="--d:'+Math.min(i*60,300)+'ms"><div class="whead"><span class="chip sample">sample</span><span class="who">'+esc(it.who)+'</span></div>'+
+       '<div class="wcourse">'+esc(it.course)+'</div><p class="wex">'+esc(it.ex)+'</p>'+
+       '<div class="wfoot"><span class="age">waiting '+it.days+' day'+(it.days===1?'':'s')+'</span>'+(late?'<span class="late-tag">'+ICON.flag+'more than 3 days</span>':'')+
+       '<a class="btn" href="'+DOC+'" target="_blank" rel="noopener">open in doc '+ICON.arrow+'</a></div></article>';
+    }).join('')+'</div>';
+  }
+  el.innerHTML=h;
+  document.getElementById('wbadge').textContent=items.length;
+}
+
+/* ---------- navigation ---------- */
+function setView(v,push){
+  state.view=v;
+  document.getElementById('view-atlas').hidden=v!=='atlas';
+  document.getElementById('view-waiting').hidden=v!=='waiting';
+  document.getElementById('nav-atlas').setAttribute('aria-current',v==='atlas'?'page':'false');
+  document.getElementById('nav-waiting').setAttribute('aria-current',v==='waiting'?'page':'false');
+  if(v==='waiting')renderWaiting();
+  else{renderAtlas(false)}
+  if(push){try{history.replaceState(null,'','#'+v)}catch(e){}}
+  window.scrollTo(0,0);
+}
+document.getElementById('nav-atlas').addEventListener('click',function(){setView('atlas',true)});
+document.getElementById('nav-waiting').addEventListener('click',function(){setView('waiting',true)});
+
+document.getElementById('view-atlas').addEventListener('click',function(e){
+  var t=e.target.closest('.tab');
+  if(t){state.prog=t.getAttribute('data-prog');try{localStorage.setItem('ttwh-cr-prog',state.prog)}catch(x){}renderAtlas(false);var nt=document.getElementById('tab-'+state.prog);if(nt){nt.focus({preventScroll:true});nt.scrollIntoView({block:'nearest',inline:'center'})}return}
+  var c=e.target.closest('.card');
+  if(c&&!c.classList.contains('skel'))openDrawer(c.getAttribute('data-p'),+c.getAttribute('data-g'),+c.getAttribute('data-i'),c);
+});
+document.getElementById('view-atlas').addEventListener('keydown',function(e){
+  var t=e.target.closest('.tab');if(!t)return;
+  var k=e.key,ids=PROGRAMS.map(function(p){return p.id}),i=ids.indexOf(t.getAttribute('data-prog'));
+  if(k==='ArrowRight'||k==='ArrowLeft'){
+    e.preventDefault();var n=ids[(i+(k==='ArrowRight'?1:ids.length-1))%ids.length];
+    state.prog=n;try{localStorage.setItem('ttwh-cr-prog',n)}catch(x){}renderAtlas(false);document.getElementById('tab-'+n).focus();
+  }
+});
+document.getElementById('dclose').addEventListener('click',closeDrawer);
+document.getElementById('scrim').addEventListener('click',closeDrawer);
+document.addEventListener('keydown',function(e){
+  var d=document.getElementById('drawer');
+  if(!d.classList.contains('on'))return;
+  if(e.key==='Escape'){closeDrawer();return}
+  if(e.key==='Tab'){ // keep focus inside the drawer
+    var f=d.querySelectorAll('button,a[href]');if(!f.length)return;
+    var first=f[0],last=f[f.length-1];
+    if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}
+    else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
+  }
+});
+/* swipe down to close (phone) */
+(function(){
+  var d=document.getElementById('drawer'),body=document.getElementById('dbody'),y0=null,dy=0;
+  function start(e){if(window.innerWidth>=900)return;if(body.scrollTop>0&&!e.target.closest('#dgrip'))return;y0=e.touches[0].clientY;dy=0}
+  function move(e){if(y0==null)return;dy=e.touches[0].clientY-y0;if(dy>0){d.style.transition='none';d.style.transform='translateY('+dy+'px)'}}
+  function end(){if(y0==null)return;d.style.transition='';if(dy>90)closeDrawer();else d.style.transform='';y0=null;dy=0}
+  d.addEventListener('touchstart',start,{passive:true});d.addEventListener('touchmove',move,{passive:true});d.addEventListener('touchend',end);
+})();
+
+/* ---------- offline + install ---------- */
+function net(){document.getElementById('offline').classList.toggle('on',!navigator.onLine)}
+window.addEventListener('online',net);window.addEventListener('offline',net);net();
+var deferred=null,ib=document.getElementById('install');
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferred=e;ib.classList.add('on')});
+ib.addEventListener('click',function(){if(!deferred)return;deferred.prompt();deferred.userChoice.then(function(){deferred=null;ib.classList.remove('on')})});
+window.addEventListener('appinstalled',function(){ib.classList.remove('on')});
+(function(){
+  var ios=/iphone|ipad|ipod/i.test(navigator.userAgent)&&!window.MSStream;
+  var standalone=window.matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+  if(ios&&!standalone)document.getElementById('ioshint').classList.add('on');
+})();
+if('serviceWorker' in navigator){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('/tarottimeswithheidi/sw.js',{scope:'/tarottimeswithheidi'}).catch(function(){});
+  });
+}
+
+/* ---------- start ---------- */
+var start=(location.hash==='#waiting')?'waiting':'atlas';
+if(start==='atlas'&&!reduce){
+  state.view='atlas';
+  document.getElementById('nav-atlas').setAttribute('aria-current','page');
+  document.getElementById('nav-waiting').setAttribute('aria-current','false');
+  renderAtlas(true);renderWaiting();document.getElementById('view-waiting').hidden=true;
+  setTimeout(function(){if(state.view==='atlas')renderAtlas(false)},550);
+}else{
+  renderWaiting();setView(start,false);
+}
+})();
+</script>
+</body>
+</html>
