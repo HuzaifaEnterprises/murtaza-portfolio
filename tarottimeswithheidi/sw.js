@@ -1,10 +1,11 @@
 /* TTWH Control Room demo: offline shell.
    Pages: network first, falls back to the last saved copy.
    Same-origin files and Google Fonts: serve saved copy, refresh quietly in the background. */
-var VERSION = 'ttwh-cr-v1';
+var VERSION = 'ttwh-cr-v2';
 var SHELL = [
   '/tarottimeswithheidi',
   '/tarottimeswithheidi/manifest.json',
+  '/tarottimeswithheidi/logo.png',
   '/tarottimeswithheidi/icons/icon-192.png',
   '/tarottimeswithheidi/icons/icon-512.png',
   '/tarottimeswithheidi/icons/apple-touch-icon.png'

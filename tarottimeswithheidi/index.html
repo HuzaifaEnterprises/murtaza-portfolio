@@ -42,6 +42,16 @@ h1,h2,h3,.serif{font-family:var(--serif);font-weight:700;text-transform:lowercas
 header.top{border-bottom:2px solid var(--ink);background:var(--cream);padding:calc(12px + env(safe-area-inset-top)) 0 12px}
 .hrow{display:flex;align-items:center;gap:12px}
 .logo{width:48px;height:48px;flex:none;border:2px dashed var(--grey);display:flex;align-items:center;justify-content:center;text-align:center;font-size:11px;line-height:1.1;color:var(--grey);background:#fff}
+.logoimg{width:52px;height:52px;flex:none;object-fit:contain}
+.fchips{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 0}
+.fchip{font-family:var(--btn);font-weight:700;font-size:14px;min-height:44px;padding:0 14px;border:2px solid var(--ink);background:#fff;text-transform:lowercase;display:inline-flex;align-items:center}
+.fchip[aria-pressed="true"]{background:var(--ink);color:var(--cream);box-shadow:3px 3px 0 var(--purple)}
+.gotit{font-family:var(--btn);font-weight:700;font-size:15px;min-height:48px;padding:0 16px;border:2px solid var(--ink);background:var(--mint);box-shadow:var(--shadow);text-transform:lowercase;display:inline-flex;align-items:center;gap:8px}
+.gotit:hover,.gotit:focus-visible{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink)}
+.wbtns{display:flex;gap:10px;flex-wrap:wrap}
+.toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:var(--cream);border:2px solid var(--cream);padding:10px 14px;display:flex;gap:14px;align-items:center;z-index:60;font-family:var(--btn);font-weight:600;font-size:15px;box-shadow:3px 3px 0 var(--purple);max-width:calc(100vw - 32px)}
+.toast button{color:var(--yellow);font-family:var(--btn);font-weight:700;font-size:15px;min-height:44px;padding:0 6px;text-decoration:underline}
+.textbtn{font-family:var(--btn);font-weight:700;font-size:15px;min-height:44px;color:var(--deep);text-decoration:underline}
 .htitle h1{font-size:26px;color:var(--deep)}
 .hmeta{font-size:13px;color:#3d5552}
 .chips{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
@@ -217,7 +227,7 @@ footer.foot .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
 <header class="top">
   <div class="wrap">
     <div class="hrow">
-      <div class="logo" aria-label="be kind logo placeholder">be kind logo</div>
+      <img class="logoimg" src="/tarottimeswithheidi/logo.png" width="52" height="52" alt="be kind, tarottimeswithheidi.ca">
       <div class="htitle">
         <h1>control room</h1>
         <div class="hmeta">updated 30 oct, 11:56 a.m. (vancouver) · source: pricing doc</div>
@@ -246,6 +256,7 @@ footer.foot .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
 <footer class="foot">
   <div class="wrap">
     <span>ttwh control room · demo · private</span>
+    <a href="mailto:murtazamustafaa02@gmail.com?subject=Control%20Room%20demo%20feedback" style="font-family:var(--btn);font-weight:700;min-height:44px;display:inline-flex;align-items:center">send feedback</a>
     <button class="inst" id="install" type="button">install on this phone</button>
     <span class="ioshint" id="ioshint">on iphone: tap the share button, then "add to home screen".</span>
   </div>
@@ -385,7 +396,23 @@ var DOODLES=[
 function doodle(i){return '<svg class="doodle" viewBox="0 0 64 64" aria-hidden="true">'+DOODLES[i%DOODLES.length]+'</svg>'}
 
 /* ---------- state ---------- */
-var state={view:'atlas',prog:'pts'};
+var state={view:'atlas',prog:'pts',filter:'all'};
+var FILTERS=[['all','all'],['waiting','waiting on you'],['done','finished']];
+function passes(p,co){
+  if(state.filter==='all')return true;
+  var s=stepStates(p,co);
+  if(state.filter==='waiting')return s.indexOf('w')>-1;
+  return s.every(function(x){return x==='d'});
+}
+var dismissed=[],toastT=null;
+function toast(msg,undo){
+  var t=document.getElementById('toast');
+  if(!t){t=document.createElement('div');t.id='toast';t.className='toast';t.setAttribute('role','status');document.body.appendChild(t)}
+  t.innerHTML='<span></span>'+(undo?'<button type="button" id="undo">undo</button>':'');
+  t.firstChild.textContent=msg;t.hidden=false;
+  if(undo)document.getElementById('undo').addEventListener('click',function(){undo();t.hidden=true});
+  clearTimeout(toastT);toastT=setTimeout(function(){t.hidden=true},5000);
+}
 try{var sv=localStorage.getItem('ttwh-cr-prog');if(sv&&byId(sv))state.prog=sv}catch(e){}
 var lastFocus=null;
 
@@ -453,13 +480,16 @@ function renderAtlas(skeleton){
   else{
     var n=0;
     p.groups.forEach(function(g,gi){
-      var gh=0;g.courses.forEach(function(co){gh+=co.h});
-      lanes+='<div class="lane"><div class="lanehead"><h3>'+esc(g.name)+'</h3><span>'+g.courses.length+' '+(p.pkg?'sections':'courses')+' · '+Math.round(gh*10)/10+' hours</span></div><div class="row">';
-      g.courses.forEach(function(co,i){lanes+=cardHTML(p,co,gi,i,Math.min(n*35,320));n++});
-      lanes+='</div></div>';
+      var gh=0,cnt=0;g.courses.forEach(function(co){gh+=co.h});
+      var inner='';
+      g.courses.forEach(function(co,i){if(passes(p,co)){inner+=cardHTML(p,co,gi,i,Math.min(n*35,320));n++;cnt++}});
+      if(!cnt)return;
+      lanes+='<div class="lane"><div class="lanehead"><h3>'+esc(g.name)+'</h3><span>'+cnt+' '+(p.pkg?'sections':'courses')+' · '+Math.round(gh*10)/10+' hours in group</span></div><div class="row">'+inner+'</div></div>';
     });
+    if(!lanes)lanes='<div class="empty" style="margin-top:18px"><h3>nothing here yet.</h3><p>no courses match this filter in '+esc(p.name)+'.</p></div>';
   }
-  el.innerHTML='<p class="sec-intro" style="font-size:14px;color:#3d5552;max-width:760px">ring = hours built against the program total (sample). tap a card to open it.</p>'+renderTabs()+sum+notes+lanes;
+  var fc='<div class="fchips" role="group" aria-label="filter courses">'+FILTERS.map(function(f){return '<button type="button" class="fchip" data-f="'+f[0]+'" aria-pressed="'+(state.filter===f[0])+'">'+f[1]+'</button>'}).join('')+'</div>';
+  el.innerHTML='<p class="sec-intro" style="font-size:14px;color:#3d5552;max-width:760px">ring = hours built against the program total (sample). tap a card to open it.</p>'+renderTabs()+sum+notes+fc+lanes;
   fillRings();
 }
 
@@ -523,16 +553,16 @@ var WAITING=[
 ];
 function renderWaiting(){
   var el=document.getElementById('view-waiting');
-  var items=WAITING.slice().sort(function(a,b){return b.days-a.days});
-  var h='<h2 style="font-size:26px;margin-bottom:6px">waiting on you</h2><p class="sec-intro">oldest first. you answer or tick in the priorities doc, as you do now. these five items are <b>sample</b>.</p>';
-  if(!items.length){h+='<div class="empty"><h3>nothing waiting on you.</h3><p>enjoy the quiet.</p></div>'}
+  var items=WAITING.filter(function(it){return dismissed.indexOf(it.course)<0}).sort(function(a,b){return b.days-a.days});
+  var h='<h2 style="font-size:26px;margin-bottom:6px">waiting on you</h2><p class="sec-intro">oldest first. you answer or tick in the priorities doc, as you do now. these items are <b>sample</b>. "got it" only hides one here for this demo.</p>';
+  if(!items.length){h+='<div class="empty"><h3>nothing waiting on you.</h3><p>enjoy the quiet.</p><p style="margin-top:10px"><button type="button" class="textbtn" id="wreset">bring the sample items back</button></p></div>'}
   else{
     h+='<div class="wlist">'+items.map(function(it,i){
       var late=it.days>3;
       return '<article class="wcard rise'+(late?' late':'')+'" style="--d:'+Math.min(i*60,300)+'ms"><div class="whead"><span class="chip sample">sample</span><span class="who">'+esc(it.who)+'</span></div>'+
        '<div class="wcourse">'+esc(it.course)+'</div><p class="wex">'+esc(it.ex)+'</p>'+
        '<div class="wfoot"><span class="age">waiting '+it.days+' day'+(it.days===1?'':'s')+'</span>'+(late?'<span class="late-tag">'+ICON.flag+'more than 3 days</span>':'')+
-       '<a class="btn" href="'+DOC+'" target="_blank" rel="noopener">open in doc '+ICON.arrow+'</a></div></article>';
+       '<div class="wbtns"><a class="btn" href="'+DOC+'" target="_blank" rel="noopener">open in doc '+ICON.arrow+'</a><button type="button" class="gotit" data-c="'+esc(it.course)+'">'+ICON.done+'got it</button></div></div></article>';
     }).join('')+'</div>';
   }
   el.innerHTML=h;
@@ -554,7 +584,14 @@ function setView(v,push){
 document.getElementById('nav-atlas').addEventListener('click',function(){setView('atlas',true)});
 document.getElementById('nav-waiting').addEventListener('click',function(){setView('waiting',true)});
 
+document.getElementById('view-waiting').addEventListener('click',function(e){
+  var g=e.target.closest('.gotit'),r=e.target.closest('#wreset');
+  if(g){var c=g.getAttribute('data-c');dismissed.push(c);renderWaiting();toast('hidden for now (demo only)',function(){dismissed=dismissed.filter(function(x){return x!==c});renderWaiting()})}
+  if(r){dismissed=[];renderWaiting()}
+});
 document.getElementById('view-atlas').addEventListener('click',function(e){
+  var f=e.target.closest('.fchip');
+  if(f){state.filter=f.getAttribute('data-f');renderAtlas(false);var nf=document.querySelector('.fchip[data-f="'+state.filter+'"]');if(nf)nf.focus({preventScroll:true});return}
   var t=e.target.closest('.tab');
   if(t){state.prog=t.getAttribute('data-prog');try{localStorage.setItem('ttwh-cr-prog',state.prog)}catch(x){}renderAtlas(false);var nt=document.getElementById('tab-'+state.prog);if(nt){nt.focus({preventScroll:true});nt.scrollIntoView({block:'nearest',inline:'center'})}return}
   var c=e.target.closest('.card');
