@@ -146,40 +146,27 @@ footer{padding:36px 0 56px;border-top:1px solid var(--line);font-size:.9rem;colo
       <label class="opt"><input type="radio" name="pay" value="monthly"><span><b>Paid monthly</b><em id="monTxt">2 payments of CAD 640</em></span></label>
     </div>
   </fieldset>
-  <p class="note">Paying monthly costs a little more in total, because I carry the work before it is fully paid. Paying altogether is the better price. Payment by PayPal or e-transfer, as before.</p>
+  <p class="note">Paying monthly costs a little more in total, because I carry the work before it is fully paid. Paying altogether is the better price. Tool and software costs are already included in both prices, so there are no extras. Payment by PayPal or e-transfer, as before.</p>
 
   <h3 style="margin-top:26px">how I would keep it safe for you</h3>
   <ul class="plain">
-    <li>I edit one video first and you approve it before I do the rest of that course.</li>
     <li>You keep final say on wording, colours and anything that does not feel like you.</li>
     <li>Wording changes are shown to you first, never swapped in quietly.</li>
-    <li>Your original videos are never touched. I always work on copies.</li>
   </ul>
 </section>
 
 <section id="value">
   <h2>what the offer is actually worth</h2>
-  <p>Editing a course video by hand takes real hours. This calculator compares what a person doing it by hand would typically cost with what I am asking. Change any number to match what you know.</p>
+  <p>Editing a course video by hand takes real hours. This calculator compares what a person doing it by hand would typically cost with what I am asking. The numbers below are fixed: 681 videos across 25 courses, 15 minutes per video, CAD 40 per hour.</p>
 
   <div class="calc" aria-labelledby="calcT">
-    <span class="tag">Illustrative estimate, based on assumptions you can change</span>
+    <span class="tag">Illustrative estimate, based on the assumptions listed</span>
     <h3 id="calcT" style="margin-bottom:10px">value vs what I am asking</h3>
-    <div class="fields">
-      <label>Courses covered
-        <input type="number" id="cCourses" min="1" max="25" value="12" inputmode="numeric">
-      </label>
-      <label>Average videos per course
-        <input type="number" id="cVids" min="1" max="100" value="27" inputmode="numeric">
-        <span class="hint">my rough count: about 681 videos across 25 courses. Please correct me.</span>
-      </label>
-      <label>Hours to edit one video by hand
-        <input type="number" id="cHours" min="0.25" max="20" step="0.25" value="2.5" inputmode="decimal">
-        <span class="hint">trim, captions, audio, graphics, review</span>
-      </label>
-      <label>Typical editor rate (CAD per hour)
-        <input type="number" id="cRate" min="1" max="300" value="30" inputmode="decimal">
-      </label>
-    </div>
+    <ul class="plain" style="margin-bottom:6px">
+      <li>25 courses, 681 videos in total</li>
+      <li>About 15 minutes of editing per video, so 4 videos per hour</li>
+      <li>Typical editor rate of CAD 40 per hour, so CAD 10 per video</li>
+    </ul>
     <div class="out" aria-live="polite">
       <div class="row"><span>Videos in scope</span><b id="oVids">0</b></div>
       <div class="row"><span>Hours if edited by hand</span><b id="oHours">0</b></div>
@@ -190,7 +177,7 @@ footer{padding:36px 0 56px;border-top:1px solid var(--line);font-size:.9rem;colo
       <div class="bar" role="img" aria-label="Share of typical cost that you pay"><i id="oBar"></i></div>
       <p class="hint" id="oLine"></p>
     </div>
-    <p class="note">These are estimates, not quotes. The hours and rate are assumptions. Use the numbers you trust. I would rather you see the maths than take my word for it.</p>
+    <p class="note">These are estimates, not quotes. The time per video and the hourly rate are my assumptions. I would rather you see the maths than take my word for it.</p>
     <p class="note">Why not per video? Per video, the price looked too high for your budget. Pricing the whole job brings it into a range that works for a small business, and I make it work by using AI tools for the heavy lifting while I check every video myself.</p>
   </div>
 </section>
@@ -210,13 +197,12 @@ footer{padding:36px 0 56px;border-top:1px solid var(--line);font-size:.9rem;colo
 
 <section id="why-me">
   <h2>why I am asking for this project</h2>
-  <p>Honestly, three reasons.</p>
   <ul class="plain">
-    <li>I want to build a proper AI-assisted video editing service, and I want to build it on real work for a real teacher whose voice I care about, not on sample clips.</li>
-    <li>Your courses are exactly the kind of work I want in my portfolio: warm, human, and a clear before and after.</li>
-    <li>I am already working on your website and course pages, so I know your brand, your rules and how you like to be told about changes.</li>
+    <li>I was upfront with you that the test versions took about 2.5 to 3 hours each.</li>
+    <li>I believe every video in a course should get the same treatment, so the whole course feels consistent.</li>
+    <li>I have the time to do the whole library.</li>
+    <li>It is 681 videos across 25 courses, which is why I priced the whole job instead of charging per video.</li>
   </ul>
-  <p style="margin-top:14px">That is why the price is where it is. It is not a high-margin job for me, and I am fine with that if it earns your trust.</p>
 </section>
 
 <section id="workshop-section">
@@ -262,7 +248,7 @@ footer{padding:36px 0 56px;border-top:1px solid var(--line);font-size:.9rem;colo
 
 <section id="next">
   <h2>if this feels right</h2>
-  <p>Tell me which option and how you would like to pay, and I will send a short plan for the first course so you can approve it before anything else. If it does not feel right, tell me that too. I would rather know.</p>
+  <p>Tell me which option and how you would like to pay, and I will take it from there. If it does not feel right, tell me that too. I would rather know.</p>
   <p>
     <a class="btn" href="mailto:murtazamustafa.k@gmail.com?subject=Course%20video%20upgrade%3A%20my%20choice">reply with your choice</a>
   </p>
@@ -287,9 +273,9 @@ footer{padding:36px 0 56px;border-top:1px solid var(--line);font-size:.9rem;colo
     return state.pay==='lump'?p.lump:p.pay*p.months;
   }
   function calc(){
-    var vids=n('cCourses')*n('cVids');
-    var hours=vids*n('cHours');
-    var value=hours*n('cRate');
+    var vids=Math.round(681*state.pack/25);
+    var hours=vids/4;
+    var value=hours*40;
     var a=ask();
     $('oVids').textContent=Math.round(vids).toLocaleString('en-CA');
     $('oHours').textContent=Math.round(hours).toLocaleString('en-CA');
@@ -324,7 +310,6 @@ footer{padding:36px 0 56px;border-top:1px solid var(--line);font-size:.9rem;colo
     });
     $('lumpTxt').textContent=fmt(pk.lump)+', one payment';
     $('monTxt').textContent=pk.months+' payments of '+fmt(pk.pay)+' (total '+fmt(pk.pay*pk.months)+')';
-    $('cCourses').value=p;
     calc();
   }
   document.querySelectorAll('[data-pack]').forEach(function(b){
@@ -333,7 +318,7 @@ footer{padding:36px 0 56px;border-top:1px solid var(--line);font-size:.9rem;colo
   document.querySelectorAll('input[name=pay]').forEach(function(r){
     r.addEventListener('change',function(){state.pay=r.value;calc()});
   });
-  ['cCourses','cVids','cHours','cRate','wTicket','wSeats','wFee','wShare'].forEach(function(id){
+  ['wTicket','wSeats','wFee','wShare'].forEach(function(id){
     $(id).addEventListener('input',calc);
   });
   $('wsBtn').addEventListener('click',function(){
