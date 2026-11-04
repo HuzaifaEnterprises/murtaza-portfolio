@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Course Video Upgrade Proposal | Tarot Times With Heidi</title>
+<meta name="description" content="A proposal for Heidi: re-editing the Tarot Times With Heidi course videos, two packages, a value calculator and an optional workshop idea.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0E2523;
+  --paper:#FBF9F6;
+  --green:#73C074;
+  --orange:#D5560F;
+  --mustard:#FFBF31;
+  --purple:#6E229D;
+  --muted:#4a5f5c;
+  --line:rgba(14,37,35,.18);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Jost',Futura,'Century Gothic',sans-serif;background:var(--paper);color:var(--ink);line-height:1.65;font-size:17px;-webkit-text-size-adjust:100%}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+h1,h2,h3{font-family:'Caveat','Comic Sans MS',cursive;font-weight:700;line-height:1.1;text-transform:lowercase}
+h1{font-size:clamp(2.6rem,9vw,4.4rem)}
+h2{font-size:clamp(2rem,6vw,2.8rem);margin-bottom:12px}
+h3{font-size:1.7rem}
+p{margin-bottom:14px;max-width:68ch}
+a{color:var(--purple)}
+:focus-visible{outline:3px solid var(--purple);outline-offset:3px;border-radius:2px}
+section{padding:44px 0;border-top:1px solid var(--line)}
+.strip{display:inline-block;background:#fff;border:1.5px solid var(--ink);padding:2px 10px;transform:rotate(-1.2deg);margin-bottom:10px}
+.hero{padding:36px 0 40px}
+.hero .meta{font-size:.95rem;color:var(--muted);margin-bottom:18px}
+.hero h1 em{font-style:normal;background:linear-gradient(transparent 58%,var(--mustard) 58%)}
+.lead{font-size:1.15rem}
+.dots{display:flex;gap:8px;margin:22px 0 0}
+.dots i{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--ink)}
+.dots i:nth-child(1){background:var(--green)}.dots i:nth-child(2){background:var(--orange)}.dots i:nth-child(3){background:var(--mustard)}.dots i:nth-child(4){background:var(--purple)}
+ul.plain{list-style:none}
+ul.plain li{padding:8px 0 8px 28px;position:relative;border-bottom:1px dashed var(--line)}
+ul.plain li::before{content:"";position:absolute;left:4px;top:17px;width:11px;height:11px;border-radius:50%;background:var(--green);border:1.5px solid var(--ink)}
+ul.plain li:nth-child(4n+2)::before{background:var(--orange)}
+ul.plain li:nth-child(4n+3)::before{background:var(--mustard)}
+ul.plain li:nth-child(4n+4)::before{background:var(--purple)}
+.cmp{display:grid;gap:12px;margin:18px 0}
+.cmp div{border:1.5px solid var(--ink);padding:14px 16px;background:#fff}
+.cmp b{display:block;font-family:'Caveat',cursive;font-size:1.5rem;text-transform:lowercase;font-weight:700}
+.cmp .now{border-style:dashed}
+.packs{display:grid;gap:16px;margin-top:18px}
+.pack{border:2px solid var(--ink);background:#fff;padding:18px;position:relative}
+.pack.sel{box-shadow:6px 6px 0 var(--green)}
+.pack:nth-child(2).sel{box-shadow:6px 6px 0 var(--mustard)}
+.pack h3{margin-bottom:4px}
+.price{font-size:2.1rem;font-weight:600;line-height:1.1}
+.price small{font-size:.95rem;font-weight:400;color:var(--muted)}
+.opts{display:grid;gap:8px;margin:14px 0}
+.opt{display:flex;gap:10px;align-items:flex-start;border:1.5px solid var(--line);padding:10px 12px;cursor:pointer;background:var(--paper)}
+.opt:has(input:checked){border-color:var(--ink);background:#fff}
+.opt input{margin-top:6px;accent-color:var(--purple);width:18px;height:18px;flex:none}
+.opt span b{display:block}
+.opt span em{font-style:normal;color:var(--muted);font-size:.92rem}
+.btn{display:inline-block;font:inherit;font-weight:600;background:var(--ink);color:var(--paper);border:2px solid var(--ink);padding:12px 20px;cursor:pointer;text-decoration:none;min-height:46px;transition:transform .15s}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:3px 3px 0 var(--orange)}
+.btn.alt{background:var(--mustard);color:var(--ink)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.calc{border:2px solid var(--ink);background:#fff;padding:18px;margin-top:18px}
+.fields{display:grid;gap:12px;grid-template-columns:1fr}
+label{display:block;font-weight:500;font-size:.95rem}
+input[type=number]{width:100%;font:inherit;padding:10px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);min-height:44px;margin-top:4px}
+.hint{font-size:.85rem;color:var(--muted);font-weight:400}
+.out{margin-top:18px;display:grid;gap:10px}
+.row{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.row.big{border-bottom:2px solid var(--ink);font-size:1.15rem;font-weight:600}
+.bar{height:22px;border:1.5px solid var(--ink);background:var(--paper);margin:6px 0 2px;position:relative}
+.bar i{display:block;height:100%;background:var(--green);width:0;transition:width .5s}
+.note{font-size:.85rem;color:var(--muted);margin-top:12px}
+.tag{display:inline-block;font-size:.8rem;border:1.5px solid var(--purple);color:var(--purple);padding:1px 8px;margin-bottom:8px}
+#workshop[hidden]{display:none}
+#workshop{background:#fff;border:2px solid var(--ink);padding:18px;margin-top:20px}
+.step{display:grid;gap:4px;padding:12px 0;border-bottom:1px dashed var(--line)}
+.step b{font-family:'Caveat',cursive;font-size:1.4rem;text-transform:lowercase}
+footer{padding:36px 0 56px;border-top:1px solid var(--line);font-size:.9rem;color:var(--muted)}
+@media(min-width:640px){
+  body{font-size:18px}
+  .cmp{grid-template-columns:1fr 1fr}
+  .packs{grid-template-columns:1fr 1fr}
+  .fields{grid-template-columns:1fr 1fr}
+  .wrap{padding:0 24px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition:none!important;animation:none!important}
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+<header class="hero">
+  <p class="meta">a proposal for heidi, tarot times with heidi &middot; 4 november 2026</p>
+  <h1>making your courses look and sound like <em>you</em>.</h1>
+  <p class="lead">Thank you for the honest feedback on the test video. This page puts the options, the numbers and my reasons in one place, so you can read it in your own time. Nothing here is a deadline, and nothing starts until you say yes.</p>
+  <div class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+</header>
+
+<section id="heard">
+  <span class="strip"><h2 style="margin:0">what I heard from you</h2></span>
+  <ul class="plain">
+    <li>You liked versions 2 and 3 of the test, and the intro reads less like someone looking at notes.</li>
+    <li>You do not want a blurry background. It stays in focus.</li>
+    <li>It has to match Devon's branding: the off-white and black base with green, rusty orange, mustard and purple as pops, Futura, and the handwriting font. No glossy, luxury or "witchy" look.</li>
+    <li>You have a real budget limit, and a per-course price for every course is not something you can carry.</li>
+  </ul>
+  <p style="margin-top:14px">So the proposal below is shaped around those four things, with a clear price for the whole job instead of a price per video.</p>
+</section>
+
+<section id="packages">
+  <h2>two options, nothing else</h2>
+  <p>Both options cover re-editing the course videos with captions, clean audio, consistent branding, simple hand-drawn style graphics and sound, and a steady, in-focus background. You choose how many courses, then how you would like to pay.</p>
+
+  <div class="packs" role="radiogroup" aria-label="Choose a package">
+    <div class="pack sel" id="pk12">
+      <h3>the 12 top courses</h3>
+      <div class="price">CAD 1,140 <small>paid altogether</small></div>
+      <p class="hint" style="margin-top:6px">or 2 monthly payments of CAD 640 (total CAD 1,280)</p>
+      <p style="margin-top:10px">We start with the courses your students open most, so the biggest improvement lands first. You pick which 12.</p>
+      <button type="button" class="btn" data-pack="12" aria-pressed="true">choose this option</button>
+    </div>
+    <div class="pack" id="pk25">
+      <h3>all of the courses</h3>
+      <div class="price">CAD 1,640 <small>paid altogether</small></div>
+      <p class="hint" style="margin-top:6px">or 3 monthly payments of CAD 640 (total CAD 1,920)</p>
+      <p style="margin-top:10px">Every course gets the same look and sound, so the whole library feels like one handmade thing.</p>
+      <button type="button" class="btn ghost" data-pack="25" aria-pressed="false">choose this option</button>
+    </div>
+  </div>
+
+  <fieldset style="border:0;margin-top:18px">
+    <legend style="font-weight:600;margin-bottom:6px">how would you like to pay?</legend>
+    <div class="opts">
+      <label class="opt"><input type="radio" name="pay" value="lump" checked><span><b>Paid altogether</b><em id="lumpTxt">CAD 1,140, one payment</em></span></label>
+      <label class="opt"><input type="radio" name="pay" value="monthly"><span><b>Paid monthly</b><em id="monTxt">2 payments of CAD 640</em></span></label>
+    </div>
+  </fieldset>
+  <p class="note">Paying monthly costs a little more in total, because I carry the work before it is fully paid. Paying altogether is the better price. Tool and software costs are already included in both prices, so there are no extras. Payment by PayPal or e-transfer, as before.</p>
+
+  <h3 style="margin-top:26px">how I would keep it safe for you</h3>
+  <ul class="plain">
+    <li>You keep final say on wording, colours and anything that does not feel like you.</li>
+    <li>Wording changes are shown to you first, never swapped in quietly.</li>
+  </ul>
+</section>
+
+<section id="value">
+  <h2>what the offer is actually worth</h2>
+  <p>Editing a course video by hand takes real hours. This calculator compares what a person doing it by hand would typically cost with what I am asking. The numbers below are fixed: 681 videos across 25 courses, 15 minutes per video, CAD 40 per hour.</p>
+
+  <div class="calc" aria-labelledby="calcT">
+    <span class="tag">Illustrative estimate, based on the assumptions listed</span>
+    <h3 id="calcT" style="margin-bottom:10px">value vs what I am asking</h3>
+    <ul class="plain" style="margin-bottom:6px">
+      <li>25 courses, 681 videos in total</li>
+      <li>About 15 minutes of editing per video, so 4 videos per hour</li>
+      <li>Typical editor rate of CAD 40 per hour, so CAD 10 per video</li>
+    </ul>
+    <div class="out" aria-live="polite">
+      <div class="row"><span>Videos in scope</span><b id="oVids">0</b></div>
+      <div class="row"><span>Hours if edited by hand</span><b id="oHours">0</b></div>
+      <div class="row"><span>Typical cost by hand</span><b id="oValue">0</b></div>
+      <div class="row big"><span>What I am asking</span><b id="oAsk">0</b></div>
+      <div class="row"><span>Your price per video</span><b id="oPer">0</b></div>
+      <div class="row"><span>You pay about</span><b id="oPct">0%</b></div>
+      <div class="bar" role="img" aria-label="Share of typical cost that you pay"><i id="oBar"></i></div>
+      <p class="hint" id="oLine"></p>
+    </div>
+    <p class="note">These are estimates, not quotes. The time per video and the hourly rate are my assumptions. I would rather you see the maths than take my word for it.</p>
+    <p class="note">Why not per video? Per video, the price looked too high for your budget. Pricing the whole job brings it into a range that works for a small business, and I make it work by using AI tools for the heavy lifting while I check every video myself.</p>
+  </div>
+</section>
+
+<section id="why-you">
+  <h2>why an upgrade matters for tarot times with heidi</h2>
+  <p>Your courses are a quiet, trusting space. People arrive curious and sometimes nervous. The video is the first thing they feel.</p>
+  <ul class="plain">
+    <li><b>Easier to follow.</b> Clear captions and clean sound help people who watch on a phone, without headphones, or who simply take in words better when they can read them too.</li>
+    <li><b>More you, less reading from a page.</b> Tighter pacing and gentle on-screen prompts let your warmth lead, and the notes stay out of sight.</li>
+    <li><b>Feels like one world.</b> Same colours, same handwriting, same Futura captions in every course, so a student moving from one course to the next feels they are still at the same kitchen table.</li>
+    <li><b>Calmer for students.</b> A steady, in-focus background and consistent audio levels stop the small distractions that pull attention away from the teaching.</li>
+    <li><b>Less of your time.</b> You keep teaching and reading. I handle the polishing, so you are not spending evenings fighting editing software.</li>
+  </ul>
+  <p style="margin-top:14px">I cannot promise a number for sales or completion rates, and I will not invent one. What I can say is that clearer, warmer videos remove reasons for a student to feel lost, and that is where satisfaction starts.</p>
+</section>
+
+<section id="why-me">
+  <h2>why I am asking for this project</h2>
+  <ul class="plain">
+    <li>I was upfront with you that the test versions took about 2.5 to 3 hours each.</li>
+    <li>I believe every video in a course should get the same treatment, so the whole course feels consistent.</li>
+    <li>I have the time to do the whole library.</li>
+    <li>It is 681 videos across 25 courses, which is why I priced the whole job instead of charging per video.</li>
+  </ul>
+</section>
+
+<section id="workshop-section">
+  <h2>one more idea, only if it interests you</h2>
+  <p>If you like, there is an optional extra: a live <b>AI automation workshop</b> for your community, where I teach how small creators use simple AI tools to save time. No pressure, and it has nothing to do with the video decision above.</p>
+  <button type="button" class="btn alt" id="wsBtn" aria-expanded="false" aria-controls="workshop">see the workshop idea</button>
+
+  <div id="workshop" hidden>
+    <span class="tag">Illustrative estimate, based on assumptions you can change</span>
+    <h3>ai automation workshop: how the money could work</h3>
+    <p>The simple idea: you bring the audience and the trust, I teach and prepare the session. Ticket revenue is split 50/50.</p>
+    <div class="step"><b>1. you invite</b>Share it with your students and email list.</div>
+    <div class="step"><b>2. I teach</b>A live session on practical, beginner-friendly AI tools and simple automation.</div>
+    <div class="step"><b>3. we split</b>Ticket revenue is divided 50/50 after any platform fee.</div>
+
+    <div class="calc" style="margin-top:16px" aria-labelledby="wsCalcT">
+      <h3 id="wsCalcT" style="margin-bottom:10px">workshop calculator</h3>
+      <div class="fields">
+        <label>Ticket price (CAD)
+          <input type="number" id="wTicket" min="0" value="49" inputmode="decimal">
+        </label>
+        <label>People who join
+          <input type="number" id="wSeats" min="0" value="20" inputmode="numeric">
+        </label>
+        <label>Platform and payment fees (%)
+          <input type="number" id="wFee" min="0" max="50" value="5" inputmode="decimal">
+        </label>
+        <label>Your share (%)
+          <input type="number" id="wShare" min="0" max="100" value="50" inputmode="numeric">
+        </label>
+      </div>
+      <div class="out" aria-live="polite">
+        <div class="row"><span>Ticket revenue</span><b id="wGross">0</b></div>
+        <div class="row"><span>After fees</span><b id="wNet">0</b></div>
+        <div class="row big"><span>Your share</span><b id="wYou">0</b></div>
+        <div class="row"><span>My share</span><b id="wMe">0</b></div>
+        <div class="row"><span>Workshops needed to cover the 12-course option</span><b id="wCover">0</b></div>
+      </div>
+      <p class="note">The ticket price, number of attendees and fees are placeholders I chose to show the maths. They are not predictions. Your own audience size is the real number.</p>
+    </div>
+  </div>
+</section>
+
+<section id="next">
+  <h2>if this feels right</h2>
+  <p>Tell me which option and how you would like to pay, and I will take it from there. If it does not feel right, tell me that too. I would rather know.</p>
+  <p>
+    <a class="btn" href="mailto:murtazamustafa.k@gmail.com?subject=Course%20video%20upgrade%3A%20my%20choice">reply with your choice</a>
+  </p>
+  <p class="hint">Or answer in a tagged comment in the Priorities doc, whichever you prefer.</p>
+</section>
+
+<footer>
+  Built by Murtaza Mustafa &middot; Karachi, Pakistan &middot; +92 318 1253085 &middot; <a href="mailto:murtazamustafa.k@gmail.com">murtazamustafa.k@gmail.com</a>
+</footer>
+</main>
+
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  var fmt=function(n){return 'CAD '+Math.round(n).toLocaleString('en-CA')};
+  var n=function(id){var v=parseFloat($(id).value);return isNaN(v)||v<0?0:v};
+  var PACK={12:{lump:1140,pay:640,months:2},25:{lump:1640,pay:640,months:3}};
+  var state={pack:12,pay:'lump'};
+
+  function ask(){
+    var p=PACK[state.pack];
+    return state.pay==='lump'?p.lump:p.pay*p.months;
+  }
+  function calc(){
+    var vids=Math.round(681*state.pack/25);
+    var hours=vids/4;
+    var value=hours*40;
+    var a=ask();
+    $('oVids').textContent=Math.round(vids).toLocaleString('en-CA');
+    $('oHours').textContent=Math.round(hours).toLocaleString('en-CA');
+    $('oValue').textContent=fmt(value);
+    $('oAsk').textContent=fmt(a);
+    $('oPer').textContent=vids>0?'CAD '+(a/vids).toFixed(2):'n/a';
+    var pct=value>0?a/value*100:0;
+    $('oPct').textContent=value>0?Math.round(pct)+'% of typical cost':'n/a';
+    $('oBar').style.width=Math.min(100,pct)+'%';
+    $('oLine').textContent=value>a?'On these assumptions, the difference between the typical cost and my price is '+fmt(value-a)+'.':'On these assumptions my price is at or above the typical cost, so adjust the numbers to what you believe.';
+    work();
+  }
+  function work(){
+    var gross=n('wTicket')*n('wSeats');
+    var net=gross*(1-n('wFee')/100);
+    var you=net*n('wShare')/100;
+    $('wGross').textContent=fmt(gross);
+    $('wNet').textContent=fmt(net);
+    $('wYou').textContent=fmt(you);
+    $('wMe').textContent=fmt(net-you);
+    $('wCover').textContent=you>0?(Math.ceil(PACK[12].lump/you))+' (if every workshop sells like this)':'n/a';
+  }
+  function setPack(p){
+    state.pack=p;
+    var pk=PACK[p];
+    $('pk12').classList.toggle('sel',p===12);
+    $('pk25').classList.toggle('sel',p===25);
+    document.querySelectorAll('[data-pack]').forEach(function(b){
+      var on=Number(b.dataset.pack)===p;
+      b.setAttribute('aria-pressed',on);
+      b.classList.toggle('ghost',!on);
+    });
+    $('lumpTxt').textContent=fmt(pk.lump)+', one payment';
+    $('monTxt').textContent=pk.months+' payments of '+fmt(pk.pay)+' (total '+fmt(pk.pay*pk.months)+')';
+    calc();
+  }
+  document.querySelectorAll('[data-pack]').forEach(function(b){
+    b.addEventListener('click',function(){setPack(Number(b.dataset.pack))});
+  });
+  document.querySelectorAll('input[name=pay]').forEach(function(r){
+    r.addEventListener('change',function(){state.pay=r.value;calc()});
+  });
+  ['wTicket','wSeats','wFee','wShare'].forEach(function(id){
+    $(id).addEventListener('input',calc);
+  });
+  $('wsBtn').addEventListener('click',function(){
+    var box=$('workshop');
+    var open=box.hasAttribute('hidden');
+    if(open){box.removeAttribute('hidden')}else{box.setAttribute('hidden','')}
+    this.setAttribute('aria-expanded',open);
+    this.textContent=open?'hide the workshop idea':'see the workshop idea';
+  });
+  setPack(12);
+})();
+</script>
+</body>
+</html>
