@@ -157,15 +157,15 @@ footer{padding:36px 0 56px;border-top:1px solid var(--line);font-size:.9rem;colo
 
 <section id="value">
   <h2>what the offer is actually worth</h2>
-  <p>Editing a course video by hand takes real hours. This calculator compares what a person doing it by hand would typically cost with what I am asking. The numbers below are fixed: 681 videos across 25 courses, 15 minutes per video, CAD 40 per hour.</p>
+  <p>Editing a course video by hand takes real hours. This calculator compares what a person doing it by hand would typically cost with what I am asking. The numbers below are fixed: 681 videos across 25 courses, about 150 hours of editing, CAD 40 per hour.</p>
 
   <div class="calc" aria-labelledby="calcT">
     <span class="tag">Illustrative estimate, based on the assumptions listed</span>
     <h3 id="calcT" style="margin-bottom:10px">value vs what I am asking</h3>
     <ul class="plain" style="margin-bottom:6px">
       <li>25 courses, 681 videos in total</li>
-      <li>About 15 minutes of editing per video, so 4 videos per hour</li>
-      <li>Typical editor rate of CAD 40 per hour, so CAD 10 per video</li>
+      <li>About 150 hours of editing for all 25 courses</li>
+      <li>Typical editor rate of CAD 40 per hour</li>
     </ul>
     <div class="out" aria-live="polite">
       <div class="row"><span>Videos in scope</span><b id="oVids">0</b></div>
@@ -177,7 +177,7 @@ footer{padding:36px 0 56px;border-top:1px solid var(--line);font-size:.9rem;colo
       <div class="bar" role="img" aria-label="Share of typical cost that you pay"><i id="oBar"></i></div>
       <p class="hint" id="oLine"></p>
     </div>
-    <p class="note">These are estimates, not quotes. The time per video and the hourly rate are my assumptions. I would rather you see the maths than take my word for it.</p>
+    <p class="note">These are estimates, not quotes. The hours and the hourly rate are my assumptions. I would rather you see the maths than take my word for it.</p>
     <p class="note">Why not per video? Per video, the price looked too high for your budget. Pricing the whole job brings it into a range that works for a small business, and I make it work by using AI tools for the heavy lifting while I check every video myself.</p>
   </div>
 </section>
@@ -278,7 +278,7 @@ footer{padding:36px 0 56px;border-top:1px solid var(--line);font-size:.9rem;colo
   }
   function calc(){
     var vids=Math.round(681*state.pack/25);
-    var hours=vids/4;
+    var hours=Math.round(150*state.pack/25);
     var value=hours*40;
     var a=ask();
     $('oVids').textContent=Math.round(vids).toLocaleString('en-CA');
