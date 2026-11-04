@@ -196,13 +196,17 @@ footer{padding:36px 0 56px;border-top:1px solid var(--line);font-size:.9rem;colo
 </section>
 
 <section id="why-me">
-  <h2>why I am asking for this project</h2>
+  <h2>why the first videos took long, and why it is faster now</h2>
+  <p>The first videos took long because I was building everything from scratch:</p>
   <ul class="plain">
-    <li>I was upfront with you that the test versions took about 2.5 to 3 hours each.</li>
-    <li>I believe every video in a course should get the same treatment, so the whole course feels consistent.</li>
-    <li>I have the time to do the whole library.</li>
-    <li>It is 681 videos across 25 courses, which is why I priced the whole job instead of charging per video.</li>
+    <li>I wrote the prompt myself.</li>
+    <li>I designed the b-roll background.</li>
+    <li>I researched for at least 30 to 40 minutes.</li>
+    <li>I found relatable tools to transcribe your voice and turn it into captions.</li>
   </ul>
+  <p style="margin-top:14px">Then I tried the same procedure on 1b, 1c, 1d and 1e in Ritual Baby. Now I can prompt at night, go to sleep, and let my laptop do the work. The only drawback is that I cannot use my laptop while it runs, so I will do it at night and fix things around midnight.</p>
+  <p>So my human time per video comes down to 10 to 15 minutes.</p>
+  <p>That is also why I am asking for this project, and why I priced the whole job instead of charging per video: it is 681 videos across 25 courses, I believe every video in a course should get the same treatment so the whole course feels consistent, and I have the time to do the whole library.</p>
 </section>
 
 <section id="workshop-section">
@@ -250,9 +254,9 @@ footer{padding:36px 0 56px;border-top:1px solid var(--line);font-size:.9rem;colo
   <h2>if this feels right</h2>
   <p>Tell me which option and how you would like to pay, and I will take it from there. If it does not feel right, tell me that too. I would rather know.</p>
   <p>
-    <a class="btn" href="mailto:murtazamustafa.k@gmail.com?subject=Course%20video%20upgrade%3A%20my%20choice">reply with your choice</a>
+    <a class="btn" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=murtazamustafa.k%40gmail.com&amp;su=Course%20video%20upgrade%3A%20my%20choice" target="_blank" rel="noopener">reply with your choice</a>
   </p>
-  <p class="hint">Or answer in a tagged comment in the Priorities doc, whichever you prefer.</p>
+  <p class="hint">If the button does not open anything, write to <a href="mailto:murtazamustafa.k@gmail.com">murtazamustafa.k@gmail.com</a>, or answer in a tagged comment in the Priorities doc, whichever you prefer.</p>
 </section>
 
 <footer>
@@ -270,7 +274,7 @@ footer{padding:36px 0 56px;border-top:1px solid var(--line);font-size:.9rem;colo
 
   function ask(){
     var p=PACK[state.pack];
-    return state.pay==='lump'?p.lump:p.pay*p.months;
+    return p.lump;
   }
   function calc(){
     var vids=Math.round(681*state.pack/25);
