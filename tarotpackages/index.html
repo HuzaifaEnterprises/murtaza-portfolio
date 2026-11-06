@@ -134,7 +134,7 @@ footer{padding:30px 0 52px;border-top:2px solid var(--ink);font-size:.9rem}
     <p>Package 1 is the PTS video bundle we already talked about. Each bigger package includes everything in the one before it. In the tables, <b>AI plan</b> is the price of the AI-edited videos, <b>Other work</b> is the workbooks, YouTube and Wix (plus splash pages in packages 3 and 6), and <b>Total</b> is what the package costs with the AI videos paid in one payment.</p>
 
     <h3 style="margin-top:20px">psychic training school (pts)</h3>
-    <p class="small">About 220 hours of content, including the 25 to 30 hours of new intro/outro and skills videos you are adding. Devon's branding, with version 2 and the lists from version 3, no side by side video.</p>
+    <p class="small">27 courses and about 220 to 230 hours of content, including the 25 to 30 hours of new intro/outro and skills videos you are adding. Devon's branding, with version 2 and the lists from version 3, no side by side video.</p>
     <div class="tblwrap" id="ptsTbl"></div>
     <div class="cards" id="ptsCards"></div>
 
@@ -192,6 +192,22 @@ footer{padding:30px 0 52px;border-top:2px solid var(--ink);font-size:.9rem}
   </div>
 </section>
 
+<section class="block mustard" id="scope">
+  <div class="wrap">
+    <h2><span class="strip">what the prices cover</span></h2>
+    <div class="paper">
+      <ul class="plain">
+        <li><b>PTS:</b> 27 courses and about 220 to 230 hours of content.</li>
+        <li><b>R+R:</b> 16 courses and about 125 to 130 hours of content.</li>
+        <li><b>If the hours or courses grow,</b> the price moves with them, and I tell you the number before I start. As a guide: about CAD 10 per extra hour of video for the AI videos, about CAD 145 per extra PTS course and about CAD 125 per extra R+R course for the other work in your package.</li>
+        <li><b>Changes:</b> one round of changes per workbook is included. Any additional task or further change is CAD 40 per hour, agreed with you before I start.</li>
+        <li><b>A check after the first stage:</b> I keep track of the real hours. If the work looks bigger than planned, I tell you early and we agree what to do, so nothing surprises you later.</li>
+        <li>Tutoring videos are not formatted, so they stay consistent with new tutoring videos.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <section class="block" id="timeline">
   <div class="wrap">
     <div class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -241,10 +257,10 @@ footer{padding:30px 0 52px;border-top:2px solid var(--ink);font-size:.9rem}
   var $=function(id){return document.getElementById(id)};
   var cad=function(n){return 'CAD '+n.toLocaleString('en-CA')};
   var P={
-    1:{g:'pts',t:'pts ai videos',ai:2199,aiTwo:2387,other:0,splash:0,full:2199,aiOnly:true,inc:['AI-edited videos for all PTS courses (about 220 hours of content), including the PTS intro and your new intro/outro videos','Devon\'s branding, version 2 style with the lists','Transcripts for Baby Witch Workshop, Divination Baby, DIY Witch Kit and Healing Baby','Folders: "original videos (old)" and "AI videos (new)"'],no:['Workbooks, YouTube, Wix','Splash pages'],pay:['One payment: CAD 2,199','Two payments (start and finish): CAD 2,387 in total']},
+    1:{g:'pts',t:'pts ai videos',ai:2199,aiTwo:2387,other:0,splash:0,full:2199,aiOnly:true,inc:['AI-edited videos for all 27 PTS courses (about 220 to 230 hours of content), including the PTS intro and your new intro/outro videos','Devon\'s branding, version 2 style with the lists','Transcripts for Baby Witch Workshop, Divination Baby, DIY Witch Kit and Healing Baby','Folders: "original videos (old)" and "AI videos (new)"'],no:['Workbooks, YouTube, Wix','Splash pages'],pay:['One payment: CAD 2,199','Two payments (start and finish): CAD 2,387 in total']},
     2:{g:'pts',t:'pts ai + workbooks, youtube, wix',ai:2199,aiTwo:2387,other:2552,splash:0,full:4751,inc:['Everything in package 1','Workbooks for every PTS course with your new notes, unit title pages and reflection and notes sections','Uploading the videos to YouTube (unlisted, your naming)','Building and updating the programs on Wix'],no:['Splash pages'],pay:['Paid stage by stage, half at the start of each stage and half when it is finished','The AI videos stage can also be one payment: CAD 2,199']},
     3:{g:'pts',t:'pts ai + everything + splash pages',ai:2199,aiTwo:2387,other:3612,splash:1060,full:5811,inc:['Everything in package 2','Splash pages that follow the branding'],no:[],pay:['Paid stage by stage, half at the start of each stage and half when it is finished','The AI videos stage can also be one payment: CAD 2,199']},
-    4:{g:'rr',t:'r+r ai videos',ai:1300,aiTwo:1300,other:0,splash:0,full:1300,aiOnly:true,inc:['AI-edited videos for the whole R+R program (125 hours)','R+R branding from Jamie\'s profile','Edited as each course is ready','Folders: "original videos (old)" and "AI videos (new)"'],no:['Workbooks, YouTube, Wix','Splash pages'],pay:['One price: CAD 1,300','Half at the start, half when it is finished']},
+    4:{g:'rr',t:'r+r ai videos',ai:1300,aiTwo:1300,other:0,splash:0,full:1300,aiOnly:true,inc:['AI-edited videos for the whole R+R program (16 courses, about 125 to 130 hours)','R+R branding from Jamie\'s profile','Edited as each course is ready','Folders: "original videos (old)" and "AI videos (new)"'],no:['Workbooks, YouTube, Wix','Splash pages'],pay:['One price: CAD 1,300','Half at the start, half when it is finished']},
     5:{g:'rr',t:'r+r ai + workbooks, youtube, wix',ai:1300,aiTwo:1300,other:1390,splash:0,full:2690,inc:['Everything in package 4','Workbooks for every R+R course','Uploading the videos to YouTube','Building the programs on Wix'],no:['Splash pages'],pay:['Paid stage by stage, half at the start of each stage and half when it is finished']},
     6:{g:'rr',t:'r+r ai + everything + splash pages',ai:1300,aiTwo:1300,other:1960,splash:570,full:3260,inc:['Everything in package 5','Splash pages that follow the R+R branding'],no:[],pay:['Paid stage by stage, half at the start of each stage and half when it is finished']}
   };
