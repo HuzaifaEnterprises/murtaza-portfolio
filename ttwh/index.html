@@ -93,12 +93,12 @@ details summary{cursor:pointer;font-weight:600;padding:4px 0}
 .inv .tot{display:flex;justify-content:space-between;align-items:center;background:#152a4e;color:#fff;padding:14px 22px;border-left:6px solid #c9a24b;border-radius:0 10px 10px 0;margin-top:10px}
 .inv .tot b{font-size:1.9rem}
 .inv .sig{margin-top:22px;display:flex;justify-content:flex-end}
-.inv .sig div{text-align:center;min-width:240px;border-top:1.5px solid #152a4e;padding-top:4px}
+.inv .sig>div{text-align:center;min-width:240px}.inv .sigline{border-top:1.5px solid #152a4e;margin:2px 0 4px}.inv .qr svg{width:100%;height:auto;display:block}
 .inv .sig .script{font-family:'Caveat',cursive;font-size:2.4rem;line-height:1;color:#152a4e;border:0;padding:0}
 .inv .sig small{display:block;color:#6b7a99;font-size:.72rem}
 .inv .ft{background:#152a4e;color:#b8c2d8;padding:14px 30px;font-size:.82rem;border-top:6px solid #1b9aa0}
 .inv .paid{display:inline-block;border:3px solid #1b9aa0;color:#1b9aa0;font-weight:800;padding:2px 14px;transform:rotate(-6deg);font-size:1.4rem;margin-left:12px}
-.inv.locked::after{content:"DRAFT";position:absolute;top:38%;left:50%;transform:translate(-50%,-50%) rotate(-20deg);font-size:7rem;font-weight:800;color:rgba(21,42,78,.12);pointer-events:none}.chip.draft{background:var(--mustard)}
+.inv .wm{position:absolute;top:42%;left:50%;transform:translate(-50%,-50%) rotate(-20deg);text-align:center;font-weight:800;color:rgba(21,42,78,.13);pointer-events:none;width:90%;z-index:2}.inv .wm b{display:block;font-size:4.5rem;line-height:1}.inv .wm span{display:block;font-size:1.5rem;margin-top:8px}@media(max-width:560px){.inv .wm b{font-size:2.4rem}.inv .wm span{font-size:1rem}}.chip.draft{background:var(--mustard)}
 @media(max-width:560px){.inv .two{grid-template-columns:1fr}}
 @media print{.inv.locked{display:none!important}body::before,nav.tabs,.hero,footer,.noprint{display:none!important}main{padding:0}.inv{border:0;margin:0;max-width:none}.inv *{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
@@ -108,6 +108,7 @@ details summary{cursor:pointer;font-weight:600;padding:4px 0}
 <div id="app"><main><div class="wrap"><p>Loading…</p></div></main></div>
 <footer><div class="wrap">Private portal for Heidi and Murtaza. Nothing here is public.</div></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 <script>
 (function(){
 'use strict';
@@ -157,7 +158,7 @@ var STAGES=['not_started','in_progress','in_review','done'];
 var STAGE_PCT={not_started:0,in_progress:25,in_review:75,done:100};
 
 /* ---------- shell ---------- */
-var TABS=[['overview','Overview'],['contracts','Contracts'],['payments','Payments'],['progress','Progress'],['updates','Updates'],['package','Package'],['qa','Q&A']];
+var TABS=[['home','Home'],['overview','PTS overview'],['contracts','Contracts'],['payments','Payments'],['progress','Progress'],['updates','Updates'],['package','Package'],['qa','Q&A']];
 function shell(route,html){
   var tabs=TABS.slice();if(isAdmin())tabs.push(['timer','Timer']);
   app.innerHTML='<header class="hero"><div class="wrap"><h1><span class="strip">ttwh</span> <span class="strip" style="transform:rotate(1deg)">package portal</span></h1><p>One private place for the contract, payments, progress and updates for the Psychic Training School package.</p></div></header>'
@@ -190,14 +191,24 @@ function boot(){
 /* ---------- router ---------- */
 function route(){
   if(S.tick){clearInterval(S.tick);S.tick=null}
-  var h=(location.hash||'#/overview').replace(/^#\//,'').split('/'),r=h[0]||'overview';
-  var map={overview:pOverview,contracts:pContracts,payments:pPayments,progress:pProgress,updates:pUpdates,package:pPackage,qa:pQA,timer:pTimer,invoice:pInvoice};
-  if(!map[r]||(r==='timer'&&!isAdmin())){r='overview'}
+  var h=(location.hash||'#/home').replace(/^#\//,'').split('/'),r=h[0]||'home';
+  var map={home:pHome,rr:pRR,overview:pOverview,contracts:pContracts,payments:pPayments,progress:pProgress,updates:pUpdates,package:pPackage,qa:pQA,timer:pTimer,invoice:pInvoice};
+  if(!map[r]||(r==='timer'&&!isAdmin())){r='home'}
   if(r==='invoice'){app.innerHTML='<main><div class="wrap" id="page"></div></main>'}
   else shell(r,'<p>Loading…</p>');
   Promise.resolve().then(function(){return map[r](h[1])}).catch(function(e){setPage(note('Could not load this page: '+(e&&e.message||e)))});
 }
 window.addEventListener('hashchange',function(){if(S.user)route()});
+
+/* ---------- home ---------- */
+function pHome(){
+  setPage('<h2>welcome'+(S.name?', '+esc(S.name):'')+'</h2><p>Choose a program to see its contract, payments, progress and updates.</p><div class="grid c2">'
+   +'<a class="card g" href="#/overview" style="text-decoration:none;color:inherit"><div class="bar"></div><div class="in" style="padding:34px 20px;text-align:center"><h3 style="font-size:2.2rem;margin:0">Psychic Training School</h3><p class="small" style="margin:6px 0 0">PTS · open the package portal →</p></div></a>'
+   +'<a class="card o" href="#/rr" style="text-decoration:none;color:inherit"><div class="bar"></div><div class="in" style="padding:34px 20px;text-align:center"><h3 style="font-size:2.2rem;margin:0">Relationships + Regulation</h3><p class="small" style="margin:6px 0 0">R+R · open the package portal →</p></div></a></div>');
+}
+function pRR(){
+  setPage('<p><a href="#/home">← Home</a></p><h2>Relationships + Regulation</h2><div class="card o"><div class="bar"></div><div class="in"><p><b>Coming soon.</b> R+R has its own separate agreement, payments and progress. They will appear here once the agreement is ready.</p></div></div>');
+}
 
 /* ---------- overview ---------- */
 function coursePct(cells){if(!cells.length)return 0;return cells.reduce(function(a,c){return a+STAGE_PCT[c.stage]},0)/cells.length}
@@ -326,6 +337,8 @@ function pPayments(){
     }
   });
 }
+function payUrl(l){return /^https?:/i.test(l)?l:'https://'+l}
+function qrSvg(t){try{var q=qrcode(0,'M');q.addData(t);q.make();return q.createSvgTag({cellSize:4,margin:0,scalable:true})}catch(e){return ''}}
 function pInvoice(id){
   return sb.from('ttwh_invoices').select('*').eq('id',id).maybeSingle().then(must).then(function(inv){
     if(!inv){setPage('<p>Not found.</p><p><a href="#/payments">Back</a></p>');return}
@@ -338,13 +351,13 @@ function pInvoice(id){
        +(isAdmin()&&lk.locked?' <button class="btn sm alt" id="pr">Print draft (admin)</button>':'')
        +(isAdmin()&&!rec?' <button class="btn sm alt" id="mkrec">Create receipt from this invoice</button>':'')
        +(isAdmin()?' <button class="btn sm alt" id="pub">'+(inv.published?'Hide from Heidi':'Show to Heidi')+'</button> <button class="btn sm alt" id="num">Edit number</button>':'')+'</p>'
-       +'<div class="inv'+(lk.locked?' locked':'')+'"><div class="hd"><div><div class="gold"></div><div class="t">'+(rec?'RECEIPT':'INVOICE')+'</div><small>'+esc(B.tagline||'')+'</small></div><div style="text-align:right"><small>'+(rec?'RECEIPT NO.':'INVOICE NO.')+'</small><div class="no">'+esc(inv.number)+'</div><small>'+(rec?'DATE ':'ISSUED ')+(lk.locked?'WHEN UNLOCKED':esc(fmtDate(inv.issued_on)))+'</small>'+(rec?'':'<small>DUE '+esc(inv.due_text)+'</small>')+'</div></div><div class="bd">'
+       +'<div class="inv'+(lk.locked?' locked':'')+'">'+(lk.locked?'<div class="wm"><b>DRAFT INVOICE</b><span>Not due yet · '+esc(lk.why.replace('Unlocks','unlocks'))+'</span></div>':'')+'<div class="hd"><div><div class="gold"></div><div class="t">'+(rec?'RECEIPT':'INVOICE')+'</div><small>'+esc(B.tagline||'')+'</small></div><div style="text-align:right"><small>'+(rec?'RECEIPT NO.':'INVOICE NO.')+'</small><div class="no">'+esc(inv.number)+'</div><small>'+(rec?'DATE ':'ISSUED ')+(lk.locked?'WHEN UNLOCKED':esc(fmtDate(inv.issued_on)))+'</small>'+(rec?'':'<small>DUE '+(lk.locked?'WHEN UNLOCKED':esc(inv.due_text))+'</small>')+'</div></div><div class="bd">'
        +'<div class="two"><div class="box"><b class="l">FROM</b><b>'+esc(B.from_name)+'</b><br>'+(B.from_lines||[]).map(esc).join('<br>')+'</div><div class="box"><b class="l">BILLED TO</b><b>'+esc(B.to_name)+'</b><br>'+(B.to_lines||[]).map(esc).join('<br>')+'</div></div>'
        +'<div class="meta">'+(inv.task?'<div><span>TASK</span><b>'+esc(inv.task)+'</b></div>':'')+(inv.work_period?'<div><span>WORK PERIOD</span><b>'+esc(inv.work_period)+'</b></div>':'')+(inv.rate_text?'<div><span>RATE</span><b>'+esc(inv.rate_text)+'</b></div>':'')+(pay&&pay.due_milestone?'<div><span>STAGE</span><b>'+esc(pay.due_milestone)+'</b></div>':'')+'</div>'
        +'<table><thead><tr><th>PART</th><th>DESCRIPTION OF WORK</th>'+(hasMin?'<th class="r">TIME</th>':'')+'<th class="r">AMOUNT</th></tr></thead><tbody>'+items.map(function(i){return '<tr><td><b>'+esc(i.part||'')+'</b></td><td>'+esc(i.desc)+'</td>'+(hasMin?'<td class="r">'+(i.minutes!=null?esc(i.minutes)+' min':'')+'</td>':'')+'<td class="r"><b>$'+Number(i.amount||0).toFixed(2)+'</b></td></tr>'}).join('')+'</tbody></table>'
-       +'<div style="display:grid;gap:16px;grid-template-columns:1fr 1fr;margin-top:16px" class="two"><div style="font-size:.85rem"><b style="color:#1b9aa0;font-size:.72rem">PAYMENT DETAILS</b><div class="row"><span>Method</span><b>'+esc(B.pay_method)+'</b></div><div class="row"><span>Account name</span><b>'+esc(B.pay_account)+'</b></div><div class="row"><span>Phone</span><b>'+esc(B.pay_phone)+'</b></div><div class="row"><span>PayPal link</span><b>'+esc(B.pay_link)+'</b></div></div><div>'
+       +'<div style="display:grid;gap:16px;grid-template-columns:1fr 1fr;margin-top:16px" class="two"><div style="font-size:.85rem"><b style="color:#1b9aa0;font-size:.72rem">PAYMENT DETAILS</b><div class="row"><span>Method</span><b>'+esc(B.pay_method)+'</b></div><div class="row"><span>Account name</span><b>'+esc(B.pay_account)+'</b></div><div class="row"><span>Phone</span><b>'+esc(B.pay_phone)+'</b></div><div class="row"><span>PayPal link</span><b>'+(B.pay_link?'<a href="'+esc(payUrl(B.pay_link))+'" target="_blank" rel="noopener" style="color:#1b9aa0">'+esc(B.pay_link)+'</a>':'')+'</b></div>'+(B.pay_link&&!rec?'<div style="text-align:center;margin-top:10px"><div class="qr" style="width:120px;margin:0 auto">'+qrSvg(payUrl(B.pay_link))+'</div><small style="color:#6b7a99">Scan to pay with PayPal</small></div>':'')+'</div><div>'
        +(hasMin?'<div class="row"><span>Total time</span><b>'+mins+' minutes ('+(mins/60)+' hours)</b></div>':'')+'<div class="row"><span>Subtotal</span><b>$'+total.toFixed(2)+'</b></div><div class="tot"><span>'+(rec?'TOTAL PAID':'TOTAL DUE')+(rec?'<span class="paid">PAID</span>':'')+'</span><b>'+esc(B.currency||'CAD')+' $'+total.toFixed(2)+'</b></div></div></div>'
-       +'<div class="sig"><div><div class="script">'+esc(B.signer_name)+'</div><b style="font-size:.85rem">'+esc(B.signer_name)+'</b><small>Digitally signed · '+(lk.locked?'on unlock':esc(fmtDate(inv.issued_on)))+' · Ref '+esc(inv.number)+'</small></div></div>'
+       +'<div class="sig"><div><div class="script">'+esc(B.signer_name)+'</div><div class="sigline"></div><b style="font-size:.85rem">'+esc(B.signer_name)+'</b><small>Digitally signed · '+(lk.locked?'on unlock':esc(fmtDate(inv.issued_on)))+' · Ref '+esc(inv.number)+'</small></div></div>'
        +(inv.note?'<p style="font-size:.85rem;margin-top:12px;color:#6b7a99">'+esc(inv.note)+'</p>':'')+'</div><div class="ft">Thank you, Heidi.<br>'+esc(B.from_name)+' | '+esc((B.from_lines||[])[1]||'')+'</div></div>';
       setPage(html);
       var pr=$('#pr');if(pr)pr.onclick=function(){window.print()};
