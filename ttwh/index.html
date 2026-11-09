@@ -164,7 +164,7 @@ function shell(route,html){
   app.innerHTML='<header class="hero"><div class="wrap"><h1><span class="strip">ttwh</span> <span class="strip" style="transform:rotate(1deg)">package portal</span></h1><p>One private place for the contract, payments, progress and updates '+(route==='home'||route==='rr'?'for each program.':'for the Psychic Training School package.')+'</p></div></header>'
    +'<nav class="tabs" aria-label="Sections"><div class="wrap">'+(route==='home'||route==='rr'?'':tabs.map(function(t){return '<a href="#/'+t[0]+'"'+(route===t[0]?' class="on" aria-current="page"':'')+'>'+t[1]+'</a>'}).join(''))
    +'<button class="btn sm alt" id="logout">Sign out</button></div></nav><main><div class="wrap" id="page">'+html+'</div></main>';
-  $('#logout').onclick=function(){sb.auth.signOut().then(function(){location.hash='';boot()})};
+  $('#logout').onclick=function(){S.user=null;S.role=null;sb.auth.signOut().then(function(){history.replaceState(null,'',location.pathname);loginView()},function(){history.replaceState(null,'',location.pathname);loginView()})};
 }
 function setPage(html){$('#page').innerHTML=html}
 
