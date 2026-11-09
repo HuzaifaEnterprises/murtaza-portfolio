@@ -158,11 +158,11 @@ var STAGES=['not_started','in_progress','in_review','done'];
 var STAGE_PCT={not_started:0,in_progress:25,in_review:75,done:100};
 
 /* ---------- shell ---------- */
-var TABS=[['home','Home'],['overview','PTS overview'],['contracts','Contracts'],['payments','Payments'],['progress','Progress'],['updates','Updates'],['package','Package'],['qa','Q&A']];
+var TABS=[['home','← Programs'],['overview','Overview'],['contracts','Contracts'],['payments','Payments'],['progress','Progress'],['updates','Updates'],['package','Package'],['qa','Q&A']];
 function shell(route,html){
   var tabs=TABS.slice();if(isAdmin())tabs.push(['timer','Timer']);
-  app.innerHTML='<header class="hero"><div class="wrap"><h1><span class="strip">ttwh</span> <span class="strip" style="transform:rotate(1deg)">package portal</span></h1><p>One private place for the contract, payments, progress and updates for the Psychic Training School package.</p></div></header>'
-   +'<nav class="tabs" aria-label="Sections"><div class="wrap">'+tabs.map(function(t){return '<a href="#/'+t[0]+'"'+(route===t[0]?' class="on" aria-current="page"':'')+'>'+t[1]+'</a>'}).join('')
+  app.innerHTML='<header class="hero"><div class="wrap"><h1><span class="strip">ttwh</span> <span class="strip" style="transform:rotate(1deg)">package portal</span></h1><p>One private place for the contract, payments, progress and updates '+(route==='home'||route==='rr'?'for each program.':'for the Psychic Training School package.')+'</p></div></header>'
+   +'<nav class="tabs" aria-label="Sections"><div class="wrap">'+(route==='home'||route==='rr'?'':tabs.map(function(t){return '<a href="#/'+t[0]+'"'+(route===t[0]?' class="on" aria-current="page"':'')+'>'+t[1]+'</a>'}).join(''))
    +'<button class="btn sm alt" id="logout">Sign out</button></div></nav><main><div class="wrap" id="page">'+html+'</div></main>';
   $('#logout').onclick=function(){sb.auth.signOut().then(function(){location.hash='';boot()})};
 }
