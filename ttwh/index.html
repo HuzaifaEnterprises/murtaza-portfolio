@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>TTWH Portal | Tarot Times With Heidi</title>
+<meta name="description" content="Private client portal for Tarot Times With Heidi.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0E2523;--paper:#FBF9F6;--green:#73C074;--orange:#D5560F;--mustard:#FFBF31;--purple:#6E229D;--muted:#42524f}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Jost',Futura,'Century Gothic',sans-serif;background:var(--paper);color:var(--ink);line-height:1.6;font-size:17px;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.07;z-index:0;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>")}
+#app,footer{position:relative;z-index:1}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px}
+h1,h2,h3,h4{font-family:'Caveat','Comic Sans MS',cursive;font-weight:700;line-height:1.1;text-transform:lowercase}
+h2{font-size:clamp(2rem,7vw,2.8rem);margin-bottom:10px}
+h3{font-size:1.8rem;margin:18px 0 6px}
+p{margin-bottom:12px;max-width:68ch}
+a{color:var(--purple)}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.strip{display:inline-block;background:var(--paper);color:var(--ink);padding:2px 12px;border:1.5px solid var(--ink);transform:rotate(-1.4deg);margin:3px 0}
+.hero{background:var(--purple);color:var(--paper);padding:30px 0 34px}
+.hero h1{font-size:clamp(2.6rem,10vw,4.4rem)}
+.hero p{margin-top:10px;max-width:56ch}
+nav.tabs{background:var(--ink);position:sticky;top:0;z-index:5;border-bottom:2px solid var(--ink)}
+nav.tabs .wrap{display:flex;gap:4px;overflow-x:auto;padding:8px 12px;align-items:center}
+nav.tabs a{color:var(--paper);text-decoration:none;font-weight:500;padding:6px 12px;border:1.5px solid transparent;white-space:nowrap;font-size:.95rem}
+nav.tabs a.on{background:var(--mustard);color:var(--ink);border-color:var(--paper)}
+nav.tabs button{margin-left:auto}
+main{padding:26px 0 40px}
+.card{background:#fff;border:2px solid var(--ink);margin:12px 0}
+.card .bar{height:10px;border-bottom:2px solid var(--ink);background:var(--purple)}
+.card.g .bar{background:var(--green)}.card.o .bar{background:var(--orange)}.card.m .bar{background:var(--mustard)}
+.card .in{padding:14px 16px}
+.grid{display:grid;gap:12px}
+@media(min-width:700px){body{font-size:18px}.wrap{padding:0 24px}.grid.c2{grid-template-columns:1fr 1fr}.grid.c3{grid-template-columns:1fr 1fr 1fr}}
+.chip{display:inline-block;font-size:.78rem;font-weight:600;padding:0 8px;border:1.5px solid var(--ink);background:var(--paper);vertical-align:middle}
+.chip.final,.chip.in_progress,.chip.invoiced,.chip.open{background:var(--mustard)}
+.chip.signed,.chip.done,.chip.paid,.chip.published,.chip.answered,.chip.approved{background:var(--green)}
+.chip.draft,.chip.not_started,.chip.planned{background:var(--paper)}
+.chip.in_review{background:#e5cdf2}.chip.needs_changes{background:#f6c3a6}
+.btn{display:inline-block;font:inherit;font-weight:600;background:var(--ink);color:var(--paper);border:2px solid var(--ink);padding:9px 16px;cursor:pointer;min-height:42px;text-decoration:none;transition:transform .15s}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:3px 3px 0 var(--orange)}
+.btn.sm{padding:3px 10px;min-height:32px;font-size:.88rem}
+.btn.alt{background:var(--paper);color:var(--ink)}
+.btn.go{background:var(--green);color:var(--ink)}
+input,select,textarea{font:inherit;color:var(--ink);background:#fff;border:1.5px solid var(--ink);padding:8px 10px;width:100%;border-radius:0}
+textarea{min-height:140px;resize:vertical}
+label{display:block;font-weight:600;font-size:.9rem;margin:10px 0 3px}
+.row{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px dashed var(--ink);flex-wrap:wrap}
+.small{font-size:.88rem;color:var(--muted)}
+.bar-wrap{height:18px;border:2px solid var(--ink);background:#fff}
+.bar-fill{height:100%;background:var(--green);border-right:2px solid var(--ink)}
+.tblwrap{overflow-x:auto;border:2px solid var(--ink);background:#fff}
+table{width:100%;border-collapse:collapse;font-size:.86rem}
+th,td{padding:6px 8px;border-bottom:1.5px dashed var(--ink);text-align:left;vertical-align:top}
+thead th{background:var(--mustard);border-bottom:2px solid var(--ink);position:sticky;top:0;white-space:nowrap}
+td select{padding:3px;font-size:.8rem;min-width:96px}
+td input{padding:3px 6px;font-size:.82rem;min-width:140px}
+.md h3{font-size:1.6rem}.md ul{margin:0 0 12px 20px}.md li{margin:2px 0}
+.msg{border:1.5px solid var(--ink);background:#fff;padding:10px 12px;margin:8px 0;max-width:80%}
+.msg.me{margin-left:auto;background:var(--mustard)}
+.err{background:#f6c3a6;border:2px solid var(--ink);padding:8px 12px;margin:10px 0}
+.ok{background:var(--green);border:2px solid var(--ink);padding:8px 12px;margin:10px 0}
+.tl{list-style:none;border-left:3px solid var(--ink);margin-left:8px;padding-left:18px}
+.tl li{position:relative;padding:8px 0}
+.tl li::before{content:"";position:absolute;left:-27px;top:14px;width:14px;height:14px;border-radius:50%;border:2px solid var(--ink);background:var(--paper)}
+.tl li.paid::before{background:var(--green)}.tl li.invoiced::before{background:var(--mustard)}
+.timer{font-size:3rem;font-weight:600;font-variant-numeric:tabular-nums}
+.login{max-width:420px;margin:0 auto}
+footer{padding:24px 0 44px;border-top:2px solid var(--ink);font-size:.88rem}
+details summary{cursor:pointer;font-weight:600;padding:4px 0}
+/* invoice */
+.inv{background:#fff;color:#152a4e;font-family:Arial,Helvetica,sans-serif;border:2px solid var(--ink);max-width:820px;margin:14px auto}
+.inv .hd{background:#152a4e;color:#fff;padding:26px 30px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-bottom:6px solid #1b9aa0}
+.inv .hd .t{font-size:2.6rem;font-weight:800;letter-spacing:.5px;line-height:1}
+.inv .hd .gold{width:48px;height:5px;background:#c9a24b;margin-bottom:8px}
+.inv .hd .no{font-size:1.6rem;font-weight:800}.inv .hd small{display:block;color:#b8c2d8;font-size:.82rem}
+.inv .bd{padding:22px 30px}
+.inv .two{display:grid;gap:12px;grid-template-columns:1fr 1fr}
+.inv .box{background:#f0f4fa;border-left:4px solid #1b9aa0;padding:12px 14px;font-size:.9rem;border-radius:0 8px 8px 0}
+.inv .box b.l{color:#1b9aa0;font-size:.72rem;letter-spacing:.5px;display:block;margin-bottom:6px}
+.inv .meta{display:flex;gap:30px;flex-wrap:wrap;margin:16px 0;padding-bottom:12px;border-bottom:1px solid #d8dfeb;font-size:.85rem}
+.inv .meta span{display:block;font-size:.7rem;color:#6b7a99;font-weight:700;letter-spacing:.5px}
+.inv table{font-size:.85rem}.inv th{background:#152a4e;color:#fff;position:static;border:0;padding:8px}
+.inv td{border-bottom:1px solid #e3e8f2;padding:8px}.inv tr:nth-child(even) td{background:#f4f7fc}
+.inv td.r,.inv th.r{text-align:right}
+.inv .tot{display:flex;justify-content:space-between;align-items:center;background:#152a4e;color:#fff;padding:14px 22px;border-left:6px solid #c9a24b;border-radius:0 10px 10px 0;margin-top:10px}
+.inv .tot b{font-size:1.9rem}
+.inv .sig{margin-top:22px;display:flex;justify-content:flex-end}
+.inv .sig div{text-align:center;min-width:240px;border-top:1.5px solid #152a4e;padding-top:4px}
+.inv .sig .script{font-family:'Caveat',cursive;font-size:2.4rem;line-height:1;color:#152a4e;border:0;padding:0}
+.inv .sig small{display:block;color:#6b7a99;font-size:.72rem}
+.inv .ft{background:#152a4e;color:#b8c2d8;padding:14px 30px;font-size:.82rem;border-top:6px solid #1b9aa0}
+.inv .paid{display:inline-block;border:3px solid #1b9aa0;color:#1b9aa0;font-weight:800;padding:2px 14px;transform:rotate(-6deg);font-size:1.4rem;margin-left:12px}
+@media(max-width:560px){.inv .two{grid-template-columns:1fr}}
+@media print{body::before,nav.tabs,.hero,footer,.noprint{display:none!important}main{padding:0}.inv{border:0;margin:0;max-width:none}.inv *{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app"><main><div class="wrap"><p>Loading…</p></div></main></div>
+<footer><div class="wrap">Private portal for Heidi and Murtaza. Nothing here is public.</div></footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+'use strict';
+var SB_URL='https://qypzizczwdtrzwgirjns.supabase.co';
+var SB_KEY='sb_publishable_CvdCOw8OMt3FP9TPMSxAGA_eovSaV2q';
+var sb=supabase.createClient(SB_URL,SB_KEY);
+var S={user:null,role:null,name:'',tz:undefined,billing:null,tick:null};
+var app=document.getElementById('app');
+
+/* ---------- helpers ---------- */
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function md(src){
+  var t=esc(src||''),out=[],inList=false;
+  t.split(/\r?\n/).forEach(function(line){
+    var l=line.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
+    if(/^\s*[-*] /.test(line)){if(!inList){out.push('<ul>');inList=true}out.push('<li>'+l.replace(/^\s*[-*] /,'')+'</li>');return}
+    if(inList){out.push('</ul>');inList=false}
+    if(/^#{1,3} /.test(line))out.push('<h3>'+l.replace(/^#{1,3} /,'')+'</h3>');
+    else if(line.trim()==='')out.push('');
+    else out.push('<p>'+l+'</p>');
+  });
+  if(inList)out.push('</ul>');
+  return '<div class="md">'+out.join('\n')+'</div>';
+}
+function fmtDate(d,time){if(!d)return '';var o={year:'numeric',month:'short',day:'numeric',timeZone:S.tz};if(time){o.hour='numeric';o.minute='2-digit'}return new Date(d).toLocaleString('en-CA',o)}
+function money(n){return n==null?'TBC':'CAD $'+Number(n).toLocaleString('en-CA',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function hms(ms){var s=Math.max(0,Math.floor(ms/1000)),h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(x).padStart(2,'0')}
+function chip(s){return '<span class="chip '+esc(s)+'">'+esc(String(s).replace('_',' '))+'</span>'}
+function isAdmin(){return S.role==='admin'}
+function note(msg,cls){return '<div class="'+(cls||'err')+'" role="status">'+esc(msg)+'</div>'}
+function fail(e){alert('Something went wrong: '+(e&&e.message?e.message:e))}
+function $(s,r){return (r||document).querySelector(s)}
+function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
+function must(res){if(res.error)throw res.error;return res.data}
+var STAGES=['not_started','in_progress','in_review','done'];
+var STAGE_PCT={not_started:0,in_progress:25,in_review:75,done:100};
+
+/* ---------- shell ---------- */
+var TABS=[['overview','Overview'],['contracts','Contracts'],['payments','Payments'],['progress','Progress'],['updates','Updates'],['package','Package'],['qa','Q&A']];
+function shell(route,html){
+  var tabs=TABS.slice();if(isAdmin())tabs.push(['timer','Timer']);
+  app.innerHTML='<header class="hero"><div class="wrap"><h1><span class="strip">ttwh</span> <span class="strip" style="transform:rotate(1deg)">package portal</span></h1><p>One private place for the contract, payments, progress and updates for the Psychic Training School package.</p></div></header>'
+   +'<nav class="tabs" aria-label="Sections"><div class="wrap">'+tabs.map(function(t){return '<a href="#/'+t[0]+'"'+(route===t[0]?' class="on" aria-current="page"':'')+'>'+t[1]+'</a>'}).join('')
+   +'<button class="btn sm alt" id="logout">Sign out</button></div></nav><main><div class="wrap" id="page">'+html+'</div></main>';
+  $('#logout').onclick=function(){sb.auth.signOut().then(function(){location.hash='';boot()})};
+}
+function setPage(html){$('#page').innerHTML=html}
+
+/* ---------- auth ---------- */
+function loginView(msg){
+  app.innerHTML='<header class="hero"><div class="wrap"><h1><span class="strip">ttwh</span> <span class="strip" style="transform:rotate(1deg)">package portal</span></h1><p>Private page. Sign in to continue.</p></div></header><main><div class="wrap"><form class="card login" id="lf"><div class="bar"></div><div class="in">'
+   +(msg?note(msg):'')+'<label for="em">Email</label><input id="em" type="email" autocomplete="username" required><label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password" required><p style="margin-top:14px"><button class="btn" type="submit">Sign in</button></p></div></form></div></main>';
+  $('#lf').onsubmit=function(e){e.preventDefault();var b=$('#lf button');b.disabled=true;
+    sb.auth.signInWithPassword({email:$('#em').value.trim(),password:$('#pw').value}).then(function(r){
+      if(r.error){loginView('That email or password did not work.');return}boot()})};
+}
+function boot(){
+  sb.auth.getSession().then(function(r){
+    var s=r.data.session;if(!s){loginView();return}
+    S.user=s.user;
+    sb.from('ttwh_profiles').select('role,display_name').eq('user_id',s.user.id).maybeSingle().then(function(p){
+      if(!p.data){sb.auth.signOut();loginView('This account does not have access.');return}
+      S.role=p.data.role;S.name=p.data.display_name;S.tz=S.role==='client'?'America/Vancouver':undefined;
+      sb.from('ttwh_settings').select('value').eq('key','billing').maybeSingle().then(function(b){S.billing=b.data&&b.data.value;route()});
+    });
+  });
+}
+
+/* ---------- router ---------- */
+function route(){
+  if(S.tick){clearInterval(S.tick);S.tick=null}
+  var h=(location.hash||'#/overview').replace(/^#\//,'').split('/'),r=h[0]||'overview';
+  var map={overview:pOverview,contracts:pContracts,payments:pPayments,progress:pProgress,updates:pUpdates,package:pPackage,qa:pQA,timer:pTimer,invoice:pInvoice};
+  if(!map[r]||(r==='timer'&&!isAdmin())){r='overview'}
+  if(r==='invoice'){app.innerHTML='<main><div class="wrap" id="page"></div></main>'}
+  else shell(r,'<p>Loading…</p>');
+  Promise.resolve().then(function(){return map[r](h[1])}).catch(function(e){setPage(note('Could not load this page: '+(e&&e.message||e)))});
+}
+window.addEventListener('hashchange',function(){if(S.user)route()});
+
+/* ---------- overview ---------- */
+function coursePct(cells){if(!cells.length)return 0;return cells.reduce(function(a,c){return a+STAGE_PCT[c.stage]},0)/cells.length}
+function pOverview(){
+  return Promise.all([
+    sb.from('ttwh_packages').select('*').eq('code','PTS').maybeSingle(),
+    sb.from('ttwh_progress_cells').select('stage'),
+    sb.from('ttwh_payments').select('*').order('seq'),
+    sb.from('ttwh_updates').select('*').order('published_at',{ascending:false,nullsFirst:false}).limit(1),
+    sb.from('ttwh_qa_threads').select('id').eq('status','open'),
+    sb.from('ttwh_contract_versions').select('status,version').order('version',{ascending:false}).limit(1)
+  ]).then(function(r){
+    var pkg=must(r[0]),cells=must(r[1]),pays=must(r[2]),up=must(r[3])[0],open=must(r[4]),cv=must(r[5])[0];
+    var pct=Math.round(coursePct(cells)),next=pays.find(function(p){return p.status!=='paid'});
+    setPage('<h2>overview</h2><div class="grid c2">'
+     +'<div class="card"><div class="bar"></div><div class="in"><h3>package</h3><p><b>'+esc(pkg&&pkg.title)+'</b><br>'+money(pkg&&pkg.total_amount)+', paid in installments by PayPal.</p><p>Contract: '+(cv?chip(cv.status)+' <a href="#/contracts">open</a>':'<span class="small">coming soon</span>')+'</p></div></div>'
+     +'<div class="card g"><div class="bar"></div><div class="in"><h3>progress</h3><div class="bar-wrap"><div class="bar-fill" style="width:'+pct+'%"></div></div><p style="margin-top:6px"><b>'+pct+'%</b> of 27 items across 5 components. <a href="#/progress">see the grid</a></p></div></div>'
+     +'<div class="card m"><div class="bar"></div><div class="in"><h3>next payment</h3>'+(next?'<p><b>'+esc(next.label)+'</b> '+chip(next.status)+'<br>'+money(next.amount)+(next.due_milestone?' · '+esc(next.due_milestone):'')+'</p>':'<p class="small">Nothing scheduled yet.</p>')+'<a href="#/payments">payments</a></div></div>'
+     +'<div class="card o"><div class="bar"></div><div class="in"><h3>latest update</h3>'+(up?'<p><b>'+esc(up.title)+'</b><br><span class="small">'+fmtDate(up.published_at||up.created_at)+'</span></p><a href="#/updates">read</a>':'<p class="small">No updates yet.</p>')+'</div></div>'
+     +'</div><p style="margin-top:14px">Open questions: <b>'+open.length+'</b> · <a href="#/qa">Q&amp;A</a></p>');
+  });
+}
+
+/* ---------- contracts ---------- */
+function pContracts(){
+  return Promise.all([
+    sb.from('ttwh_contracts').select('*'),
+    sb.from('ttwh_contract_versions').select('*').order('version',{ascending:false}),
+    sb.from('ttwh_signatures').select('*'),
+    sb.from('ttwh_profiles').select('*')
+  ]).then(function(r){
+    var cons=must(r[0]),vers=must(r[1]),sigs=must(r[2]),profs=must(r[3]);
+    var who={};profs.forEach(function(p){who[p.user_id]=p.display_name});
+    var html='<h2>contracts</h2>';
+    if(!cons.length||!vers.length)html+='<p>Nothing to show yet. The contract appears here once it is ready to read.</p>';
+    cons.forEach(function(c){
+      var cv=vers.filter(function(v){return v.contract_id===c.id});
+      html+='<h3>'+esc(c.title)+'</h3>';
+      cv.forEach(function(v,i){
+        var vs=sigs.filter(function(s){return s.contract_version_id===v.id});
+        var mine=vs.some(function(s){return s.signer_id===S.user.id});
+        html+='<details class="card" '+(i===0?'open':'')+'><summary style="padding:10px 14px">Version '+v.version+' '+chip(v.status)+(v.finalised_at?' <span class="small">finalised '+fmtDate(v.finalised_at,true)+'</span>':'')+'</summary><div class="in" style="padding:0 16px 14px">';
+        if(isAdmin()&&v.status==='draft'){
+          html+='<label for="b'+v.id+'">Contract text (markdown: # heading, - list, **bold**)</label><textarea id="b'+v.id+'" style="min-height:320px">'+esc(v.body_md)+'</textarea><p style="margin-top:10px"><button class="btn sm" data-act="savever" data-id="'+v.id+'">Save draft</button> <button class="btn sm go" data-act="finalver" data-id="'+v.id+'">Mark final and open for signing</button></p>';
+        }else html+=md(v.body_md);
+        html+='<h4 style="font-size:1.5rem;margin-top:12px">signatures</h4>'+(vs.length?vs.map(function(s){return '<div class="row"><span>'+esc(s.typed_name)+' <span class="small">('+esc(who[s.signer_id]||'')+')</span></span><span class="small">'+fmtDate(s.signed_at,true)+'</span></div>'}).join(''):'<p class="small">Not signed yet.</p>');
+        if(v.status==='final'&&!mine){
+          html+='<div style="margin-top:12px;border:1.5px dashed var(--ink);padding:12px"><label for="n'+v.id+'">Type your full name to sign</label><input id="n'+v.id+'" autocomplete="name"><label style="display:flex;gap:8px;align-items:flex-start;font-weight:500"><input type="checkbox" id="a'+v.id+'" style="width:auto;margin-top:5px"> I have read this version and I agree to it.</label><p style="margin-top:8px"><button class="btn sm go" data-act="sign" data-id="'+v.id+'">Sign</button></p><p class="small">A typed name is a simple electronic signature. It records who signed, when, and which version.</p></div>';
+        }
+        if(isAdmin()&&v.status!=='draft'&&i===0)html+='<p style="margin-top:10px"><button class="btn sm alt" data-act="newver" data-id="'+v.id+'" data-c="'+c.id+'" data-n="'+v.version+'">Start version '+(v.version+1)+' from this</button></p>';
+        html+='</div></details>';
+      });
+    });
+    setPage(html);
+    $('#page').onclick=function(e){var b=e.target.closest('[data-act]');if(!b)return;var id=b.dataset.id,act=b.dataset.act;b.disabled=true;
+      var p;
+      if(act==='savever')p=sb.from('ttwh_contract_versions').update({body_md:$('#b'+id).value}).eq('id',id).then(must);
+      else if(act==='finalver'){if(!confirm('Mark final? The text locks and Heidi can see and sign it.')){b.disabled=false;return}
+        p=sb.from('ttwh_contract_versions').update({body_md:$('#b'+id).value}).eq('id',id).then(must).then(function(){return sb.from('ttwh_contract_versions').update({status:'final',finalised_at:new Date().toISOString()}).eq('id',id)}).then(must)}
+      else if(act==='sign'){var nm=$('#n'+id).value.trim();if(!nm||!$('#a'+id).checked){alert('Please type your name and tick the box.');b.disabled=false;return}
+        p=sb.rpc('ttwh_sign_contract',{p_version_id:id,p_typed_name:nm}).then(must)}
+      else if(act==='newver'){p=sb.from('ttwh_contract_versions').select('body_md').eq('id',id).single().then(must).then(function(v){return sb.from('ttwh_contract_versions').insert({contract_id:b.dataset.c,version:+b.dataset.n+1,body_md:v.body_md}).then(must)})}
+      p.then(pContracts,function(err){fail(err);b.disabled=false});
+    };
+  });
+}
+
+/* ---------- payments & invoices ---------- */
+function pPayments(){
+  return Promise.all([
+    sb.from('ttwh_payments').select('*').order('seq'),
+    sb.from('ttwh_invoices').select('*').order('issued_on',{ascending:false}),
+    sb.from('ttwh_packages').select('*').eq('code','PTS').maybeSingle()
+  ]).then(function(r){
+    var pays=must(r[0]),invs=must(r[1]),pkg=must(r[2]);
+    var paid=pays.filter(function(p){return p.status==='paid'}).reduce(function(a,p){return a+Number(p.amount||0)},0);
+    var html='<h2>payments</h2><div class="card m"><div class="bar"></div><div class="in"><div class="row"><span>Package total</span><b>'+money(pkg&&pkg.total_amount)+'</b></div><div class="row"><span>Paid so far</span><b>'+money(paid)+'</b></div></div></div><h3>timeline</h3>';
+    html+=pays.length?'<ul class="tl">'+pays.map(function(p){return '<li class="'+esc(p.status)+'"><b>'+esc(p.label)+'</b> '+chip(p.status)+(p.visible_to_client?'':' <span class="chip">hidden</span>')+'<br>'+money(p.amount)+(p.due_milestone?' · '+esc(p.due_milestone):'')+(p.paid_at?' · paid '+fmtDate(p.paid_at):'')+(isAdmin()&&p.paypal_txn_id?' · txn '+esc(p.paypal_txn_id):'')+(isAdmin()?' <button class="btn sm alt" data-act="editpay" data-id="'+p.id+'">edit</button>':'')+'</li>'}).join('')+'</ul>':'<p class="small">The payment schedule will appear here once it is agreed.</p>';
+    html+='<h3>invoices and receipts</h3>'+(invs.length?invs.map(function(i){return '<div class="row"><span><a href="#/invoice/'+i.id+'">'+(i.kind==='receipt'?'Receipt ':'Invoice ')+esc(i.number)+'</a> '+(isAdmin()&&!i.published?'<span class="chip">draft</span>':'')+'</span><span class="small">'+fmtDate(i.issued_on)+'</span></div>'}).join(''):'<p class="small">None yet.</p>');
+    if(isAdmin()){
+      html+='<h3>add payment</h3><form class="card" id="pf"><div class="bar"></div><div class="in"><div class="grid c2"><div><label>Label</label><input name="label" required></div><div><label>Amount (CAD)</label><input name="amount" type="number" step="0.01"></div><div><label>Due milestone</label><input name="due_milestone"></div><div><label>Status</label><select name="status"><option>planned</option><option>invoiced</option><option>paid</option></select></div><div><label>Paid on</label><input name="paid_at" type="date"></div><div><label>PayPal transaction ID</label><input name="paypal_txn_id"></div></div><label style="display:flex;gap:8px;font-weight:500"><input type="checkbox" name="visible_to_client" style="width:auto;margin-top:5px"> Visible to Heidi</label><p style="margin-top:10px"><button class="btn sm" type="submit">Add payment</button></p></div></form>'
+       +'<h3>new invoice</h3><form class="card" id="if"><div class="bar"></div><div class="in"><div class="grid c2"><div><label>Number (e.g. MM-2026-003)</label><input name="number" required></div><div><label>Issued on</label><input name="issued_on" type="date" required></div><div><label>Task</label><input name="task"></div><div><label>Work period</label><input name="work_period"></div><div><label>Due</label><input name="due_text" value="On receipt"></div><div><label>Linked payment</label><select name="payment_id"><option value="">None</option>'+pays.map(function(p){return '<option value="'+p.id+'">'+esc(p.label)+'</option>'}).join('')+'</select></div></div><label>Line items, one per line: part | description | minutes | amount</label><textarea name="lines" placeholder="a | Research. Drive, pricing docs. | 45 | 30.00"></textarea><label>Note (footer)</label><input name="note"><label style="display:flex;gap:8px;font-weight:500"><input type="checkbox" name="published" style="width:auto;margin-top:5px"> Visible to Heidi</label><p style="margin-top:10px"><button class="btn sm" type="submit">Create invoice</button></p></div></form>';
+    }
+    setPage(html);
+    if(isAdmin()){
+      $('#pf').onsubmit=function(e){e.preventDefault();var f=new FormData(e.target);
+        sb.from('ttwh_payments').insert({package_id:pkg.id,seq:pays.length+1,label:f.get('label'),amount:f.get('amount')||null,due_milestone:f.get('due_milestone')||null,status:f.get('status'),paid_at:f.get('paid_at')||null,paypal_txn_id:f.get('paypal_txn_id')||null,visible_to_client:!!f.get('visible_to_client')}).then(must).then(pPayments).catch(fail)};
+      $('#if').onsubmit=function(e){e.preventDefault();var f=new FormData(e.target);
+        var items=String(f.get('lines')||'').split(/\r?\n/).filter(function(l){return l.trim()}).map(function(l){var p=l.split('|').map(function(x){return x.trim()});return {part:p[0],desc:p[1]||'',minutes:p[2]?Number(p[2]):null,amount:Number(p[3]||0)}});
+        sb.from('ttwh_invoices').insert({kind:'invoice',number:f.get('number'),issued_on:f.get('issued_on'),task:f.get('task')||null,work_period:f.get('work_period')||null,due_text:f.get('due_text')||'On receipt',payment_id:f.get('payment_id')||null,line_items:items,note:f.get('note')||null,published:!!f.get('published')}).then(must).then(pPayments).catch(fail)};
+      $('#page').onclick=function(e){var b=e.target.closest('[data-act=editpay]');if(!b)return;var p=pays.find(function(x){return x.id===b.dataset.id});
+        var st=prompt('Status (planned / invoiced / paid):',p.status);if(st===null)return;
+        var amt=prompt('Amount in CAD (blank = TBC):',p.amount==null?'':p.amount);if(amt===null)return;
+        var ms=prompt('Due milestone:',p.due_milestone||'');if(ms===null)return;
+        var pd=prompt('Paid on (YYYY-MM-DD, blank if not paid):',p.paid_at||'');if(pd===null)return;
+        var tx=prompt('PayPal transaction ID:',p.paypal_txn_id||'');if(tx===null)return;
+        var vis=confirm('Visible to Heidi? OK = yes, Cancel = no');
+        sb.from('ttwh_payments').update({status:st.trim(),amount:amt.trim()===''?null:amt.trim(),due_milestone:ms||null,paid_at:pd||null,paypal_txn_id:tx||null,visible_to_client:vis}).eq('id',p.id).then(must).then(pPayments).catch(fail)};
+    }
+  });
+}
+function pInvoice(id){
+  return sb.from('ttwh_invoices').select('*').eq('id',id).maybeSingle().then(must).then(function(inv){
+    if(!inv){setPage('<p>Not found.</p><p><a href="#/payments">Back</a></p>');return}
+    var B=S.billing||{},items=inv.line_items||[],total=items.reduce(function(a,i){return a+Number(i.amount||0)},0),mins=items.reduce(function(a,i){return a+Number(i.minutes||0)},0);
+    var rec=inv.kind==='receipt',hasMin=items.some(function(i){return i.minutes!=null});
+    var html='<p class="noprint"><a href="#/payments">← Back</a> <button class="btn sm" id="pr">Print / save as PDF</button>'+(isAdmin()&&!rec?' <button class="btn sm alt" id="mkrec">Create receipt from this invoice</button>':'')+(isAdmin()?' <button class="btn sm alt" id="pub">'+(inv.published?'Hide from Heidi':'Show to Heidi')+'</button>':'')+'</p>'
+     +'<div class="inv"><div class="hd"><div><div class="gold"></div><div class="t">'+(rec?'RECEIPT':'INVOICE')+'</div><small>'+esc(B.tagline||'')+'</small></div><div style="text-align:right"><small>'+(rec?'RECEIPT NO.':'INVOICE NO.')+'</small><div class="no">'+esc(inv.number)+'</div><small>'+(rec?'DATE ':'ISSUED ')+esc(fmtDate(inv.issued_on))+'</small>'+(rec?'':'<small>DUE '+esc(inv.due_text)+'</small>')+'</div></div><div class="bd">'
+     +'<div class="two"><div class="box"><b class="l">FROM</b><b>'+esc(B.from_name)+'</b><br>'+(B.from_lines||[]).map(esc).join('<br>')+'</div><div class="box"><b class="l">BILLED TO</b><b>'+esc(B.to_name)+'</b><br>'+(B.to_lines||[]).map(esc).join('<br>')+'</div></div>'
+     +'<div class="meta">'+(inv.task?'<div><span>TASK</span><b>'+esc(inv.task)+'</b></div>':'')+(inv.work_period?'<div><span>WORK PERIOD</span><b>'+esc(inv.work_period)+'</b></div>':'')+'<div><span>RATE</span><b>'+esc(B.rate_text)+'</b></div></div>'
+     +'<table><thead><tr><th>PART</th><th>DESCRIPTION OF WORK</th>'+(hasMin?'<th class="r">TIME</th>':'')+'<th class="r">AMOUNT</th></tr></thead><tbody>'+items.map(function(i){return '<tr><td><b>'+esc(i.part||'')+'</b></td><td>'+esc(i.desc)+'</td>'+(hasMin?'<td class="r">'+(i.minutes!=null?esc(i.minutes)+' min':'')+'</td>':'')+'<td class="r"><b>$'+Number(i.amount||0).toFixed(2)+'</b></td></tr>'}).join('')+'</tbody></table>'
+     +'<div style="display:grid;gap:16px;grid-template-columns:1fr 1fr;margin-top:16px" class="two"><div style="font-size:.85rem"><b style="color:#1b9aa0;font-size:.72rem">PAYMENT DETAILS</b><div class="row"><span>Method</span><b>'+esc(B.pay_method)+'</b></div><div class="row"><span>Account name</span><b>'+esc(B.pay_account)+'</b></div><div class="row"><span>Phone</span><b>'+esc(B.pay_phone)+'</b></div><div class="row"><span>PayPal link</span><b>'+esc(B.pay_link)+'</b></div></div><div>'
+     +(hasMin?'<div class="row"><span>Total time</span><b>'+mins+' minutes ('+(mins/60)+' hours)</b></div>':'')+'<div class="row"><span>Subtotal</span><b>$'+total.toFixed(2)+'</b></div><div class="tot"><span>'+(rec?'TOTAL PAID':'TOTAL DUE')+(rec?'<span class="paid">PAID</span>':'')+'</span><b>'+esc(B.currency||'CAD')+' $'+total.toFixed(2)+'</b></div></div></div>'
+     +'<div class="sig"><div><div class="script">'+esc(B.signer_name)+'</div><b style="font-size:.85rem">'+esc(B.signer_name)+'</b><small>Digitally signed · '+esc(fmtDate(inv.issued_on))+' · Ref '+esc(inv.number)+'</small></div></div>'
+     +(inv.note?'<p style="font-size:.85rem;margin-top:12px;color:#6b7a99">'+esc(inv.note)+'</p>':'')+'</div><div class="ft">Thank you, Heidi. '+esc(inv.note||'')+'<br>'+esc(B.from_name)+' | '+esc((B.from_lines||[])[1]||'')+'</div></div>';
+    setPage(html);
+    $('#pr').onclick=function(){window.print()};
+    if(isAdmin()){
+      $('#pub').onclick=function(){sb.from('ttwh_invoices').update({published:!inv.published}).eq('id',inv.id).then(must).then(function(){pInvoice(id)}).catch(fail)};
+      var mk=$('#mkrec');if(mk)mk.onclick=function(){var d=prompt('Date paid (YYYY-MM-DD):',new Date().toISOString().slice(0,10));if(!d)return;var num='RC-'+inv.number;
+        sb.from('ttwh_invoices').insert({kind:'receipt',number:num,issued_on:d,task:inv.task,work_period:inv.work_period,due_text:'Paid',payment_id:inv.payment_id,line_items:inv.line_items,note:'Payment received via PayPal. Thank you.',published:false}).select('id').single().then(must).then(function(n){location.hash='#/invoice/'+n.id}).catch(fail)};
+    }
+  });
+}
+
+/* ---------- progress ---------- */
+function pProgress(){
+  return Promise.all([
+    sb.from('ttwh_courses').select('*').order('position'),
+    sb.from('ttwh_components').select('*').order('position'),
+    sb.from('ttwh_progress_cells').select('*')
+  ]).then(function(r){
+    var courses=must(r[0]),comps=must(r[1]),cells=must(r[2]),map={};
+    cells.forEach(function(c){map[c.course_id+'|'+c.component_id]=c});
+    var overall=Math.round(coursePct(cells));
+    var html='<h2>progress</h2><div class="bar-wrap"><div class="bar-fill" style="width:'+overall+'%"></div></div><p style="margin-top:6px"><b>'+overall+'%</b> overall · 27 items × 5 components. <span class="small">Done counts 100%, in review 75%, in progress 25%, not started 0%.</span></p>';
+    html+='<div class="tblwrap"><table><thead><tr><th>#</th><th>Item</th>'+comps.map(function(c){return '<th>'+esc(c.label)+'</th>'}).join('')+'<th>%</th><th>Current task</th></tr></thead><tbody>';
+    courses.forEach(function(c){
+      var cc=comps.map(function(k){return map[c.id+'|'+k.id]}).filter(Boolean);
+      html+='<tr><td>'+c.position+'</td><th scope="row" style="background:none;position:static;white-space:normal">'+esc(c.title)+'</th>'+comps.map(function(k){var cell=map[c.id+'|'+k.id];if(!cell)return '<td></td>';
+        if(isAdmin())return '<td><select data-c="'+c.id+'" data-k="'+k.id+'" aria-label="'+esc(c.title+' '+k.label)+'">'+STAGES.map(function(s){return '<option value="'+s+'"'+(s===cell.stage?' selected':'')+'>'+s.replace('_',' ')+'</option>'}).join('')+'</select>'+(cell.approval?'<br>'+chip(cell.approval):'')+'</td>';
+        return '<td>'+chip(cell.stage)+(cell.approval?'<br>'+chip(cell.approval):'')+((cell.stage==='in_review'||cell.stage==='done')?'<br><button class="btn sm go" data-ap="approved" data-c="'+c.id+'" data-k="'+k.id+'" title="Approve">✓</button> <button class="btn sm alt" data-ap="needs_changes" data-c="'+c.id+'" data-k="'+k.id+'" title="Needs changes">✎</button>':'')+'</td>'}).join('')
+        +'<td><b>'+Math.round(coursePct(cc))+'%</b></td><td>'+(isAdmin()?'<input data-task="'+c.id+'" value="'+esc(c.current_task||'')+'" aria-label="Current task for '+esc(c.title)+'">':esc(c.current_task||''))+'</td></tr>';
+    });
+    html+='</tbody></table></div>'+(isAdmin()?'':'<p class="small" style="margin-top:8px">✓ approves a component, ✎ asks for changes. Murtaza sees your choice straight away.</p>');
+    setPage(html);
+    $('#page').onchange=function(e){var s=e.target.closest('select[data-c]');if(!s)return;
+      sb.from('ttwh_progress_cells').update({stage:s.value,updated_at:new Date().toISOString()}).eq('course_id',s.dataset.c).eq('component_id',s.dataset.k).then(must).then(pProgress).catch(fail)};
+    $('#page').onfocusout=function(e){var i=e.target.closest('input[data-task]');if(!i)return;
+      sb.from('ttwh_courses').update({current_task:i.value||null}).eq('id',i.dataset.task).then(must).catch(fail)};
+    $('#page').onclick=function(e){var b=e.target.closest('[data-ap]');if(!b)return;b.disabled=true;
+      sb.rpc('ttwh_set_approval',{p_course:b.dataset.c,p_component:b.dataset.k,p_approval:b.dataset.ap}).then(must).then(pProgress).catch(fail)};
+  });
+}
+
+/* ---------- updates ---------- */
+function pUpdates(){
+  return sb.from('ttwh_updates').select('*').order('created_at',{ascending:false}).then(must).then(function(ups){
+    var html='<h2>updates</h2>';
+    if(isAdmin())html+='<form class="card" id="uf"><div class="bar"></div><div class="in"><label>Title</label><input name="title" required><label>Update (markdown)</label><textarea name="body"></textarea><p style="margin-top:10px"><button class="btn sm" name="m" value="draft" type="submit">Save as draft</button> <button class="btn sm go" name="m" value="published" type="submit">Publish</button></p></div></form>';
+    html+=ups.length?ups.map(function(u){return '<div class="card"><div class="bar"></div><div class="in"><h3 style="margin-top:0">'+esc(u.title)+'</h3><p class="small">'+chip(u.status)+' '+fmtDate(u.published_at||u.created_at)+'</p>'+md(u.body_md)+(isAdmin()?'<button class="btn sm alt" data-id="'+u.id+'" data-st="'+u.status+'">'+(u.status==='draft'?'Publish':'Move back to draft')+'</button>':'')+'</div></div>'}).join(''):'<p class="small">No updates yet.</p>';
+    setPage(html);
+    if(isAdmin()){
+      $('#uf').onsubmit=function(e){e.preventDefault();var f=e.target,m=e.submitter&&e.submitter.value||'draft';
+        sb.from('ttwh_updates').insert({title:f.title.value,body_md:f.body.value,status:m,published_at:m==='published'?new Date().toISOString():null}).then(must).then(pUpdates).catch(fail)};
+      $('#page').onclick=function(e){var b=e.target.closest('button[data-id]');if(!b)return;var pub=b.dataset.st==='draft';
+        sb.from('ttwh_updates').update({status:pub?'published':'draft',published_at:pub?new Date().toISOString():null}).eq('id',b.dataset.id).then(must).then(pUpdates).catch(fail)};
+    }
+  });
+}
+
+/* ---------- package pages ---------- */
+function pPackage(){
+  return sb.from('ttwh_pages').select('*').order('slug').then(must).then(function(pages){
+    var html='<h2>package details</h2>';
+    if(!pages.length)html+='<p class="small">Details will appear here soon.</p>';
+    pages.forEach(function(p){
+      html+='<div class="card"><div class="bar"></div><div class="in"><h3 style="margin-top:0">'+esc(p.title)+'</h3>'
+       +(isAdmin()?'<textarea id="pg-'+esc(p.slug)+'" style="min-height:220px">'+esc(p.body_md)+'</textarea><label style="display:flex;gap:8px;font-weight:500"><input type="checkbox" id="pp-'+esc(p.slug)+'" '+(p.published?'checked':'')+' style="width:auto;margin-top:5px"> Visible to Heidi</label><p style="margin-top:8px"><button class="btn sm" data-slug="'+esc(p.slug)+'">Save</button></p>':md(p.body_md))+'</div></div>';
+    });
+    setPage(html);
+    if(isAdmin())$('#page').onclick=function(e){var b=e.target.closest('button[data-slug]');if(!b)return;var s=b.dataset.slug;
+      sb.from('ttwh_pages').update({body_md:$('#pg-'+s).value,published:$('#pp-'+s).checked}).eq('slug',s).then(must).then(function(){b.textContent='Saved'}).catch(fail)};
+  });
+}
+
+/* ---------- Q&A ---------- */
+function pQA(id){
+  if(id)return pThread(id);
+  return Promise.all([sb.from('ttwh_qa_threads').select('*').order('created_at',{ascending:false}),sb.from('ttwh_profiles').select('*')]).then(function(r){
+    var th=must(r[0]),who={};must(r[1]).forEach(function(p){who[p.user_id]=p.display_name});
+    var html='<h2>questions</h2><form class="card" id="qf"><div class="bar"></div><div class="in"><label>Ask a question</label><input name="subject" placeholder="Subject" required><textarea name="body" placeholder="Your question" required style="margin-top:8px;min-height:90px"></textarea><p style="margin-top:8px"><button class="btn sm" type="submit">Post</button></p></div></form>';
+    html+=th.length?th.map(function(t){return '<div class="row"><span><a href="#/qa/'+t.id+'">'+esc(t.subject)+'</a> '+chip(t.status)+'</span><span class="small">'+esc(who[t.created_by]||'')+' · '+fmtDate(t.created_at)+'</span></div>'}).join(''):'<p class="small">No questions yet.</p>';
+    setPage(html);
+    $('#qf').onsubmit=function(e){e.preventDefault();var f=e.target;
+      sb.from('ttwh_qa_threads').insert({subject:f.subject.value}).select('id').single().then(must).then(function(t){return sb.from('ttwh_qa_messages').insert({thread_id:t.id,body:f.body.value}).then(must).then(function(){location.hash='#/qa/'+t.id})}).catch(fail)};
+  });
+}
+function pThread(id){
+  return Promise.all([sb.from('ttwh_qa_threads').select('*').eq('id',id).maybeSingle(),sb.from('ttwh_qa_messages').select('*').eq('thread_id',id).order('created_at'),sb.from('ttwh_profiles').select('*')]).then(function(r){
+    var t=must(r[0]),ms=must(r[1]),who={};must(r[2]).forEach(function(p){who[p.user_id]=p.display_name});
+    if(!t){setPage('<p>Not found. <a href="#/qa">Back</a></p>');return}
+    var html='<p><a href="#/qa">← All questions</a></p><h2>'+esc(t.subject)+'</h2><p>'+chip(t.status)+(isAdmin()?' <button class="btn sm alt" id="st">Mark '+(t.status==='open'?'answered':'open')+'</button>':'')+'</p>'
+     +ms.map(function(m){return '<div class="msg'+(m.author_id===S.user.id?' me':'')+'"><div class="small">'+esc(who[m.author_id]||'')+' · '+fmtDate(m.created_at,true)+'</div>'+esc(m.body).replace(/\n/g,'<br>')+'</div>'}).join('')
+     +'<form id="rf" style="margin-top:12px"><label for="rb">Reply</label><textarea id="rb" required style="min-height:90px"></textarea><p style="margin-top:8px"><button class="btn sm" type="submit">Send</button></p></form>';
+    setPage(html);
+    $('#rf').onsubmit=function(e){e.preventDefault();
+      sb.from('ttwh_qa_messages').insert({thread_id:id,body:$('#rb').value}).then(must).then(function(){return isAdmin()?sb.from('ttwh_qa_threads').update({status:'answered'}).eq('id',id).then(must):null}).then(function(){pThread(id)}).catch(fail)};
+    if(isAdmin())$('#st').onclick=function(){sb.from('ttwh_qa_threads').update({status:t.status==='open'?'answered':'open'}).eq('id',id).then(must).then(function(){pThread(id)}).catch(fail)};
+  });
+}
+
+/* ---------- timer (admin only) ---------- */
+function pTimer(){
+  return sb.from('ttwh_time_entries').select('*').order('started_at',{ascending:false}).then(must).then(function(es){
+    var running=es.find(function(e){return !e.ended_at});
+    function total(){return es.reduce(function(a,e){return a+((e.ended_at?new Date(e.ended_at):new Date())-new Date(e.started_at))},0)}
+    var html='<h2>project timer</h2><div class="card m"><div class="bar"></div><div class="in"><div class="small">Total time on this project</div><div class="timer" id="tt">'+hms(total())+'</div><p class="small">'+(total()/3600000).toFixed(2)+' hours · only you can see this page</p></div></div>'
+     +'<div class="card"><div class="bar"></div><div class="in">'+(running?'<p><b>Running since '+fmtDate(running.started_at,true)+'</b></p><label for="tn">Note</label><input id="tn" value="'+esc(running.note||'')+'" placeholder="What did you work on?"><p style="margin-top:10px"><button class="btn go" id="stop">Stop timer</button></p>':'<label for="tn">What are you starting?</label><input id="tn" placeholder="e.g. Intro video edit"><p style="margin-top:10px"><button class="btn go" id="start">Start timer</button></p>')+'</div></div>'
+     +'<h3>add time by hand</h3><form class="card" id="mf"><div class="bar"></div><div class="in"><div class="grid c3"><div><label>Date</label><input name="d" type="date" required></div><div><label>Minutes</label><input name="m" type="number" min="1" required></div><div><label>Note</label><input name="n"></div></div><p style="margin-top:10px"><button class="btn sm" type="submit">Add</button></p></div></form>'
+     +'<h3>entries</h3>'+(es.length?es.map(function(e){var ms=(e.ended_at?new Date(e.ended_at):new Date())-new Date(e.started_at);return '<div class="row"><span>'+fmtDate(e.started_at,true)+' · <b>'+(e.ended_at?hms(ms):'running')+'</b> '+esc(e.note||'')+'</span><button class="btn sm alt" data-del="'+e.id+'">delete</button></div>'}).join(''):'<p class="small">Nothing logged yet.</p>');
+    setPage(html);
+    if(running)S.tick=setInterval(function(){var t=$('#tt');if(t)t.textContent=hms(total())},1000);
+    var st=$('#start');if(st)st.onclick=function(){sb.from('ttwh_time_entries').insert({started_at:new Date().toISOString(),note:$('#tn').value||null}).then(must).then(pTimer).catch(fail)};
+    var sp=$('#stop');if(sp)sp.onclick=function(){sb.from('ttwh_time_entries').update({ended_at:new Date().toISOString(),note:$('#tn').value||null}).eq('id',running.id).then(must).then(pTimer).catch(fail)};
+    $('#mf').onsubmit=function(e){e.preventDefault();var f=e.target,s=new Date(f.d.value+'T09:00:00'),en=new Date(s.getTime()+Number(f.m.value)*60000);
+      sb.from('ttwh_time_entries').insert({started_at:s.toISOString(),ended_at:en.toISOString(),note:f.n.value||null}).then(must).then(pTimer).catch(fail)};
+    $('#page').onclick=function(e){var b=e.target.closest('[data-del]');if(!b||!confirm('Delete this entry?'))return;sb.from('ttwh_time_entries').delete().eq('id',b.dataset.del).then(must).then(pTimer).catch(fail)};
+  });
+}
+
+boot();
+})();
+</script>
+</body>
+</html>
