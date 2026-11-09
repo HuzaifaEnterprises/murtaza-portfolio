@@ -62,7 +62,7 @@ th,td{padding:6px 8px;border-bottom:1.5px dashed var(--ink);text-align:left;vert
 thead th{background:var(--mustard);border-bottom:2px solid var(--ink);position:sticky;top:0;white-space:nowrap}
 td select{padding:3px;font-size:.8rem;min-width:96px}
 td input{padding:3px 6px;font-size:.82rem;min-width:140px}
-.md h3{font-size:1.6rem}.md ul{margin:0 0 12px 20px}.md li{margin:2px 0}
+.md h3{font-size:1.6rem}.md ul,.md ol{margin:0 0 12px 22px}.md li{margin:2px 0}
 .msg{border:1.5px solid var(--ink);background:#fff;padding:10px 12px;margin:8px 0;max-width:80%}
 .msg.me{margin-left:auto;background:var(--mustard)}
 .err{background:#f6c3a6;border:2px solid var(--ink);padding:8px 12px;margin:10px 0}
@@ -70,13 +70,13 @@ td input{padding:3px 6px;font-size:.82rem;min-width:140px}
 .tl{list-style:none;border-left:3px solid var(--ink);margin-left:8px;padding-left:18px}
 .tl li{position:relative;padding:8px 0}
 .tl li::before{content:"";position:absolute;left:-27px;top:14px;width:14px;height:14px;border-radius:50%;border:2px solid var(--ink);background:var(--paper)}
-.tl li.paid::before{background:var(--green)}.tl li.invoiced::before{background:var(--mustard)}
+.tl li.locked::before{background:#ddd}.tl li.paid::before{background:var(--green)}.tl li.invoiced::before{background:var(--mustard)}
 .timer{font-size:3rem;font-weight:600;font-variant-numeric:tabular-nums}
 .login{max-width:420px;margin:0 auto}
 footer{padding:24px 0 44px;border-top:2px solid var(--ink);font-size:.88rem}
 details summary{cursor:pointer;font-weight:600;padding:4px 0}
 /* invoice */
-.inv{background:#fff;color:#152a4e;font-family:Arial,Helvetica,sans-serif;border:2px solid var(--ink);max-width:820px;margin:14px auto}
+.inv{position:relative;background:#fff;color:#152a4e;font-family:Arial,Helvetica,sans-serif;border:2px solid var(--ink);max-width:820px;margin:14px auto}
 .inv .hd{background:#152a4e;color:#fff;padding:26px 30px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-bottom:6px solid #1b9aa0}
 .inv .hd .t{font-size:2.6rem;font-weight:800;letter-spacing:.5px;line-height:1}
 .inv .hd .gold{width:48px;height:5px;background:#c9a24b;margin-bottom:8px}
@@ -98,8 +98,9 @@ details summary{cursor:pointer;font-weight:600;padding:4px 0}
 .inv .sig small{display:block;color:#6b7a99;font-size:.72rem}
 .inv .ft{background:#152a4e;color:#b8c2d8;padding:14px 30px;font-size:.82rem;border-top:6px solid #1b9aa0}
 .inv .paid{display:inline-block;border:3px solid #1b9aa0;color:#1b9aa0;font-weight:800;padding:2px 14px;transform:rotate(-6deg);font-size:1.4rem;margin-left:12px}
+.inv.locked::after{content:"DRAFT";position:absolute;top:38%;left:50%;transform:translate(-50%,-50%) rotate(-20deg);font-size:7rem;font-weight:800;color:rgba(21,42,78,.12);pointer-events:none}.chip.draft{background:var(--mustard)}
 @media(max-width:560px){.inv .two{grid-template-columns:1fr}}
-@media print{body::before,nav.tabs,.hero,footer,.noprint{display:none!important}main{padding:0}.inv{border:0;margin:0;max-width:none}.inv *{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+@media print{.inv.locked{display:none!important}body::before,nav.tabs,.hero,footer,.noprint{display:none!important}main{padding:0}.inv{border:0;margin:0;max-width:none}.inv *{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
 </style>
 </head>
@@ -119,16 +120,27 @@ var app=document.getElementById('app');
 /* ---------- helpers ---------- */
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function md(src){
-  var t=esc(src||''),out=[],inList=false;
-  t.split(/\r?\n/).forEach(function(line){
-    var l=line.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
-    if(/^\s*[-*] /.test(line)){if(!inList){out.push('<ul>');inList=true}out.push('<li>'+l.replace(/^\s*[-*] /,'')+'</li>');return}
-    if(inList){out.push('</ul>');inList=false}
-    if(/^#{1,3} /.test(line))out.push('<h3>'+l.replace(/^#{1,3} /,'')+'</h3>');
-    else if(line.trim()==='')out.push('');
-    else out.push('<p>'+l+'</p>');
-  });
-  if(inList)out.push('</ul>');
+  var t=esc(src||''),out=[],mode=null;
+  function close(){if(mode==='ul')out.push('</ul>');else if(mode==='ol')out.push('</ol>');else if(mode==='tbl')out.push('</tbody></table></div>');mode=null}
+  function inl(l){return l.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>')}
+  var lines=t.split(/\r?\n/);
+  for(var i=0;i<lines.length;i++){
+    var line=lines[i];
+    if(/^\s*\|/.test(line)){
+      if(/^\s*\|\s*-+/.test(line))continue;
+      var cells=line.trim().replace(/^\||\|$/g,'').split('|').map(function(c){return inl(c.trim())});
+      if(mode!=='tbl'){close();out.push('<div class="tblwrap" style="margin:8px 0 14px"><table><thead><tr>'+cells.map(function(c){return '<th>'+c+'</th>'}).join('')+'</tr></thead><tbody>');mode='tbl'}
+      else out.push('<tr>'+cells.map(function(c){return '<td>'+c+'</td>'}).join('')+'</tr>');
+      continue;
+    }
+    if(/^\s*[-*] /.test(line)){if(mode!=='ul'){close();out.push('<ul>');mode='ul'}out.push('<li>'+inl(line.replace(/^\s*[-*] /,''))+'</li>');continue}
+    if(/^\s*\d+\. /.test(line)){if(mode!=='ol'){close();out.push('<ol>');mode='ol'}out.push('<li>'+inl(line.replace(/^\s*\d+\. /,''))+'</li>');continue}
+    close();
+    if(/^#{1,3} /.test(line))out.push('<h3>'+inl(line.replace(/^#{1,3} /,''))+'</h3>');
+    else if(line.trim()==='')continue;
+    else out.push('<p>'+inl(line)+'</p>');
+  }
+  close();
   return '<div class="md">'+out.join('\n')+'</div>';
 }
 function fmtDate(d,time){if(!d)return '';var o={year:'numeric',month:'short',day:'numeric',timeZone:S.tz};if(time){o.hour='numeric';o.minute='2-digit'}return new Date(d).toLocaleString('en-CA',o)}
@@ -189,6 +201,15 @@ window.addEventListener('hashchange',function(){if(S.user)route()});
 
 /* ---------- overview ---------- */
 function coursePct(cells){if(!cells.length)return 0;return cells.reduce(function(a,c){return a+STAGE_PCT[c.stage]},0)/cells.length}
+function getPct(){return sb.from('ttwh_progress_cells').select('stage').then(must).then(function(c){return Math.round(coursePct(c))})}
+function barMarks(pct,marks){
+  return '<div style="position:relative;padding-bottom:24px"><div class="bar-wrap" role="progressbar" aria-valuenow="'+pct+'" aria-valuemin="0" aria-valuemax="100"><div class="bar-fill" style="width:'+Math.min(100,pct)+'%"></div></div>'
+   +marks.map(function(m){return '<span style="position:absolute;left:'+m+'%;top:0;height:18px;border-left:2px dashed var(--ink);margin-left:-1px"></span><span class="small" style="position:absolute;top:21px;'+(m>=100?'right:0':'left:calc('+m+'% - 14px)')+'">'+m+'%</span>'}).join('')+'</div>';
+}
+function lockOf(p,pct){
+  if(!p||p.status==='paid'||p.unlocked_at)return {locked:false};
+  return {locked:true,why:p.unlock_at_pct==null?'Unlocks when the agreement is signed':'Unlocks when progress reaches '+p.unlock_at_pct+'% (now '+pct+'%)'};
+}
 function pOverview(){
   return Promise.all([
     sb.from('ttwh_packages').select('*').eq('code','PTS').maybeSingle(),
@@ -199,11 +220,12 @@ function pOverview(){
     sb.from('ttwh_contract_versions').select('status,version').order('version',{ascending:false}).limit(1)
   ]).then(function(r){
     var pkg=must(r[0]),cells=must(r[1]),pays=must(r[2]),up=must(r[3])[0],open=must(r[4]),cv=must(r[5])[0];
-    var pct=Math.round(coursePct(cells)),next=pays.find(function(p){return p.status!=='paid'});
+    var pct=Math.round(coursePct(cells)),next=pays.find(function(p){return p.status!=='paid'}),lk=lockOf(next,pct);
+    var marks=pays.filter(function(p){return p.unlock_at_pct!=null}).map(function(p){return p.unlock_at_pct});
     setPage('<h2>overview</h2><div class="grid c2">'
      +'<div class="card"><div class="bar"></div><div class="in"><h3>package</h3><p><b>'+esc(pkg&&pkg.title)+'</b><br>'+money(pkg&&pkg.total_amount)+', paid in installments by PayPal.</p><p>Contract: '+(cv?chip(cv.status)+' <a href="#/contracts">open</a>':'<span class="small">coming soon</span>')+'</p></div></div>'
-     +'<div class="card g"><div class="bar"></div><div class="in"><h3>progress</h3><div class="bar-wrap"><div class="bar-fill" style="width:'+pct+'%"></div></div><p style="margin-top:6px"><b>'+pct+'%</b> of 27 items across 5 components. <a href="#/progress">see the grid</a></p></div></div>'
-     +'<div class="card m"><div class="bar"></div><div class="in"><h3>next payment</h3>'+(next?'<p><b>'+esc(next.label)+'</b> '+chip(next.status)+'<br>'+money(next.amount)+(next.due_milestone?' · '+esc(next.due_milestone):'')+'</p>':'<p class="small">Nothing scheduled yet.</p>')+'<a href="#/payments">payments</a></div></div>'
+     +'<div class="card g"><div class="bar"></div><div class="in"><h3>progress</h3>'+barMarks(pct,marks.length?marks:[33,66,100])+'<p><b>'+pct+'%</b> of 27 items across 5 components. <a href="#/progress">see the grid</a></p></div></div>'
+     +'<div class="card m"><div class="bar"></div><div class="in"><h3>next payment</h3>'+(next?'<p><b>'+esc(next.label)+'</b> '+chip(next.status)+'<br>'+money(next.amount)+(next.due_milestone?' · '+esc(next.due_milestone):'')+(lk.locked?'<br><span class="small">🔒 '+esc(lk.why)+'</span>':'<br><span class="small">Invoice is open. Due within 3 days.</span>')+'</p>':'<p class="small">All payments are done. Thank you.</p>')+'<a href="#/payments">payments</a></div></div>'
      +'<div class="card o"><div class="bar"></div><div class="in"><h3>latest update</h3>'+(up?'<p><b>'+esc(up.title)+'</b><br><span class="small">'+fmtDate(up.published_at||up.created_at)+'</span></p><a href="#/updates">read</a>':'<p class="small">No updates yet.</p>')+'</div></div>'
      +'</div><p style="margin-top:14px">Open questions: <b>'+open.length+'</b> · <a href="#/qa">Q&amp;A</a></p>');
   });
@@ -229,7 +251,7 @@ function pContracts(){
         var mine=vs.some(function(s){return s.signer_id===S.user.id});
         html+='<details class="card" '+(i===0?'open':'')+'><summary style="padding:10px 14px">Version '+v.version+' '+chip(v.status)+(v.finalised_at?' <span class="small">finalised '+fmtDate(v.finalised_at,true)+'</span>':'')+'</summary><div class="in" style="padding:0 16px 14px">';
         if(isAdmin()&&v.status==='draft'){
-          html+='<label for="b'+v.id+'">Contract text (markdown: # heading, - list, **bold**)</label><textarea id="b'+v.id+'" style="min-height:320px">'+esc(v.body_md)+'</textarea><p style="margin-top:10px"><button class="btn sm" data-act="savever" data-id="'+v.id+'">Save draft</button> <button class="btn sm go" data-act="finalver" data-id="'+v.id+'">Mark final and open for signing</button></p>';
+          html+='<label for="b'+v.id+'">Contract text (markdown: # heading, - list, **bold**)</label><textarea id="b'+v.id+'" style="min-height:320px">'+esc(v.body_md)+'</textarea><p style="margin-top:10px"><button class="btn sm" data-act="savever" data-id="'+v.id+'">Save draft</button> <button class="btn sm go" data-act="finalver" data-id="'+v.id+'">Mark final and open for signing</button> <button class="btn sm alt" data-act="share" data-id="'+v.id+'" data-v="'+(v.visible_to_client?'0':'1')+'">'+(v.visible_to_client?'Hide draft from Heidi':'Share this draft with Heidi')+'</button> '+(v.visible_to_client?'<span class="chip">shared with Heidi</span>':'<span class="chip">only you can see this</span>')+'</p>';
         }else html+=md(v.body_md);
         html+='<h4 style="font-size:1.5rem;margin-top:12px">signatures</h4>'+(vs.length?vs.map(function(s){return '<div class="row"><span>'+esc(s.typed_name)+' <span class="small">('+esc(who[s.signer_id]||'')+')</span></span><span class="small">'+fmtDate(s.signed_at,true)+'</span></div>'}).join(''):'<p class="small">Not signed yet.</p>');
         if(v.status==='final'&&!mine){
@@ -245,6 +267,7 @@ function pContracts(){
       if(act==='savever')p=sb.from('ttwh_contract_versions').update({body_md:$('#b'+id).value}).eq('id',id).then(must);
       else if(act==='finalver'){if(!confirm('Mark final? The text locks and Heidi can see and sign it.')){b.disabled=false;return}
         p=sb.from('ttwh_contract_versions').update({body_md:$('#b'+id).value}).eq('id',id).then(must).then(function(){return sb.from('ttwh_contract_versions').update({status:'final',finalised_at:new Date().toISOString()}).eq('id',id)}).then(must)}
+      else if(act==='share'){p=sb.from('ttwh_contract_versions').update({visible_to_client:b.dataset.v==='1'}).eq('id',id).then(must)}
       else if(act==='sign'){var nm=$('#n'+id).value.trim();if(!nm||!$('#a'+id).checked){alert('Please type your name and tick the box.');b.disabled=false;return}
         p=sb.rpc('ttwh_sign_contract',{p_version_id:id,p_typed_name:nm}).then(must)}
       else if(act==='newver'){p=sb.from('ttwh_contract_versions').select('body_md').eq('id',id).single().then(must).then(function(v){return sb.from('ttwh_contract_versions').insert({contract_id:b.dataset.c,version:+b.dataset.n+1,body_md:v.body_md}).then(must)})}
@@ -257,57 +280,81 @@ function pContracts(){
 function pPayments(){
   return Promise.all([
     sb.from('ttwh_payments').select('*').order('seq'),
-    sb.from('ttwh_invoices').select('*').order('issued_on',{ascending:false}),
-    sb.from('ttwh_packages').select('*').eq('code','PTS').maybeSingle()
+    sb.from('ttwh_invoices').select('*').order('issued_on',{ascending:false}).order('number'),
+    sb.from('ttwh_packages').select('*').eq('code','PTS').maybeSingle(),
+    getPct()
   ]).then(function(r){
-    var pays=must(r[0]),invs=must(r[1]),pkg=must(r[2]);
+    var pays=must(r[0]),invs=must(r[1]),pkg=must(r[2]),pct=r[3],byId={};
+    pays.forEach(function(p){byId[p.id]=p});
     var paid=pays.filter(function(p){return p.status==='paid'}).reduce(function(a,p){return a+Number(p.amount||0)},0);
-    var html='<h2>payments</h2><div class="card m"><div class="bar"></div><div class="in"><div class="row"><span>Package total</span><b>'+money(pkg&&pkg.total_amount)+'</b></div><div class="row"><span>Paid so far</span><b>'+money(paid)+'</b></div></div></div><h3>timeline</h3>';
-    html+=pays.length?'<ul class="tl">'+pays.map(function(p){return '<li class="'+esc(p.status)+'"><b>'+esc(p.label)+'</b> '+chip(p.status)+(p.visible_to_client?'':' <span class="chip">hidden</span>')+'<br>'+money(p.amount)+(p.due_milestone?' · '+esc(p.due_milestone):'')+(p.paid_at?' · paid '+fmtDate(p.paid_at):'')+(isAdmin()&&p.paypal_txn_id?' · txn '+esc(p.paypal_txn_id):'')+(isAdmin()?' <button class="btn sm alt" data-act="editpay" data-id="'+p.id+'">edit</button>':'')+'</li>'}).join('')+'</ul>':'<p class="small">The payment schedule will appear here once it is agreed.</p>';
-    html+='<h3>invoices and receipts</h3>'+(invs.length?invs.map(function(i){return '<div class="row"><span><a href="#/invoice/'+i.id+'">'+(i.kind==='receipt'?'Receipt ':'Invoice ')+esc(i.number)+'</a> '+(isAdmin()&&!i.published?'<span class="chip">draft</span>':'')+'</span><span class="small">'+fmtDate(i.issued_on)+'</span></div>'}).join(''):'<p class="small">None yet.</p>');
+    var marks=pays.filter(function(p){return p.unlock_at_pct!=null}).map(function(p){return p.unlock_at_pct});
+    var html='<h2>payments</h2><div class="card m"><div class="bar"></div><div class="in"><div class="row"><span>Package total</span><b>'+money(pkg&&pkg.total_amount)+'</b></div><div class="row"><span>Paid so far</span><b>'+money(paid)+'</b></div>'
+     +'<p style="margin-top:12px"><b>Project progress: '+pct+'%</b></p>'+barMarks(pct,marks.length?marks:[33,66,100])+'<p class="small">Each invoice unlocks when the bar reaches its mark. The first one unlocks when the agreement is signed.</p></div></div><h3>timeline</h3>';
+    html+=pays.length?'<ul class="tl">'+pays.map(function(p){
+      var lk=lockOf(p,pct);
+      return '<li class="'+(lk.locked?'locked':esc(p.status))+'"><b>'+esc(p.label)+'</b> '+chip(p.status)+(lk.locked?' 🔒':'')+(p.visible_to_client?'':' <span class="chip">hidden</span>')
+       +'<br>'+money(p.amount)+(p.due_milestone?' · '+esc(p.due_milestone):'')+(p.paid_at?' · paid '+fmtDate(p.paid_at):'')
+       +(lk.locked?'<br><span class="small">'+esc(lk.why)+'</span>':(p.status!=='paid'?'<br><span class="small">Invoice is open. Due within 3 days.</span>':''))
+       +(isAdmin()&&p.paypal_txn_id?'<br><span class="small">txn '+esc(p.paypal_txn_id)+'</span>':'')
+       +(isAdmin()?'<br><button class="btn sm alt" data-act="editpay" data-id="'+p.id+'">edit</button>'+(!lk.locked&&p.status!=='paid'?' <button class="btn sm go" data-act="markpaid" data-id="'+p.id+'">Mark as paid</button>':''):'')+'</li>'}).join('')+'</ul>':'<p class="small">The payment schedule will appear here once it is agreed.</p>';
+    html+='<h3>invoices and receipts</h3>'+(invs.length?invs.map(function(i){
+      var lk=i.kind==='invoice'?lockOf(byId[i.payment_id],pct):{locked:false};
+      return '<div class="row"><span><a href="#/invoice/'+i.id+'">'+(i.kind==='receipt'?'Receipt ':'Invoice ')+esc(i.number)+'</a> '+(i.kind==='receipt'?chip('paid'):(lk.locked?'<span class="chip draft">draft</span> 🔒':chip('open')))+(isAdmin()&&!i.published?' <span class="chip">hidden</span>':'')+'</span><span class="small">'+(lk.locked?'locked':fmtDate(i.issued_on))+'</span></div>'}).join(''):'<p class="small">None yet.</p>');
     if(isAdmin()){
-      html+='<h3>add payment</h3><form class="card" id="pf"><div class="bar"></div><div class="in"><div class="grid c2"><div><label>Label</label><input name="label" required></div><div><label>Amount (CAD)</label><input name="amount" type="number" step="0.01"></div><div><label>Due milestone</label><input name="due_milestone"></div><div><label>Status</label><select name="status"><option>planned</option><option>invoiced</option><option>paid</option></select></div><div><label>Paid on</label><input name="paid_at" type="date"></div><div><label>PayPal transaction ID</label><input name="paypal_txn_id"></div></div><label style="display:flex;gap:8px;font-weight:500"><input type="checkbox" name="visible_to_client" style="width:auto;margin-top:5px"> Visible to Heidi</label><p style="margin-top:10px"><button class="btn sm" type="submit">Add payment</button></p></div></form>'
-       +'<h3>new invoice</h3><form class="card" id="if"><div class="bar"></div><div class="in"><div class="grid c2"><div><label>Number (e.g. MM-2026-003)</label><input name="number" required></div><div><label>Issued on</label><input name="issued_on" type="date" required></div><div><label>Task</label><input name="task"></div><div><label>Work period</label><input name="work_period"></div><div><label>Due</label><input name="due_text" value="On receipt"></div><div><label>Linked payment</label><select name="payment_id"><option value="">None</option>'+pays.map(function(p){return '<option value="'+p.id+'">'+esc(p.label)+'</option>'}).join('')+'</select></div></div><label>Line items, one per line: part | description | minutes | amount</label><textarea name="lines" placeholder="a | Research. Drive, pricing docs. | 45 | 30.00"></textarea><label>Note (footer)</label><input name="note"><label style="display:flex;gap:8px;font-weight:500"><input type="checkbox" name="published" style="width:auto;margin-top:5px"> Visible to Heidi</label><p style="margin-top:10px"><button class="btn sm" type="submit">Create invoice</button></p></div></form>';
+      html+='<h3>add payment</h3><form class="card" id="pf"><div class="bar"></div><div class="in"><div class="grid c2"><div><label>Label</label><input name="label" required></div><div><label>Amount (CAD)</label><input name="amount" type="number" step="0.01"></div><div><label>Due milestone (text)</label><input name="due_milestone"></div><div><label>Unlocks at progress % (blank = when signed)</label><input name="unlock_at_pct" type="number" min="1" max="100"></div></div><label style="display:flex;gap:8px;font-weight:500"><input type="checkbox" name="visible_to_client" checked style="width:auto;margin-top:5px"> Visible to Heidi</label><p style="margin-top:10px"><button class="btn sm" type="submit">Add payment</button></p></div></form>'
+       +'<h3>new invoice</h3><form class="card" id="if"><div class="bar"></div><div class="in"><div class="grid c2"><div><label>Number (e.g. MM-2026-007)</label><input name="number" required></div><div><label>Issued on</label><input name="issued_on" type="date" required></div><div><label>Task</label><input name="task"></div><div><label>Work period</label><input name="work_period"></div><div><label>Rate (e.g. CAD $40.00 per hour)</label><input name="rate_text"></div><div><label>Due</label><input name="due_text" value="On receipt"></div><div><label>Linked payment (keeps it locked until its stage)</label><select name="payment_id"><option value="">None</option>'+pays.map(function(p){return '<option value="'+p.id+'">'+esc(p.label)+'</option>'}).join('')+'</select></div></div><label>Line items, one per line: part | description | minutes | amount</label><textarea name="lines" placeholder="a | Research. Drive, pricing docs. | 45 | 30.00"></textarea><label>Note (footer)</label><input name="note"><label style="display:flex;gap:8px;font-weight:500"><input type="checkbox" name="published" style="width:auto;margin-top:5px"> Visible to Heidi</label><p style="margin-top:10px"><button class="btn sm" type="submit">Create invoice</button></p></div></form>';
     }
     setPage(html);
     if(isAdmin()){
       $('#pf').onsubmit=function(e){e.preventDefault();var f=new FormData(e.target);
-        sb.from('ttwh_payments').insert({package_id:pkg.id,seq:pays.length+1,label:f.get('label'),amount:f.get('amount')||null,due_milestone:f.get('due_milestone')||null,status:f.get('status'),paid_at:f.get('paid_at')||null,paypal_txn_id:f.get('paypal_txn_id')||null,visible_to_client:!!f.get('visible_to_client')}).then(must).then(pPayments).catch(fail)};
+        sb.from('ttwh_payments').insert({package_id:pkg.id,seq:pays.length+1,label:f.get('label'),amount:f.get('amount')||null,due_milestone:f.get('due_milestone')||null,unlock_at_pct:f.get('unlock_at_pct')?Number(f.get('unlock_at_pct')):null,visible_to_client:!!f.get('visible_to_client')}).then(must).then(pPayments).catch(fail)};
       $('#if').onsubmit=function(e){e.preventDefault();var f=new FormData(e.target);
         var items=String(f.get('lines')||'').split(/\r?\n/).filter(function(l){return l.trim()}).map(function(l){var p=l.split('|').map(function(x){return x.trim()});return {part:p[0],desc:p[1]||'',minutes:p[2]?Number(p[2]):null,amount:Number(p[3]||0)}});
-        sb.from('ttwh_invoices').insert({kind:'invoice',number:f.get('number'),issued_on:f.get('issued_on'),task:f.get('task')||null,work_period:f.get('work_period')||null,due_text:f.get('due_text')||'On receipt',payment_id:f.get('payment_id')||null,line_items:items,note:f.get('note')||null,published:!!f.get('published')}).then(must).then(pPayments).catch(fail)};
-      $('#page').onclick=function(e){var b=e.target.closest('[data-act=editpay]');if(!b)return;var p=pays.find(function(x){return x.id===b.dataset.id});
-        var st=prompt('Status (planned / invoiced / paid):',p.status);if(st===null)return;
-        var amt=prompt('Amount in CAD (blank = TBC):',p.amount==null?'':p.amount);if(amt===null)return;
-        var ms=prompt('Due milestone:',p.due_milestone||'');if(ms===null)return;
-        var pd=prompt('Paid on (YYYY-MM-DD, blank if not paid):',p.paid_at||'');if(pd===null)return;
-        var tx=prompt('PayPal transaction ID:',p.paypal_txn_id||'');if(tx===null)return;
-        var vis=confirm('Visible to Heidi? OK = yes, Cancel = no');
-        sb.from('ttwh_payments').update({status:st.trim(),amount:amt.trim()===''?null:amt.trim(),due_milestone:ms||null,paid_at:pd||null,paypal_txn_id:tx||null,visible_to_client:vis}).eq('id',p.id).then(must).then(pPayments).catch(fail)};
+        sb.from('ttwh_invoices').insert({kind:'invoice',number:f.get('number'),issued_on:f.get('issued_on'),task:f.get('task')||null,work_period:f.get('work_period')||null,rate_text:f.get('rate_text')||null,due_text:f.get('due_text')||'On receipt',payment_id:f.get('payment_id')||null,line_items:items,note:f.get('note')||null,published:!!f.get('published')}).then(must).then(pPayments).catch(fail)};
+      $('#page').onclick=function(e){var b=e.target.closest('[data-act]');if(!b)return;var p=byId[b.dataset.id];if(!p)return;
+        if(b.dataset.act==='markpaid'){
+          var d=prompt('Date the payment was received (YYYY-MM-DD):',new Date().toISOString().slice(0,10));if(!d)return;
+          var tx=prompt('PayPal transaction ID (optional):','');if(tx===null)return;
+          b.disabled=true;sb.rpc('ttwh_mark_paid',{p_payment:p.id,p_paid_on:d,p_txn:tx||''}).then(must).then(pPayments).catch(function(err){fail(err);b.disabled=false});return;
+        }
+        if(b.dataset.act==='editpay'){
+          var amt=prompt('Amount in CAD (blank = TBC):',p.amount==null?'':p.amount);if(amt===null)return;
+          var ms=prompt('Due milestone text:',p.due_milestone||'');if(ms===null)return;
+          var vis=confirm('Visible to Heidi? OK = yes, Cancel = no');
+          sb.from('ttwh_payments').update({amount:amt.trim()===''?null:amt.trim(),due_milestone:ms||null,visible_to_client:vis}).eq('id',p.id).then(must).then(pPayments).catch(fail);
+        }};
     }
   });
 }
 function pInvoice(id){
   return sb.from('ttwh_invoices').select('*').eq('id',id).maybeSingle().then(must).then(function(inv){
     if(!inv){setPage('<p>Not found.</p><p><a href="#/payments">Back</a></p>');return}
-    var B=S.billing||{},items=inv.line_items||[],total=items.reduce(function(a,i){return a+Number(i.amount||0)},0),mins=items.reduce(function(a,i){return a+Number(i.minutes||0)},0);
-    var rec=inv.kind==='receipt',hasMin=items.some(function(i){return i.minutes!=null});
-    var html='<p class="noprint"><a href="#/payments">← Back</a> <button class="btn sm" id="pr">Print / save as PDF</button>'+(isAdmin()&&!rec?' <button class="btn sm alt" id="mkrec">Create receipt from this invoice</button>':'')+(isAdmin()?' <button class="btn sm alt" id="pub">'+(inv.published?'Hide from Heidi':'Show to Heidi')+'</button>':'')+'</p>'
-     +'<div class="inv"><div class="hd"><div><div class="gold"></div><div class="t">'+(rec?'RECEIPT':'INVOICE')+'</div><small>'+esc(B.tagline||'')+'</small></div><div style="text-align:right"><small>'+(rec?'RECEIPT NO.':'INVOICE NO.')+'</small><div class="no">'+esc(inv.number)+'</div><small>'+(rec?'DATE ':'ISSUED ')+esc(fmtDate(inv.issued_on))+'</small>'+(rec?'':'<small>DUE '+esc(inv.due_text)+'</small>')+'</div></div><div class="bd">'
-     +'<div class="two"><div class="box"><b class="l">FROM</b><b>'+esc(B.from_name)+'</b><br>'+(B.from_lines||[]).map(esc).join('<br>')+'</div><div class="box"><b class="l">BILLED TO</b><b>'+esc(B.to_name)+'</b><br>'+(B.to_lines||[]).map(esc).join('<br>')+'</div></div>'
-     +'<div class="meta">'+(inv.task?'<div><span>TASK</span><b>'+esc(inv.task)+'</b></div>':'')+(inv.work_period?'<div><span>WORK PERIOD</span><b>'+esc(inv.work_period)+'</b></div>':'')+'<div><span>RATE</span><b>'+esc(B.rate_text)+'</b></div></div>'
-     +'<table><thead><tr><th>PART</th><th>DESCRIPTION OF WORK</th>'+(hasMin?'<th class="r">TIME</th>':'')+'<th class="r">AMOUNT</th></tr></thead><tbody>'+items.map(function(i){return '<tr><td><b>'+esc(i.part||'')+'</b></td><td>'+esc(i.desc)+'</td>'+(hasMin?'<td class="r">'+(i.minutes!=null?esc(i.minutes)+' min':'')+'</td>':'')+'<td class="r"><b>$'+Number(i.amount||0).toFixed(2)+'</b></td></tr>'}).join('')+'</tbody></table>'
-     +'<div style="display:grid;gap:16px;grid-template-columns:1fr 1fr;margin-top:16px" class="two"><div style="font-size:.85rem"><b style="color:#1b9aa0;font-size:.72rem">PAYMENT DETAILS</b><div class="row"><span>Method</span><b>'+esc(B.pay_method)+'</b></div><div class="row"><span>Account name</span><b>'+esc(B.pay_account)+'</b></div><div class="row"><span>Phone</span><b>'+esc(B.pay_phone)+'</b></div><div class="row"><span>PayPal link</span><b>'+esc(B.pay_link)+'</b></div></div><div>'
-     +(hasMin?'<div class="row"><span>Total time</span><b>'+mins+' minutes ('+(mins/60)+' hours)</b></div>':'')+'<div class="row"><span>Subtotal</span><b>$'+total.toFixed(2)+'</b></div><div class="tot"><span>'+(rec?'TOTAL PAID':'TOTAL DUE')+(rec?'<span class="paid">PAID</span>':'')+'</span><b>'+esc(B.currency||'CAD')+' $'+total.toFixed(2)+'</b></div></div></div>'
-     +'<div class="sig"><div><div class="script">'+esc(B.signer_name)+'</div><b style="font-size:.85rem">'+esc(B.signer_name)+'</b><small>Digitally signed · '+esc(fmtDate(inv.issued_on))+' · Ref '+esc(inv.number)+'</small></div></div>'
-     +(inv.note?'<p style="font-size:.85rem;margin-top:12px;color:#6b7a99">'+esc(inv.note)+'</p>':'')+'</div><div class="ft">Thank you, Heidi. '+esc(inv.note||'')+'<br>'+esc(B.from_name)+' | '+esc((B.from_lines||[])[1]||'')+'</div></div>';
-    setPage(html);
-    $('#pr').onclick=function(){window.print()};
-    if(isAdmin()){
-      $('#pub').onclick=function(){sb.from('ttwh_invoices').update({published:!inv.published}).eq('id',inv.id).then(must).then(function(){pInvoice(id)}).catch(fail)};
-      var mk=$('#mkrec');if(mk)mk.onclick=function(){var d=prompt('Date paid (YYYY-MM-DD):',new Date().toISOString().slice(0,10));if(!d)return;var num='RC-'+inv.number;
-        sb.from('ttwh_invoices').insert({kind:'receipt',number:num,issued_on:d,task:inv.task,work_period:inv.work_period,due_text:'Paid',payment_id:inv.payment_id,line_items:inv.line_items,note:'Payment received via PayPal. Thank you.',published:false}).select('id').single().then(must).then(function(n){location.hash='#/invoice/'+n.id}).catch(fail)};
-    }
+    return Promise.all([inv.payment_id?sb.from('ttwh_payments').select('*').eq('id',inv.payment_id).maybeSingle().then(must):null,getPct()]).then(function(x){
+      var pay=x[0],pct=x[1],lk=inv.kind==='invoice'?lockOf(pay,pct):{locked:false};
+      var B=S.billing||{},items=inv.line_items||[],total=items.reduce(function(a,i){return a+Number(i.amount||0)},0),mins=items.reduce(function(a,i){return a+Number(i.minutes||0)},0);
+      var rec=inv.kind==='receipt',hasMin=items.some(function(i){return i.minutes!=null});
+      var html='<p class="noprint"><a href="#/payments">← Back</a> '
+       +(lk.locked?'<span class="chip draft">🔒 Locked: '+esc(lk.why)+'</span>':'<button class="btn sm" id="pr">Print / save as PDF</button>')
+       +(isAdmin()&&lk.locked?' <button class="btn sm alt" id="pr">Print draft (admin)</button>':'')
+       +(isAdmin()&&!rec?' <button class="btn sm alt" id="mkrec">Create receipt from this invoice</button>':'')
+       +(isAdmin()?' <button class="btn sm alt" id="pub">'+(inv.published?'Hide from Heidi':'Show to Heidi')+'</button> <button class="btn sm alt" id="num">Edit number</button>':'')+'</p>'
+       +'<div class="inv'+(lk.locked?' locked':'')+'"><div class="hd"><div><div class="gold"></div><div class="t">'+(rec?'RECEIPT':'INVOICE')+'</div><small>'+esc(B.tagline||'')+'</small></div><div style="text-align:right"><small>'+(rec?'RECEIPT NO.':'INVOICE NO.')+'</small><div class="no">'+esc(inv.number)+'</div><small>'+(rec?'DATE ':'ISSUED ')+(lk.locked?'WHEN UNLOCKED':esc(fmtDate(inv.issued_on)))+'</small>'+(rec?'':'<small>DUE '+esc(inv.due_text)+'</small>')+'</div></div><div class="bd">'
+       +'<div class="two"><div class="box"><b class="l">FROM</b><b>'+esc(B.from_name)+'</b><br>'+(B.from_lines||[]).map(esc).join('<br>')+'</div><div class="box"><b class="l">BILLED TO</b><b>'+esc(B.to_name)+'</b><br>'+(B.to_lines||[]).map(esc).join('<br>')+'</div></div>'
+       +'<div class="meta">'+(inv.task?'<div><span>TASK</span><b>'+esc(inv.task)+'</b></div>':'')+(inv.work_period?'<div><span>WORK PERIOD</span><b>'+esc(inv.work_period)+'</b></div>':'')+(inv.rate_text?'<div><span>RATE</span><b>'+esc(inv.rate_text)+'</b></div>':'')+(pay&&pay.due_milestone?'<div><span>STAGE</span><b>'+esc(pay.due_milestone)+'</b></div>':'')+'</div>'
+       +'<table><thead><tr><th>PART</th><th>DESCRIPTION OF WORK</th>'+(hasMin?'<th class="r">TIME</th>':'')+'<th class="r">AMOUNT</th></tr></thead><tbody>'+items.map(function(i){return '<tr><td><b>'+esc(i.part||'')+'</b></td><td>'+esc(i.desc)+'</td>'+(hasMin?'<td class="r">'+(i.minutes!=null?esc(i.minutes)+' min':'')+'</td>':'')+'<td class="r"><b>$'+Number(i.amount||0).toFixed(2)+'</b></td></tr>'}).join('')+'</tbody></table>'
+       +'<div style="display:grid;gap:16px;grid-template-columns:1fr 1fr;margin-top:16px" class="two"><div style="font-size:.85rem"><b style="color:#1b9aa0;font-size:.72rem">PAYMENT DETAILS</b><div class="row"><span>Method</span><b>'+esc(B.pay_method)+'</b></div><div class="row"><span>Account name</span><b>'+esc(B.pay_account)+'</b></div><div class="row"><span>Phone</span><b>'+esc(B.pay_phone)+'</b></div><div class="row"><span>PayPal link</span><b>'+esc(B.pay_link)+'</b></div></div><div>'
+       +(hasMin?'<div class="row"><span>Total time</span><b>'+mins+' minutes ('+(mins/60)+' hours)</b></div>':'')+'<div class="row"><span>Subtotal</span><b>$'+total.toFixed(2)+'</b></div><div class="tot"><span>'+(rec?'TOTAL PAID':'TOTAL DUE')+(rec?'<span class="paid">PAID</span>':'')+'</span><b>'+esc(B.currency||'CAD')+' $'+total.toFixed(2)+'</b></div></div></div>'
+       +'<div class="sig"><div><div class="script">'+esc(B.signer_name)+'</div><b style="font-size:.85rem">'+esc(B.signer_name)+'</b><small>Digitally signed · '+(lk.locked?'on unlock':esc(fmtDate(inv.issued_on)))+' · Ref '+esc(inv.number)+'</small></div></div>'
+       +(inv.note?'<p style="font-size:.85rem;margin-top:12px;color:#6b7a99">'+esc(inv.note)+'</p>':'')+'</div><div class="ft">Thank you, Heidi.<br>'+esc(B.from_name)+' | '+esc((B.from_lines||[])[1]||'')+'</div></div>';
+      setPage(html);
+      var pr=$('#pr');if(pr)pr.onclick=function(){window.print()};
+      if(isAdmin()){
+        $('#pub').onclick=function(){sb.from('ttwh_invoices').update({published:!inv.published}).eq('id',inv.id).then(must).then(function(){pInvoice(id)}).catch(fail)};
+        $('#num').onclick=function(){var n=prompt('New number:',inv.number);if(!n||n===inv.number)return;sb.from('ttwh_invoices').update({number:n.trim()}).eq('id',inv.id).then(must).then(function(){pInvoice(id)}).catch(fail)};
+        var mk=$('#mkrec');if(mk)mk.onclick=function(){var d=prompt('Date paid (YYYY-MM-DD):',new Date().toISOString().slice(0,10));if(!d)return;var num='RC-'+inv.number;
+          sb.from('ttwh_invoices').insert({kind:'receipt',number:num,issued_on:d,task:inv.task,work_period:inv.work_period,rate_text:inv.rate_text,due_text:'Paid',payment_id:inv.payment_id,line_items:inv.line_items,note:'Payment received via PayPal. Thank you.',published:false}).select('id').single().then(must).then(function(n){location.hash='#/invoice/'+n.id}).catch(fail)};
+      }
+    });
   });
 }
 
@@ -359,42 +406,89 @@ function pUpdates(){
 
 /* ---------- package pages ---------- */
 function pPackage(){
-  return sb.from('ttwh_pages').select('*').order('slug').then(must).then(function(pages){
+  return sb.from('ttwh_pages').select('*').order('position').then(must).then(function(pages){
     var html='<h2>package details</h2>';
     if(!pages.length)html+='<p class="small">Details will appear here soon.</p>';
+    else html+='<p class="small">Jump to: '+pages.map(function(p){return '<a href="#/package" data-jump="pg-'+esc(p.slug)+'">'+esc(p.title)+'</a>'}).join(' · ')+'</p>';
     pages.forEach(function(p){
-      html+='<div class="card"><div class="bar"></div><div class="in"><h3 style="margin-top:0">'+esc(p.title)+'</h3>'
+      html+='<div class="card" id="pgc-'+esc(p.slug)+'"><div class="bar"></div><div class="in"><h3 style="margin-top:0">'+esc(p.title)+(isAdmin()&&!p.published?' <span class="chip">hidden</span>':'')+'</h3>'
        +(isAdmin()?'<textarea id="pg-'+esc(p.slug)+'" style="min-height:220px">'+esc(p.body_md)+'</textarea><label style="display:flex;gap:8px;font-weight:500"><input type="checkbox" id="pp-'+esc(p.slug)+'" '+(p.published?'checked':'')+' style="width:auto;margin-top:5px"> Visible to Heidi</label><p style="margin-top:8px"><button class="btn sm" data-slug="'+esc(p.slug)+'">Save</button></p>':md(p.body_md))+'</div></div>';
     });
     setPage(html);
-    if(isAdmin())$('#page').onclick=function(e){var b=e.target.closest('button[data-slug]');if(!b)return;var s=b.dataset.slug;
+    $('#page').onclick=function(e){
+      var j=e.target.closest('[data-jump]');if(j){e.preventDefault();var t=document.getElementById('pgc-'+j.dataset.jump.slice(3));if(t)t.scrollIntoView({behavior:'smooth',block:'start'});return}
+      var b=e.target.closest('button[data-slug]');if(!b||!isAdmin())return;var s=b.dataset.slug;
       sb.from('ttwh_pages').update({body_md:$('#pg-'+s).value,published:$('#pp-'+s).checked}).eq('slug',s).then(must).then(function(){b.textContent='Saved'}).catch(fail)};
   });
 }
 
 /* ---------- Q&A ---------- */
+var ATT_BUCKET='ttwh-attachments',ATT_MAX=10*1024*1024,ATT_ACCEPT='image/png,image/jpeg,image/gif,image/webp,.pdf,.doc,.docx,.txt,.csv,.xlsx';
+function aboutText(t,courses,comps){
+  var c=courses.find(function(x){return x.id===t.course_id}),k=comps.find(function(x){return x.id===t.component_id});
+  if(!c)return '';return esc(c.title)+(k?' · '+esc(k.label):'');
+}
+function uploadFiles(files,messageId){
+  var list=Array.prototype.slice.call(files||[]);
+  if(list.length>5)return Promise.reject(new Error('Please attach up to 5 files at a time.'));
+  for(var i=0;i<list.length;i++){if(list[i].size>ATT_MAX)return Promise.reject(new Error(list[i].name+' is over 10 MB.'))}
+  return list.reduce(function(chain,f){return chain.then(function(){
+    var ext=((f.name.split('.').pop()||'bin').replace(/[^a-z0-9]/gi,'').slice(0,8))||'bin',path=messageId+'/'+crypto.randomUUID()+'.'+ext;
+    return sb.storage.from(ATT_BUCKET).upload(path,f,{contentType:f.type||'application/octet-stream',upsert:false}).then(function(r){
+      if(r.error)throw r.error;
+      return sb.from('ttwh_qa_attachments').insert({message_id:messageId,path:path,filename:f.name.slice(0,200),size_bytes:f.size,content_type:f.type||null}).then(must)})})},Promise.resolve());
+}
 function pQA(id){
   if(id)return pThread(id);
-  return Promise.all([sb.from('ttwh_qa_threads').select('*').order('created_at',{ascending:false}),sb.from('ttwh_profiles').select('*')]).then(function(r){
-    var th=must(r[0]),who={};must(r[1]).forEach(function(p){who[p.user_id]=p.display_name});
-    var html='<h2>questions</h2><form class="card" id="qf"><div class="bar"></div><div class="in"><label>Ask a question</label><input name="subject" placeholder="Subject" required><textarea name="body" placeholder="Your question" required style="margin-top:8px;min-height:90px"></textarea><p style="margin-top:8px"><button class="btn sm" type="submit">Post</button></p></div></form>';
-    html+=th.length?th.map(function(t){return '<div class="row"><span><a href="#/qa/'+t.id+'">'+esc(t.subject)+'</a> '+chip(t.status)+'</span><span class="small">'+esc(who[t.created_by]||'')+' · '+fmtDate(t.created_at)+'</span></div>'}).join(''):'<p class="small">No questions yet.</p>';
+  return Promise.all([
+    sb.from('ttwh_qa_threads').select('*').order('created_at',{ascending:false}),
+    sb.from('ttwh_profiles').select('*'),
+    sb.from('ttwh_courses').select('id,title,position').order('position'),
+    sb.from('ttwh_components').select('id,label,position').order('position')
+  ]).then(function(r){
+    var th=must(r[0]),who={},courses=must(r[2]),comps=must(r[3]);must(r[1]).forEach(function(p){who[p.user_id]=p.display_name});
+    var html='<h2>questions</h2><form class="card" id="qf"><div class="bar"></div><div class="in"><h3 style="margin-top:0">ask a question</h3>'
+     +'<label for="qc">What is it about? (optional)</label><select id="qc"><option value="">A general question</option>'+courses.map(function(c){return '<option value="'+c.id+'">'+c.position+'. '+esc(c.title)+'</option>'}).join('')+'</select>'
+     +'<div id="qkw" hidden><label for="qk">Which component?</label><select id="qk"><option value="">The whole item / not sure</option>'+comps.map(function(k){return '<option value="'+k.id+'">'+esc(k.label)+'</option>'}).join('')+'</select></div>'
+     +'<label for="qs">Subject</label><input id="qs" required><label for="qb">Your question</label><textarea id="qb" required style="min-height:90px"></textarea>'
+     +'<label for="qa">Attach files (optional, up to 5, 10 MB each: images, PDF, Word, Excel, CSV, text)</label><input id="qa" type="file" multiple accept="'+ATT_ACCEPT+'">'
+     +'<p style="margin-top:10px"><button class="btn sm" type="submit">Post</button></p></div></form>';
+    html+=th.length?th.map(function(t){var a=aboutText(t,courses,comps);return '<div class="row"><span><a href="#/qa/'+t.id+'">'+esc(t.subject)+'</a> '+chip(t.status)+(a?'<br><span class="small">About: '+a+'</span>':'')+'</span><span class="small">'+esc(who[t.created_by]||'')+' · '+fmtDate(t.created_at)+'</span></div>'}).join(''):'<p class="small">No questions yet.</p>';
     setPage(html);
-    $('#qf').onsubmit=function(e){e.preventDefault();var f=e.target;
-      sb.from('ttwh_qa_threads').insert({subject:f.subject.value}).select('id').single().then(must).then(function(t){return sb.from('ttwh_qa_messages').insert({thread_id:t.id,body:f.body.value}).then(must).then(function(){location.hash='#/qa/'+t.id})}).catch(fail)};
+    $('#qc').onchange=function(){$('#qkw').hidden=!this.value;if(!this.value)$('#qk').value=''};
+    $('#qf').onsubmit=function(e){e.preventDefault();var btn=$('#qf button');btn.disabled=true;
+      sb.from('ttwh_qa_threads').insert({subject:$('#qs').value,course_id:$('#qc').value||null,component_id:$('#qc').value&&$('#qk').value?$('#qk').value:null}).select('id').single().then(must)
+       .then(function(t){return sb.from('ttwh_qa_messages').insert({thread_id:t.id,body:$('#qb').value}).select('id').single().then(must).then(function(m){return uploadFiles($('#qa').files,m.id)}).then(function(){location.hash='#/qa/'+t.id},function(err){alert('Your question was posted, but the attachment failed: '+(err.message||err));location.hash='#/qa/'+t.id})})
+       .catch(function(err){fail(err);btn.disabled=false})};
   });
 }
 function pThread(id){
-  return Promise.all([sb.from('ttwh_qa_threads').select('*').eq('id',id).maybeSingle(),sb.from('ttwh_qa_messages').select('*').eq('thread_id',id).order('created_at'),sb.from('ttwh_profiles').select('*')]).then(function(r){
+  return Promise.all([
+    sb.from('ttwh_qa_threads').select('*').eq('id',id).maybeSingle(),
+    sb.from('ttwh_qa_messages').select('*').eq('thread_id',id).order('created_at'),
+    sb.from('ttwh_profiles').select('*'),
+    sb.from('ttwh_courses').select('id,title,position'),
+    sb.from('ttwh_components').select('id,label,position')
+  ]).then(function(r){
     var t=must(r[0]),ms=must(r[1]),who={};must(r[2]).forEach(function(p){who[p.user_id]=p.display_name});
     if(!t){setPage('<p>Not found. <a href="#/qa">Back</a></p>');return}
-    var html='<p><a href="#/qa">← All questions</a></p><h2>'+esc(t.subject)+'</h2><p>'+chip(t.status)+(isAdmin()?' <button class="btn sm alt" id="st">Mark '+(t.status==='open'?'answered':'open')+'</button>':'')+'</p>'
-     +ms.map(function(m){return '<div class="msg'+(m.author_id===S.user.id?' me':'')+'"><div class="small">'+esc(who[m.author_id]||'')+' · '+fmtDate(m.created_at,true)+'</div>'+esc(m.body).replace(/\n/g,'<br>')+'</div>'}).join('')
-     +'<form id="rf" style="margin-top:12px"><label for="rb">Reply</label><textarea id="rb" required style="min-height:90px"></textarea><p style="margin-top:8px"><button class="btn sm" type="submit">Send</button></p></form>';
-    setPage(html);
-    $('#rf').onsubmit=function(e){e.preventDefault();
-      sb.from('ttwh_qa_messages').insert({thread_id:id,body:$('#rb').value}).then(must).then(function(){return isAdmin()?sb.from('ttwh_qa_threads').update({status:'answered'}).eq('id',id).then(must):null}).then(function(){pThread(id)}).catch(fail)};
-    if(isAdmin())$('#st').onclick=function(){sb.from('ttwh_qa_threads').update({status:t.status==='open'?'answered':'open'}).eq('id',id).then(must).then(function(){pThread(id)}).catch(fail)};
+    var ids=ms.map(function(m){return m.id});
+    return (ids.length?sb.from('ttwh_qa_attachments').select('*').in('message_id',ids).then(must):Promise.resolve([])).then(function(atts){
+      var about=aboutText(t,must(r[3]),must(r[4]));
+      var html='<p><a href="#/qa">← All questions</a></p><h2>'+esc(t.subject)+'</h2><p>'+chip(t.status)+(about?' <span class="chip">About: '+about+'</span>':'')+(isAdmin()?' <button class="btn sm alt" id="st">Mark '+(t.status==='open'?'answered':'open')+'</button>':'')+'</p>'
+       +ms.map(function(m){var at=atts.filter(function(a){return a.message_id===m.id});
+         return '<div class="msg'+(m.author_id===S.user.id?' me':'')+'"><div class="small">'+esc(who[m.author_id]||'')+' · '+fmtDate(m.created_at,true)+'</div>'+esc(m.body).replace(/\n/g,'<br>')
+          +(at.length?'<div style="margin-top:6px">'+at.map(function(a){return '<button class="btn sm alt" data-path="'+esc(a.path)+'" data-fn="'+esc(a.filename)+'">📎 '+esc(a.filename)+'</button> '}).join('')+'</div>':'')+'</div>'}).join('')
+       +'<form id="rf" style="margin-top:12px"><label for="rb">Reply</label><textarea id="rb" required style="min-height:90px"></textarea><label for="ra">Attach files (optional)</label><input id="ra" type="file" multiple accept="'+ATT_ACCEPT+'"><p style="margin-top:8px"><button class="btn sm" type="submit">Send</button></p></form>';
+      setPage(html);
+      $('#page').onclick=function(e){var b=e.target.closest('button[data-path]');if(!b)return;
+        sb.storage.from(ATT_BUCKET).createSignedUrl(b.dataset.path,120,{download:b.dataset.fn}).then(function(x){if(x.error)return fail(x.error);window.open(x.data.signedUrl,'_blank','noopener')})};
+      $('#rf').onsubmit=function(e){e.preventDefault();var btn=$('#rf button');btn.disabled=true;
+        sb.from('ttwh_qa_messages').insert({thread_id:id,body:$('#rb').value}).select('id').single().then(must)
+         .then(function(m){return uploadFiles($('#ra').files,m.id).catch(function(err){alert('Your reply was sent, but the attachment failed: '+(err.message||err))})})
+         .then(function(){return isAdmin()?sb.from('ttwh_qa_threads').update({status:'answered'}).eq('id',id).then(must):null}).then(function(){pThread(id)}).catch(function(err){fail(err);btn.disabled=false})};
+      if(isAdmin())$('#st').onclick=function(){sb.from('ttwh_qa_threads').update({status:t.status==='open'?'answered':'open'}).eq('id',id).then(must).then(function(){pThread(id)}).catch(fail)};
+    });
   });
 }
 
