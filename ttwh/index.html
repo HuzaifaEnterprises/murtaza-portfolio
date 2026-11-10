@@ -66,6 +66,12 @@ thead th{background:var(--mustard);border-bottom:2px solid var(--ink);position:s
 td select{padding:3px;font-size:.8rem;min-width:96px}
 td input{padding:3px 6px;font-size:.82rem;min-width:140px}
 .md h3{font-size:1.6rem}.md ul,.md ol{margin:0 0 12px 22px}.md li{margin:2px 0}
+.gm{display:flex;gap:10px;padding:12px 0;border-top:1px solid #e3ddd2;font-size:.9rem;line-height:1.45}.gm:first-child{border-top:0}
+.gm .av{flex:none;width:30px;height:30px;border-radius:50%;background:var(--purple);color:#fff;font:700 .85rem/30px Jost,sans-serif;text-align:center}.gm .av.cl{background:#4d9a4e}
+.gm .bd2{flex:1;min-width:0}.gm .nm{font-weight:700;font-size:.88rem}.gm .tm{color:#6b6b6b;font-size:.78rem;margin-left:6px}.gm .ac{font-size:.78rem;margin-left:6px}.gm .ac a{color:#6b6b6b}.gm .mb{margin-top:2px;overflow-wrap:anywhere;word-break:break-word}.gm .mb a{color:var(--purple);text-decoration:underline}.gm .mb textarea{font-size:.9rem}
+.thread summary{font-size:.92rem}.thread textarea{font-size:.9rem}.thread .small{font-size:.78rem}
+#qabanner{position:absolute;right:0;bottom:0;width:250px}#qabanner a{display:block;background:var(--paper);color:var(--ink);border:2px solid var(--ink);border-left:8px solid var(--orange);padding:10px 12px;text-decoration:none;font-size:.9rem;font-weight:600;box-shadow:3px 3px 0 var(--ink)}#qabanner span{display:block;font-weight:400;font-size:.8rem;margin-top:2px}.hero .wrap{position:relative}
+@media(max-width:1000px){#qabanner{position:static;width:auto;margin-top:14px}}
 .msg{border:1.5px solid var(--ink);background:#fff;padding:10px 12px;margin:8px 0;max-width:80%}
 .msg.me{margin-left:auto;background:var(--mustard)}
 .err{background:#f6c3a6;border:2px solid var(--ink);padding:8px 12px;margin:10px 0}
@@ -164,7 +170,7 @@ var STAGE_PCT={not_started:0,in_progress:25,in_review:75,done:100};
 var TABS=[['home','← Programs'],['overview','Overview'],['contracts','Contracts'],['payments','Payments'],['progress','Progress'],['updates','Updates'],['package','Package'],['qa','Q&A']];
 function shell(route,html){
   var tabs=TABS.slice();if(isAdmin())tabs.push(['timer','Timer']);
-  app.innerHTML='<header class="hero"><div class="wrap"><h1><span class="strip">ttwh</span> <span class="strip" style="transform:rotate(1deg)">package portal</span></h1><p>One private place for the contract, payments, progress and updates '+(route==='home'||route==='rr'?'for each program.':'for the Psychic Training School package.')+'</p></div></header>'
+  app.innerHTML='<header class="hero"><div class="wrap"><h1><span class="strip">ttwh</span> <span class="strip" style="transform:rotate(1deg)">package portal</span></h1><p>One private place for the contract, payments, progress and updates '+(route==='home'||route==='rr'?'for each program.':'for the Psychic Training School package.')+'</p><div id="qabanner"></div></div></header>'
    +'<nav class="tabs" aria-label="Sections"><div class="wrap">'+(route==='home'||route==='rr'?'':tabs.map(function(t){return '<a href="#/'+t[0]+'"'+(route===t[0]?' class="on" aria-current="page"':'')+'>'+t[1]+'</a>'}).join(''))
    +'<button class="btn sm alt" id="logout">Sign out</button></div></nav><main><div class="wrap" id="page">'+html+'</div></main>';
   $('#logout').onclick=function(){S.user=null;S.role=null;sb.auth.signOut().then(function(){history.replaceState(null,'',location.pathname);loginView()},function(){history.replaceState(null,'',location.pathname);loginView()})};
@@ -199,7 +205,7 @@ function route(){
   if(!map[r]||(r==='timer'&&!isAdmin())){r='home'}
   if(r==='invoice'){app.innerHTML='<main><div class="wrap" id="page"></div></main>'}
   else shell(r,'<p>Loading…</p>');
-  if(r!=='invoice')qaWaiting().then(function(n){var a=document.querySelector('nav.tabs a[href="#/qa"]');if(a&&n)a.textContent='Q&A ('+n+')'});
+  if(r!=='invoice')qaWaiting().then(function(n){if(!n)return;var a=document.querySelector('nav.tabs a[href="#/qa"]');if(a)a.textContent='Q&A ('+n+')';var h=document.getElementById('qabanner');if(h)h.innerHTML='<a href="#/qa">💬 '+(isAdmin()?(n===1?'1 question is waiting for your reply':n+' questions are waiting for your reply'):(n===1?'Murtaza has a question waiting for you':'Murtaza has '+n+' questions waiting for you'))+'<span>Open Q&amp;A →</span></a>'});
   Promise.resolve().then(function(){return map[r](h[1])}).catch(function(e){setPage(note('Could not load this page: '+(e&&e.message||e)))});
 }
 window.addEventListener('hashchange',function(){if(S.user)route()});
@@ -211,9 +217,7 @@ function qaWaiting(){
     th.forEach(function(t){var m=ms.filter(function(x){return x.thread_id===t.id}),l=m[m.length-1];if(l&&l.author_id!==S.user.id)n++});return n}).catch(function(){return 0});
 }
 function pHome(){
-  var wb=document.createElement('div');
-  qaWaiting().then(function(n){if(!n)return;var h=document.getElementById('qabanner');if(h)h.innerHTML='<a href="#/qa" class="card o" style="display:block;text-decoration:none;color:inherit;margin:14px 0"><div class="bar"></div><div class="in"><b>💬 '+(isAdmin()?(n===1?'1 question is waiting for your reply':n+' questions are waiting for your reply'):(n===1?'Murtaza has a question waiting for you':'Murtaza has '+n+' questions waiting for you'))+'</b> <span class="small">· open Q&amp;A →</span></div></a>'});
-  setPage('<div id="qabanner"></div><h2>welcome'+(S.name?', '+esc(S.name):'')+'</h2><p>Choose a program to see its contract, payments, progress and updates.</p><div class="grid c2">'
+  setPage('<h2>welcome'+(S.name?', '+esc(S.name):'')+'</h2><p>Choose a program to see its contract, payments, progress and updates.</p><div class="grid c2">'
    +'<a class="card g" href="#/overview" style="text-decoration:none;color:inherit"><div class="bar"></div><div class="in" style="padding:34px 20px;text-align:center"><h3 style="font-size:2.2rem;margin:0">Psychic Training School</h3><p class="small" style="margin:6px 0 0">PTS · open the package portal →</p></div></a>'
    +'<a class="card o" href="#/rr" style="text-decoration:none;color:inherit"><div class="bar"></div><div class="in" style="padding:34px 20px;text-align:center"><h3 style="font-size:2.2rem;margin:0">Relationships + Regulation</h3><p class="small" style="margin:6px 0 0">R+R · open the package portal →</p></div></a></div>');
 }
@@ -468,12 +472,13 @@ function uploadFiles(files,messageId){
       if(r.error)throw r.error;
       return sb.from('ttwh_qa_attachments').insert({message_id:messageId,path:path,filename:f.name.slice(0,200),size_bytes:f.size,content_type:f.type||null}).then(must)})})},Promise.resolve());
 }
+function linkify(h){return h.replace(/(https?:\/\/[^\s<]+)/g,function(u){var t='';var m=u.match(/[.,;:!?)\]]+$/);if(m){t=m[0];u=u.slice(0,u.length-t.length)}return '<a href="'+u+'" target="_blank" rel="noopener noreferrer">'+u+'</a>'+t})}
 function threadCard(t,msgs,atts,who,courses,comps){
   var about=aboutText(t,courses,comps),res=t.status==='resolved',adm=isAdmin();
   var last=msgs.length?msgs[msgs.length-1]:null;
-  var body=msgs.map(function(m){var at=atts.filter(function(a){return a.message_id===m.id}),mine=m.author_id===S.user.id;
-    return '<div class="msg'+(mine?' me':'')+'" data-m="'+m.id+'"><div class="small"><b>'+esc(who[m.author_id]||'')+'</b> · '+fmtDate(m.created_at,true)+(m.edited_at?' · edited':'')+(mine&&!res?' · <a href="#" data-edit="'+m.id+'">Edit</a> · <a href="#" data-del="'+m.id+'">Delete</a>':'')+'</div><div class="mb">'+esc(m.body).replace(/\n/g,'<br>')+'</div>'
-     +(at.length?'<div style="margin-top:6px">'+at.map(function(a){return '<button class="btn sm alt" data-path="'+esc(a.path)+'" data-fn="'+esc(a.filename)+'">📎 '+esc(a.filename)+'</button> '}).join('')+'</div>':'')+'</div>'}).join('');
+  var body=msgs.map(function(m){var at=atts.filter(function(a){return a.message_id===m.id}),mine=m.author_id===S.user.id,nm=who[m.author_id]||'',cl=!!(m.author_id&&who['_role_'+m.author_id]==='client');
+    return '<div class="gm" data-m="'+m.id+'"><div class="av'+(cl?' cl':'')+'" aria-hidden="true">'+esc((nm||'?').charAt(0).toUpperCase())+'</div><div class="bd2"><div><span class="nm">'+esc(nm)+'</span><span class="tm">'+fmtDate(m.created_at,true)+(m.edited_at?' · edited':'')+'</span>'+(mine&&!res?'<span class="ac"><a href="#" data-edit="'+m.id+'">Edit</a> · <a href="#" data-del="'+m.id+'">Delete</a></span>':'')+'</div><div class="mb">'+linkify(esc(m.body)).replace(/\n/g,'<br>')+'</div>'
+     +(at.length?'<div style="margin-top:6px">'+at.map(function(a){return '<button class="btn sm alt" data-path="'+esc(a.path)+'" data-fn="'+esc(a.filename)+'">📎 '+esc(a.filename)+'</button> '}).join('')+'</div>':'')+'</div></div>'}).join('');
   var reply=res?'':'<form class="rf" data-t="'+t.id+'" style="margin-top:8px"><label>Reply</label><textarea required style="min-height:70px" placeholder="Write a reply"></textarea><input type="file" class="rfile" multiple accept="'+ATT_ACCEPT+'" aria-label="Attach files"><p style="margin-top:6px"><button class="btn sm" type="submit">Send</button></p></form>';
   var own=(t.created_by===S.user.id&&!res);
   var acts=(adm||own)?'<p style="margin-top:8px">'+(adm?(res?'<button class="btn sm alt" data-st="open" data-t="'+t.id+'">Reopen</button>':'<button class="btn sm go" data-st="resolved" data-t="'+t.id+'">Mark resolved (hides it from Heidi)</button>'):'')+(res&&!adm?'':' <button class="btn sm alt" data-delthread="'+t.id+'">Delete question</button>')+'</p>':'';
@@ -489,7 +494,7 @@ function pQA(id){
     sb.from('ttwh_courses').select('id,title,position').order('position'),
     sb.from('ttwh_components').select('id,label,position').order('position')
   ]).then(function(r){
-    var th=must(r[0]),ms=must(r[1]),at=must(r[2]),who={},courses=must(r[4]),comps=must(r[5]);must(r[3]).forEach(function(p){who[p.user_id]=p.display_name});
+    var th=must(r[0]),ms=must(r[1]),at=must(r[2]),who={},courses=must(r[4]),comps=must(r[5]);must(r[3]).forEach(function(p){who[p.user_id]=p.display_name;who['_role_'+p.user_id]=p.role});
     var live=th.filter(function(t){return t.status!=='resolved'}),done=th.filter(function(t){return t.status==='resolved'});
     var card=function(t){var m=ms.filter(function(x){return x.thread_id===t.id}),ids=m.map(function(x){return x.id});return threadCard(t,m,at.filter(function(a){return ids.indexOf(a.message_id)>-1}),who,courses,comps)};
     var html='<h2>questions</h2><details class="card" id="newq"><summary style="padding:10px 14px;cursor:pointer"><b>＋ Ask a new question</b></summary><form id="qf" class="in" style="padding:0 16px 14px">'
@@ -512,7 +517,7 @@ function pQA(id){
       var b=e.target.closest('button[data-path]');
       if(b){sb.storage.from(ATT_BUCKET).createSignedUrl(b.dataset.path,120,{download:b.dataset.fn}).then(function(x){if(x.error)return fail(x.error);window.open(x.data.signedUrl,'_blank','noopener')});return}
       var ed=e.target.closest('a[data-edit]');
-      if(ed){e.preventDefault();var box=ed.closest('.msg'),mb=box.querySelector('.mb'),orig=ms.filter(function(x){return x.id===ed.dataset.edit})[0];
+      if(ed){e.preventDefault();var box=ed.closest('.gm'),mb=box.querySelector('.mb'),orig=ms.filter(function(x){return x.id===ed.dataset.edit})[0];
         mb.innerHTML='<textarea style="min-height:70px">'+esc(orig.body)+'</textarea><p style="margin-top:6px"><button class="btn sm go" data-save="'+orig.id+'">Save</button> <button class="btn sm alt" data-cancel="1">Cancel</button></p>';return}
       var sv=e.target.closest('button[data-save]');
       if(sv){var ta=sv.closest('.mb').querySelector('textarea').value.trim();if(!ta)return;sv.disabled=true;
