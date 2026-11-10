@@ -40,10 +40,12 @@ main{padding:26px 0 40px}
 .grid{display:grid;gap:12px}
 @media(min-width:700px){body{font-size:18px}.wrap{padding:0 24px}.grid.c2{grid-template-columns:1fr 1fr}.grid.c3{grid-template-columns:1fr 1fr 1fr}}
 .chip{display:inline-block;font-size:.78rem;font-weight:600;padding:0 8px;border:1.5px solid var(--ink);background:var(--paper);vertical-align:middle}
-.chip.final,.chip.in_progress,.chip.invoiced,.chip.open{background:var(--mustard)}
-.chip.signed,.chip.done,.chip.paid,.chip.published,.chip.answered,.chip.approved{background:var(--green)}
-.chip.draft,.chip.not_started,.chip.planned{background:var(--paper)}
-.chip.in_review{background:#e5cdf2}.chip.needs_changes{background:#f6c3a6}
+.chip.final,.chip.invoiced,.chip.open{background:var(--mustard)}
+.chip.signed,.chip.paid,.chip.published,.chip.answered,.chip.approved{background:var(--green)}
+.chip.draft,.chip.planned,.chip.resolved{background:var(--paper)}
+.chip.not_started,td.st-not_started,.sg-not_started{background:#F6D5C3}.chip.in_progress,td.st-in_progress,.sg-in_progress{background:#FFEFC2}.chip.in_review,td.st-in_review,.sg-in_review{background:#E6D4F0}.chip.done,td.st-done,.sg-done{background:#CDEBCD}
+.stack{display:flex;height:18px;border:2px solid var(--ink);background:#fff}.stack span{height:100%;border-right:1.5px solid var(--ink)}.stack span:last-child{border-right:0}.legend{display:flex;flex-wrap:wrap;gap:6px 12px;margin:8px 0;font-size:.85rem}.legend i{display:inline-block;width:14px;height:14px;border:1.5px solid var(--ink);vertical-align:-2px;margin-right:4px}
+.thread.resolved summary{font-size:.9rem;opacity:.8}.chip.needs_changes{background:#f6c3a6}
 .btn{display:inline-block;font:inherit;font-weight:600;background:var(--ink);color:var(--paper);border:2px solid var(--ink);padding:9px 16px;cursor:pointer;min-height:42px;text-decoration:none;transition:transform .15s}
 .btn:hover{transform:translate(-2px,-2px);box-shadow:3px 3px 0 var(--orange)}
 .btn.sm{padding:3px 10px;min-height:32px;font-size:.88rem}
@@ -221,6 +223,12 @@ function lockOf(p,pct){
   if(!p||p.status==='paid'||p.unlocked_at)return {locked:false};
   return {locked:true,why:p.unlock_at_pct==null?'Unlocks when the agreement is signed':'Unlocks when progress reaches '+p.unlock_at_pct+'% (now '+pct+'%)'};
 }
+function stageBar(cells){
+  var n=cells.length||1,L={not_started:'Not started',in_progress:'In progress',in_review:'In review',done:'Done'},c={};
+  cells.forEach(function(x){c[x.stage]=(c[x.stage]||0)+1});
+  var order=['done','in_review','in_progress','not_started'];
+  return '<div class="stack" role="img" aria-label="Components by stage">'+order.map(function(k){return c[k]?'<span class="sg-'+k+'" style="width:'+(c[k]*100/n)+'%"></span>':''}).join('')+'</div><div class="legend">'+order.map(function(k){return '<span><i class="sg-'+k+'"></i>'+L[k]+' ('+(c[k]||0)+')</span>'}).join('')+'</div>';
+}
 function pOverview(){
   return Promise.all([
     sb.from('ttwh_packages').select('*').eq('code','PTS').maybeSingle(),
@@ -381,13 +389,13 @@ function pProgress(){
     var courses=must(r[0]),comps=must(r[1]),cells=must(r[2]),map={};
     cells.forEach(function(c){map[c.course_id+'|'+c.component_id]=c});
     var overall=Math.round(coursePct(cells));
-    var html='<h2>progress</h2><div class="bar-wrap"><div class="bar-fill" style="width:'+overall+'%"></div></div><p style="margin-top:6px"><b>'+overall+'%</b> overall · 27 items × 5 components. <span class="small">Done counts 100%, in review 75%, in progress 25%, not started 0%.</span></p>';
+    var html='<h2>progress</h2><div class="bar-wrap"><div class="bar-fill" style="width:'+overall+'%"></div></div><p style="margin-top:6px"><b>'+overall+'%</b> overall · 27 items × 5 components. <span class="small">Done counts 100%, in review 75%, in progress 25%, not started 0%.</span></p>'+stageBar(cells);
     html+='<div class="tblwrap"><table><thead><tr><th>#</th><th>Item</th>'+comps.map(function(c){return '<th>'+esc(c.label)+'</th>'}).join('')+'<th>%</th><th>Current task</th></tr></thead><tbody>';
     courses.forEach(function(c){
       var cc=comps.map(function(k){return map[c.id+'|'+k.id]}).filter(Boolean);
       html+='<tr><td>'+c.position+'</td><th scope="row" style="background:none;position:static;white-space:normal">'+esc(c.title)+'</th>'+comps.map(function(k){var cell=map[c.id+'|'+k.id];if(!cell)return '<td></td>';
-        if(isAdmin())return '<td><select data-c="'+c.id+'" data-k="'+k.id+'" aria-label="'+esc(c.title+' '+k.label)+'">'+STAGES.map(function(s){return '<option value="'+s+'"'+(s===cell.stage?' selected':'')+'>'+s.replace('_',' ')+'</option>'}).join('')+'</select>'+(cell.approval?'<br>'+chip(cell.approval):'')+'</td>';
-        return '<td>'+chip(cell.stage)+(cell.approval?'<br>'+chip(cell.approval):'')+((cell.stage==='in_review'||cell.stage==='done')?'<br><button class="btn sm go" data-ap="approved" data-c="'+c.id+'" data-k="'+k.id+'" title="Approve">✓</button> <button class="btn sm alt" data-ap="needs_changes" data-c="'+c.id+'" data-k="'+k.id+'" title="Needs changes">✎</button>':'')+'</td>'}).join('')
+        if(isAdmin())return '<td class="st-'+cell.stage+'"><select data-c="'+c.id+'" data-k="'+k.id+'" aria-label="'+esc(c.title+' '+k.label)+'">'+STAGES.map(function(s){return '<option value="'+s+'"'+(s===cell.stage?' selected':'')+'>'+s.replace('_',' ')+'</option>'}).join('')+'</select>'+(cell.approval?'<br>'+chip(cell.approval):'')+'</td>';
+        return '<td class="st-'+cell.stage+'">'+chip(cell.stage)+(cell.approval?'<br>'+chip(cell.approval):'')+((cell.stage==='in_review'||cell.stage==='done')?'<br><button class="btn sm go" data-ap="approved" data-c="'+c.id+'" data-k="'+k.id+'" title="Approve">✓</button> <button class="btn sm alt" data-ap="needs_changes" data-c="'+c.id+'" data-k="'+k.id+'" title="Needs changes">✎</button>':'')+'</td>'}).join('')
         +'<td><b>'+Math.round(coursePct(cc))+'%</b></td><td>'+(isAdmin()?'<input data-task="'+c.id+'" value="'+esc(c.current_task||'')+'" aria-label="Current task for '+esc(c.title)+'">':esc(c.current_task||''))+'</td></tr>';
     });
     html+='</tbody></table></div>'+(isAdmin()?'':'<p class="small" style="margin-top:8px">✓ approves a component, ✎ asks for changes. Murtaza sees your choice straight away.</p>');
@@ -451,57 +459,56 @@ function uploadFiles(files,messageId){
       if(r.error)throw r.error;
       return sb.from('ttwh_qa_attachments').insert({message_id:messageId,path:path,filename:f.name.slice(0,200),size_bytes:f.size,content_type:f.type||null}).then(must)})})},Promise.resolve());
 }
+function threadCard(t,msgs,atts,who,courses,comps){
+  var about=aboutText(t,courses,comps),res=t.status==='resolved',adm=isAdmin();
+  var last=msgs.length?msgs[msgs.length-1]:null;
+  var body=msgs.map(function(m){var at=atts.filter(function(a){return a.message_id===m.id}),mine=m.author_id===S.user.id;
+    return '<div class="msg'+(mine?' me':'')+'"><div class="small"><b>'+esc(who[m.author_id]||'')+'</b> · '+fmtDate(m.created_at,true)+'</div>'+esc(m.body).replace(/\n/g,'<br>')
+     +(at.length?'<div style="margin-top:6px">'+at.map(function(a){return '<button class="btn sm alt" data-path="'+esc(a.path)+'" data-fn="'+esc(a.filename)+'">📎 '+esc(a.filename)+'</button> '}).join('')+'</div>':'')+'</div>'}).join('');
+  var reply=res?'':'<form class="rf" data-t="'+t.id+'" style="margin-top:8px"><label>Reply</label><textarea required style="min-height:70px" placeholder="Write a reply"></textarea><input type="file" class="rfile" multiple accept="'+ATT_ACCEPT+'" aria-label="Attach files"><p style="margin-top:6px"><button class="btn sm" type="submit">Send</button></p></form>';
+  var acts=adm?'<p style="margin-top:8px">'+(res?'<button class="btn sm alt" data-st="open" data-t="'+t.id+'">Reopen</button>':'<button class="btn sm go" data-st="resolved" data-t="'+t.id+'">Mark resolved (hides it from Heidi)</button>')+'</p>':'';
+  var head='<b>'+esc(t.subject)+'</b> '+chip(t.status)+(about?' <span class="chip">About: '+about+'</span>':'')+' <span class="small">'+msgs.length+' message'+(msgs.length===1?'':'s')+(last?' · last '+fmtDate(last.created_at):'')+'</span>';
+  return '<details class="card thread'+(res?' resolved':'')+'" id="th-'+t.id+'"'+(res?'':' open')+'><summary style="padding:10px 14px;cursor:pointer">'+head+'</summary><div class="in" style="padding:0 16px 14px">'+body+reply+acts+'</div></details>';
+}
 function pQA(id){
-  if(id)return pThread(id);
   return Promise.all([
     sb.from('ttwh_qa_threads').select('*').order('created_at',{ascending:false}),
+    sb.from('ttwh_qa_messages').select('*').order('created_at'),
+    sb.from('ttwh_qa_attachments').select('*'),
     sb.from('ttwh_profiles').select('*'),
     sb.from('ttwh_courses').select('id,title,position').order('position'),
     sb.from('ttwh_components').select('id,label,position').order('position')
   ]).then(function(r){
-    var th=must(r[0]),who={},courses=must(r[2]),comps=must(r[3]);must(r[1]).forEach(function(p){who[p.user_id]=p.display_name});
-    var html='<h2>questions</h2><form class="card" id="qf"><div class="bar"></div><div class="in"><h3 style="margin-top:0">ask a question</h3>'
+    var th=must(r[0]),ms=must(r[1]),at=must(r[2]),who={},courses=must(r[4]),comps=must(r[5]);must(r[3]).forEach(function(p){who[p.user_id]=p.display_name});
+    var live=th.filter(function(t){return t.status!=='resolved'}),done=th.filter(function(t){return t.status==='resolved'});
+    var card=function(t){var m=ms.filter(function(x){return x.thread_id===t.id}),ids=m.map(function(x){return x.id});return threadCard(t,m,at.filter(function(a){return ids.indexOf(a.message_id)>-1}),who,courses,comps)};
+    var html='<h2>questions</h2><details class="card" id="newq"><summary style="padding:10px 14px;cursor:pointer"><b>＋ Ask a new question</b></summary><form id="qf" class="in" style="padding:0 16px 14px">'
      +'<label for="qc">What is it about? (optional)</label><select id="qc"><option value="">A general question</option>'+courses.map(function(c){return '<option value="'+c.id+'">'+c.position+'. '+esc(c.title)+'</option>'}).join('')+'</select>'
      +'<div id="qkw" hidden><label for="qk">Which component?</label><select id="qk"><option value="">The whole item / not sure</option>'+comps.map(function(k){return '<option value="'+k.id+'">'+esc(k.label)+'</option>'}).join('')+'</select></div>'
      +'<label for="qs">Subject</label><input id="qs" required><label for="qb">Your question</label><textarea id="qb" required style="min-height:90px"></textarea>'
-     +'<label for="qa">Attach files (optional, up to 5, 10 MB each: images, PDF, Word, Excel, CSV, text)</label><input id="qa" type="file" multiple accept="'+ATT_ACCEPT+'">'
-     +'<p style="margin-top:10px"><button class="btn sm" type="submit">Post</button></p></div></form>';
-    html+=th.length?th.map(function(t){var a=aboutText(t,courses,comps);return '<div class="row"><span><a href="#/qa/'+t.id+'">'+esc(t.subject)+'</a> '+chip(t.status)+(a?'<br><span class="small">About: '+a+'</span>':'')+'</span><span class="small">'+esc(who[t.created_by]||'')+' · '+fmtDate(t.created_at)+'</span></div>'}).join(''):'<p class="small">No questions yet.</p>';
+     +'<label for="qa">Attach files (optional, up to 5, 10 MB each)</label><input id="qa" type="file" multiple accept="'+ATT_ACCEPT+'">'
+     +'<p style="margin-top:10px"><button class="btn sm" type="submit">Post</button></p></form></details>';
+    html+=live.length?live.map(card).join(''):'<p class="small" style="margin-top:12px">No open questions. Thank you!</p>';
+    if(isAdmin()&&done.length)html+='<h3>resolved ('+done.length+')</h3><p class="small">Hidden from Heidi. Open one to read it or reopen it.</p>'+done.map(card).join('');
     setPage(html);
+    if(id){var el=document.getElementById('th-'+id);if(el){el.open=true;el.scrollIntoView()}}
     $('#qc').onchange=function(){$('#qkw').hidden=!this.value;if(!this.value)$('#qk').value=''};
     $('#qf').onsubmit=function(e){e.preventDefault();var btn=$('#qf button');btn.disabled=true;
       sb.from('ttwh_qa_threads').insert({subject:$('#qs').value,course_id:$('#qc').value||null,component_id:$('#qc').value&&$('#qk').value?$('#qk').value:null}).select('id').single().then(must)
-       .then(function(t){return sb.from('ttwh_qa_messages').insert({thread_id:t.id,body:$('#qb').value}).select('id').single().then(must).then(function(m){return uploadFiles($('#qa').files,m.id)}).then(function(){location.hash='#/qa/'+t.id},function(err){alert('Your question was posted, but the attachment failed: '+(err.message||err));location.hash='#/qa/'+t.id})})
+       .then(function(t){return sb.from('ttwh_qa_messages').insert({thread_id:t.id,body:$('#qb').value}).select('id').single().then(must).then(function(m){return uploadFiles($('#qa').files,m.id)}).catch(function(err){alert('Your question was posted, but the attachment failed: '+(err.message||err))}).then(function(){pQA(t.id)})})
        .catch(function(err){fail(err);btn.disabled=false})};
-  });
-}
-function pThread(id){
-  return Promise.all([
-    sb.from('ttwh_qa_threads').select('*').eq('id',id).maybeSingle(),
-    sb.from('ttwh_qa_messages').select('*').eq('thread_id',id).order('created_at'),
-    sb.from('ttwh_profiles').select('*'),
-    sb.from('ttwh_courses').select('id,title,position'),
-    sb.from('ttwh_components').select('id,label,position')
-  ]).then(function(r){
-    var t=must(r[0]),ms=must(r[1]),who={};must(r[2]).forEach(function(p){who[p.user_id]=p.display_name});
-    if(!t){setPage('<p>Not found. <a href="#/qa">Back</a></p>');return}
-    var ids=ms.map(function(m){return m.id});
-    return (ids.length?sb.from('ttwh_qa_attachments').select('*').in('message_id',ids).then(must):Promise.resolve([])).then(function(atts){
-      var about=aboutText(t,must(r[3]),must(r[4]));
-      var html='<p><a href="#/qa">← All questions</a></p><h2>'+esc(t.subject)+'</h2><p>'+chip(t.status)+(about?' <span class="chip">About: '+about+'</span>':'')+(isAdmin()?' <button class="btn sm alt" id="st">Mark '+(t.status==='open'?'answered':'open')+'</button>':'')+'</p>'
-       +ms.map(function(m){var at=atts.filter(function(a){return a.message_id===m.id});
-         return '<div class="msg'+(m.author_id===S.user.id?' me':'')+'"><div class="small">'+esc(who[m.author_id]||'')+' · '+fmtDate(m.created_at,true)+'</div>'+esc(m.body).replace(/\n/g,'<br>')
-          +(at.length?'<div style="margin-top:6px">'+at.map(function(a){return '<button class="btn sm alt" data-path="'+esc(a.path)+'" data-fn="'+esc(a.filename)+'">📎 '+esc(a.filename)+'</button> '}).join('')+'</div>':'')+'</div>'}).join('')
-       +'<form id="rf" style="margin-top:12px"><label for="rb">Reply</label><textarea id="rb" required style="min-height:90px"></textarea><label for="ra">Attach files (optional)</label><input id="ra" type="file" multiple accept="'+ATT_ACCEPT+'"><p style="margin-top:8px"><button class="btn sm" type="submit">Send</button></p></form>';
-      setPage(html);
-      $('#page').onclick=function(e){var b=e.target.closest('button[data-path]');if(!b)return;
-        sb.storage.from(ATT_BUCKET).createSignedUrl(b.dataset.path,120,{download:b.dataset.fn}).then(function(x){if(x.error)return fail(x.error);window.open(x.data.signedUrl,'_blank','noopener')})};
-      $('#rf').onsubmit=function(e){e.preventDefault();var btn=$('#rf button');btn.disabled=true;
-        sb.from('ttwh_qa_messages').insert({thread_id:id,body:$('#rb').value}).select('id').single().then(must)
-         .then(function(m){return uploadFiles($('#ra').files,m.id).catch(function(err){alert('Your reply was sent, but the attachment failed: '+(err.message||err))})})
-         .then(function(){return isAdmin()?sb.from('ttwh_qa_threads').update({status:'answered'}).eq('id',id).then(must):null}).then(function(){pThread(id)}).catch(function(err){fail(err);btn.disabled=false})};
-      if(isAdmin())$('#st').onclick=function(){sb.from('ttwh_qa_threads').update({status:t.status==='open'?'answered':'open'}).eq('id',id).then(must).then(function(){pThread(id)}).catch(fail)};
-    });
+    var pg=$('#page');
+    pg.onclick=function(e){
+      var b=e.target.closest('button[data-path]');
+      if(b){sb.storage.from(ATT_BUCKET).createSignedUrl(b.dataset.path,120,{download:b.dataset.fn}).then(function(x){if(x.error)return fail(x.error);window.open(x.data.signedUrl,'_blank','noopener')});return}
+      var s=e.target.closest('button[data-st]');
+      if(s&&isAdmin()){e.preventDefault();var tid=s.dataset.t,v=s.dataset.st;s.disabled=true;
+        sb.from('ttwh_qa_threads').update({status:v,resolved_at:v==='resolved'?new Date().toISOString():null}).eq('id',tid).then(must).then(function(){pQA(v==='open'?tid:null)}).catch(function(err){fail(err);s.disabled=false})}};
+    pg.onsubmit=function(e){var f=e.target.closest('form.rf');if(!f)return;e.preventDefault();var btn=f.querySelector('button'),tid=f.dataset.t;btn.disabled=true;
+      sb.from('ttwh_qa_messages').insert({thread_id:tid,body:f.querySelector('textarea').value}).select('id').single().then(must)
+       .then(function(m){return uploadFiles(f.querySelector('.rfile').files,m.id).catch(function(err){alert('Your reply was sent, but the attachment failed: '+(err.message||err))})})
+       .then(function(){pQA(tid)}).catch(function(err){fail(err);btn.disabled=false})};
+    var nq=$('#qf');nq.addEventListener('submit',function(e){e.stopPropagation()},true);
   });
 }
 
