@@ -479,7 +479,7 @@ function threadCard(t,msgs,atts,who,courses,comps){
   var body=msgs.map(function(m){var at=atts.filter(function(a){return a.message_id===m.id}),mine=m.author_id===S.user.id,nm=who[m.author_id]||'',cl=!!(m.author_id&&who['_role_'+m.author_id]==='client');
     return '<div class="gm" data-m="'+m.id+'"><div class="av'+(cl?' cl':'')+'" aria-hidden="true">'+esc((nm||'?').charAt(0).toUpperCase())+'</div><div class="bd2"><div><span class="nm">'+esc(nm)+'</span><span class="tm">'+fmtDate(m.created_at,true)+(m.edited_at?' · edited':'')+'</span>'+(mine&&!res?'<span class="ac"><a href="#" data-edit="'+m.id+'">Edit</a> · <a href="#" data-del="'+m.id+'">Delete</a></span>':'')+'</div><div class="mb">'+linkify(esc(m.body)).replace(/\n/g,'<br>')+'</div>'
      +(at.length?'<div style="margin-top:6px">'+at.map(function(a){return '<button class="btn sm alt" data-path="'+esc(a.path)+'" data-fn="'+esc(a.filename)+'">📎 '+esc(a.filename)+'</button> '}).join('')+'</div>':'')+'</div></div>'}).join('');
-  var reply=res?'':'<form class="rf" data-t="'+t.id+'" style="margin-top:8px"><label>Reply</label><textarea required style="min-height:70px" placeholder="Write a reply"></textarea><input type="file" class="rfile" multiple accept="'+ATT_ACCEPT+'" aria-label="Attach files"><p style="margin-top:6px"><button class="btn sm" type="submit">Send</button></p></form>';
+  var reply=res?'':'<form class="rf" data-t="'+t.id+'" style="margin-top:8px"><label>Reply</label><textarea required style="min-height:240px" placeholder="Write a reply"></textarea><input type="file" class="rfile" multiple accept="'+ATT_ACCEPT+'" aria-label="Attach files"><p style="margin-top:6px"><button class="btn sm" type="submit">Send</button></p></form>';
   var own=(t.created_by===S.user.id&&!res);
   var acts=(adm||own)?'<p style="margin-top:8px">'+(adm?(res?'<button class="btn sm alt" data-st="open" data-t="'+t.id+'">Reopen</button>':'<button class="btn sm go" data-st="resolved" data-t="'+t.id+'">Mark resolved (hides it from Heidi)</button>'):'')+(res&&!adm?'':' <button class="btn sm alt" data-delthread="'+t.id+'">Delete question</button>')+'</p>':'';
   var head='<b>'+esc(t.subject)+'</b> '+chip(t.status)+(about?' <span class="chip">About: '+about+'</span>':'')+' <span class="small">'+msgs.length+' message'+(msgs.length===1?'':'s')+(last?' · last '+fmtDate(last.created_at):'')+'</span>';
@@ -500,7 +500,7 @@ function pQA(id){
     var html='<h2>questions</h2><details class="card" id="newq"><summary style="padding:10px 14px;cursor:pointer"><b>＋ Ask a new question</b></summary><form id="qf" class="in" style="padding:0 16px 14px">'
      +'<label for="qc">What is it about? (optional)</label><select id="qc"><option value="">A general question</option>'+courses.map(function(c){return '<option value="'+c.id+'">'+c.position+'. '+esc(c.title)+'</option>'}).join('')+'</select>'
      +'<div id="qkw" hidden><label for="qk">Which component?</label><select id="qk"><option value="">The whole item / not sure</option>'+comps.map(function(k){return '<option value="'+k.id+'">'+esc(k.label)+'</option>'}).join('')+'</select></div>'
-     +'<label for="qs">Subject</label><input id="qs" required><label for="qb">Your question</label><textarea id="qb" required style="min-height:90px"></textarea>'
+     +'<label for="qs">Subject</label><input id="qs" required><label for="qb">Your question</label><textarea id="qb" required style="min-height:240px"></textarea>'
      +'<label for="qa">Attach files (optional, up to 5, 10 MB each)</label><input id="qa" type="file" multiple accept="'+ATT_ACCEPT+'">'
      +'<p style="margin-top:10px"><button class="btn sm" type="submit">Post</button></p></form></details>';
     html+=live.length?live.map(card).join(''):'<p class="small" style="margin-top:12px">No open questions. Thank you!</p>';
@@ -518,7 +518,7 @@ function pQA(id){
       if(b){sb.storage.from(ATT_BUCKET).createSignedUrl(b.dataset.path,120,{download:b.dataset.fn}).then(function(x){if(x.error)return fail(x.error);window.open(x.data.signedUrl,'_blank','noopener')});return}
       var ed=e.target.closest('a[data-edit]');
       if(ed){e.preventDefault();var box=ed.closest('.gm'),mb=box.querySelector('.mb'),orig=ms.filter(function(x){return x.id===ed.dataset.edit})[0];
-        mb.innerHTML='<textarea style="min-height:70px">'+esc(orig.body)+'</textarea><p style="margin-top:6px"><button class="btn sm go" data-save="'+orig.id+'">Save</button> <button class="btn sm alt" data-cancel="1">Cancel</button></p>';return}
+        mb.innerHTML='<textarea style="min-height:240px">'+esc(orig.body)+'</textarea><p style="margin-top:6px"><button class="btn sm go" data-save="'+orig.id+'">Save</button> <button class="btn sm alt" data-cancel="1">Cancel</button></p>';return}
       var sv=e.target.closest('button[data-save]');
       if(sv){var ta=sv.closest('.mb').querySelector('textarea').value.trim();if(!ta)return;sv.disabled=true;
         sb.from('ttwh_qa_messages').update({body:ta,edited_at:new Date().toISOString()}).eq('id',sv.dataset.save).then(must).then(function(){pQA(null)}).catch(function(err){fail(err);sv.disabled=false});return}
