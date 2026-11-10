@@ -43,7 +43,8 @@ main{padding:26px 0 40px}
 .chip.final,.chip.invoiced,.chip.open{background:var(--mustard)}
 .chip.signed,.chip.paid,.chip.published,.chip.answered,.chip.approved{background:var(--green)}
 .chip.draft,.chip.planned,.chip.resolved{background:var(--paper)}
-.chip.not_started,td.st-not_started,.sg-not_started{background:#F6D5C3}.chip.in_progress,td.st-in_progress,.sg-in_progress{background:#FFEFC2}.chip.in_review,td.st-in_review,.sg-in_review{background:#E6D4F0}.chip.done,td.st-done,.sg-done{background:#CDEBCD}
+.chip.not_started,select.st-not_started,.sg-not_started{background:#F4B98F}.chip.in_progress,select.st-in_progress,.sg-in_progress{background:#9CC9F0}.chip.in_review,select.st-in_review,.sg-in_review{background:#C9A3E2}.chip.done,select.st-done,.sg-done{background:#8FD491}
+select[class^="st-"]{border:1.5px solid var(--ink);font-weight:600}
 .stack{display:flex;height:18px;border:2px solid var(--ink);background:#fff}.stack span{height:100%;border-right:1.5px solid var(--ink)}.stack span:last-child{border-right:0}.legend{display:flex;flex-wrap:wrap;gap:6px 12px;margin:8px 0;font-size:.85rem}.legend i{display:inline-block;width:14px;height:14px;border:1.5px solid var(--ink);vertical-align:-2px;margin-right:4px}
 .thread.resolved summary{font-size:.9rem;opacity:.8}.chip.needs_changes{background:#f6c3a6}
 .btn{display:inline-block;font:inherit;font-weight:600;background:var(--ink);color:var(--paper);border:2px solid var(--ink);padding:9px 16px;cursor:pointer;min-height:42px;text-decoration:none;transition:transform .15s}
@@ -394,8 +395,8 @@ function pProgress(){
     courses.forEach(function(c){
       var cc=comps.map(function(k){return map[c.id+'|'+k.id]}).filter(Boolean);
       html+='<tr><td>'+c.position+'</td><th scope="row" style="background:none;position:static;white-space:normal">'+esc(c.title)+'</th>'+comps.map(function(k){var cell=map[c.id+'|'+k.id];if(!cell)return '<td></td>';
-        if(isAdmin())return '<td class="st-'+cell.stage+'"><select data-c="'+c.id+'" data-k="'+k.id+'" aria-label="'+esc(c.title+' '+k.label)+'">'+STAGES.map(function(s){return '<option value="'+s+'"'+(s===cell.stage?' selected':'')+'>'+s.replace('_',' ')+'</option>'}).join('')+'</select>'+(cell.approval?'<br>'+chip(cell.approval):'')+'</td>';
-        return '<td class="st-'+cell.stage+'">'+chip(cell.stage)+(cell.approval?'<br>'+chip(cell.approval):'')+((cell.stage==='in_review'||cell.stage==='done')?'<br><button class="btn sm go" data-ap="approved" data-c="'+c.id+'" data-k="'+k.id+'" title="Approve">✓</button> <button class="btn sm alt" data-ap="needs_changes" data-c="'+c.id+'" data-k="'+k.id+'" title="Needs changes">✎</button>':'')+'</td>'}).join('')
+        if(isAdmin())return '<td><select class="st-'+cell.stage+'" data-c="'+c.id+'" data-k="'+k.id+'" aria-label="'+esc(c.title+' '+k.label)+'">'+STAGES.map(function(s){return '<option value="'+s+'"'+(s===cell.stage?' selected':'')+'>'+s.replace('_',' ')+'</option>'}).join('')+'</select>'+(cell.approval?'<br>'+chip(cell.approval):'')+'</td>';
+        return '<td>'+chip(cell.stage)+(cell.approval?'<br>'+chip(cell.approval):'')+((cell.stage==='in_review'||cell.stage==='done')?'<br><button class="btn sm go" data-ap="approved" data-c="'+c.id+'" data-k="'+k.id+'" title="Approve">✓</button> <button class="btn sm alt" data-ap="needs_changes" data-c="'+c.id+'" data-k="'+k.id+'" title="Needs changes">✎</button>':'')+'</td>'}).join('')
         +'<td><b>'+Math.round(coursePct(cc))+'%</b></td><td>'+(isAdmin()?'<input data-task="'+c.id+'" value="'+esc(c.current_task||'')+'" aria-label="Current task for '+esc(c.title)+'">':esc(c.current_task||''))+'</td></tr>';
     });
     html+='</tbody></table></div>'+(isAdmin()?'':'<p class="small" style="margin-top:8px">✓ approves a component, ✎ asks for changes. Murtaza sees your choice straight away.</p>');
