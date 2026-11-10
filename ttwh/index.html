@@ -199,13 +199,21 @@ function route(){
   if(!map[r]||(r==='timer'&&!isAdmin())){r='home'}
   if(r==='invoice'){app.innerHTML='<main><div class="wrap" id="page"></div></main>'}
   else shell(r,'<p>Loading…</p>');
+  if(r!=='invoice')qaWaiting().then(function(n){var a=document.querySelector('nav.tabs a[href="#/qa"]');if(a&&n)a.textContent='Q&A ('+n+')'});
   Promise.resolve().then(function(){return map[r](h[1])}).catch(function(e){setPage(note('Could not load this page: '+(e&&e.message||e)))});
 }
 window.addEventListener('hashchange',function(){if(S.user)route()});
 
 /* ---------- home ---------- */
+function qaWaiting(){
+  return Promise.all([sb.from('ttwh_qa_threads').select('id,status'),sb.from('ttwh_qa_messages').select('thread_id,author_id,created_at').order('created_at')]).then(function(r){
+    var th=must(r[0]).filter(function(t){return t.status!=='resolved'}),ms=must(r[1]),n=0;
+    th.forEach(function(t){var m=ms.filter(function(x){return x.thread_id===t.id}),l=m[m.length-1];if(l&&l.author_id!==S.user.id)n++});return n}).catch(function(){return 0});
+}
 function pHome(){
-  setPage('<h2>welcome'+(S.name?', '+esc(S.name):'')+'</h2><p>Choose a program to see its contract, payments, progress and updates.</p><div class="grid c2">'
+  var wb=document.createElement('div');
+  qaWaiting().then(function(n){if(!n)return;var h=document.getElementById('qabanner');if(h)h.innerHTML='<a href="#/qa" class="card o" style="display:block;text-decoration:none;color:inherit;margin:14px 0"><div class="bar"></div><div class="in"><b>💬 '+(isAdmin()?(n===1?'1 question is waiting for your reply':n+' questions are waiting for your reply'):(n===1?'Murtaza has a question waiting for you':'Murtaza has '+n+' questions waiting for you'))+'</b> <span class="small">· open Q&amp;A →</span></div></a>'});
+  setPage('<div id="qabanner"></div><h2>welcome'+(S.name?', '+esc(S.name):'')+'</h2><p>Choose a program to see its contract, payments, progress and updates.</p><div class="grid c2">'
    +'<a class="card g" href="#/overview" style="text-decoration:none;color:inherit"><div class="bar"></div><div class="in" style="padding:34px 20px;text-align:center"><h3 style="font-size:2.2rem;margin:0">Psychic Training School</h3><p class="small" style="margin:6px 0 0">PTS · open the package portal →</p></div></a>'
    +'<a class="card o" href="#/rr" style="text-decoration:none;color:inherit"><div class="bar"></div><div class="in" style="padding:34px 20px;text-align:center"><h3 style="font-size:2.2rem;margin:0">Relationships + Regulation</h3><p class="small" style="margin:6px 0 0">R+R · open the package portal →</p></div></a></div>');
 }
@@ -464,10 +472,11 @@ function threadCard(t,msgs,atts,who,courses,comps){
   var about=aboutText(t,courses,comps),res=t.status==='resolved',adm=isAdmin();
   var last=msgs.length?msgs[msgs.length-1]:null;
   var body=msgs.map(function(m){var at=atts.filter(function(a){return a.message_id===m.id}),mine=m.author_id===S.user.id;
-    return '<div class="msg'+(mine?' me':'')+'"><div class="small"><b>'+esc(who[m.author_id]||'')+'</b> · '+fmtDate(m.created_at,true)+'</div>'+esc(m.body).replace(/\n/g,'<br>')
+    return '<div class="msg'+(mine?' me':'')+'" data-m="'+m.id+'"><div class="small"><b>'+esc(who[m.author_id]||'')+'</b> · '+fmtDate(m.created_at,true)+(m.edited_at?' · edited':'')+(mine&&!res?' · <a href="#" data-edit="'+m.id+'">Edit</a> · <a href="#" data-del="'+m.id+'">Delete</a>':'')+'</div><div class="mb">'+esc(m.body).replace(/\n/g,'<br>')+'</div>'
      +(at.length?'<div style="margin-top:6px">'+at.map(function(a){return '<button class="btn sm alt" data-path="'+esc(a.path)+'" data-fn="'+esc(a.filename)+'">📎 '+esc(a.filename)+'</button> '}).join('')+'</div>':'')+'</div>'}).join('');
   var reply=res?'':'<form class="rf" data-t="'+t.id+'" style="margin-top:8px"><label>Reply</label><textarea required style="min-height:70px" placeholder="Write a reply"></textarea><input type="file" class="rfile" multiple accept="'+ATT_ACCEPT+'" aria-label="Attach files"><p style="margin-top:6px"><button class="btn sm" type="submit">Send</button></p></form>';
-  var acts=adm?'<p style="margin-top:8px">'+(res?'<button class="btn sm alt" data-st="open" data-t="'+t.id+'">Reopen</button>':'<button class="btn sm go" data-st="resolved" data-t="'+t.id+'">Mark resolved (hides it from Heidi)</button>')+'</p>':'';
+  var own=(t.created_by===S.user.id&&!res);
+  var acts=(adm||own)?'<p style="margin-top:8px">'+(adm?(res?'<button class="btn sm alt" data-st="open" data-t="'+t.id+'">Reopen</button>':'<button class="btn sm go" data-st="resolved" data-t="'+t.id+'">Mark resolved (hides it from Heidi)</button>'):'')+(res&&!adm?'':' <button class="btn sm alt" data-delthread="'+t.id+'">Delete question</button>')+'</p>':'';
   var head='<b>'+esc(t.subject)+'</b> '+chip(t.status)+(about?' <span class="chip">About: '+about+'</span>':'')+' <span class="small">'+msgs.length+' message'+(msgs.length===1?'':'s')+(last?' · last '+fmtDate(last.created_at):'')+'</span>';
   return '<details class="card thread'+(res?' resolved':'')+'" id="th-'+t.id+'"'+(res?'':' open')+'><summary style="padding:10px 14px;cursor:pointer">'+head+'</summary><div class="in" style="padding:0 16px 14px">'+body+reply+acts+'</div></details>';
 }
@@ -502,6 +511,19 @@ function pQA(id){
     pg.onclick=function(e){
       var b=e.target.closest('button[data-path]');
       if(b){sb.storage.from(ATT_BUCKET).createSignedUrl(b.dataset.path,120,{download:b.dataset.fn}).then(function(x){if(x.error)return fail(x.error);window.open(x.data.signedUrl,'_blank','noopener')});return}
+      var ed=e.target.closest('a[data-edit]');
+      if(ed){e.preventDefault();var box=ed.closest('.msg'),mb=box.querySelector('.mb'),orig=ms.filter(function(x){return x.id===ed.dataset.edit})[0];
+        mb.innerHTML='<textarea style="min-height:70px">'+esc(orig.body)+'</textarea><p style="margin-top:6px"><button class="btn sm go" data-save="'+orig.id+'">Save</button> <button class="btn sm alt" data-cancel="1">Cancel</button></p>';return}
+      var sv=e.target.closest('button[data-save]');
+      if(sv){var ta=sv.closest('.mb').querySelector('textarea').value.trim();if(!ta)return;sv.disabled=true;
+        sb.from('ttwh_qa_messages').update({body:ta,edited_at:new Date().toISOString()}).eq('id',sv.dataset.save).then(must).then(function(){pQA(null)}).catch(function(err){fail(err);sv.disabled=false});return}
+      if(e.target.closest('button[data-cancel]')){pQA(null);return}
+      var dl=e.target.closest('a[data-del]');
+      if(dl){e.preventDefault();if(!confirm('Delete this message? This cannot be undone.'))return;
+        sb.from('ttwh_qa_messages').delete().eq('id',dl.dataset.del).then(must).then(function(){pQA(null)}).catch(fail);return}
+      var dt=e.target.closest('button[data-delthread]');
+      if(dt){e.preventDefault();if(!confirm('Delete this whole question and its replies? This cannot be undone.'))return;
+        sb.from('ttwh_qa_threads').delete().eq('id',dt.dataset.delthread).then(must).then(function(){pQA(null)}).catch(fail);return}
       var s=e.target.closest('button[data-st]');
       if(s&&isAdmin()){e.preventDefault();var tid=s.dataset.t,v=s.dataset.st;s.disabled=true;
         sb.from('ttwh_qa_threads').update({status:v,resolved_at:v==='resolved'?new Date().toISOString():null}).eq('id',tid).then(must).then(function(){pQA(v==='open'?tid:null)}).catch(function(err){fail(err);s.disabled=false})}};
@@ -509,7 +531,6 @@ function pQA(id){
       sb.from('ttwh_qa_messages').insert({thread_id:tid,body:f.querySelector('textarea').value}).select('id').single().then(must)
        .then(function(m){return uploadFiles(f.querySelector('.rfile').files,m.id).catch(function(err){alert('Your reply was sent, but the attachment failed: '+(err.message||err))})})
        .then(function(){pQA(tid)}).catch(function(err){fail(err);btn.disabled=false})};
-    var nq=$('#qf');nq.addEventListener('submit',function(e){e.stopPropagation()},true);
   });
 }
 
