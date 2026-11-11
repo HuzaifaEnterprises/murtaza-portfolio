@@ -276,7 +276,7 @@ function pContracts(){
     var html='<h2>contracts</h2>';
     if(!cons.length||!vers.length)html+='<p>Nothing to show yet. The contract appears here once it is ready to read.</p>';
     cons.forEach(function(c){
-      var cv=vers.filter(function(v){return v.contract_id===c.id});
+      var cv=vers.filter(function(v){return v.contract_id===c.id}).slice(0,1);
       html+='<h3>'+esc(c.title)+'</h3>';
       cv.forEach(function(v,i){
         var vs=sigs.filter(function(s){return s.contract_version_id===v.id});
@@ -289,7 +289,7 @@ function pContracts(){
         if(v.status==='final'&&!mine){
           html+='<div style="margin-top:12px;border:1.5px dashed var(--ink);padding:12px"><label for="n'+v.id+'">Type your full name to sign</label><input id="n'+v.id+'" autocomplete="name"><label style="display:flex;gap:8px;align-items:flex-start;font-weight:500"><input type="checkbox" id="a'+v.id+'" style="width:auto;margin-top:5px"> I have read this version and I agree to it.</label><p style="margin-top:8px"><button class="btn sm go" data-act="sign" data-id="'+v.id+'">Sign</button></p><p class="small">A typed name is a simple electronic signature. It records who signed, when, and which version.</p></div>';
         }
-        if(isAdmin()&&v.status!=='draft'&&i===0)html+='<p style="margin-top:10px"><button class="btn sm alt" data-act="newver" data-id="'+v.id+'" data-c="'+c.id+'" data-n="'+v.version+'">Start version '+(v.version+1)+' from this</button></p>';
+        if(isAdmin()&&v.status==='final')html+='<p style="margin-top:10px"><button class="btn sm alt" data-act="reopen" data-id="'+v.id+'">Revert to draft to edit</button> <span class="small">Allowed until both of you have signed. Any signature already given is cleared.</span></p>';
         html+='</div></details>';
       });
     });
@@ -297,11 +297,13 @@ function pContracts(){
     $('#page').onclick=function(e){var b=e.target.closest('[data-act]');if(!b)return;var id=b.dataset.id,act=b.dataset.act;b.disabled=true;
       var p;
       if(act==='savever')p=sb.from('ttwh_contract_versions').update({body_md:$('#b'+id).value}).eq('id',id).then(must);
-      else if(act==='finalver'){if(!confirm('Mark final? The text locks and Heidi can see and sign it.')){b.disabled=false;return}
+      else if(act==='finalver'){if(!confirm('Mark final? Heidi can then see and sign it. You can still revert to draft and edit until both of you have signed.')){b.disabled=false;return}
         p=sb.from('ttwh_contract_versions').update({body_md:$('#b'+id).value}).eq('id',id).then(must).then(function(){return sb.from('ttwh_contract_versions').update({status:'final',finalised_at:new Date().toISOString()}).eq('id',id)}).then(must)}
       else if(act==='share'){p=sb.from('ttwh_contract_versions').update({visible_to_client:b.dataset.v==='1'}).eq('id',id).then(must)}
       else if(act==='sign'){var nm=$('#n'+id).value.trim();if(!nm||!$('#a'+id).checked){alert('Please type your name and tick the box.');b.disabled=false;return}
         p=sb.rpc('ttwh_sign_contract',{p_version_id:id,p_typed_name:nm}).then(must)}
+      else if(act==='reopen'){if(!confirm('Revert to draft? Any signature already given on it is cleared and must be signed again.')){b.disabled=false;return}
+        p=sb.rpc('ttwh_reopen_contract',{p_version:id}).then(must)}
       else if(act==='newver'){p=sb.from('ttwh_contract_versions').select('body_md').eq('id',id).single().then(must).then(function(v){return sb.from('ttwh_contract_versions').insert({contract_id:b.dataset.c,version:+b.dataset.n+1,body_md:v.body_md}).then(must)})}
       p.then(pContracts,function(err){fail(err);b.disabled=false});
     };
