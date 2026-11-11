@@ -43,8 +43,9 @@ main{padding:26px 0 40px}
 .chip.final,.chip.invoiced,.chip.open{background:var(--mustard)}
 .chip.signed,.chip.paid,.chip.published,.chip.answered,.chip.approved{background:var(--green)}
 .chip.draft,.chip.planned,.chip.resolved{background:var(--paper)}
-.chip.not_started,select.st-not_started,.sg-not_started{background:#F4B98F}.chip.in_progress,select.st-in_progress,.sg-in_progress{background:#9CC9F0}.chip.in_review,select.st-in_review,.sg-in_review{background:#C9A3E2}.chip.done,select.st-done,.sg-done{background:#8FD491}
-select[class^="st-"]{border:1.5px solid var(--ink);font-weight:600}
+.chip.t-ns,select.t-ns,.sg-ns{background:#F4B98F}.chip.t-ip,select.t-ip,.sg-ip{background:#9CC9F0}.chip.t-ir,select.t-ir,.sg-ir{background:#C9A3E2}.chip.t-dn,select.t-dn,.sg-dn{background:#8FD491}
+.tblwrap select{width:100%;min-width:92px;max-width:130px;font-size:.78rem;padding:4px 2px}.tblwrap .chip{white-space:nowrap;font-size:.78rem}
+select[class^="t-"]{border:1.5px solid var(--ink);font-weight:600}
 .stack{display:flex;height:18px;border:2px solid var(--ink);background:#fff}.stack span{height:100%;border-right:1.5px solid var(--ink)}.stack span:last-child{border-right:0}.legend{display:flex;flex-wrap:wrap;gap:6px 12px;margin:8px 0;font-size:.85rem}.legend i{display:inline-block;width:14px;height:14px;border:1.5px solid var(--ink);vertical-align:-2px;margin-right:4px}
 .thread.resolved summary{font-size:.9rem;opacity:.8}.chip.needs_changes{background:#f6c3a6}
 .btn{display:inline-block;font:inherit;font-weight:600;background:var(--ink);color:var(--paper);border:2px solid var(--ink);padding:9px 16px;cursor:pointer;min-height:42px;text-decoration:none;transition:transform .15s}
@@ -163,8 +164,8 @@ function fail(e){alert('Something went wrong: '+(e&&e.message?e.message:e))}
 function $(s,r){return (r||document).querySelector(s)}
 function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
 function must(res){if(res.error)throw res.error;return res.data}
-var STAGES=['not_started','in_progress','in_review','done'];
-var STAGE_PCT={not_started:0,in_progress:25,in_review:75,done:100};
+function stOf(k,key){var a=(k&&k.stages)||[];for(var i=0;i<a.length;i++)if(a[i].key===key)return a[i];return {key:key,label:String(key).replace('_',' '),pct:0}}
+function tierOf(p){return p<=0?'ns':p<50?'ip':p<100?'ir':'dn'}
 
 /* ---------- shell ---------- */
 var TABS=[['home','← Programs'],['overview','Overview'],['contracts','Contracts'],['payments','Payments'],['progress','Progress'],['updates','Updates'],['package','Package'],['qa','Q&A']];
@@ -226,8 +227,8 @@ function pRR(){
 }
 
 /* ---------- overview ---------- */
-function coursePct(cells){if(!cells.length)return 0;return cells.reduce(function(a,c){return a+STAGE_PCT[c.stage]},0)/cells.length}
-function getPct(){return sb.from('ttwh_progress_cells').select('stage').then(must).then(function(c){return Math.round(coursePct(c))})}
+function coursePct(cells,comps){var by={};comps.forEach(function(k){by[k.id]=k});var use=cells.filter(function(c){return by[c.component_id]&&by[c.component_id].counts_in_pct});if(!use.length)return 0;return use.reduce(function(a,c){return a+stOf(by[c.component_id],c.stage).pct},0)/use.length}
+function getPct(){return Promise.all([sb.from('ttwh_progress_cells').select('stage,component_id'),sb.from('ttwh_components').select('id,stages,counts_in_pct')]).then(function(r){return Math.round(coursePct(must(r[0]),must(r[1])))})}
 function barMarks(pct,marks){
   return '<div style="position:relative;padding-bottom:24px"><div class="bar-wrap" role="progressbar" aria-valuenow="'+pct+'" aria-valuemin="0" aria-valuemax="100"><div class="bar-fill" style="width:'+Math.min(100,pct)+'%"></div></div>'
    +marks.map(function(m){return '<span style="position:absolute;left:'+m+'%;top:0;height:18px;border-left:2px dashed var(--ink);margin-left:-1px"></span><span class="small" style="position:absolute;top:21px;'+(m>=100?'right:0':'left:calc('+m+'% - 14px)')+'">'+m+'%</span>'}).join('')+'</div>';
@@ -236,23 +237,24 @@ function lockOf(p,pct){
   if(!p||p.status==='paid'||p.unlocked_at)return {locked:false};
   return {locked:true,why:p.unlock_at_pct==null?'Unlocks when the agreement is signed':'Unlocks when progress reaches '+p.unlock_at_pct+'% (now '+pct+'%)'};
 }
-function stageBar(cells){
-  var n=cells.length||1,L={not_started:'Not started',in_progress:'In progress',in_review:'In review',done:'Done'},c={};
-  cells.forEach(function(x){c[x.stage]=(c[x.stage]||0)+1});
-  var order=['done','in_review','in_progress','not_started'];
+function stageBar(cells,comps){
+  var by={};comps.forEach(function(k){by[k.id]=k});var use=cells.filter(function(c){return by[c.component_id]&&by[c.component_id].counts_in_pct});
+  var n=use.length||1,L={ns:'Not started',ip:'In progress',ir:'Almost done',dn:'Complete'},c={};
+  use.forEach(function(x){var t=tierOf(stOf(by[x.component_id],x.stage).pct);c[t]=(c[t]||0)+1});
+  var order=['dn','ir','ip','ns'];
   return '<div class="stack" role="img" aria-label="Components by stage">'+order.map(function(k){return c[k]?'<span class="sg-'+k+'" style="width:'+(c[k]*100/n)+'%"></span>':''}).join('')+'</div><div class="legend">'+order.map(function(k){return '<span><i class="sg-'+k+'"></i>'+L[k]+' ('+(c[k]||0)+')</span>'}).join('')+'</div>';
 }
 function pOverview(){
   return Promise.all([
     sb.from('ttwh_packages').select('*').eq('code','PTS').maybeSingle(),
-    sb.from('ttwh_progress_cells').select('stage'),
+    getPct(),
     sb.from('ttwh_payments').select('*').order('seq'),
     sb.from('ttwh_updates').select('*').order('published_at',{ascending:false,nullsFirst:false}).limit(1),
     sb.from('ttwh_qa_threads').select('id').eq('status','open'),
     sb.from('ttwh_contract_versions').select('status,version').order('version',{ascending:false}).limit(1)
   ]).then(function(r){
-    var pkg=must(r[0]),cells=must(r[1]),pays=must(r[2]),up=must(r[3])[0],open=must(r[4]),cv=must(r[5])[0];
-    var pct=Math.round(coursePct(cells)),next=pays.find(function(p){return p.status!=='paid'}),lk=lockOf(next,pct);
+    var pkg=must(r[0]),pays=must(r[2]),up=must(r[3])[0],open=must(r[4]),cv=must(r[5])[0];
+    var pct=r[1],next=pays.find(function(p){return p.status!=='paid'}),lk=lockOf(next,pct);
     var marks=pays.filter(function(p){return p.unlock_at_pct!=null}).map(function(p){return p.unlock_at_pct});
     setPage('<h2>overview</h2><div class="grid c2">'
      +'<div class="card"><div class="bar"></div><div class="in"><h3>package</h3><p><b>'+esc(pkg&&pkg.title)+'</b><br>'+money(pkg&&pkg.total_amount)+', paid in installments by PayPal.</p><p>Contract: '+(cv?chip(cv.status)+' <a href="#/contracts">open</a>':'<span class="small">coming soon</span>')+'</p></div></div>'
@@ -289,7 +291,7 @@ function pContracts(){
         if(v.status==='final'&&!mine){
           html+='<div style="margin-top:12px;border:1.5px dashed var(--ink);padding:12px"><label for="n'+v.id+'">Type your full name to sign</label><input id="n'+v.id+'" autocomplete="name"><label style="display:flex;gap:8px;align-items:flex-start;font-weight:500"><input type="checkbox" id="a'+v.id+'" style="width:auto;margin-top:5px"> I have read this version and I agree to it.</label><p style="margin-top:8px"><button class="btn sm go" data-act="sign" data-id="'+v.id+'">Sign</button></p><p class="small">A typed name is a simple electronic signature. It records who signed, when, and which version.</p></div>';
         }
-        if(isAdmin()&&v.status!=='draft'&&i===0)html+='<p style="margin-top:10px"><button class="btn sm alt" data-act="newver" data-id="'+v.id+'" data-c="'+c.id+'" data-n="'+v.version+'">Start version '+(v.version+1)+' from this</button></p>';
+        if(isAdmin()&&v.status==='final')html+='<p style="margin-top:10px"><button class="btn sm alt" data-act="reopen" data-id="'+v.id+'">Revert to draft to edit</button> <span class="small">Allowed until both of you have signed. Any signature already given is cleared.</span></p>';
         html+='</div></details>';
       });
     });
@@ -297,11 +299,13 @@ function pContracts(){
     $('#page').onclick=function(e){var b=e.target.closest('[data-act]');if(!b)return;var id=b.dataset.id,act=b.dataset.act;b.disabled=true;
       var p;
       if(act==='savever')p=sb.from('ttwh_contract_versions').update({body_md:$('#b'+id).value}).eq('id',id).then(must);
-      else if(act==='finalver'){if(!confirm('Mark final? The text locks and Heidi can see and sign it.')){b.disabled=false;return}
+      else if(act==='finalver'){if(!confirm('Mark final? Heidi can then see and sign it. You can still revert to draft and edit until both of you have signed.')){b.disabled=false;return}
         p=sb.from('ttwh_contract_versions').update({body_md:$('#b'+id).value}).eq('id',id).then(must).then(function(){return sb.from('ttwh_contract_versions').update({status:'final',finalised_at:new Date().toISOString()}).eq('id',id)}).then(must)}
       else if(act==='share'){p=sb.from('ttwh_contract_versions').update({visible_to_client:b.dataset.v==='1'}).eq('id',id).then(must)}
       else if(act==='sign'){var nm=$('#n'+id).value.trim();if(!nm||!$('#a'+id).checked){alert('Please type your name and tick the box.');b.disabled=false;return}
         p=sb.rpc('ttwh_sign_contract',{p_version_id:id,p_typed_name:nm}).then(must)}
+      else if(act==='reopen'){if(!confirm('Revert to draft? Any signature already given on it is cleared and must be signed again.')){b.disabled=false;return}
+        p=sb.rpc('ttwh_reopen_contract',{p_version:id}).then(must)}
       else if(act==='newver'){p=sb.from('ttwh_contract_versions').select('body_md').eq('id',id).single().then(must).then(function(v){return sb.from('ttwh_contract_versions').insert({contract_id:b.dataset.c,version:+b.dataset.n+1,body_md:v.body_md}).then(must)})}
       p.then(pContracts,function(err){fail(err);b.disabled=false});
     };
@@ -401,15 +405,16 @@ function pProgress(){
   ]).then(function(r){
     var courses=must(r[0]),comps=must(r[1]),cells=must(r[2]),map={};
     cells.forEach(function(c){map[c.course_id+'|'+c.component_id]=c});
-    var overall=Math.round(coursePct(cells));
-    var html='<h2>progress</h2><div class="bar-wrap"><div class="bar-fill" style="width:'+overall+'%"></div></div><p style="margin-top:6px"><b>'+overall+'%</b> overall · 27 items × 5 components. <span class="small">Done counts 100%, in review 75%, in progress 25%, not started 0%.</span></p>'+stageBar(cells);
+    var overall=Math.round(coursePct(cells,comps));
+    var html='<h2>progress</h2><div class="bar-wrap"><div class="bar-fill" style="width:'+overall+'%"></div></div><p style="margin-top:6px"><b>'+overall+'%</b> overall · 27 items × 5 components. <span class="small">Each stage has its own %. The “(new)” columns track new content later and are not counted yet.</span></p>'+stageBar(cells,comps);
     html+='<div class="tblwrap"><table><thead><tr><th>#</th><th>Item</th>'+comps.map(function(c){return '<th>'+esc(c.label)+'</th>'}).join('')+'<th>%</th><th>Current task</th></tr></thead><tbody>';
     courses.forEach(function(c){
       var cc=comps.map(function(k){return map[c.id+'|'+k.id]}).filter(Boolean);
       html+='<tr><td>'+c.position+'</td><th scope="row" style="background:none;position:static;white-space:normal">'+esc(c.title)+'</th>'+comps.map(function(k){var cell=map[c.id+'|'+k.id];if(!cell)return '<td></td>';
-        if(isAdmin())return '<td><select class="st-'+cell.stage+'" data-c="'+c.id+'" data-k="'+k.id+'" aria-label="'+esc(c.title+' '+k.label)+'">'+STAGES.map(function(s){return '<option value="'+s+'"'+(s===cell.stage?' selected':'')+'>'+s.replace('_',' ')+'</option>'}).join('')+'</select>'+(cell.approval?'<br>'+chip(cell.approval):'')+'</td>';
-        return '<td>'+chip(cell.stage)+(cell.approval?'<br>'+chip(cell.approval):'')+((cell.stage==='in_review'||cell.stage==='done')?'<br><button class="btn sm go" data-ap="approved" data-c="'+c.id+'" data-k="'+k.id+'" title="Approve">✓</button> <button class="btn sm alt" data-ap="needs_changes" data-c="'+c.id+'" data-k="'+k.id+'" title="Needs changes">✎</button>':'')+'</td>'}).join('')
-        +'<td><b>'+Math.round(coursePct(cc))+'%</b></td><td>'+(isAdmin()?'<input data-task="'+c.id+'" value="'+esc(c.current_task||'')+'" aria-label="Current task for '+esc(c.title)+'">':esc(c.current_task||''))+'</td></tr>';
+        var st=stOf(k,cell.stage),tr=tierOf(st.pct);
+        if(isAdmin())return '<td><select class="t-'+tr+'" data-c="'+c.id+'" data-k="'+k.id+'" aria-label="'+esc(c.title+' '+k.label)+'">'+(k.stages||[]).map(function(o){return '<option value="'+esc(o.key)+'"'+(o.key===cell.stage?' selected':'')+'>'+esc(o.label)+'</option>'}).join('')+'</select>'+(cell.approval?'<br>'+chip(cell.approval):'')+'</td>';
+        return '<td><span class="chip t-'+tr+'">'+esc(st.label)+'</span>'+(cell.approval?'<br>'+chip(cell.approval):'')+(st.pct>=50?'<br><button class="btn sm go" data-ap="approved" data-c="'+c.id+'" data-k="'+k.id+'" title="Approve">✓</button> <button class="btn sm alt" data-ap="needs_changes" data-c="'+c.id+'" data-k="'+k.id+'" title="Needs changes">✎</button>':'')+'</td>'}).join('')
+        +'<td><b>'+Math.round(coursePct(cc,comps))+'%</b></td><td>'+(isAdmin()?'<input data-task="'+c.id+'" value="'+esc(c.current_task||'')+'" aria-label="Current task for '+esc(c.title)+'">':esc(c.current_task||''))+'</td></tr>';
     });
     html+='</tbody></table></div>'+(isAdmin()?'':'<p class="small" style="margin-top:8px">✓ approves a component, ✎ asks for changes. Murtaza sees your choice straight away.</p>');
     setPage(html);
