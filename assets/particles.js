@@ -7,12 +7,13 @@
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var LINK = 140;   // distance at which two dots are joined
   var GRAB = 180;   // distance at which a dot is joined to the pointer
-  var dots = [], w = 0, h = 0, dpr = 1, accent = '#0f5e9c', running = false;
+  var dots = [], w = 0, h = 0, dpr = 1, accent = '#0B3048', spark = '#B9F12F', running = false;
   var pointer = { x: -9999, y: -9999 };
 
   function readTokens() {
     var css = getComputedStyle(document.documentElement);
     accent = css.getPropertyValue('--accent').trim() || accent;
+    spark = css.getPropertyValue('--spark').trim() || spark;
   }
 
   function resize() {
@@ -37,8 +38,10 @@
     ctx.fillStyle = accent; ctx.strokeStyle = accent; ctx.lineWidth = 1;
     for (var i = 0; i < dots.length; i++) {
       var a = dots[i];
-      ctx.globalAlpha = 0.45;
-      ctx.beginPath(); ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2); ctx.fill();
+      // Lines use the accent (teal on light pages, lime on dark); about one dot in four is the lime spark.
+      ctx.fillStyle = (i % 4 === 0) ? spark : accent;
+      ctx.globalAlpha = (i % 4 === 0) ? 0.7 : 0.45;
+      ctx.beginPath(); ctx.arc(a.x, a.y, a.r + ((i % 4 === 0) ? 0.5 : 0), 0, Math.PI * 2); ctx.fill();
       for (var j = i + 1; j < dots.length; j++) {
         var b = dots[j], dx = a.x - b.x, dy = a.y - b.y, d = Math.sqrt(dx * dx + dy * dy);
         if (d < LINK) {
