@@ -14,7 +14,8 @@ const MAIL = 'murtazamustafaa02@gmail.com';
 const LINKEDIN = 'https://www.linkedin.com/in/murtaza-mustafa2911';
 const DEMO = 'https://importdeskpro.vercel.app';
 // Cache-busting stamp: changes only when an asset file changes, so repeat visitors keep their cache.
-const ASSETS = ['styles.css', 'site.js', 'particles.js', 'import-desk-pro-720.webp', 'import-desk-pro-1440.webp',
+const ASSETS = ['styles.css', 'site.js', 'particles.js', 'app-dashboard-720.webp', 'app-dashboard-1349.webp', 'app-ledger-788.webp',
+  'app-reports-1349.webp', 'app-history-1349.webp', 'app-customers-1349.webp',
   'murtaza-mustafa-340.webp', 'murtaza-mustafa-680.webp', 'og-image.png', 'favicon.svg'];
 const V = ASSETS.reduce((h, f) => h.update(readFileSync(join(OUT, 'assets', f))), createHash('sha1')).digest('hex').slice(0, 8);
 const TODAY = new Date().toISOString().slice(0, 10);
@@ -25,7 +26,9 @@ const esc = (t) => t.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g
 /* ---------- small helpers ---------- */
 const btn = (label, href, primary, ext) =>
   `<a class="btn ${primary ? 'btn-primary' : 'btn-secondary'}" href="${href}"${ext ? ' target="_blank" rel="noopener"' : ''}>${label}</a>`;
-const call = (p) => btn('Book a call', `mailto:${MAIL}?subject=Book%20a%20call`, p);
+// The free process review is the one primary action. "Book a call" is a quiet link unless it is the only button (p = true).
+const call = (p) => p ? btn('Book a call', `mailto:${MAIL}?subject=Book%20a%20call`, true)
+  : `<a class="btn btn-quiet" href="mailto:${MAIL}?subject=Book%20a%20call">Or book a call</a>`;
 const review = (p) => btn('Request a free process review', '/free-process-review', p);
 const btns = (...b) => `<div class="btns">${b.join('')}</div>`;
 const arrow = (label, href, ext) =>
@@ -59,9 +62,13 @@ const quote = (html, who, long) =>
   `<figure class="quote${long ? ' long' : ''}"><blockquote>${html}</blockquote><figcaption>${who}</figcaption></figure>`;
 
 // eager = the image is at the top of the page (loads first); otherwise it loads when scrolled near.
+const DASH_ALT = 'Import Desk Pro dashboard showing what customers owe, the month\'s invoices and receipts, and cheques in hand';
 const frame = (alt, eager) => `
 <figure class="frame"><div class="frame-bar" aria-hidden="true"><i></i><i></i><i></i></div>
-<a href="${DEMO}" target="_blank" rel="noopener"><img src="/assets/import-desk-pro-1440.webp?v=${V}" srcset="/assets/import-desk-pro-720.webp?v=${V} 720w, /assets/import-desk-pro-1440.webp?v=${V} 1440w" sizes="(max-width:1079px) 100vw, 520px" width="1440" height="900" alt="${alt}"${eager ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async"></a></figure>`;
+<a href="${DEMO}" target="_blank" rel="noopener"><img src="/assets/app-dashboard-1349.webp?v=${V}" srcset="/assets/app-dashboard-720.webp?v=${V} 720w, /assets/app-dashboard-1349.webp?v=${V} 1349w" sizes="(max-width:1079px) 100vw, 520px" width="1349" height="857" alt="${alt}"${eager ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async"></a></figure>`;
+// One screenshot of the real app with a caption (case study gallery).
+const shot = (file, w, h, alt, caption) => `
+<figure class="shot"><img src="/assets/${file}?v=${V}" width="${w}" height="${h}" alt="${alt}" loading="lazy" decoding="async"><figcaption>${caption}</figcaption></figure>`;
 
 const pageHero = (eyebrow, h1, lead, extra = '') => `
 <section class="page-hero"><div class="wrap">
@@ -76,7 +83,6 @@ const card = (n, title, body, links, h = 'h3') => `
 const NAV = [
   ['Case studies', '/case-studies'],
   ['About', '/about'],
-  ['Free process review', '/free-process-review'],
   ['Contact', '/contact'],
 ];
 
@@ -143,7 +149,7 @@ ${noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonical" hr
     <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
     <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
   </button>
-  ${btn('Book a call', `mailto:${MAIL}?subject=Book%20a%20call`, true)}
+  <a class="btn btn-primary" href="/free-process-review"${path === '/free-process-review/' ? ' aria-current="page"' : ''}><span>Free <span class="wide-only">process </span>review</span></a>
   <button class="icon-btn menu-btn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav-links">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
   </button>
@@ -154,7 +160,7 @@ ${body}
 <footer class="footer band"><div class="wrap">
   <div class="footer-grid">
     <div><a class="brand" href="/">Murtaza Mustafa</a><p class="muted">Business grad who fixes operations with AI.</p></div>
-    <ul>${NAV.map(([l, h]) => `<li><a href="${h}">${l}</a></li>`).join('')}</ul>
+    <ul>${[...NAV, ['Free process review', '/free-process-review']].map(([l, h]) => `<li><a href="${h}">${l}</a></li>`).join('')}</ul>
     <ul>
       <li><a href="mailto:${MAIL}">${MAIL}</a></li>
       <li><a href="${LINKEDIN}" target="_blank" rel="noopener">linkedin.com/in/murtaza-mustafa2911</a></li>
@@ -201,13 +207,20 @@ pages.push({
 <canvas class="particles" aria-hidden="true"></canvas>
 <section class="hero"><div class="wrap hero-grid">
   <div>
+    <p class="byline"><img src="/assets/murtaza-mustafa-340.webp?v=${V}" width="56" height="56" alt=""><span><strong>Murtaza Mustafa</strong><span class="muted">Karachi. Working with the US, Canada and Europe.</span></span></p>
     <h1>Business grad who fixes operations with <span class="hl">AI</span>.</h1>
-    <p class="lead">I'm Murtaza Mustafa. I work as an AI automation consultant for importers, distributors and service businesses with 5 to 50 staff, in the US, Canada and Europe. If your business runs on manual operations or repetitive tasks, I find where the money and hours leak and build the system that stops it.</p>
-    ${btns(call(true), review(false))}
+    <p class="lead">I'm an AI automation consultant for importers, distributors and service businesses with 5 to 50 staff. I find where the money and hours leak and build the system that stops it.</p>
+    <ul class="hero-proof">
+      <li><strong>20+ hours</strong> a week saved</li>
+      <li><strong>Over $10K</strong> in unpaid balances found</li>
+    </ul>
+    ${btns(review(true), call(false))}
     <blockquote class="hero-quote">"He is timely, thoughtful and a good person to work with."<cite>Eric Smith, chiropractor, US</cite></blockquote>
   </div>
-  ${frame('Import Desk Pro demo, the entry screen', true)}
-</div></section>
+  ${frame(DASH_ALT, true)}
+</div>
+<div class="wrap"><p class="worked"><span class="label">Worked with</span>Huzaifa Enterprises <i>/</i> Tarot Times With Heidi <i>/</i> US chiropractic clinics <i>/</i> Masaki <i>/</i> Alzo Home</p></div>
+</section>
 
 <section class="strip band" aria-label="Results"><div class="wrap">
   <ul class="strip-grid">
@@ -298,13 +311,20 @@ ${sec('What I built', 'One app for invoices, ledgers, payments and documents', `
 <p>It also reports three numbers the owners had never seen in one place: monthly profitability, the cash conversion cycle, and the average number of days customers take to pay.</p>
 <p>I built it with Supabase, GitHub, Claude and Vercel.</p>`)}
 
+${wide('Inside the app', null, `<div class="shots">
+${shot('app-ledger-788.webp', 788, 503, 'A customer ledger in Import Desk Pro with dates, debits, credits and a running balance', 'A ledger for every customer, with a running balance and a PDF statement.')}
+${shot('app-reports-1349.webp', 1349, 857, 'The reports screen in Import Desk Pro with totals, average days to get paid and a credit score for each customer', 'Reports: the average days to get paid, and a credit score showing who pays late.')}
+${shot('app-history-1349.webp', 1349, 857, 'The document history screen in Import Desk Pro listing receipts with customer, date, amount and payment method', 'Every receipt and invoice in one searchable list.')}
+${shot('app-customers-1349.webp', 1349, 857, 'The customers screen in Import Desk Pro listing each customer with their balance and credit status', 'Every customer with what they owe and whether it is due.')}
+</div>`, '<p class="muted">Screens from the app in daily use. Customer names and amounts are changed for privacy.</p>')}
+
 ${sec('The result', 'Over $10K found, and 20+ hours a week back', `
 <p>When all the ledgers were opened up in one place, the company found over $10K in long-unpaid customer balances. They had been noted in the diary and forgotten.</p>
 <p>The team now saves 20+ hours a week on writing invoices, chasing payments, recording ledgers, reconciling, and checking who has paid and who hasn't.</p>`)}
 
 ${sec('See it yourself', null, `
 <p>The demo runs on sample data, so you can click through everything.</p>
-${frame('Import Desk Pro demo, the entry screen')}
+${frame(DASH_ALT)}
 ${btns(btn('Open the demo', DEMO, false, true))}`)}
 
 ${cta('Running on handwritten invoices or a diary of your own?',
@@ -495,8 +515,8 @@ ${sec('Tools', null, `<ul class="tags">${['GoHighLevel', 'n8n', 'Make', 'Zapier'
 
 ${sec('Languages', null, '<p>Urdu (native), English (fluent).</p>')}
 
-${sec('Hiring?', 'Open to remote internships and junior roles', `
-<p>If you're an employer, treat this site as my resume. I'm open to remote internships and junior-level roles in operations, procurement, e-commerce or automation.</p>
+${sec('Hiring?', 'Open to remote roles', `
+<p>If you're an employer, treat this site as my resume. I'm open to remote roles in operations, procurement, e-commerce or automation.</p>
 ${btns(btn('Email me', `mailto:${MAIL}`, true), btn('View my LinkedIn', LINKEDIN, false, true))}`)}
 
 ${cta('Have a process that needs fixing?', '', btns(review(true), call(false)))}
@@ -548,7 +568,7 @@ pages.push({
   body: `
 ${pageHero('Contact', 'Contact Murtaza Mustafa',
   'Want to hire me, or just ask a question? Email is the fastest way to reach me. I reply within 24 hours.',
-  btns(call(true)))}
+  btns(review(true), call(false)))}
 
 <section class="section" style="border-top:0;padding-top:0"><div class="wrap reveal">
 <ul class="contact">
