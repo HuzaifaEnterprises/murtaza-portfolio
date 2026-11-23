@@ -340,10 +340,10 @@ function pPayments(){
   ]).then(function(r){
     var pays=must(r[0]),invs=must(r[1]),pkg=must(r[2]),pct=r[3],byId={};
     pays.forEach(function(p){byId[p.id]=p});
-    var paid=pays.filter(function(p){return p.status==='paid'}).reduce(function(a,p){return a+Number(p.received_amount!=null?p.received_amount:(p.amount||0))},0);
-    var remaining=pays.filter(function(p){return p.status!=='paid'}).reduce(function(a,p){return a+Number(p.amount||0)},0);
+    var total=pays.reduce(function(a,p){return a+Number(p.amount||0)},0),paid=pays.filter(function(p){return p.status==='paid'}).reduce(function(a,p){return a+Number(p.amount||0)},0);
+    var remaining=total-paid;
     var marks=pays.filter(function(p){return p.unlock_at_pct!=null}).map(function(p){return p.unlock_at_pct});
-    var html='<h2>payments</h2><div class="card m"><div class="bar"></div><div class="in"><div class="row"><span>Package total</span><b>'+money(pkg&&pkg.total_amount)+'</b></div><div class="row"><span>Paid so far</span><b>'+money(paid)+'</b></div>'+'<div class="row"><span>Remaining to pay <span class="small">(invoiced, incl. PayPal fees)</span></span><b>'+money(remaining)+'</b></div>'
+    var html='<h2>payments</h2><div class="card m"><div class="bar"></div><div class="in"><div class="row"><span>Package total <span class="small">(incl. PayPal fees)</span></span><b>'+money(total)+'</b></div><div class="row"><span>Paid so far</span><b>'+money(paid)+'</b></div>'+'<div class="row"><span>Remaining to pay</span><b>'+money(remaining)+'</b></div>'
      +'<p style="margin-top:12px"><b>Project progress: '+pct+'%</b></p>'+barMarks(pct,marks.length?marks:[33,66,100])+'<p class="small">Each invoice unlocks when the bar reaches its mark. PayPal fees are added to the installments, so the invoices add up to a little more than the package price.</p></div></div><h3>timeline</h3>';
     html+=pays.length?'<ul class="tl">'+pays.map(function(p){
       var lk=lockOf(p,pct);
