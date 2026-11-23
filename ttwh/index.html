@@ -51,6 +51,8 @@ button.lk{all:unset;cursor:pointer;font-weight:700;text-decoration:underline;col
 dialog#cd{border:2px solid var(--ink);padding:16px 18px;max-width:900px;width:94vw;max-height:90vh;overflow:auto;background:var(--paper);color:var(--ink)}dialog#cd::backdrop{background:rgba(14,37,35,.55)}
 dialog#cd .dh{display:flex;justify-content:space-between;align-items:center;gap:10px}dialog#cd .cs{border:1.5px solid var(--ink);background:#fff;margin:10px 0;padding:10px 12px}
 dialog#cd .bulk{display:flex;flex-wrap:wrap;gap:6px;align-items:center;background:var(--paper);border:1px dashed var(--ink);padding:8px;margin-top:6px;font-size:.85rem}dialog#cd .vt .vt-title{width:100%;font-size:.85rem}dialog#cd table.vt td{vertical-align:top}
+dialog#cd input[type=checkbox]{width:auto;min-width:0;margin:0 4px 0 0;display:inline-block}dialog#cd label{display:inline-flex;align-items:center;gap:4px;margin:0;font-weight:500}
+dialog#cd .bulk select{width:auto;min-width:0;max-width:170px;font-size:.8rem;padding:4px}dialog#cd table.vt select{width:auto;min-width:0;font-size:.78rem;padding:3px 2px}dialog#cd table.vt td,dialog#cd table.vt th{padding:5px 6px}dialog#cd .cs>p select{width:auto;font-size:.85rem;padding:5px 8px}
 .stack{display:flex;height:18px;border:2px solid var(--ink);background:#fff}.stack span{height:100%;border-right:1.5px solid var(--ink)}.stack span:last-child{border-right:0}.legend{display:flex;flex-wrap:wrap;gap:6px 12px;margin:8px 0;font-size:.85rem}.legend i{display:inline-block;width:14px;height:14px;border:1.5px solid var(--ink);vertical-align:-2px;margin-right:4px}
 .thread.resolved summary{font-size:.9rem;opacity:.8}.chip.needs_changes{background:#f6c3a6}
 .btn{display:inline-block;font:inherit;font-weight:600;background:var(--ink);color:var(--paper);border:2px solid var(--ink);padding:9px 16px;cursor:pointer;min-height:42px;text-decoration:none;transition:transform .15s}
@@ -412,7 +414,10 @@ function tierOf(p){return p<=0?'ns':p<50?'ip':p<100?'ir':'dn'}
 function vp1(s){return s==='uploaded'?100:s==='done_laptop'?75:s==='in_process'?25:0}
 function videoPct(v){var e=vp1(v.stage),b=v.needs_brief?vp1(v.brief_stage):e;return (e+b)/2}
 function vidsAvg(vs){return vs.length?vs.reduce(function(a,v){return a+videoPct(v)},0)/vs.length:0}
-function cellPct(key,cell,vs){if(key==='ai_video'&&vs.length)return vidsAvg(vs);return cell?stOf(key,cell.stage).pct:0}
+var YOPTS=[['not_started','Not started'],['in_draft','In draft'],['published','Published']];
+function ytp1(s){return s==='published'?100:s==='in_draft'?50:0}
+function ytAvg(vs){return vs.length?vs.reduce(function(a,v){return a+ytp1(v.yt_stage)},0)/vs.length:0}
+function cellPct(key,cell,vs){if(key==='ai_video'&&vs.length)return vidsAvg(vs);if(key==='youtube'&&vs.length)return ytAvg(vs);return cell?stOf(key,cell.stage).pct:0}
 function itemPct(cells,km,vs){return cells.reduce(function(a,c){return a+(WEIGHT[km[c.component_id]]||0)*cellPct(km[c.component_id],c,vs)/100},0)}
 function overallOf(cells,comps,vids){if(!cells.length)return 0;var km=keyMap(comps),by={},n=0,t=0;cells.forEach(function(c){(by[c.course_id]=by[c.course_id]||[]).push(c)});
   Object.keys(by).forEach(function(id){t+=itemPct(by[id],km,vids.filter(function(v){return v.course_id===id}));n++});return t/n}
@@ -442,6 +447,7 @@ function pProgress(){
       var cc=comps.map(function(k){return map[c.id+'|'+k.id]}).filter(Boolean),vs=vids.filter(function(v){return v.course_id===c.id});
       html+='<tr><td>'+c.position+'</td><th scope="row" style="background:none;position:static;white-space:normal"><button class="lk" data-open="'+c.id+'">'+esc(c.title)+'</button>'+(c.not_recorded?' <span class="star" title="Not recorded yet">★</span>':'')+'</th>'+comps.map(function(k){var cell=map[c.id+'|'+k.id];if(!cell)return '<td></td>';
         if(k.key==='ai_video'&&vs.length){var ap=vidsAvg(vs);return '<td><button class="lk" data-open="'+c.id+'"><span class="chip t-'+tierOf(ap)+'">'+esc(vidSummary(vs))+'</span></button>'+(cell.approval?'<br>'+chip(cell.approval):'')+'</td>'}
+        if(k.key==='youtube'&&vs.length){var yp=ytAvg(vs);return '<td><button class="lk" data-open="'+c.id+'"><span class="chip t-'+tierOf(yp)+'">'+vs.filter(function(v){return v.yt_stage==='published'}).length+'/'+vs.length+' published</span></button></td>'}
         var st=stOf(k.key,cell.stage),tr=tierOf(st.pct);
         if(isAdmin())return '<td><select class="t-'+tr+'" data-c="'+c.id+'" data-k="'+k.id+'" aria-label="'+esc(c.title+' '+k.label)+'">'+(COMP_STAGES[k.key]||[]).map(function(o){return '<option value="'+o[0]+'"'+(o[0]===st.key?' selected':'')+'>'+esc(o[1])+'</option>'}).join('')+'</select>'+(cell.approval?'<br>'+chip(cell.approval):'')+'</td>';
         return '<td><span class="chip t-'+tr+'">'+esc(st.label)+'</span>'+(cell.approval?'<br>'+chip(cell.approval):'')+'</td>'}).join('')
@@ -470,21 +476,21 @@ function showCourse(){
     var ctl=adm?'<select class="t-'+tierOf(st.pct)+'" data-ck="'+cell.component_id+'">'+(COMP_STAGES[key]||[]).map(function(o){return '<option value="'+o[0]+'"'+(o[0]===st.key?' selected':'')+'>'+esc(o[1])+'</option>'}).join('')+'</select>':'<span class="chip t-'+tierOf(st.pct)+'">'+esc(st.label)+'</span>';
     return '<div class="cs"><div class="ch"><b>'+title+'</b> <span class="small">'+(WEIGHT[key]||0)+'% of the item</span></div><p style="margin:6px 0">'+ctl+approvalUi(cell,cp)+'</p></div>'}
   function approvalUi(cell,cp){if(adm)return cell.approval?' '+chip(cell.approval):'';return (cell.approval?' '+chip(cell.approval):'')+(cp>=75?' <button class="btn sm go" data-ap="approved" data-k="'+cell.component_id+'" title="Approve">✓</button> <button class="btn sm alt" data-ap="needs_changes" data-k="'+cell.component_id+'" title="Needs changes">✎</button>':'')}
-  var vcell=byKey.ai_video,vhtml='<div class="cs"><div class="ch"><b>Video editing</b> <span class="small">'+(WEIGHT.ai_video||0)+'% of the item'+(vs.length?' · '+vidSummary(vs):'')+'</span></div>';
+  var vcell=byKey.ai_video,vhtml='<div class="cs"><div class="ch"><b>Video editing</b> <span class="small">'+(WEIGHT.ai_video||0)+'% of the item'+(vs.length?' · '+vidSummary(vs)+' · YouTube '+vs.filter(function(v){return v.yt_stage==='published'}).length+'/'+vs.length+' published (10%)':'')+'</span></div>';
   if(!vs.length){vhtml+='<p class="small" style="margin:6px 0">No videos listed yet.'+(vcell&&adm?'':'')+'</p>'+(vcell?'<p style="margin:6px 0">Overall status: '+(adm?'<select class="t-'+tierOf(stOf('ai_video',vcell.stage).pct)+'" data-ck="'+vcell.component_id+'">'+COMP_STAGES.ai_video.map(function(o){return '<option value="'+o[0]+'"'+(o[0]===stOf('ai_video',vcell.stage).key?' selected':'')+'>'+esc(o[1])+'</option>'}).join('')+'</select>':'<span class="chip t-'+tierOf(stOf('ai_video',vcell.stage).pct)+'">'+esc(stOf('ai_video',vcell.stage).label)+'</span>')+'</p>':'')}
   else{
-    if(adm)vhtml+='<div class="bulk"><b>Bulk:</b> <label><input type="checkbox" id="vall"> select all</label> <select id="bE"><option value="">Editing status…</option>'+VOPTS.map(function(o){return '<option value="'+o[0]+'">'+o[1]+'</option>'}).join('')+'</select> <select id="bB"><option value="">Brief status…</option>'+VOPTS.map(function(o){return '<option value="'+o[0]+'">'+o[1]+'</option>'}).join('')+'</select> <button class="btn sm go" data-bulk="apply">Apply to selected</button> <button class="btn sm alt" data-bulk="nb1">Needs brief</button> <button class="btn sm alt" data-bulk="nb0">No brief</button> <button class="btn sm alt" data-bulk="del">Delete</button></div>';
-    vhtml+='<div class="tblwrap" style="margin-top:6px"><table class="vt"><thead><tr>'+(adm?'<th></th>':'')+'<th>Video</th><th>Editing</th><th>Brief</th></tr></thead><tbody>'+vs.map(function(v){
+    if(adm)vhtml+='<div class="bulk"><b>Bulk:</b> <label><input type="checkbox" id="vall"> select all</label> <select id="bE"><option value="">Editing status…</option>'+VOPTS.map(function(o){return '<option value="'+o[0]+'">'+o[1]+'</option>'}).join('')+'</select> <select id="bB"><option value="">Brief status…</option>'+VOPTS.map(function(o){return '<option value="'+o[0]+'">'+o[1]+'</option>'}).join('')+'</select> <select id="bY"><option value="">YouTube status…</option>'+YOPTS.map(function(o){return '<option value="'+o[0]+'">'+o[1]+'</option>'}).join('')+'</select> <button class="btn sm go" data-bulk="apply">Apply to selected</button> <button class="btn sm alt" data-bulk="nb1">Needs brief</button> <button class="btn sm alt" data-bulk="nb0">No brief</button> <button class="btn sm alt" data-bulk="del">Delete</button></div>';
+    vhtml+='<div class="tblwrap" style="margin-top:6px"><table class="vt"><thead><tr>'+(adm?'<th></th>':'')+'<th>Video</th><th>Editing</th><th>Brief</th><th>YouTube</th></tr></thead><tbody>'+vs.map(function(v){
       return '<tr>'+(adm?'<td><input type="checkbox" class="vsel" data-v="'+v.id+'"'+(SEL[v.id]?' checked':'')+' aria-label="Select"></td>':'')
        +'<td>'+(adm?'<input class="vt-title" data-vt="'+v.id+'" value="'+esc(v.title)+'">':esc(v.title))+(adm?'<br><label class="small"><input type="checkbox" class="vnb" data-v="'+v.id+'"'+(v.needs_brief?' checked':'')+'> needs a brief</label>':'')+'</td>'
        +'<td>'+(adm?vsel('ve',v.stage,v.id):'<span class="chip t-'+tierOf(vp1(v.stage))+'">'+esc(VOPTS.filter(function(o){return o[0]===v.stage})[0][1])+'</span>')+'</td>'
-       +'<td>'+(v.needs_brief?(adm?vsel('vb',v.brief_stage,v.id):'<span class="chip t-'+tierOf(vp1(v.brief_stage))+'">'+esc(VOPTS.filter(function(o){return o[0]===v.brief_stage})[0][1])+'</span>'):'<span class="small">not needed</span>')+'</td></tr>'}).join('')+'</tbody></table></div>';
+       +'<td>'+(v.needs_brief?(adm?vsel('vb',v.brief_stage,v.id):'<span class="chip t-'+tierOf(vp1(v.brief_stage))+'">'+esc(VOPTS.filter(function(o){return o[0]===v.brief_stage})[0][1])+'</span>'):'<span class="small">not needed</span>')+'</td><td>'+(adm?'<select class="vy t-'+tierOf(ytp1(v.yt_stage)) +'" data-vid="'+v.id+'">'+YOPTS.map(function(o){return '<option value="'+o[0]+'"'+(o[0]===(v.yt_stage||'not_started')?' selected':'')+'>'+o[1]+'</option>'}).join('')+'</select>':'<span class="chip t-'+tierOf(ytp1(v.yt_stage))+'">'+YOPTS.filter(function(o){return o[0]===(v.yt_stage||'not_started')})[0][1]+'</span>')+'</td></tr>'}).join('')+'</tbody></table></div>';
   }
   if(adm)vhtml+='<details style="margin-top:8px"><summary class="small">Add videos</summary><textarea id="newv" placeholder="One video name per line" style="min-height:100px"></textarea><p style="margin-top:6px"><button class="btn sm" data-addv="1">Add</button></p></details>';
   vhtml+='</div>';
   dlg.innerHTML='<div class="dh"><h3 style="margin:0">'+esc(c.title)+(c.not_recorded?' <span class="star">★</span>':'')+'</h3><button class="btn sm alt" data-close="1" aria-label="Close">Close</button></div><p class="small">Item '+c.position+' · <b>'+pct+'%</b> complete'+(c.not_recorded?' · <b>Not recorded yet</b>':'')+'</p>'
    +(adm?'<label style="display:flex;gap:8px;font-weight:500"><input type="checkbox" id="nrc" '+(c.not_recorded?'checked':'')+' style="width:auto;margin-top:5px"> Not recorded yet (shows ★)</label>':'')
-   +vhtml+compRow('youtube','YouTube')+compRow('wix_program','Wix program')+compRow('workbook','Workbook (one for the whole course)')+compRow('splash_page','Splash page (one for the whole course)');
+   +vhtml+(vs.length?'':compRow('youtube','YouTube'))+compRow('wix_program','Wix program')+compRow('workbook','Workbook (one for the whole course)')+compRow('splash_page','Splash page (one for the whole course)');
   if(!dlg.open)dlg.showModal();
 }
 function wireCourse(dlg){
@@ -498,8 +504,8 @@ function wireCourse(dlg){
     var bk=e.target.closest('[data-bulk]');
     if(bk){var act=bk.dataset.bulk,sel=ids();if(!sel.length){alert('Tick the videos first.');return}
       var now=new Date().toISOString();
-      if(act==='apply'){var pe=document.getElementById('bE').value,pb=document.getElementById('bB').value;if(!pe&&!pb){alert('Pick an editing or brief status first.');return}
-        var patch={updated_at:now};if(pe)patch.stage=pe;if(pb){patch.brief_stage=pb;patch.needs_brief=true}
+      if(act==='apply'){var pe=document.getElementById('bE').value,pb=document.getElementById('bB').value,py=document.getElementById('bY').value;if(!pe&&!pb&&!py){alert('Pick an editing, brief or YouTube status first.');return}
+        var patch={updated_at:now};if(pe)patch.stage=pe;if(pb){patch.brief_stage=pb;patch.needs_brief=true}if(py)patch.yt_stage=py;
         redo(sb.from('ttwh_videos').update(patch).in('id',sel))}
       else if(act==='nb1')redo(sb.from('ttwh_videos').update({needs_brief:true,updated_at:now}).in('id',sel));
       else if(act==='nb0')redo(sb.from('ttwh_videos').update({needs_brief:false,updated_at:now}).in('id',sel));
@@ -517,6 +523,7 @@ function wireCourse(dlg){
     if(!isAdmin())return;
     var redo=function(p){return p.then(must).then(pProgress).catch(fail)},now=new Date().toISOString();
     if(t.classList.contains('ve'))redo(sb.from('ttwh_videos').update({stage:t.value,updated_at:now}).eq('id',t.dataset.vid));
+    else if(t.classList.contains('vy'))redo(sb.from('ttwh_videos').update({yt_stage:t.value,updated_at:now}).eq('id',t.dataset.vid));
     else if(t.classList.contains('vb'))redo(sb.from('ttwh_videos').update({brief_stage:t.value,updated_at:now}).eq('id',t.dataset.vid));
     else if(t.classList.contains('vnb'))redo(sb.from('ttwh_videos').update({needs_brief:t.checked,updated_at:now}).eq('id',t.dataset.v));
     else if(t.classList.contains('vt-title')){if(t.value.trim())redo(sb.from('ttwh_videos').update({title:t.value.trim(),updated_at:now}).eq('id',t.dataset.vt))}
