@@ -48,6 +48,11 @@ select[class*=" t-"],select[class^="t-"]{border:1.5px solid var(--ink);font-weig
 .tblwrap select{width:100%;min-width:92px;max-width:150px;font-size:.78rem;padding:4px 2px}.tblwrap .chip{white-space:nowrap;font-size:.78rem}
 .star{color:#FFBF31;font-size:1.15rem;text-shadow:0 0 0 #0E2523,1px 1px 0 #0E2523,-1px -1px 0 #0E2523,1px -1px 0 #0E2523,-1px 1px 0 #0E2523;vertical-align:-1px}
 button.lk{all:unset;cursor:pointer;font-weight:700;text-decoration:underline;color:var(--ink)}button.lk:focus-visible{outline:2px solid var(--purple)}
+#page .cdp a.drv{display:inline-block;font-weight:800;font-size:1.05rem;color:var(--ink);background:#FFBF31;border:2px solid var(--ink);padding:8px 14px;text-decoration:none}#page .cdp a.drv:hover{background:#fff}
+#page .cdp details.vd>summary{list-style:none;cursor:pointer;display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:2px 0}#page .cdp details.vd>summary::-webkit-details-marker{display:none}
+#page .cdp details.vd>summary::before{content:'▶';display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;background:var(--ink);color:#fff;font-size:.9rem;flex:none;transition:transform .15s}
+#page .cdp details.vd[open]>summary::before{transform:rotate(90deg)}#page .cdp details.vd>summary .hint::after{content:'click to expand';text-decoration:underline;margin-left:auto}#page .cdp details.vd[open]>summary .hint::after{content:'click to collapse'}
+#page .cdp details.vd>summary:focus-visible{outline:2px solid var(--purple)}
 #page .cdp .dh{display:flex;justify-content:space-between;align-items:center;gap:10px}#page .cdp .cs{border:1.5px solid var(--ink);background:#fff;margin:10px 0;padding:10px 12px}
 #page .cdp .bulk{display:flex;flex-wrap:wrap;gap:6px;align-items:center;background:var(--paper);border:1px dashed var(--ink);padding:8px;margin-top:6px;font-size:.85rem}#page .cdp .vt .vt-title{width:100%;font-size:.85rem}#page .cdp table.vt td{vertical-align:top}
 #page .cdp input[type=checkbox]{width:auto;min-width:0;margin:0 4px 0 0;display:inline-block}#page .cdp label{display:inline-flex;align-items:center;gap:4px;margin:0;font-weight:500}
@@ -187,6 +192,15 @@ var COMP_STAGES={
 var LEGACY={youtube:{in_progress:'in_draft',in_review:'in_draft',done:'published'},wix_program:{in_progress:'lesson_missing',in_review:'lesson_missing',done:'embedded_ai'},workbook:{in_progress:'in_canva',in_review:'canva_complete',done:'on_wix'},splash_page:{in_progress:'in_process',in_review:'draft',done:'live'}};
 function stOf(key,stage){var s=((LEGACY[key]||{})[stage])||stage,a=COMP_STAGES[key]||[];for(var i=0;i<a.length;i++)if(a[i][0]===s)return {key:a[i][0],label:a[i][1],pct:a[i][2]};return {key:stage,label:String(stage).replace(/_/g,' '),pct:0}}
 function keyMap(comps){var m={};comps.forEach(function(k){m[k.id]=k.key});return m}
+
+function barMarks(pct,marks){
+  return '<div style="position:relative;padding-bottom:24px"><div class="bar-wrap" role="progressbar" aria-valuenow="'+pct+'" aria-valuemin="0" aria-valuemax="100"><div class="bar-fill" style="width:'+Math.min(100,pct)+'%"></div></div>'
+   +marks.map(function(m){return '<span style="position:absolute;left:'+m+'%;top:0;height:18px;border-left:2px dashed var(--ink);margin-left:-1px"></span><span class="small" style="position:absolute;top:21px;'+(m>=100?'right:0':'left:calc('+m+'% - 14px)')+'">'+m+'%</span>'}).join('')+'</div>';
+}
+function lockOf(p,pct){
+  if(!p||p.status==='paid'||p.unlocked_at)return {locked:false};
+  return {locked:true,why:p.unlock_at_pct==null?'Unlocks when the agreement is signed':'Unlocks when progress reaches '+p.unlock_at_pct+'% (now '+pct+'%)'};
+}
 
 /* ---------- shell ---------- */
 var TABS=[['home','← Programs'],['overview','Overview'],['contracts','Contracts'],['payments','Payments'],['progress','Progress'],['updates','Updates'],['package','Package'],['qa','Q&A']];
@@ -408,7 +422,7 @@ function pInvoice(id){
 }
 
 /* ---------- progress ---------- */
-var PD=null,OPEN=null,SEL={};
+var PD=null,OPEN=null,SEL={},VOPEN=window.VOPEN={};
 
 function tierOf(p){return p<=0?'ns':p<50?'ip':p<100?'ir':'dn'}
 function vp1(s){return s==='uploaded'?100:s==='done_laptop'?75:s==='in_process'?25:0}
@@ -479,7 +493,7 @@ function showCourse(){
     var ctl=adm?'<select class="t-'+tierOf(st.pct)+'" data-ck="'+cell.component_id+'">'+(COMP_STAGES[key]||[]).map(function(o){return '<option value="'+o[0]+'"'+(o[0]===st.key?' selected':'')+'>'+esc(o[1])+'</option>'}).join('')+'</select>':'<span class="chip t-'+tierOf(st.pct)+'">'+esc(st.label)+'</span>';
     return '<div class="cs"><div class="ch"><b>'+title+'</b> <span class="small">'+(WEIGHT[key]||0)+'% of the item</span></div><p style="margin:6px 0">'+ctl+approvalUi(cell,cp)+'</p></div>'}
   function approvalUi(cell,cp){if(adm)return cell.approval?' '+chip(cell.approval):'';return (cell.approval?' '+chip(cell.approval):'')+(cp>=75?' <button class="btn sm go" data-ap="approved" data-k="'+cell.component_id+'" title="Approve">✓</button> <button class="btn sm alt" data-ap="needs_changes" data-k="'+cell.component_id+'" title="Needs changes">✎</button>':'')}
-  var BR=/^(baby witch|divination baby|diy witch kit|healing baby)/i.test(c.title),vcell=byKey.ai_video,vhtml='<div class="cs"><div class="ch"><b>Video editing</b> <span class="small">'+(WEIGHT.ai_video||0)+'% of the item'+(vs.length?' · '+vidSummary(vs)+' · YouTube '+vs.filter(function(v){return v.yt_stage==='published'}).length+'/'+vs.length+' published (10%) · Wix '+vs.filter(function(v){return v.wix_stage==='link_added'}).length+'/'+vs.length+' linked (10%)':'')+'</span></div>';
+  var BR=/^(baby witch|divination baby|diy witch kit|healing baby)/i.test(c.title),vcell=byKey.ai_video,vhtml='<details class="cs vd"'+(VOPEN[c.id]===false?'':' open')+' ontoggle="VOPEN[\''+c.id+'\']=this.open"><summary><b>AI video editing</b> <span class="small">'+(WEIGHT.ai_video||0)+'% of the item'+(vs.length?' · '+vidSummary(vs)+' · YouTube '+vs.filter(function(v){return v.yt_stage==='published'}).length+'/'+vs.length+' published (10%) · Wix '+vs.filter(function(v){return v.wix_stage==='link_added'}).length+'/'+vs.length+' linked (10%)':'')+'</span><span class="hint small"></span></summary>';
   if(!vs.length){vhtml+='<p class="small" style="margin:6px 0">No videos listed yet.'+(vcell&&adm?'':'')+'</p>'+(vcell?'<p style="margin:6px 0">Overall status: '+(adm?'<select class="t-'+tierOf(stOf('ai_video',vcell.stage).pct)+'" data-ck="'+vcell.component_id+'">'+COMP_STAGES.ai_video.map(function(o){return '<option value="'+o[0]+'"'+(o[0]===stOf('ai_video',vcell.stage).key?' selected':'')+'>'+esc(o[1])+'</option>'}).join('')+'</select>':'<span class="chip t-'+tierOf(stOf('ai_video',vcell.stage).pct)+'">'+esc(stOf('ai_video',vcell.stage).label)+'</span>')+'</p>':'')}
   else{
     if(adm)vhtml+='<div class="bulk"><b>Bulk:</b> <label><input type="checkbox" id="vall"> select all</label> <select id="bE"><option value="">Editing status…</option>'+VOPTS.map(function(o){return '<option value="'+o[0]+'">'+o[1]+'</option>'}).join('')+'</select> '+(BR?'<select id="bB"><option value="">Brief status…</option>'+VOPTS.map(function(o){return '<option value="'+o[0]+'">'+o[1]+'</option>'}).join('')+'</select> ':'')+'<select id="bY"><option value="">YouTube status…</option>'+YOPTS.map(function(o){return '<option value="'+o[0]+'">'+o[1]+'</option>'}).join('')+'</select> <select id="bW"><option value="">Wix status…</option>'+WOPTS.map(function(o){return '<option value="'+o[0]+'">'+o[1]+'</option>'}).join('')+'</select> <button class="btn sm go" data-bulk="apply">Apply to selected</button> '+(BR?'<button class="btn sm alt" data-bulk="nb1">Needs brief</button> <button class="btn sm alt" data-bulk="nb0">No brief</button> ':'')+'<button class="btn sm alt" data-bulk="del">Delete</button></div>';
@@ -490,8 +504,8 @@ function showCourse(){
        +(BR?'<td>'+(v.needs_brief?(adm?vsel('vb',v.brief_stage,v.id):'<span class="chip t-'+tierOf(vp1(v.brief_stage))+'">'+esc(VOPTS.filter(function(o){return o[0]===v.brief_stage})[0][1])+'</span>'):'<span class="small">not needed</span>')+'</td>':'')+'<td>'+(adm?'<select class="vy t-'+tierOf(ytp1(v.yt_stage)) +'" data-vid="'+v.id+'">'+YOPTS.map(function(o){return '<option value="'+o[0]+'"'+(o[0]===(v.yt_stage||'not_started')?' selected':'')+'>'+o[1]+'</option>'}).join('')+'</select>':'<span class="chip t-'+tierOf(ytp1(v.yt_stage))+'">'+YOPTS.filter(function(o){return o[0]===(v.yt_stage||'not_started')})[0][1]+'</span>')+'<td>'+(adm?'<select class="vw t-'+tierOf(wxp1(v.wix_stage))+'" data-vid="'+v.id+'">'+WOPTS.map(function(o){return '<option value="'+o[0]+'"'+(o[0]===(v.wix_stage||'not_started')?' selected':'')+'>'+o[1]+'</option>'}).join('')+'</select>':'<span class="chip t-'+tierOf(wxp1(v.wix_stage))+'">'+WOPTS.filter(function(o){return o[0]===(v.wix_stage||'not_started')})[0][1]+'</span>')+'</td></tr>'}).join('')+'</tbody></table></div>';
   }
   if(adm)vhtml+='<details style="margin-top:8px"><summary class="small">Add videos</summary><textarea id="newv" placeholder="One video name per line" style="min-height:100px"></textarea><p style="margin-top:6px"><button class="btn sm" data-addv="1">Add</button></p></details>';
-  vhtml+='</div>';
-  dlg.innerHTML='<div class="cdp"><p><a href="#/progress">← All items</a></p><div class="dh"><h2 style="margin:0">'+esc(c.title)+(c.not_recorded?' <span class="star">★</span>':'')+'</h2></div><p class="small">Item '+c.position+' · <b>'+pct+'%</b> complete'+(c.not_recorded?' · <b>Not recorded yet</b>':'')+'</p>'
+  vhtml+='</details>';
+  dlg.innerHTML='<div class="cdp"><p><a href="#/progress">← All items</a></p><div class="dh"><h2 style="margin:0">'+esc(c.title)+(c.not_recorded?' <span class="star">★</span>':'')+'</h2></div>'+(c.drive_url?'<p style="margin:8px 0"><a class="drv" href="'+esc(c.drive_url)+'" target="_blank" rel="noopener">📁 Open the Drive folder for this course ↗</a></p>':'<p class="small">No Drive link yet.</p>')+(adm?'<label style="display:flex;gap:8px;font-weight:500;flex-wrap:wrap">Drive link <input id="drv" value="'+esc(c.drive_url||'')+'" placeholder="https://drive.google.com/…" style="flex:1;min-width:220px"></label>':'')+'<p class="small">Item '+c.position+' · <b>'+pct+'%</b> complete'+(c.not_recorded?' · <b>Not recorded yet</b>':'')+'</p>'
    +(adm?'<label style="display:flex;gap:8px;font-weight:500"><input type="checkbox" id="nrc" '+(c.not_recorded?'checked':'')+' style="width:auto;margin-top:5px"> Not recorded yet (shows ★)</label>':'')
    +vhtml+(vs.length?'':compRow('youtube','YouTube')+compRow('wix_program','Wix program'))+compRow('workbook','Workbook (one for the whole course)')+compRow('splash_page','Splash page (one for the whole course)')+'</div>';
   wireCourse(dlg);
@@ -531,6 +545,7 @@ function wireCourse(dlg){
     else if(t.classList.contains('vnb'))redo(sb.from('ttwh_videos').update({needs_brief:t.checked,updated_at:now}).eq('id',t.dataset.v));
     else if(t.classList.contains('vt-title')){if(t.value.trim())redo(sb.from('ttwh_videos').update({title:t.value.trim(),updated_at:now}).eq('id',t.dataset.vt))}
     else if(t.dataset.ck)redo(sb.from('ttwh_progress_cells').update({stage:t.value,updated_at:now}).eq('course_id',OPEN).eq('component_id',t.dataset.ck));
+    else if(t.id==='drv')redo(sb.from('ttwh_courses').update({drive_url:t.value.trim()||null}).eq('id',OPEN));
     else if(t.id==='nrc')redo(sb.from('ttwh_courses').update({not_recorded:t.checked}).eq('id',OPEN));
   };
 }
