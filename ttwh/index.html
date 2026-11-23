@@ -43,8 +43,14 @@ main{padding:26px 0 40px}
 .chip.final,.chip.invoiced,.chip.open{background:var(--mustard)}
 .chip.signed,.chip.paid,.chip.published,.chip.answered,.chip.approved{background:var(--green)}
 .chip.draft,.chip.planned,.chip.resolved{background:var(--paper)}
-.chip.not_started,select.st-not_started,.sg-not_started{background:#F4B98F}.chip.in_progress,select.st-in_progress,.sg-in_progress{background:#9CC9F0}.chip.in_review,select.st-in_review,.sg-in_review{background:#C9A3E2}.chip.done,select.st-done,.sg-done{background:#8FD491}
-select[class^="st-"]{border:1.5px solid var(--ink);font-weight:600}
+.chip.t-ns,select.t-ns,.sg-ns{background:#F4B98F}.chip.t-ip,select.t-ip,.sg-ip{background:#9CC9F0}.chip.t-ir,select.t-ir,.sg-ir{background:#C9A3E2}.chip.t-dn,select.t-dn,.sg-dn{background:#8FD491}
+select[class*=" t-"],select[class^="t-"]{border:1.5px solid var(--ink);font-weight:600}
+.tblwrap select{width:100%;min-width:92px;max-width:150px;font-size:.78rem;padding:4px 2px}.tblwrap .chip{white-space:nowrap;font-size:.78rem}
+.star{color:#FFBF31;font-size:1.15rem;text-shadow:0 0 0 #0E2523,1px 1px 0 #0E2523,-1px -1px 0 #0E2523,1px -1px 0 #0E2523,-1px 1px 0 #0E2523;vertical-align:-1px}
+button.lk{all:unset;cursor:pointer;font-weight:700;text-decoration:underline;color:var(--ink)}button.lk:focus-visible{outline:2px solid var(--purple)}
+dialog#cd{border:2px solid var(--ink);padding:16px 18px;max-width:900px;width:94vw;max-height:90vh;overflow:auto;background:var(--paper);color:var(--ink)}dialog#cd::backdrop{background:rgba(14,37,35,.55)}
+dialog#cd .dh{display:flex;justify-content:space-between;align-items:center;gap:10px}dialog#cd .cs{border:1.5px solid var(--ink);background:#fff;margin:10px 0;padding:10px 12px}
+dialog#cd .bulk{display:flex;flex-wrap:wrap;gap:6px;align-items:center;background:var(--paper);border:1px dashed var(--ink);padding:8px;margin-top:6px;font-size:.85rem}dialog#cd .vt .vt-title{width:100%;font-size:.85rem}dialog#cd table.vt td{vertical-align:top}
 .stack{display:flex;height:18px;border:2px solid var(--ink);background:#fff}.stack span{height:100%;border-right:1.5px solid var(--ink)}.stack span:last-child{border-right:0}.legend{display:flex;flex-wrap:wrap;gap:6px 12px;margin:8px 0;font-size:.85rem}.legend i{display:inline-block;width:14px;height:14px;border:1.5px solid var(--ink);vertical-align:-2px;margin-right:4px}
 .thread.resolved summary{font-size:.9rem;opacity:.8}.chip.needs_changes{background:#f6c3a6}
 .btn{display:inline-block;font:inherit;font-weight:600;background:var(--ink);color:var(--paper);border:2px solid var(--ink);padding:9px 16px;cursor:pointer;min-height:42px;text-decoration:none;transition:transform .15s}
@@ -170,8 +176,16 @@ function $(s,r){return (r||document).querySelector(s)}
 function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
 function must(res){if(res.error)throw res.error;return res.data}
 var STAGES=['not_started','in_progress','in_review','done'];
-var STAGE_PCT={not_started:0,in_progress:25,in_review:75,done:100};
 var WEIGHT={ai_video:30,workbook:30,splash_page:20,youtube:10,wix_program:10};
+var COMP_STAGES={
+ ai_video:[['not_started','Not started',0],['in_progress','In progress',25],['in_review','In review',75],['done','Done',100]],
+ youtube:[['not_started','Not started',0],['in_draft','In draft',50],['published','Published',100]],
+ wix_program:[['not_started','Not started',0],['lesson_missing','Lesson section missing',50],['embedded_ai','Embedded AI version',100]],
+ workbook:[['not_started','Not started',0],['in_canva','In Canva',20],['bold_remaining','Bold remaining',40],['canva_complete','Canva complete',60],['pdf_on_drive','PDF on Drive',80],['on_wix','Embedded on Wix',100]],
+ splash_page:[['not_started','Not started',0],['in_process','In process',33],['draft','Draft',66],['live','Live',100]]};
+var LEGACY={youtube:{in_progress:'in_draft',in_review:'in_draft',done:'published'},wix_program:{in_progress:'lesson_missing',in_review:'lesson_missing',done:'embedded_ai'},workbook:{in_progress:'in_canva',in_review:'canva_complete',done:'on_wix'},splash_page:{in_progress:'in_process',in_review:'draft',done:'live'}};
+function stOf(key,stage){var s=((LEGACY[key]||{})[stage])||stage,a=COMP_STAGES[key]||[];for(var i=0;i<a.length;i++)if(a[i][0]===s)return {key:a[i][0],label:a[i][1],pct:a[i][2]};return {key:stage,label:String(stage).replace(/_/g,' '),pct:0}}
+function keyMap(comps){var m={};comps.forEach(function(k){m[k.id]=k.key});return m}
 
 /* ---------- shell ---------- */
 var TABS=[['home','← Programs'],['overview','Overview'],['contracts','Contracts'],['payments','Payments'],['progress','Progress'],['updates','Updates'],['package','Package'],['qa','Q&A']];
@@ -233,24 +247,6 @@ function pRR(){
 }
 
 /* ---------- overview ---------- */
-function keyMap(comps){var m={};comps.forEach(function(k){m[k.id]=k.key});return m}
-function itemPct(cells,km){return cells.reduce(function(a,c){return a+(WEIGHT[km[c.component_id]]||0)*(STAGE_PCT[c.stage]||0)/100},0)}
-function coursePct(cells,comps){if(!cells.length)return 0;var km=keyMap(comps),by={},n=0;cells.forEach(function(c){(by[c.course_id]=by[c.course_id]||[]).push(c)});var t=0;Object.keys(by).forEach(function(id){t+=itemPct(by[id],km);n++});return t/n}
-function getPct(){return Promise.all([sb.from('ttwh_progress_cells').select('stage,course_id,component_id'),sb.from('ttwh_components').select('id,key')]).then(function(r){return Math.round(coursePct(must(r[0]),must(r[1])))})}
-function barMarks(pct,marks){
-  return '<div style="position:relative;padding-bottom:24px"><div class="bar-wrap" role="progressbar" aria-valuenow="'+pct+'" aria-valuemin="0" aria-valuemax="100"><div class="bar-fill" style="width:'+Math.min(100,pct)+'%"></div></div>'
-   +marks.map(function(m){return '<span style="position:absolute;left:'+m+'%;top:0;height:18px;border-left:2px dashed var(--ink);margin-left:-1px"></span><span class="small" style="position:absolute;top:21px;'+(m>=100?'right:0':'left:calc('+m+'% - 14px)')+'">'+m+'%</span>'}).join('')+'</div>';
-}
-function lockOf(p,pct){
-  if(!p||p.status==='paid'||p.unlocked_at)return {locked:false};
-  return {locked:true,why:p.unlock_at_pct==null?'Unlocks when the agreement is signed':'Unlocks when progress reaches '+p.unlock_at_pct+'% (now '+pct+'%)'};
-}
-function stageBar(cells){
-  var n=cells.length||1,L={not_started:'Not started',in_progress:'In progress',in_review:'In review',done:'Done'},c={};
-  cells.forEach(function(x){c[x.stage]=(c[x.stage]||0)+1});
-  var order=['done','in_review','in_progress','not_started'];
-  return '<div class="stack" role="img" aria-label="Components by stage">'+order.map(function(k){return c[k]?'<span class="sg-'+k+'" style="width:'+(c[k]*100/n)+'%"></span>':''}).join('')+'</div><div class="legend">'+order.map(function(k){return '<span><i class="sg-'+k+'"></i>'+L[k]+' ('+(c[k]||0)+')</span>'}).join('')+'</div>';
-}
 function pOverview(){
   return Promise.all([
     sb.from('ttwh_packages').select('*').eq('code','PTS').maybeSingle(),
@@ -411,32 +407,121 @@ function pInvoice(id){
 }
 
 /* ---------- progress ---------- */
+var PD=null,OPEN=null,SEL={};
+function tierOf(p){return p<=0?'ns':p<50?'ip':p<100?'ir':'dn'}
+function vp1(s){return s==='uploaded'?100:s==='done_laptop'?75:s==='in_process'?25:0}
+function videoPct(v){var e=vp1(v.stage),b=v.needs_brief?vp1(v.brief_stage):e;return (e+b)/2}
+function vidsAvg(vs){return vs.length?vs.reduce(function(a,v){return a+videoPct(v)},0)/vs.length:0}
+function cellPct(key,cell,vs){if(key==='ai_video'&&vs.length)return vidsAvg(vs);return cell?stOf(key,cell.stage).pct:0}
+function itemPct(cells,km,vs){return cells.reduce(function(a,c){return a+(WEIGHT[km[c.component_id]]||0)*cellPct(km[c.component_id],c,vs)/100},0)}
+function overallOf(cells,comps,vids){if(!cells.length)return 0;var km=keyMap(comps),by={},n=0,t=0;cells.forEach(function(c){(by[c.course_id]=by[c.course_id]||[]).push(c)});
+  Object.keys(by).forEach(function(id){t+=itemPct(by[id],km,vids.filter(function(v){return v.course_id===id}));n++});return t/n}
+function getVids(){return sb.from('ttwh_videos').select('*').order('position').then(function(r){return r.error?[]:(r.data||[])},function(){return[]})}
+function getPct(){return Promise.all([sb.from('ttwh_progress_cells').select('stage,course_id,component_id'),sb.from('ttwh_components').select('id,key'),getVids()]).then(function(r){return Math.round(overallOf(must(r[0]),must(r[1]),r[2]))})}
+function stageBar(cells,comps,vids){
+  var km=keyMap(comps),c={},L={ns:'Not started',ip:'In progress',ir:'Nearly there',dn:'Done'},n=cells.length||1;
+  cells.forEach(function(x){var k=km[x.component_id],t=tierOf(cellPct(k,x,vids.filter(function(v){return v.course_id===x.course_id})));if(t==='ir'&&cellPct(k,x,vids.filter(function(v){return v.course_id===x.course_id}))>=100)t='dn';c[t]=(c[t]||0)+1});
+  var order=['dn','ir','ip','ns'];
+  return '<div class="stack" role="img" aria-label="Components by stage">'+order.map(function(k){return c[k]?'<span class="sg-'+k+'" style="width:'+(c[k]*100/n)+'%"></span>':''}).join('')+'</div><div class="legend">'+order.map(function(k){return '<span><i class="sg-'+k+'"></i>'+L[k]+' ('+(c[k]||0)+')</span>'}).join('')+'</div>';
+}
+function vidSummary(vs){var up=vs.filter(function(v){return v.stage==='uploaded'}).length;return up+'/'+vs.length+' on Drive'}
 function pProgress(){
   return Promise.all([
     sb.from('ttwh_courses').select('*').order('position'),
     sb.from('ttwh_components').select('*').order('position'),
-    sb.from('ttwh_progress_cells').select('*')
+    sb.from('ttwh_progress_cells').select('*'),
+    getVids()
   ]).then(function(r){
-    var courses=must(r[0]),comps=must(r[1]),cells=must(r[2]),map={};
+    var courses=must(r[0]),comps=must(r[1]),cells=must(r[2]),vids=r[3],map={},km=keyMap(comps);
+    PD={courses:courses,comps:comps,cells:cells,vids:vids,km:km};
     cells.forEach(function(c){map[c.course_id+'|'+c.component_id]=c});
-    var overall=Math.round(coursePct(cells,comps)),km=keyMap(comps);
-    var html='<h2>progress</h2><div class="bar-wrap"><div class="bar-fill" style="width:'+overall+'%"></div></div><p style="margin-top:6px"><b>'+overall+'%</b> overall · 27 items. <span class="small">Each item: AI video 30%, workbook 30%, splash page 20%, YouTube 10%, Wix program 10%. A component counts 100% when done, 75% in review, 25% in progress, 0% not started.</span></p>'+stageBar(cells);
+    var overall=Math.round(overallOf(cells,comps,vids));
+    var html='<h2>progress</h2><div class="bar-wrap"><div class="bar-fill" style="width:'+overall+'%"></div></div><p style="margin-top:6px"><b>'+overall+'%</b> overall · 27 items. <span class="small">Each item: video editing 30%, workbook 30%, splash page 20%, YouTube 10%, Wix program 10%. <span class="star">★</span> = not recorded yet. Click an item name for its full breakdown.</span></p>'+stageBar(cells,comps,vids);
     html+='<div class="tblwrap"><table><thead><tr><th>#</th><th>Item</th>'+comps.map(function(c){return '<th>'+esc(c.label)+'<br><span class="small" style="font-weight:400">'+(WEIGHT[c.key]||0)+'%</span></th>'}).join('')+'<th>%</th><th>Current task</th></tr></thead><tbody>';
     courses.forEach(function(c){
-      var cc=comps.map(function(k){return map[c.id+'|'+k.id]}).filter(Boolean);
-      html+='<tr><td>'+c.position+'</td><th scope="row" style="background:none;position:static;white-space:normal">'+esc(c.title)+'</th>'+comps.map(function(k){var cell=map[c.id+'|'+k.id];if(!cell)return '<td></td>';
-        if(isAdmin())return '<td><select class="st-'+cell.stage+'" data-c="'+c.id+'" data-k="'+k.id+'" aria-label="'+esc(c.title+' '+k.label)+'">'+STAGES.map(function(s){return '<option value="'+s+'"'+(s===cell.stage?' selected':'')+'>'+s.replace('_',' ')+'</option>'}).join('')+'</select>'+(cell.approval?'<br>'+chip(cell.approval):'')+'</td>';
-        return '<td>'+chip(cell.stage)+(cell.approval?'<br>'+chip(cell.approval):'')+((cell.stage==='in_review'||cell.stage==='done')?'<br><button class="btn sm go" data-ap="approved" data-c="'+c.id+'" data-k="'+k.id+'" title="Approve">✓</button> <button class="btn sm alt" data-ap="needs_changes" data-c="'+c.id+'" data-k="'+k.id+'" title="Needs changes">✎</button>':'')+'</td>'}).join('')
-        +'<td><b>'+Math.round(itemPct(cc,km))+'%</b></td><td>'+(isAdmin()?'<input data-task="'+c.id+'" value="'+esc(c.current_task||'')+'" aria-label="Current task for '+esc(c.title)+'">':esc(c.current_task||''))+'</td></tr>';
+      var cc=comps.map(function(k){return map[c.id+'|'+k.id]}).filter(Boolean),vs=vids.filter(function(v){return v.course_id===c.id});
+      html+='<tr><td>'+c.position+'</td><th scope="row" style="background:none;position:static;white-space:normal"><button class="lk" data-open="'+c.id+'">'+esc(c.title)+'</button>'+(c.not_recorded?' <span class="star" title="Not recorded yet">★</span>':'')+'</th>'+comps.map(function(k){var cell=map[c.id+'|'+k.id];if(!cell)return '<td></td>';
+        if(k.key==='ai_video'&&vs.length){var ap=vidsAvg(vs);return '<td><button class="lk" data-open="'+c.id+'"><span class="chip t-'+tierOf(ap)+'">'+esc(vidSummary(vs))+'</span></button>'+(cell.approval?'<br>'+chip(cell.approval):'')+'</td>'}
+        var st=stOf(k.key,cell.stage),tr=tierOf(st.pct);
+        if(isAdmin())return '<td><select class="t-'+tr+'" data-c="'+c.id+'" data-k="'+k.id+'" aria-label="'+esc(c.title+' '+k.label)+'">'+(COMP_STAGES[k.key]||[]).map(function(o){return '<option value="'+o[0]+'"'+(o[0]===st.key?' selected':'')+'>'+esc(o[1])+'</option>'}).join('')+'</select>'+(cell.approval?'<br>'+chip(cell.approval):'')+'</td>';
+        return '<td><span class="chip t-'+tr+'">'+esc(st.label)+'</span>'+(cell.approval?'<br>'+chip(cell.approval):'')+'</td>'}).join('')
+        +'<td><b>'+Math.round(itemPct(cc,km,vs))+'%</b></td><td>'+(isAdmin()?'<input data-task="'+c.id+'" value="'+esc(c.current_task||'')+'" aria-label="Current task for '+esc(c.title)+'">':esc(c.current_task||''))+'</td></tr>';
     });
-    html+='</tbody></table></div>'+(isAdmin()?'':'<p class="small" style="margin-top:8px">✓ approves a component, ✎ asks for changes. Murtaza sees your choice straight away.</p>');
+    html+='</tbody></table></div>';
     setPage(html);
     $('#page').onchange=function(e){var s=e.target.closest('select[data-c]');if(!s)return;
       sb.from('ttwh_progress_cells').update({stage:s.value,updated_at:new Date().toISOString()}).eq('course_id',s.dataset.c).eq('component_id',s.dataset.k).then(must).then(pProgress).catch(fail)};
     $('#page').onfocusout=function(e){var i=e.target.closest('input[data-task]');if(!i)return;
       sb.from('ttwh_courses').update({current_task:i.value||null}).eq('id',i.dataset.task).then(must).catch(fail)};
-    $('#page').onclick=function(e){var b=e.target.closest('[data-ap]');if(!b)return;b.disabled=true;
-      sb.rpc('ttwh_set_approval',{p_course:b.dataset.c,p_component:b.dataset.k,p_approval:b.dataset.ap}).then(must).then(pProgress).catch(fail)};
+    $('#page').onclick=function(e){var b=e.target.closest('[data-open]');if(b){OPEN=b.dataset.open;showCourse();}};
+    if(OPEN)showCourse();
+  });
+}
+var VOPTS=[['not_started','Not started'],['in_process','In process'],['done_laptop','Done on laptop'],['uploaded','Uploaded to Drive']];
+function vsel(cls,val,id,dis){return '<select class="'+cls+' t-'+tierOf(vp1(val))+'" data-vid="'+id+'"'+(dis?' disabled':'')+'>'+VOPTS.map(function(o){return '<option value="'+o[0]+'"'+(o[0]===val?' selected':'')+'>'+o[1]+'</option>'}).join('')+'</select>'}
+function showCourse(){
+  if(!PD)return;var c=PD.courses.filter(function(x){return x.id===OPEN})[0];if(!c){OPEN=null;return}
+  var dlg=document.getElementById('cd');
+  if(!dlg){dlg=document.createElement('dialog');dlg.id='cd';document.body.appendChild(dlg);dlg.addEventListener('close',function(){OPEN=null;SEL={}});wireCourse(dlg)}
+  var adm=isAdmin(),km=PD.km,cells=PD.cells.filter(function(x){return x.course_id===c.id}),vs=PD.vids.filter(function(v){return v.course_id===c.id}),byKey={};
+  cells.forEach(function(x){byKey[km[x.component_id]]=x});
+  var pct=Math.round(itemPct(cells,km,vs));
+  function compRow(key,title){var cell=byKey[key];if(!cell)return '';var st=stOf(key,cell.stage),cp=cellPct(key,cell,vs);
+    var ctl=adm?'<select class="t-'+tierOf(st.pct)+'" data-ck="'+cell.component_id+'">'+(COMP_STAGES[key]||[]).map(function(o){return '<option value="'+o[0]+'"'+(o[0]===st.key?' selected':'')+'>'+esc(o[1])+'</option>'}).join('')+'</select>':'<span class="chip t-'+tierOf(st.pct)+'">'+esc(st.label)+'</span>';
+    return '<div class="cs"><div class="ch"><b>'+title+'</b> <span class="small">'+(WEIGHT[key]||0)+'% of the item</span></div><p style="margin:6px 0">'+ctl+approvalUi(cell,cp)+'</p></div>'}
+  function approvalUi(cell,cp){if(adm)return cell.approval?' '+chip(cell.approval):'';return (cell.approval?' '+chip(cell.approval):'')+(cp>=75?' <button class="btn sm go" data-ap="approved" data-k="'+cell.component_id+'" title="Approve">✓</button> <button class="btn sm alt" data-ap="needs_changes" data-k="'+cell.component_id+'" title="Needs changes">✎</button>':'')}
+  var vcell=byKey.ai_video,vhtml='<div class="cs"><div class="ch"><b>Video editing</b> <span class="small">'+(WEIGHT.ai_video||0)+'% of the item'+(vs.length?' · '+vidSummary(vs):'')+'</span></div>';
+  if(!vs.length){vhtml+='<p class="small" style="margin:6px 0">No videos listed yet.'+(vcell&&adm?'':'')+'</p>'+(vcell?'<p style="margin:6px 0">Overall status: '+(adm?'<select class="t-'+tierOf(stOf('ai_video',vcell.stage).pct)+'" data-ck="'+vcell.component_id+'">'+COMP_STAGES.ai_video.map(function(o){return '<option value="'+o[0]+'"'+(o[0]===stOf('ai_video',vcell.stage).key?' selected':'')+'>'+esc(o[1])+'</option>'}).join('')+'</select>':'<span class="chip t-'+tierOf(stOf('ai_video',vcell.stage).pct)+'">'+esc(stOf('ai_video',vcell.stage).label)+'</span>')+'</p>':'')}
+  else{
+    if(adm)vhtml+='<div class="bulk"><b>Bulk:</b> <label><input type="checkbox" id="vall"> select all</label> <select id="bE"><option value="">Editing status…</option>'+VOPTS.map(function(o){return '<option value="'+o[0]+'">'+o[1]+'</option>'}).join('')+'</select> <select id="bB"><option value="">Brief status…</option>'+VOPTS.map(function(o){return '<option value="'+o[0]+'">'+o[1]+'</option>'}).join('')+'</select> <button class="btn sm go" data-bulk="apply">Apply to selected</button> <button class="btn sm alt" data-bulk="nb1">Needs brief</button> <button class="btn sm alt" data-bulk="nb0">No brief</button> <button class="btn sm alt" data-bulk="del">Delete</button></div>';
+    vhtml+='<div class="tblwrap" style="margin-top:6px"><table class="vt"><thead><tr>'+(adm?'<th></th>':'')+'<th>Video</th><th>Editing</th><th>Brief</th></tr></thead><tbody>'+vs.map(function(v){
+      return '<tr>'+(adm?'<td><input type="checkbox" class="vsel" data-v="'+v.id+'"'+(SEL[v.id]?' checked':'')+' aria-label="Select"></td>':'')
+       +'<td>'+(adm?'<input class="vt-title" data-vt="'+v.id+'" value="'+esc(v.title)+'">':esc(v.title))+(adm?'<br><label class="small"><input type="checkbox" class="vnb" data-v="'+v.id+'"'+(v.needs_brief?' checked':'')+'> needs a brief</label>':'')+'</td>'
+       +'<td>'+(adm?vsel('ve',v.stage,v.id):'<span class="chip t-'+tierOf(vp1(v.stage))+'">'+esc(VOPTS.filter(function(o){return o[0]===v.stage})[0][1])+'</span>')+'</td>'
+       +'<td>'+(v.needs_brief?(adm?vsel('vb',v.brief_stage,v.id):'<span class="chip t-'+tierOf(vp1(v.brief_stage))+'">'+esc(VOPTS.filter(function(o){return o[0]===v.brief_stage})[0][1])+'</span>'):'<span class="small">not needed</span>')+'</td></tr>'}).join('')+'</tbody></table></div>';
+  }
+  if(adm)vhtml+='<details style="margin-top:8px"><summary class="small">Add videos</summary><textarea id="newv" placeholder="One video name per line" style="min-height:100px"></textarea><p style="margin-top:6px"><button class="btn sm" data-addv="1">Add</button></p></details>';
+  vhtml+='</div>';
+  dlg.innerHTML='<div class="dh"><h3 style="margin:0">'+esc(c.title)+(c.not_recorded?' <span class="star">★</span>':'')+'</h3><button class="btn sm alt" data-close="1" aria-label="Close">Close</button></div><p class="small">Item '+c.position+' · <b>'+pct+'%</b> complete'+(c.not_recorded?' · <b>Not recorded yet</b>':'')+'</p>'
+   +(adm?'<label style="display:flex;gap:8px;font-weight:500"><input type="checkbox" id="nrc" '+(c.not_recorded?'checked':'')+' style="width:auto;margin-top:5px"> Not recorded yet (shows ★)</label>':'')
+   +vhtml+compRow('youtube','YouTube')+compRow('wix_program','Wix program')+compRow('workbook','Workbook (one for the whole course)')+compRow('splash_page','Splash page (one for the whole course)');
+  if(!dlg.open)dlg.showModal();
+}
+function wireCourse(dlg){
+  var redo=function(p){return p.then(must).then(pProgress).catch(fail)};
+  dlg.addEventListener('click',function(e){
+    if(e.target.closest('[data-close]')||e.target===dlg){dlg.close();return}
+    var ap=e.target.closest('[data-ap]');
+    if(ap){ap.disabled=true;redo(sb.rpc('ttwh_set_approval',{p_course:OPEN,p_component:ap.dataset.k,p_approval:ap.dataset.ap}));return}
+    if(!isAdmin())return;
+    var ids=function(){return Object.keys(SEL).filter(function(k){return SEL[k]})};
+    var bk=e.target.closest('[data-bulk]');
+    if(bk){var act=bk.dataset.bulk,sel=ids();if(!sel.length){alert('Tick the videos first.');return}
+      var now=new Date().toISOString();
+      if(act==='apply'){var pe=document.getElementById('bE').value,pb=document.getElementById('bB').value;if(!pe&&!pb){alert('Pick an editing or brief status first.');return}
+        var patch={updated_at:now};if(pe)patch.stage=pe;if(pb){patch.brief_stage=pb;patch.needs_brief=true}
+        redo(sb.from('ttwh_videos').update(patch).in('id',sel))}
+      else if(act==='nb1')redo(sb.from('ttwh_videos').update({needs_brief:true,updated_at:now}).in('id',sel));
+      else if(act==='nb0')redo(sb.from('ttwh_videos').update({needs_brief:false,updated_at:now}).in('id',sel));
+      else if(act==='del'){if(!confirm('Delete '+sel.length+' video(s) from this list?'))return;SEL={};redo(sb.from('ttwh_videos').delete().in('id',sel))}
+      return}
+    var av=e.target.closest('[data-addv]');
+    if(av){var names=document.getElementById('newv').value.split(/\r?\n/).map(function(x){return x.trim()}).filter(Boolean);if(!names.length)return;
+      var base=PD.vids.filter(function(v){return v.course_id===OPEN}).length;
+      redo(sb.from('ttwh_videos').insert(names.map(function(n,i){return {course_id:OPEN,title:n,position:base+i+1}})));return}
+  });
+  dlg.addEventListener('change',function(e){
+    var t=e.target;
+    if(t.id==='vall'){PD.vids.filter(function(v){return v.course_id===OPEN}).forEach(function(v){SEL[v.id]=t.checked});dlg.querySelectorAll('.vsel').forEach(function(x){x.checked=t.checked});return}
+    if(t.classList.contains('vsel')){SEL[t.dataset.v]=t.checked;return}
+    if(!isAdmin())return;
+    var redo=function(p){return p.then(must).then(pProgress).catch(fail)},now=new Date().toISOString();
+    if(t.classList.contains('ve'))redo(sb.from('ttwh_videos').update({stage:t.value,updated_at:now}).eq('id',t.dataset.vid));
+    else if(t.classList.contains('vb'))redo(sb.from('ttwh_videos').update({brief_stage:t.value,updated_at:now}).eq('id',t.dataset.vid));
+    else if(t.classList.contains('vnb'))redo(sb.from('ttwh_videos').update({needs_brief:t.checked,updated_at:now}).eq('id',t.dataset.v));
+    else if(t.classList.contains('vt-title')){if(t.value.trim())redo(sb.from('ttwh_videos').update({title:t.value.trim(),updated_at:now}).eq('id',t.dataset.vt))}
+    else if(t.dataset.ck)redo(sb.from('ttwh_progress_cells').update({stage:t.value,updated_at:now}).eq('course_id',OPEN).eq('component_id',t.dataset.ck));
+    else if(t.id==='nrc')redo(sb.from('ttwh_courses').update({not_recorded:t.checked}).eq('id',OPEN));
   });
 }
 
