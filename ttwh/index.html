@@ -348,7 +348,7 @@ function pPayments(){
     html+=pays.length?'<ul class="tl">'+pays.map(function(p){
       var lk=lockOf(p,pct);
       return '<li class="'+(lk.locked?'locked':esc(p.status))+'"><b>'+esc(p.label)+'</b> '+chip(p.status)+(lk.locked?' 🔒':'')+(p.visible_to_client?'':' <span class="chip">hidden</span>')
-       +'<br>'+(p.status==='paid'&&p.received_amount!=null?money(p.received_amount)+' received':money(p.amount))+(p.due_milestone?' · '+esc(p.due_milestone):'')+(p.paid_at?' · paid '+fmtDate(p.paid_at):'')
+       +'<br>'+money(p.amount)+(p.due_milestone?' · '+esc(p.due_milestone):'')+(p.paid_at?' · paid '+fmtDate(p.paid_at):'')
        +(lk.locked?'<br><span class="small">'+esc(lk.why)+'</span>':(p.status!=='paid'?'<br><span class="small">Invoice is open. Due within 3 days.</span>':''))
        +(isAdmin()&&p.paypal_txn_id?'<br><span class="small">txn '+esc(p.paypal_txn_id)+'</span>':'')
        +(isAdmin()?'<br><button class="btn sm alt" data-act="editpay" data-id="'+p.id+'">edit</button>'+(!lk.locked&&p.status!=='paid'?' <button class="btn sm go" data-act="markpaid" data-id="'+p.id+'">Mark as paid</button>':''):'')+'</li>'}).join('')+'</ul>':'<p class="small">The payment schedule will appear here once it is agreed.</p>';
