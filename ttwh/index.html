@@ -111,7 +111,7 @@ details summary{cursor:pointer;font-weight:600;padding:4px 0}
 .inv .sg{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-top:26px}.inv .sg .note{font-size:.78rem;color:#6b7a99}
 .inv .sig{text-align:right;min-width:210px}.inv .sig .script{font-family:'Caveat',cursive;font-size:2.3rem;line-height:1;color:#152a4e;border:0;padding:0}.inv .sigline{border-top:1.5px solid #152a4e;margin:2px 0 6px}.inv .sig b{font-size:.82rem}.inv .sig small{display:block;color:#6b7a99;font-size:.68rem;margin-top:2px}
 .inv .ft{background:#152a4e;color:#b8c2d8;padding:20px 46px;font-size:.72rem;border-top:4px solid #1b9aa0;display:flex;justify-content:space-between;align-items:flex-end;gap:10px;line-height:1.7}.inv .ft .a{color:#fff;font-size:.8rem}.inv .ft b{color:#e3e8f2}
-.inv .paid{display:inline-block;border:3px solid #1b9aa0;color:#1b9aa0;font-weight:800;padding:2px 14px;transform:rotate(-6deg);font-size:1.2rem;margin-left:12px;background:#fff}
+.inv .tot span.paid{display:block;width:fit-content;border:2px solid #1b9aa0;color:#1b9aa0;background:transparent;font-weight:800;padding:1px 12px;transform:rotate(-6deg);font-size:.95rem;letter-spacing:1.5px;margin:8px 0 0}.inv .tot b{white-space:nowrap}
 .inv .wm{position:absolute;top:42%;left:50%;transform:translate(-50%,-50%) rotate(-20deg);text-align:center;font-weight:800;color:rgba(21,42,78,.13);pointer-events:none;width:90%;z-index:2}.inv .wm b{display:block;font-size:4.5rem;line-height:1}.inv .wm span{display:block;font-size:1.5rem;margin-top:8px}@media(max-width:560px){.inv .wm b{font-size:2.4rem}.inv .wm span{font-size:1rem}}.chip.draft{background:var(--mustard)}
 @media(max-width:620px){.inv .two,.inv .pay{grid-template-columns:1fr}.inv .hd,.inv .bd,.inv .ft{padding-left:20px;padding-right:20px}.inv .hd .t{font-size:2.2rem}}
 @page{size:A4;margin:0}
@@ -171,6 +171,7 @@ function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAl
 function must(res){if(res.error)throw res.error;return res.data}
 var STAGES=['not_started','in_progress','in_review','done'];
 var STAGE_PCT={not_started:0,in_progress:25,in_review:75,done:100};
+var WEIGHT={ai_video:30,workbook:30,splash_page:20,youtube:10,wix_program:10};
 
 /* ---------- shell ---------- */
 var TABS=[['home','← Programs'],['overview','Overview'],['contracts','Contracts'],['payments','Payments'],['progress','Progress'],['updates','Updates'],['package','Package'],['qa','Q&A']];
@@ -232,8 +233,10 @@ function pRR(){
 }
 
 /* ---------- overview ---------- */
-function coursePct(cells){if(!cells.length)return 0;return cells.reduce(function(a,c){return a+STAGE_PCT[c.stage]},0)/cells.length}
-function getPct(){return sb.from('ttwh_progress_cells').select('stage').then(must).then(function(c){return Math.round(coursePct(c))})}
+function keyMap(comps){var m={};comps.forEach(function(k){m[k.id]=k.key});return m}
+function itemPct(cells,km){return cells.reduce(function(a,c){return a+(WEIGHT[km[c.component_id]]||0)*(STAGE_PCT[c.stage]||0)/100},0)}
+function coursePct(cells,comps){if(!cells.length)return 0;var km=keyMap(comps),by={},n=0;cells.forEach(function(c){(by[c.course_id]=by[c.course_id]||[]).push(c)});var t=0;Object.keys(by).forEach(function(id){t+=itemPct(by[id],km);n++});return t/n}
+function getPct(){return Promise.all([sb.from('ttwh_progress_cells').select('stage,course_id,component_id'),sb.from('ttwh_components').select('id,key')]).then(function(r){return Math.round(coursePct(must(r[0]),must(r[1])))})}
 function barMarks(pct,marks){
   return '<div style="position:relative;padding-bottom:24px"><div class="bar-wrap" role="progressbar" aria-valuenow="'+pct+'" aria-valuemin="0" aria-valuemax="100"><div class="bar-fill" style="width:'+Math.min(100,pct)+'%"></div></div>'
    +marks.map(function(m){return '<span style="position:absolute;left:'+m+'%;top:0;height:18px;border-left:2px dashed var(--ink);margin-left:-1px"></span><span class="small" style="position:absolute;top:21px;'+(m>=100?'right:0':'left:calc('+m+'% - 14px)')+'">'+m+'%</span>'}).join('')+'</div>';
@@ -251,14 +254,14 @@ function stageBar(cells){
 function pOverview(){
   return Promise.all([
     sb.from('ttwh_packages').select('*').eq('code','PTS').maybeSingle(),
-    sb.from('ttwh_progress_cells').select('stage'),
+    getPct(),
     sb.from('ttwh_payments').select('*').order('seq'),
     sb.from('ttwh_updates').select('*').order('published_at',{ascending:false,nullsFirst:false}).limit(1),
     sb.from('ttwh_qa_threads').select('id').eq('status','open'),
     sb.from('ttwh_contract_versions').select('status,version').order('version',{ascending:false}).limit(1)
   ]).then(function(r){
-    var pkg=must(r[0]),cells=must(r[1]),pays=must(r[2]),up=must(r[3])[0],open=must(r[4]),cv=must(r[5])[0];
-    var pct=Math.round(coursePct(cells)),next=pays.find(function(p){return p.status!=='paid'}),lk=lockOf(next,pct);
+    var pkg=must(r[0]),pays=must(r[2]),up=must(r[3])[0],open=must(r[4]),cv=must(r[5])[0];
+    var pct=r[1],next=pays.find(function(p){return p.status!=='paid'}),lk=lockOf(next,pct);
     var marks=pays.filter(function(p){return p.unlock_at_pct!=null}).map(function(p){return p.unlock_at_pct});
     setPage('<h2>overview</h2><div class="grid c2">'
      +'<div class="card"><div class="bar"></div><div class="in"><h3>package</h3><p><b>'+esc(pkg&&pkg.title)+'</b><br>'+money(pkg&&pkg.total_amount)+', paid in installments by PayPal.</p><p>Contract: '+(cv?chip(cv.status)+' <a href="#/contracts">open</a>':'<span class="small">coming soon</span>')+'</p></div></div>'
@@ -326,14 +329,14 @@ function pPayments(){
   ]).then(function(r){
     var pays=must(r[0]),invs=must(r[1]),pkg=must(r[2]),pct=r[3],byId={};
     pays.forEach(function(p){byId[p.id]=p});
-    var paid=pays.filter(function(p){return p.status==='paid'}).reduce(function(a,p){return a+Number(p.amount||0)},0);
+    var paid=pays.filter(function(p){return p.status==='paid'}).reduce(function(a,p){return a+Number(p.received_amount!=null?p.received_amount:(p.amount||0))},0);
     var marks=pays.filter(function(p){return p.unlock_at_pct!=null}).map(function(p){return p.unlock_at_pct});
     var html='<h2>payments</h2><div class="card m"><div class="bar"></div><div class="in"><div class="row"><span>Package total</span><b>'+money(pkg&&pkg.total_amount)+'</b></div><div class="row"><span>Paid so far</span><b>'+money(paid)+'</b></div>'
-     +'<p style="margin-top:12px"><b>Project progress: '+pct+'%</b></p>'+barMarks(pct,marks.length?marks:[33,66,100])+'<p class="small">Each invoice unlocks when the bar reaches its mark. The first one unlocks when the agreement is signed.</p></div></div><h3>timeline</h3>';
+     +'<p style="margin-top:12px"><b>Project progress: '+pct+'%</b></p>'+barMarks(pct,marks.length?marks:[33,66,100])+'<p class="small">Each invoice unlocks when the bar reaches its mark. PayPal fees are added to the installments, so the invoices add up to a little more than the package price.</p></div></div><h3>timeline</h3>';
     html+=pays.length?'<ul class="tl">'+pays.map(function(p){
       var lk=lockOf(p,pct);
       return '<li class="'+(lk.locked?'locked':esc(p.status))+'"><b>'+esc(p.label)+'</b> '+chip(p.status)+(lk.locked?' 🔒':'')+(p.visible_to_client?'':' <span class="chip">hidden</span>')
-       +'<br>'+money(p.amount)+(p.due_milestone?' · '+esc(p.due_milestone):'')+(p.paid_at?' · paid '+fmtDate(p.paid_at):'')
+       +'<br>'+(p.status==='paid'&&p.received_amount!=null?money(p.received_amount)+' received':money(p.amount))+(p.due_milestone?' · '+esc(p.due_milestone):'')+(p.paid_at?' · paid '+fmtDate(p.paid_at):'')
        +(lk.locked?'<br><span class="small">'+esc(lk.why)+'</span>':(p.status!=='paid'?'<br><span class="small">Invoice is open. Due within 3 days.</span>':''))
        +(isAdmin()&&p.paypal_txn_id?'<br><span class="small">txn '+esc(p.paypal_txn_id)+'</span>':'')
        +(isAdmin()?'<br><button class="btn sm alt" data-act="editpay" data-id="'+p.id+'">edit</button>'+(!lk.locked&&p.status!=='paid'?' <button class="btn sm go" data-act="markpaid" data-id="'+p.id+'">Mark as paid</button>':''):'')+'</li>'}).join('')+'</ul>':'<p class="small">The payment schedule will appear here once it is agreed.</p>';
@@ -355,7 +358,9 @@ function pPayments(){
         if(b.dataset.act==='markpaid'){
           var d=prompt('Date the payment was received (YYYY-MM-DD):',new Date().toISOString().slice(0,10));if(!d)return;
           var tx=prompt('PayPal transaction ID (optional):','');if(tx===null)return;
-          b.disabled=true;sb.rpc('ttwh_mark_paid',{p_payment:p.id,p_paid_on:d,p_txn:tx||''}).then(must).then(pPayments).catch(function(err){fail(err);b.disabled=false});return;
+          var rc=prompt('Amount you actually received after the PayPal fee (CAD). Leave as it is if there was no fee:',p.amount==null?'':p.amount);if(rc===null)return;
+          var rcv=rc.trim()===''?null:Number(rc);if(rcv!=null&&(isNaN(rcv)||rcv<=0)){alert('Please enter a valid amount.');return}
+          b.disabled=true;sb.rpc('ttwh_mark_paid',{p_payment:p.id,p_paid_on:d,p_txn:tx||'',p_received:rcv}).then(must).then(pPayments).catch(function(err){fail(err);b.disabled=false});return;
         }
         if(b.dataset.act==='editpay'){
           var amt=prompt('Amount in CAD (blank = TBC):',p.amount==null?'':p.amount);if(amt===null)return;
@@ -375,6 +380,7 @@ function pInvoice(id){
       var pay=x[0],pct=x[1],lk=inv.kind==='invoice'?lockOf(pay,pct):{locked:false};
       var B=S.billing||{},items=inv.line_items||[],total=items.reduce(function(a,i){return a+Number(i.amount||0)},0),mins=items.reduce(function(a,i){return a+Number(i.minutes||0)},0);
       var rec=inv.kind==='receipt',hasMin=items.some(function(i){return i.minutes!=null});
+      var fee=rec&&inv.fee_amount!=null?Number(inv.fee_amount):0,sent=rec&&inv.sent_amount!=null?Number(inv.sent_amount):total,got=rec?(sent-fee):total,f2=function(n){return '$'+Number(n).toFixed(2)};
       var html='<p class="noprint"><a href="#/payments">← Back</a> '
        +(lk.locked?'<span class="chip draft">🔒 Locked: '+esc(lk.why)+'</span>':'<button class="btn sm" id="pr">Print / save as PDF</button>')
        +(isAdmin()&&lk.locked?' <button class="btn sm alt" id="pr">Print draft (admin)</button>':'')
@@ -389,8 +395,8 @@ function pInvoice(id){
        +'<div class="pay"><div class="pd"><b class="h">PAYMENT DETAILS</b><div class="pdw"><div class="pdr"><div class="kv"><span>Method</span><b>'+esc(B.pay_method)+'</b></div><div class="kv"><span>Account name</span><b>'+esc(B.pay_account)+'</b></div><div class="kv"><span>Phone</span><b>'+esc(B.pay_phone)+'</b></div>'+(rec?'':'<div class="kv"><span>Terms</span><b>'+(lk.locked?'When unlocked':esc(inv.due_text))+'</b></div>')+'</div>'
        +(B.pay_link&&!rec?'<div class="qr">'+qrSvg(payUrl(B.pay_link))+'<small>Scan to pay</small></div>':'')+'</div>'
        +'<div class="kv"><span>PayPal link</span><b>'+(B.pay_link?'<a href="'+esc(payUrl(B.pay_link))+'" target="_blank" rel="noopener">'+esc(B.pay_link)+'</a>':'')+'</b></div></div>'
-       +'<div>'+(hasMin?'<div class="sub"><span>Total time</span><b>'+mins+' minutes ('+(mins/60)+' hours)</b></div>':'')+'<div class="sub"><span>Subtotal</span><b>$'+total.toFixed(2)+'</b></div><div class="tot"><span>'+(rec?'TOTAL PAID':'TOTAL DUE')+(rec?'<span class="paid">PAID</span>':'')+'</span><b>'+esc(B.currency||'CAD')+' $'+total.toFixed(2)+'</b></div></div></div>'
-       +'<div class="sg"><div class="note">'+esc(inv.note||'')+'</div><div class="sig"><div class="script">'+esc(B.signer_name)+'</div><div class="sigline"></div><b>'+esc(B.signer_name)+'</b><small>Digitally signed | '+(lk.locked?'on unlock':esc(fmtDate(inv.issued_on)))+' | Ref '+esc(inv.number)+'</small></div></div></div>'
+       +'<div>'+(hasMin?'<div class="sub"><span>Total time</span><b>'+mins+' minutes ('+(mins/60)+' hours)</b></div>':'')+''+(rec&&fee>0?'<div class="sub"><span>Payment sent by Heidi</span><b>'+f2(sent)+'</b></div><div class="sub"><span>PayPal fee deducted</span><b style="color:#1b9aa0">-'+f2(fee)+'</b></div>':'<div class="sub"><span>Subtotal</span><b>$'+total.toFixed(2)+'</b></div>')+'<div class="tot"><span>'+(rec?(fee>0?'TOTAL RECEIVED':'TOTAL PAID'):'TOTAL DUE')+(rec?'<span class="paid">PAID</span>':'')+'</span><b>'+esc(B.currency||'CAD')+' '+f2(got)+'</b></div></div></div>'
+       +'<div class="sg"><div class="note">'+esc(inv.note||'')+(rec&&fee>0?'<br><b style="color:#152a4e">The PayPal fee of '+f2(fee)+' will be added to the next installment.</b>':'')+(rec&&inv.txn_id?'<br><span style="color:#152a4e">PayPal transaction ID (proof of payment): '+esc(inv.txn_id)+'</span>':'')+'</div><div class="sig"><div class="script">'+esc(B.signer_name)+'</div><div class="sigline"></div><b>'+esc(B.signer_name)+'</b><small>Digitally signed | '+(lk.locked?'on unlock':esc(fmtDate(inv.issued_on)))+' | Ref '+esc(inv.number)+'</small></div></div></div>'
        +'<div class="ft"><div><span class="a">Thank you, Heidi.</span><br>'+esc(B.from_name)+' &nbsp;|&nbsp; '+esc((B.from_lines||[])[1]||'')+'</div><b>'+esc(inv.number)+'</b></div></div>';
       setPage(html);
       var pr=$('#pr');if(pr)pr.onclick=function(){window.print()};
@@ -413,15 +419,15 @@ function pProgress(){
   ]).then(function(r){
     var courses=must(r[0]),comps=must(r[1]),cells=must(r[2]),map={};
     cells.forEach(function(c){map[c.course_id+'|'+c.component_id]=c});
-    var overall=Math.round(coursePct(cells));
-    var html='<h2>progress</h2><div class="bar-wrap"><div class="bar-fill" style="width:'+overall+'%"></div></div><p style="margin-top:6px"><b>'+overall+'%</b> overall · 27 items × 5 components. <span class="small">Done counts 100%, in review 75%, in progress 25%, not started 0%.</span></p>'+stageBar(cells);
-    html+='<div class="tblwrap"><table><thead><tr><th>#</th><th>Item</th>'+comps.map(function(c){return '<th>'+esc(c.label)+'</th>'}).join('')+'<th>%</th><th>Current task</th></tr></thead><tbody>';
+    var overall=Math.round(coursePct(cells,comps)),km=keyMap(comps);
+    var html='<h2>progress</h2><div class="bar-wrap"><div class="bar-fill" style="width:'+overall+'%"></div></div><p style="margin-top:6px"><b>'+overall+'%</b> overall · 27 items. <span class="small">Each item: AI video 30%, workbook 30%, splash page 20%, YouTube 10%, Wix program 10%. A component counts 100% when done, 75% in review, 25% in progress, 0% not started.</span></p>'+stageBar(cells);
+    html+='<div class="tblwrap"><table><thead><tr><th>#</th><th>Item</th>'+comps.map(function(c){return '<th>'+esc(c.label)+'<br><span class="small" style="font-weight:400">'+(WEIGHT[c.key]||0)+'%</span></th>'}).join('')+'<th>%</th><th>Current task</th></tr></thead><tbody>';
     courses.forEach(function(c){
       var cc=comps.map(function(k){return map[c.id+'|'+k.id]}).filter(Boolean);
       html+='<tr><td>'+c.position+'</td><th scope="row" style="background:none;position:static;white-space:normal">'+esc(c.title)+'</th>'+comps.map(function(k){var cell=map[c.id+'|'+k.id];if(!cell)return '<td></td>';
         if(isAdmin())return '<td><select class="st-'+cell.stage+'" data-c="'+c.id+'" data-k="'+k.id+'" aria-label="'+esc(c.title+' '+k.label)+'">'+STAGES.map(function(s){return '<option value="'+s+'"'+(s===cell.stage?' selected':'')+'>'+s.replace('_',' ')+'</option>'}).join('')+'</select>'+(cell.approval?'<br>'+chip(cell.approval):'')+'</td>';
         return '<td>'+chip(cell.stage)+(cell.approval?'<br>'+chip(cell.approval):'')+((cell.stage==='in_review'||cell.stage==='done')?'<br><button class="btn sm go" data-ap="approved" data-c="'+c.id+'" data-k="'+k.id+'" title="Approve">✓</button> <button class="btn sm alt" data-ap="needs_changes" data-c="'+c.id+'" data-k="'+k.id+'" title="Needs changes">✎</button>':'')+'</td>'}).join('')
-        +'<td><b>'+Math.round(coursePct(cc))+'%</b></td><td>'+(isAdmin()?'<input data-task="'+c.id+'" value="'+esc(c.current_task||'')+'" aria-label="Current task for '+esc(c.title)+'">':esc(c.current_task||''))+'</td></tr>';
+        +'<td><b>'+Math.round(itemPct(cc,km))+'%</b></td><td>'+(isAdmin()?'<input data-task="'+c.id+'" value="'+esc(c.current_task||'')+'" aria-label="Current task for '+esc(c.title)+'">':esc(c.current_task||''))+'</td></tr>';
     });
     html+='</tbody></table></div>'+(isAdmin()?'':'<p class="small" style="margin-top:8px">✓ approves a component, ✎ asks for changes. Murtaza sees your choice straight away.</p>');
     setPage(html);
